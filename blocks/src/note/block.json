@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/note",
+  "version": "1.0.0",
+  "title": "Note / Callout",
+  "category": "foundnxt",
+  "description": "Info, warning, tip and danger callout boxes",
+  "keywords": [
+    "foundnxt",
+    "note"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "type": {
+      "type": "string",
+      "default": "info"
+    },
+    "content": {
+      "type": "string",
+      "default": "Add your note content here."
+    }
+  },
+  "render": "file:./render.php"
+}

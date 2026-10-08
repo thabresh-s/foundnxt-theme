@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/author-bio",
+  "version": "1.0.0",
+  "title": "Author Bio",
+  "category": "foundnxt",
+  "description": "Inline author bio with initials",
+  "keywords": [
+    "foundnxt",
+    "author-bio"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "default": "FoundNXT Editorial Team"
+    },
+    "role": {
+      "type": "string",
+      "default": "Author, FoundNXT \u00b7 Tech Freelancer"
+    },
+    "bio": {
+      "type": "string",
+      "default": "CS background, MBA in product management. Writes about startups, funding, and valuation."
+    },
+    "initials": {
+      "type": "string",
+      "default": "TS"
+    }
+  },
+  "render": "file:./render.php"
+}

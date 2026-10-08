@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/risk-banner",
+  "version": "1.0.0",
+  "title": "Risk / Disclaimer",
+  "category": "foundnxt",
+  "description": "Risk or disclaimer notice",
+  "keywords": [
+    "foundnxt",
+    "risk-banner"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "content": {
+      "type": "string",
+      "default": "This article is for informational purposes only and does not constitute financial or investment advice."
+    }
+  },
+  "render": "file:./render.php"
+}

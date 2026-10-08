@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/feature-cards",
+  "version": "1.0.0",
+  "title": "Feature Cards",
+  "category": "foundnxt",
+  "description": "Three feature highlight cards",
+  "keywords": [
+    "foundnxt",
+    "feature-cards"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "cards": {
+      "type": "array",
+      "default": [
+        {
+          "icon": "\ud83d\ude80",
+          "title": "Feature One",
+          "desc": "Describe in 1-2 sentences."
+        },
+        {
+          "icon": "\ud83d\udca1",
+          "title": "Feature Two",
+          "desc": "Describe in 1-2 sentences."
+        },
+        {
+          "icon": "\ud83d\udcc8",
+          "title": "Feature Three",
+          "desc": "Describe in 1-2 sentences."
+        }
+      ],
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "render": "file:./render.php"
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/definition",
+  "version": "1.0.0",
+  "title": "Definition / Term",
+  "category": "foundnxt",
+  "description": "Styled glossary definition block",
+  "keywords": [
+    "foundnxt",
+    "definition"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "term": {
+      "type": "string",
+      "default": "Valuation"
+    },
+    "partOfSpeech": {
+      "type": "string",
+      "default": "noun"
+    },
+    "definition": {
+      "type": "string",
+      "default": "The process of determining the current worth of a company or asset."
+    }
+  },
+  "render": "file:./render.php"
+}

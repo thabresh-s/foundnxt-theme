@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/highlight",
+  "version": "1.0.0",
+  "title": "Highlight Strip",
+  "category": "foundnxt",
+  "description": "Full-width green highlight banner",
+  "keywords": [
+    "foundnxt",
+    "highlight"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "content": {
+      "type": "string",
+      "default": "\ud83d\udd11 Quick fact: Add a standout single-line stat or fact here."
+    }
+  },
+  "render": "file:./render.php"
+}

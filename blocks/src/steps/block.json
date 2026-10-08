@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/steps",
+  "version": "1.0.0",
+  "title": "Step-by-Step Guide",
+  "category": "foundnxt",
+  "description": "Numbered step-by-step guide",
+  "keywords": [
+    "foundnxt",
+    "steps"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Step-by-Step Guide"
+    },
+    "steps": {
+      "type": "array",
+      "default": [
+        {
+          "num": "01",
+          "title": "First step",
+          "desc": "Describe what to do here."
+        },
+        {
+          "num": "02",
+          "title": "Second step",
+          "desc": "Describe what to do here."
+        },
+        {
+          "num": "03",
+          "title": "Third step",
+          "desc": "Describe what to do here."
+        }
+      ],
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "render": "file:./render.php"
+}

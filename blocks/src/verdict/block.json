@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/verdict",
+  "version": "1.0.0",
+  "title": "Verdict Box",
+  "category": "foundnxt",
+  "description": "Final verdict with score and badge",
+  "keywords": [
+    "foundnxt",
+    "verdict"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "default": "Our Verdict"
+    },
+    "text": {
+      "type": "string",
+      "default": "Write your final recommendation here."
+    },
+    "score": {
+      "type": "string",
+      "default": "8.5 / 10"
+    },
+    "badge": {
+      "type": "string",
+      "default": "Recommended"
+    },
+    "badgeColor": {
+      "type": "string",
+      "default": "green"
+    }
+  },
+  "render": "file:./render.php"
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/related-reading",
+  "version": "1.0.0",
+  "title": "Related Reading",
+  "category": "foundnxt",
+  "description": "Internal links list mid-article",
+  "keywords": [
+    "foundnxt",
+    "related-reading"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "default": "\ud83d\udcda Related Reading"
+    },
+    "links": {
+      "type": "array",
+      "default": [
+        {
+          "text": "Article title one",
+          "url": "#"
+        },
+        {
+          "text": "Article title two",
+          "url": "#"
+        },
+        {
+          "text": "Article title three",
+          "url": "#"
+        }
+      ],
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "render": "file:./render.php"
+}

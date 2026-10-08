@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/takeaway",
+  "version": "1.0.0",
+  "title": "Key Takeaway",
+  "category": "foundnxt",
+  "description": "Green summary box for key insights",
+  "keywords": [
+    "foundnxt",
+    "takeaway"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "content": {
+      "type": "string",
+      "default": "Summarise the key insight from this section."
+    }
+  },
+  "render": "file:./render.php"
+}

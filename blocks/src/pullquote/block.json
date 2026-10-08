@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/pullquote",
+  "version": "1.0.0",
+  "title": "Pull Quote",
+  "category": "foundnxt",
+  "description": "Large impactful pull quote",
+  "keywords": [
+    "foundnxt",
+    "pullquote"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "quote": {
+      "type": "string",
+      "default": "Add your quote here. Make it impactful."
+    },
+    "cite": {
+      "type": "string",
+      "default": "\u2014 Source or Author"
+    }
+  },
+  "render": "file:./render.php"
+}

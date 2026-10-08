@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/checklist",
+  "version": "1.0.0",
+  "title": "Checklist",
+  "category": "foundnxt",
+  "description": "Checkbox list with tick icons",
+  "keywords": [
+    "foundnxt",
+    "checklist"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Checklist"
+    },
+    "items": {
+      "type": "array",
+      "default": [
+        "First item to check",
+        "Second checklist item",
+        "Third item",
+        "Fourth item"
+      ],
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "render": "file:./render.php"
+}

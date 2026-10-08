@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/timeline",
+  "version": "1.0.0",
+  "title": "Timeline",
+  "category": "foundnxt",
+  "description": "Chronological timeline of events",
+  "keywords": [
+    "foundnxt",
+    "timeline"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Timeline"
+    },
+    "items": {
+      "type": "array",
+      "default": [
+        {
+          "year": "2020",
+          "title": "Event milestone",
+          "desc": "Describe what happened."
+        },
+        {
+          "year": "2022",
+          "title": "Second milestone",
+          "desc": "Describe this."
+        },
+        {
+          "year": "2024",
+          "title": "Latest event",
+          "desc": "Describe it."
+        }
+      ],
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "render": "file:./render.php"
+}

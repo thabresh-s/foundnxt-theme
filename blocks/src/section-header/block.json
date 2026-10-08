@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/section-header",
+  "version": "1.0.0",
+  "title": "Section Header",
+  "category": "foundnxt",
+  "description": "Eyebrow + heading + subtitle",
+  "keywords": [
+    "foundnxt",
+    "section-header"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Chapter 01"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Section Heading Goes Here"
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "A one-line description for this section."
+    }
+  },
+  "render": "file:./render.php"
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/pros-cons",
+  "version": "1.0.0",
+  "title": "Pros & Cons",
+  "category": "foundnxt",
+  "description": "Two-column pros and cons comparison",
+  "keywords": [
+    "foundnxt",
+    "pros-cons"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "prosItems": {
+      "type": "array",
+      "default": [
+        "First advantage",
+        "Second benefit",
+        "Third point"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "consItems": {
+      "type": "array",
+      "default": [
+        "First drawback",
+        "Second limitation",
+        "Third challenge"
+      ],
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "render": "file:./render.php"
+}

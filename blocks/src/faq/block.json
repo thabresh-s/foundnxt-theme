@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/faq",
+  "version": "1.0.0",
+  "title": "FAQ Block",
+  "category": "foundnxt",
+  "description": "FAQ with Schema.org markup",
+  "keywords": [
+    "foundnxt",
+    "faq"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Frequently Asked Questions"
+    },
+    "items": {
+      "type": "array",
+      "default": [
+        {
+          "q": "Add your question here?",
+          "a": "Add your answer here."
+        },
+        {
+          "q": "Second question?",
+          "a": "Second answer here."
+        }
+      ],
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "render": "file:./render.php"
+}

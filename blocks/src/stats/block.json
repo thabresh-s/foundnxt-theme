@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/stats",
+  "version": "1.0.0",
+  "title": "Stats Row",
+  "category": "foundnxt",
+  "description": "Three bold statistics side by side",
+  "keywords": [
+    "foundnxt",
+    "stats"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "stat1": {
+      "type": "string",
+      "default": "90%"
+    },
+    "label1": {
+      "type": "string",
+      "default": "Of startups fail in 5 years"
+    },
+    "stat2": {
+      "type": "string",
+      "default": "3x"
+    },
+    "label2": {
+      "type": "string",
+      "default": "5-year revenue growth"
+    },
+    "stat3": {
+      "type": "string",
+      "default": "\u20b9500"
+    },
+    "label3": {
+      "type": "string",
+      "default": "Median seed round size"
+    }
+  },
+  "render": "file:./render.php"
+}

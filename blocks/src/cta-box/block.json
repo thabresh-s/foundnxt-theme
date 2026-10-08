@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/cta-box",
+  "version": "1.0.0",
+  "title": "CTA Box",
+  "category": "foundnxt",
+  "description": "Green call-to-action banner",
+  "keywords": [
+    "foundnxt",
+    "cta-box"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Want more insights like this?"
+    },
+    "text": {
+      "type": "string",
+      "default": "Get practical articles on startups, funding, and valuation \u2014 straight to your inbox."
+    },
+    "btnText": {
+      "type": "string",
+      "default": "Subscribe Free \u2192"
+    },
+    "btnUrl": {
+      "type": "string",
+      "default": "/contact/"
+    }
+  },
+  "render": "file:./render.php"
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/resource-card",
+  "version": "1.0.0",
+  "title": "Resource Card",
+  "category": "foundnxt",
+  "description": "Download or resource link card",
+  "keywords": [
+    "foundnxt",
+    "resource-card"
+  ],
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "icon": {
+      "type": "string",
+      "default": "\ud83d\udcc4"
+    },
+    "title": {
+      "type": "string",
+      "default": "Resource or File Name"
+    },
+    "meta": {
+      "type": "string",
+      "default": "PDF \u00b7 2.4 MB \u00b7 Free"
+    },
+    "btnText": {
+      "type": "string",
+      "default": "Download \u2192"
+    },
+    "btnUrl": {
+      "type": "string",
+      "default": "#"
+    }
+  },
+  "render": "file:./render.php"
+}
