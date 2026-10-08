@@ -19,7 +19,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_REMOTE_DIR || 'foundnxt.com/wp-content/themes/foundnxt-theme/' }}
+          server-dir: ${{ secrets.FTP_REMOTE_DIR || 'wp-content/themes/foundnxt-theme/' }}
           protocol: ftp
           port: 21
-
+          security: loose
