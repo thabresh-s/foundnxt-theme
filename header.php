@@ -4,8 +4,62 @@
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<?php if (!has_action('wp_head', 'rel_canonical')): ?>
+<link rel="canonical" href="<?php echo esc_url(get_permalink()); ?>">
+<?php endif; ?>
+<meta name="description" content="<?php echo esc_attr(get_theme_mod('fnx_seo_description', __('Actionable playbooks, tech insights, and scaling strategies for startup founders. Learn how to build faster, secure funding, and navigate your founder journey.', 'foundnxt'))); ?>">
 <link rel="profile" href="https://gmpg.org/xfn/11">
 <?php wp_head(); ?>
+
+<!-- Schema.org JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "<?php echo esc_url(home_url('/#organization')); ?>",
+      "name": "FoundNXT",
+      "url": "<?php echo esc_url(home_url('/')); ?>",
+      "logo": "<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/logo.svg'); ?>",
+      "sameAs": [
+        "https://twitter.com/foundnxt",
+        "https://linkedin.com/company/foundnxt"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "<?php echo esc_url(home_url('/#website')); ?>",
+      "url": "<?php echo esc_url(home_url('/')); ?>",
+      "name": "FoundNXT",
+      "description": "Where founders find what's next.",
+      "publisher": { "@id": "<?php echo esc_url(home_url('/#organization')); ?>" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "<?php echo esc_url(home_url('/?s={search_term_string}')); ?>",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    <?php if (is_single()): global $post; ?>
+    ,{
+      "@type": "Article",
+      "@id": "<?php echo esc_url(get_permalink()); ?>#article",
+      "isPartOf": { "@id": "<?php echo esc_url(home_url('/#website')); ?>" },
+      "headline": "<?php echo esc_js(get_the_title()); ?>",
+      "datePublished": "<?php echo get_the_date('c'); ?>",
+      "dateModified": "<?php echo get_the_modified_date('c'); ?>",
+      "mainEntityOfPage": "<?php echo esc_url(get_permalink()); ?>",
+      "author": {
+        "@type": "Person",
+        "name": "<?php echo esc_js(get_the_author()); ?>"
+      },
+      "publisher": { "@id": "<?php echo esc_url(home_url('/#organization')); ?>" }
+    }
+    <?php endif; ?>
+  ]
+}
+</script>
+
 <!-- Prevent dark-mode flash: apply saved theme before first paint -->
 <script>
 (function(){
@@ -35,13 +89,12 @@
             $ticker_html .= '<a href="' . esc_url(get_permalink($p->ID)) . '" class="ticker-item" tabindex="-1">'
                           . esc_html(get_the_title($p->ID)) . '</a>';
         }
-        // Duplicate for seamless CSS loop
         echo $ticker_html . $ticker_html;
         wp_reset_postdata();
         ?>
       </div>
     </div>
-    <button class="topbar-close" aria-label="<?php esc_attr_e('Close announcement bar', 'foundnxt'); ?>">✕</button>
+    <button class="topbar-close" id="topbar-close" aria-label="<?php esc_attr_e('Close announcement bar', 'foundnxt'); ?>">✕</button>
   </div>
 </div>
 <?php endif; ?>
@@ -50,7 +103,7 @@
 <header class="fnx-header" id="fnx-header" role="banner">
   <div class="header-inner container">
 
-    <!-- Logo: FIX — separate img tags for light/dark, no duplicate logo output -->
+    <!-- Logo: Single accessible anchor for crawlers/screen readers -->
     <div class="header-logo">
       <?php
       $light_logo_id = get_theme_mod('custom_logo');
@@ -62,15 +115,15 @@
         $light_url = wp_get_attachment_image_url($light_logo_id, 'full');
         $dark_url  = $dark_logo_id ? wp_get_attachment_image_url($dark_logo_id, 'full') : $light_url;
       ?>
-        <a href="<?php echo $site_url; ?>" class="logo-link logo-light" aria-label="<?php echo $site_name; ?> – <?php _e('Home', 'foundnxt'); ?>">
-          <img src="<?php echo esc_url($light_url); ?>" alt="<?php echo $site_name; ?>">
+        <a href="<?php echo $site_url; ?>" class="logo-link logo-light" aria-label="FoundNXT Home">
+          <img src="<?php echo esc_url($light_url); ?>" alt="FoundNXT" width="180" height="52" loading="eager">
         </a>
-        <a href="<?php echo $site_url; ?>" class="logo-link logo-dark" aria-label="<?php echo $site_name; ?> – <?php _e('Home', 'foundnxt'); ?>">
-          <img src="<?php echo esc_url($dark_url); ?>" alt="<?php echo $site_name; ?>">
+        <a href="<?php echo $site_url; ?>" class="logo-link logo-dark" aria-hidden="true" tabindex="-1">
+          <img src="<?php echo esc_url($dark_url); ?>" alt="" width="180" height="52" loading="eager">
         </a>
       <?php else: ?>
-        <a href="<?php echo $site_url; ?>" class="logo-text">
-          <?php bloginfo('name'); ?>
+        <a href="<?php echo $site_url; ?>" class="logo-text" aria-label="FoundNXT Home">
+          FoundNXT
           <span class="logo-sub"><?php bloginfo('description'); ?></span>
         </a>
       <?php endif; ?>
@@ -78,13 +131,25 @@
 
     <!-- Primary Nav -->
     <nav class="header-nav" id="primary-nav" role="navigation" aria-label="<?php esc_attr_e('Primary', 'foundnxt'); ?>">
-      <?php wp_nav_menu([
-        'theme_location' => 'primary',
-        'container'      => false,
-        'menu_class'     => 'nav-menu',
-        'fallback_cb'    => false,
-        'walker'         => new FNX_Nav_Walker(),
-      ]); ?>
+      <?php
+      if (has_nav_menu('primary')) {
+        wp_nav_menu([
+          'theme_location' => 'primary',
+          'container'      => false,
+          'menu_class'     => 'nav-menu',
+          'fallback_cb'    => false,
+          'walker'         => new FNX_Nav_Walker(),
+        ]);
+      } else {
+        echo '<ul class="nav-menu">';
+        echo '<li><a href="' . esc_url(home_url('/')) . '">' . __('Home', 'foundnxt') . '</a></li>';
+        echo '<li><a href="' . esc_url(home_url('/articles/')) . '">' . __('Articles', 'foundnxt') . '</a></li>';
+        echo '<li><a href="' . esc_url(home_url('/#services')) . '">' . __('Services', 'foundnxt') . '</a></li>';
+        echo '<li><a href="' . esc_url(home_url('/about/')) . '">' . __('About', 'foundnxt') . '</a></li>';
+        echo '<li><a href="' . esc_url(home_url('/contact/')) . '">' . __('Contact', 'foundnxt') . '</a></li>';
+        echo '</ul>';
+      }
+      ?>
     </nav>
 
     <!-- Header Actions -->

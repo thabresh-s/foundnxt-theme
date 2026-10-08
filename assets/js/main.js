@@ -63,14 +63,33 @@
   }, { passive: true });
 
   /* ══════════════════════════════════════
-     TOP BAR CLOSE
+     TOP BAR CLOSE & COOKIE CONSENT
   ══════════════════════════════════════ */
   const topbar    = $('#fnx-topbar');
-  const topClose  = $('.topbar-close');
+  const topClose  = $('#topbar-close') || $('.topbar-close');
+  if (localStorage.getItem('fnx_topbar') === 'closed' && topbar) {
+    topbar.style.display = 'none';
+  }
   on(topClose, 'click', () => {
-    if (topbar) { topbar.style.display = 'none'; sessionStorage.setItem('fnx_topbar', 'closed'); }
+    if (topbar) {
+      topbar.style.display = 'none';
+      localStorage.setItem('fnx_topbar', 'closed');
+    }
   });
-  if (sessionStorage.getItem('fnx_topbar') === 'closed' && topbar) topbar.style.display = 'none';
+
+  const cookieBanner = $('#fnx-cookie-banner');
+  const cookieAccept = $('#fnx-accept-cookies');
+  if (cookieBanner) {
+    if (localStorage.getItem('fnx_cookie_consent') === 'true') {
+      cookieBanner.style.display = 'none';
+    } else {
+      cookieBanner.style.display = 'block';
+    }
+    on(cookieAccept, 'click', () => {
+      localStorage.setItem('fnx_cookie_consent', 'true');
+      cookieBanner.style.display = 'none';
+    });
+  }
 
   /* ══════════════════════════════════════
      MOBILE NAV

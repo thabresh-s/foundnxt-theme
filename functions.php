@@ -20,6 +20,14 @@ function fnx_setup() {
 
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
+
+    // Custom SEO Title
+    add_filter('pre_get_document_title', function($title) {
+        if (is_front_page() || is_home()) {
+            return 'FoundNXT | Startup, Scaling & Tech Playbooks for Founders';
+        }
+        return $title;
+    }, 15);
     add_theme_support('automatic-feed-links');
     add_theme_support('html5', ['search-form','comment-form','comment-list','gallery','caption','script','style']);
     add_theme_support('customize-selective-refresh-widgets');

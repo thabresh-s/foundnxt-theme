@@ -10371,3 +10371,230 @@ body { top: 0 !important; }
     translate: 0 0 !important;
   }
 }
+
+
+/* ══════════════════════════════════════════════════════
+   HERO INLINE SUBSCRIBE, FEATURED PLAYBOOKS & SERVICES
+══════════════════════════════════════════════════════ */
+.hp-hero-inline-subscribe {
+  margin-bottom: 24px;
+}
+.hp-hero-inline-wrap {
+  display: flex;
+  gap: 8px;
+  max-width: 440px;
+}
+.hp-hero-inline-wrap input[type="email"] {
+  flex: 1;
+  padding: 12px 18px;
+  border-radius: 100px;
+  background: var(--fnx-surface);
+  border: 1.5px solid var(--fnx-border);
+  font-size: 0.875rem;
+  color: var(--fnx-ink);
+}
+.hp-hero-inline-wrap .btn-primary {
+  padding: 12px 22px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+.hp-hero-inline-note {
+  font-size: 0.75rem;
+  color: var(--fnx-muted);
+  margin-top: 8px;
+}
+
+/* Featured Playbooks Grid */
+.hp-featured {
+  padding: 48px 0;
+}
+.hp-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 24px;
+}
+@media (max-width: 860px) {
+  .hp-featured-grid { grid-template-columns: 1fr; }
+}
+.hp-feat-card {
+  background: var(--fnx-card);
+  border: 1.5px solid var(--fnx-border);
+  border-radius: var(--fnx-radius);
+  padding: 24px;
+  text-decoration: none;
+  transition: transform var(--fnx-transition), border-color var(--fnx-transition), box-shadow var(--fnx-transition);
+  display: flex;
+  flex-direction: column;
+}
+.hp-feat-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--fnx-primary);
+  box-shadow: var(--fnx-shadow-md);
+}
+.hp-feat-badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--fnx-primary);
+  background: var(--fnx-primary-light);
+  padding: 3px 10px;
+  border-radius: 100px;
+  align-self: flex-start;
+  margin-bottom: 12px;
+}
+.hp-feat-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--fnx-ink);
+  margin: 0 0 10px;
+  line-height: 1.35;
+}
+.hp-feat-desc {
+  font-size: 0.875rem;
+  color: var(--fnx-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.hp-feat-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--fnx-subtle);
+}
+.hp-feat-arrow {
+  color: var(--fnx-primary);
+  font-weight: 600;
+}
+
+/* Founder Services Section */
+.hp-services {
+  padding: 56px 0;
+  background: var(--fnx-surface);
+  border-top: 1px solid var(--fnx-border);
+  border-bottom: 1px solid var(--fnx-border);
+}
+.hp-services-sub {
+  font-size: 1rem;
+  color: var(--fnx-muted);
+  margin-top: 6px;
+}
+.hp-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+@media (max-width: 900px) {
+  .hp-services-grid { grid-template-columns: 1fr; }
+}
+.hp-service-card {
+  background: var(--fnx-card);
+  border: 1.5px solid var(--fnx-border);
+  border-radius: var(--fnx-radius-lg);
+  padding: 30px 26px;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--fnx-transition), border-color var(--fnx-transition), box-shadow var(--fnx-transition);
+}
+.hp-service-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--fnx-primary);
+  box-shadow: var(--fnx-shadow-lg);
+}
+.hp-service-icon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+.hp-service-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--fnx-ink);
+  margin: 0 0 12px;
+  font-family: 'Source Serif 4', Georgia, serif;
+}
+.hp-service-desc {
+  font-size: 0.9375rem;
+  color: var(--fnx-muted);
+  line-height: 1.65;
+  margin-bottom: 22px;
+}
+.hp-service-btn {
+  margin-top: auto;
+  align-self: flex-start;
+  font-size: 0.8125rem;
+}
+
+/* Who We Are Editorial Blurb */
+.hp-about-blurb {
+  padding: 48px 0;
+}
+.hp-about-card {
+  background: var(--fnx-glass-bg);
+  backdrop-filter: var(--fnx-glass-blur);
+  border: 1.5px solid var(--fnx-glass-border);
+  border-radius: var(--fnx-radius-lg);
+  padding: 36px 32px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: var(--fnx-shadow-md);
+}
+.hp-about-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--fnx-primary);
+  background: var(--fnx-primary-light);
+  padding: 4px 14px;
+  border-radius: 100px;
+  margin-bottom: 14px;
+}
+.hp-about-heading {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.625rem;
+  color: var(--fnx-ink);
+  margin-bottom: 12px;
+}
+.hp-about-text {
+  font-size: 1rem;
+  color: var(--fnx-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+/* Cookie Consent Banner */
+.fnx-cookie-banner {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--fnx-glass-bg);
+  backdrop-filter: var(--fnx-glass-blur);
+  -webkit-backdrop-filter: var(--fnx-glass-blur);
+  border-top: 1.5px solid var(--fnx-glass-border);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.12);
+  padding: 16px 0;
+  z-index: 9999;
+  display: none;
+}
+.fnx-cookie-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+@media (max-width: 600px) {
+  .fnx-cookie-inner { flex-direction: column; text-align: center; }
+}
+.fnx-cookie-inner p {
+  font-size: 0.84375rem;
+  color: var(--fnx-body);
+  margin: 0;
+}
+.fnx-cookie-inner a {
+  color: var(--fnx-primary);
+  text-decoration: underline;
+}
