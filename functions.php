@@ -1094,6 +1094,21 @@ function fnx_auto_setup_v2() {
             'template' => 'page-tools.php',
             'content'  => 'Curated business software and tech recommendations for scaling startups, featuring top open-source alternatives and enterprise SaaS solutions.'
         ],
+        'Privacy Policy' => [
+            'slug'     => 'privacy-policy',
+            'template' => 'page-privacy-policy.php',
+            'content'  => 'FoundNXT Privacy Policy detailing data collection, cookie usage, user rights, and security standards.'
+        ],
+        'Disclaimer' => [
+            'slug'     => 'disclaimer',
+            'template' => 'page-disclaimer.php',
+            'content'  => 'FoundNXT Editorial, Financial, and Legal Disclaimer for website content and tools.'
+        ],
+        'Support' => [
+            'slug'     => 'support',
+            'template' => 'page-support.php',
+            'content'  => 'FoundNXT Support & Help Center for subscriber enquiries, advisory support, and FAQs.'
+        ],
     ];
 
     foreach ($pages_data as $title => $data) {
