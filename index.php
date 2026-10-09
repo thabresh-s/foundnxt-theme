@@ -302,7 +302,7 @@
           </div>
           <h3 class="service-card-h3"><?php _e('Market Research Request', 'foundnxt'); ?></h3>
           <p class="service-card-p"><?php _e('Custom market intelligence, competitive analysis, and industry trend reports built for founders and investment teams.', 'foundnxt'); ?></p>
-          <a href="#contact" data-service="Market Research Request" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
+          <a href="<?php echo esc_url(add_query_arg('help', urlencode('Market Research Request'), home_url('/contact/'))); ?>" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
         </div>
 
         <!-- Service 2 -->
@@ -312,7 +312,7 @@
           </div>
           <h3 class="service-card-h3"><?php _e('Valuation Guidance', 'foundnxt'); ?></h3>
           <p class="service-card-p"><?php _e('Independent financial modeling, cap table health checks, and 409A/fundraising valuation guidance.', 'foundnxt'); ?></p>
-          <a href="#contact" data-service="Valuation Guidance" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
+          <a href="<?php echo esc_url(add_query_arg('help', urlencode('Valuation Guidance'), home_url('/contact/'))); ?>" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
         </div>
 
         <!-- Service 3 -->
@@ -322,7 +322,7 @@
           </div>
           <h3 class="service-card-h3"><?php _e('Tech & AI Strategy', 'foundnxt'); ?></h3>
           <p class="service-card-p"><?php _e('Architecture reviews, AI workflow automation roadmap, and technical build vs. buy decision audits.', 'foundnxt'); ?></p>
-          <a href="#contact" data-service="Tech & AI Strategy" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
+          <a href="<?php echo esc_url(add_query_arg('help', urlencode('Tech & AI Strategy'), home_url('/contact/'))); ?>" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
         </div>
 
         <!-- Service 4 -->
@@ -332,7 +332,7 @@
           </div>
           <h3 class="service-card-h3"><?php _e('Marketing & Growth Help', 'foundnxt'); ?></h3>
           <p class="service-card-p"><?php _e('Topical SEO cluster audits, 0-to-1 customer acquisition strategies, and GTM positioning for scaling companies.', 'foundnxt'); ?></p>
-          <a href="#contact" data-service="Marketing Help" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
+          <a href="<?php echo esc_url(add_query_arg('help', urlencode('Marketing Help'), home_url('/contact/'))); ?>" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
         </div>
 
         <!-- Service 5 -->
@@ -342,7 +342,7 @@
           </div>
           <h3 class="service-card-h3"><?php _e('Partnerships & Sponsored Content', 'foundnxt'); ?></h3>
           <p class="service-card-p"><?php _e('Reach thousands of founders and tech leaders through dedicated newsletter sponsorships and editorial partnerships.', 'foundnxt'); ?></p>
-          <a href="#contact" data-service="Partnerships" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
+          <a href="<?php echo esc_url(add_query_arg('help', urlencode('Partnerships'), home_url('/contact/'))); ?>" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
         </div>
       </div>
     </div>

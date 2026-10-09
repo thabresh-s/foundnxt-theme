@@ -46,96 +46,125 @@ $schema = [
 echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES) . '</script>' . "\n";
 ?>
 
-<div class="fnx-archive-page fnx-contact-page">
-  <div class="container container-narrow">
+<div class="fnx-archive-page fnx-contact-page" style="padding: 40px 0 80px;">
+  <div class="container">
 
     <?php fnx_breadcrumbs(); ?>
 
-    <!-- HERO -->
-    <section class="about-hero text-center" style="margin-bottom: 40px;">
-      <span class="hp-sec-tag"><?php _e('Get in Touch', 'foundnxt'); ?></span>
-      <h1 class="about-h1" style="font-size: clamp(2.2rem, 4vw, 3.2rem); margin-bottom: 12px;">
-        <?php _e('Contact FoundNXT', 'foundnxt'); ?>
-      </h1>
-      <p class="about-lead" style="max-width: 680px; margin: 0 auto;">
-        <?php _e('Have a question, feedback, story tip, advisory requirement, or partnership enquiry? Fill out the form below — our team replies within 24–48 hours.', 'foundnxt'); ?>
-      </p>
-    </section>
-
-    <!-- CONTACT FORM CARD -->
-    <div class="hp-contact-box fnx-reveal" id="contact" style="background: var(--fnx-card); border: 1.5px solid var(--fnx-border); border-radius: var(--fnx-radius-lg); padding: 40px 36px;">
-
-      <?php
-      if (isset($_GET['fnx_lead']) && $_GET['fnx_lead'] === 'success') {
-        echo '<div class="hp-contact-alert hp-contact-alert--ok" role="status" style="background: rgba(16,185,129,0.12); border: 1px solid #10B981; color: #10B981; padding: 14px 18px; border-radius: 10px; margin-bottom: 24px; font-weight: 600;">✓ ' . esc_html__('Thank you! Your message has been sent successfully. We will be in touch with you shortly.', 'foundnxt') . '</div>';
-      } elseif (isset($_GET['fnx_lead']) && $_GET['fnx_lead'] === 'error') {
-        echo '<div class="hp-contact-alert hp-contact-alert--err" role="alert" style="background: rgba(239,68,68,0.12); border: 1px solid #EF4444; color: #EF4444; padding: 14px 18px; border-radius: 10px; margin-bottom: 24px; font-weight: 600;">✕ ' . esc_html__('Something went wrong. Please check your information and try again.', 'foundnxt') . '</div>';
-      }
-      ?>
-
-      <form class="hp-lead-contact-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-        <input type="hidden" name="action" value="fnx_lead_submit">
-        <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-        <input type="hidden" name="lead_type" value="Contact Page Form Submission">
+    <div class="hp-contact-v2-wrapper fnx-reveal" id="contact">
+      <div class="hp-contact-v2-grid">
         
-        <!-- Honeypot -->
-        <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" autocomplete="off">
+        <!-- Left Column: Contact Positioning & Value Prop -->
+        <div class="hp-contact-v2-side">
+          <span class="hp-sec-tag-pill hp-sec-tag-pill--indigo">💬 <?php _e('Executive Advisory', 'foundnxt'); ?></span>
+          <h1 class="hp-contact-v2-title">
+            <?php _e('Get in Touch with', 'foundnxt'); ?> <span class="text-gradient"><?php _e('FoundNXT', 'foundnxt'); ?></span>
+          </h1>
+          <p class="hp-contact-v2-lead">
+            <?php _e('Have a custom market research request, valuation inquiry, tech & AI strategy audit, or partnership proposal? Fill out the form — our advisory team responds within 24–48 hours.', 'foundnxt'); ?>
+          </p>
 
-        <div class="form-row grid-2" style="margin-bottom: 20px;">
-          <div class="form-group">
-            <label for="lead_name" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.875rem; color:var(--fnx-ink);"><?php _e('Name *', 'foundnxt'); ?></label>
-            <input type="text" id="lead_name" name="lead_name" placeholder="<?php esc_attr_e('Jordan Lee', 'foundnxt'); ?>" required style="width:100%; padding:12px 16px; border-radius:8px; border:1px solid var(--fnx-border); background:var(--fnx-surface); color:var(--fnx-ink);">
+          <div class="hp-contact-v2-features">
+            <div class="hp-contact-feat-item">
+              <div class="feat-icon">⚡</div>
+              <div>
+                <strong><?php _e('24–48 Hour Response Guarantee', 'foundnxt'); ?></strong>
+                <p><?php _e('Direct access to our senior research & strategy team.', 'foundnxt'); ?></p>
+              </div>
+            </div>
+            <div class="hp-contact-feat-item">
+              <div class="feat-icon">🔒</div>
+              <div>
+                <strong><?php _e('Strict Confidentiality', 'foundnxt'); ?></strong>
+                <p><?php _e('Your company details and advisory data remain 100% private.', 'foundnxt'); ?></p>
+              </div>
+            </div>
+            <div class="hp-contact-feat-item">
+              <div class="feat-icon">🎯</div>
+              <div>
+                <strong><?php _e('Tailored Intelligence', 'foundnxt'); ?></strong>
+                <p><?php _e('Actionable insights custom-built for startup founders and tech leaders.', 'foundnxt'); ?></p>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="lead_email" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.875rem; color:var(--fnx-ink);"><?php _e('Work Email *', 'foundnxt'); ?></label>
-            <input type="email" id="lead_email" name="lead_email" placeholder="<?php esc_attr_e('jordan@company.com', 'foundnxt'); ?>" required style="width:100%; padding:12px 16px; border-radius:8px; border:1px solid var(--fnx-border); background:var(--fnx-surface); color:var(--fnx-ink);">
-          </div>
         </div>
 
-        <div class="form-row grid-2" style="margin-bottom: 20px;">
-          <div class="form-group">
-            <label for="lead_company" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.875rem; color:var(--fnx-ink);"><?php _e('Company / Website (Optional)', 'foundnxt'); ?></label>
-            <input type="text" id="lead_company" name="lead_company" placeholder="<?php esc_attr_e('https://yourcompany.com', 'foundnxt'); ?>" style="width:100%; padding:12px 16px; border-radius:8px; border:1px solid var(--fnx-border); background:var(--fnx-surface); color:var(--fnx-ink);">
-          </div>
-          <div class="form-group">
-            <label for="lead_stage" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.875rem; color:var(--fnx-ink);"><?php _e('Company Stage or Size', 'foundnxt'); ?></label>
-            <select id="lead_stage" name="lead_stage" style="width:100%; padding:12px 16px; border-radius:8px; border:1px solid var(--fnx-border); background:var(--fnx-surface); color:var(--fnx-ink);">
-              <option value="Early Stage / Seed"><?php _e('Early Stage / Seed', 'foundnxt'); ?></option>
-              <option value="Growth / Series A+"><?php _e('Growth / Series A+', 'foundnxt'); ?></option>
-              <option value="Scaleup"><?php _e('Scaleup', 'foundnxt'); ?></option>
-              <option value="Enterprise / Established"><?php _e('Enterprise / Established', 'foundnxt'); ?></option>
-            </select>
-          </div>
+        <!-- Right Column: Modern Contact Form Card -->
+        <div class="hp-contact-v2-form-box">
+          <?php
+          if (isset($_GET['fnx_lead']) && $_GET['fnx_lead'] === 'success') {
+            echo '<div class="hp-contact-alert hp-contact-alert--ok" role="status">✓ ' . esc_html__('Thank you! Your enquiry has been received. Our team will contact you shortly.', 'foundnxt') . '</div>';
+          } elseif (isset($_GET['fnx_lead']) && $_GET['fnx_lead'] === 'error') {
+            echo '<div class="hp-contact-alert hp-contact-alert--err" role="alert">✕ ' . esc_html__('Something went wrong. Please check your information and try again.', 'foundnxt') . '</div>';
+          }
+          ?>
+
+          <form class="hp-lead-contact-form-v2" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+            <input type="hidden" name="action" value="fnx_lead_submit">
+            <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+            <input type="hidden" name="lead_type" value="Contact Page Form Submission">
+            
+            <!-- Honeypot -->
+            <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" autocomplete="off">
+
+            <div class="form-row-v2 grid-2">
+              <div class="form-group-v2">
+                <label for="lead_name"><?php _e('Name *', 'foundnxt'); ?></label>
+                <input type="text" id="lead_name" name="lead_name" placeholder="<?php esc_attr_e('Jordan Lee', 'foundnxt'); ?>" required>
+              </div>
+              <div class="form-group-v2">
+                <label for="lead_email"><?php _e('Work Email *', 'foundnxt'); ?></label>
+                <input type="email" id="lead_email" name="lead_email" placeholder="<?php esc_attr_e('jordan@company.com', 'foundnxt'); ?>" required>
+              </div>
+            </div>
+
+            <div class="form-row-v2 grid-2">
+              <div class="form-group-v2">
+                <label for="lead_company"><?php _e('Company / Website (Optional)', 'foundnxt'); ?></label>
+                <input type="text" id="lead_company" name="lead_company" placeholder="<?php esc_attr_e('https://yourcompany.com', 'foundnxt'); ?>">
+              </div>
+              <div class="form-group-v2">
+                <label for="lead_stage"><?php _e('Company Stage or Size', 'foundnxt'); ?></label>
+                <select id="lead_stage" name="lead_stage">
+                  <option value="Early Stage / Seed"><?php _e('Early Stage / Seed', 'foundnxt'); ?></option>
+                  <option value="Growth / Series A+"><?php _e('Growth / Series A+', 'foundnxt'); ?></option>
+                  <option value="Scaleup"><?php _e('Scaleup', 'foundnxt'); ?></option>
+                  <option value="Enterprise / Established"><?php _e('Enterprise / Established', 'foundnxt'); ?></option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group-v2">
+              <label for="lead_help"><?php _e('What do you need help with?', 'foundnxt'); ?></label>
+              <select id="lead_help" name="lead_help">
+                <option value="Market Research Request" <?php selected($pre_help, 'Market Research Request'); ?>><?php _e('Market Research Request', 'foundnxt'); ?></option>
+                <option value="Valuation Guidance" <?php selected($pre_help, 'Valuation Guidance'); ?>><?php _e('Valuation Guidance', 'foundnxt'); ?></option>
+                <option value="Tech & AI Strategy" <?php selected($pre_help, 'Tech & AI Strategy'); ?>><?php _e('Tech & AI Strategy', 'foundnxt'); ?></option>
+                <option value="Marketing Help" <?php selected($pre_help, 'Marketing Help'); ?>><?php _e('Marketing & Growth Help', 'foundnxt'); ?></option>
+                <option value="Partnerships" <?php selected($pre_help, 'Partnerships'); ?>><?php _e('Partnerships & Sponsored Content', 'foundnxt'); ?></option>
+                <option value="Other" <?php selected($pre_help, 'Other'); ?>><?php _e('Other Inquiry', 'foundnxt'); ?></option>
+              </select>
+            </div>
+
+            <div class="form-group-v2">
+              <label for="lead_message"><?php _e('Message *', 'foundnxt'); ?></label>
+              <textarea id="lead_message" name="lead_message" rows="4" placeholder="<?php esc_attr_e('Describe your requirement, company background, or questions...', 'foundnxt'); ?>" required></textarea>
+            </div>
+
+            <div class="form-group-v2 form-checkbox-group-v2">
+              <label class="checkbox-label-v2">
+                <input type="checkbox" name="lead_consent" required checked>
+                <span><?php _e('I consent to FoundNXT storing my details to respond to this enquiry.', 'foundnxt'); ?></span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn-primary form-submit-btn-v2">
+              <?php _e('Submit Advisory Enquiry', 'foundnxt'); ?> →
+            </button>
+          </form>
         </div>
 
-        <div class="form-group" style="margin-bottom: 20px;">
-          <label for="lead_help" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.875rem; color:var(--fnx-ink);"><?php _e('What do you need help with?', 'foundnxt'); ?></label>
-          <select id="lead_help" name="lead_help" style="width:100%; padding:12px 16px; border-radius:8px; border:1px solid var(--fnx-border); background:var(--fnx-surface); color:var(--fnx-ink);">
-            <option value="Market Research Request" <?php selected($pre_help, 'Market Research Request'); ?>><?php _e('Market Research Request', 'foundnxt'); ?></option>
-            <option value="Valuation Guidance" <?php selected($pre_help, 'Valuation Guidance'); ?>><?php _e('Valuation Guidance', 'foundnxt'); ?></option>
-            <option value="Tech & AI Strategy" <?php selected($pre_help, 'Tech & AI Strategy'); ?>><?php _e('Tech & AI Strategy', 'foundnxt'); ?></option>
-            <option value="Marketing Help" <?php selected($pre_help, 'Marketing Help'); ?>><?php _e('Marketing & Growth Help', 'foundnxt'); ?></option>
-            <option value="Partnerships" <?php selected($pre_help, 'Partnerships'); ?>><?php _e('Partnerships & Sponsored Content', 'foundnxt'); ?></option>
-            <option value="Other" <?php selected($pre_help, 'Other'); ?>><?php _e('Other Inquiry', 'foundnxt'); ?></option>
-          </select>
-        </div>
-
-        <div class="form-group" style="margin-bottom: 24px;">
-          <label for="lead_message" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.875rem; color:var(--fnx-ink);"><?php _e('Message *', 'foundnxt'); ?></label>
-          <textarea id="lead_message" name="lead_message" rows="5" placeholder="<?php esc_attr_e('Describe your requirement, company background, or questions...', 'foundnxt'); ?>" required style="width:100%; padding:12px 16px; border-radius:8px; border:1px solid var(--fnx-border); background:var(--fnx-surface); color:var(--fnx-ink);"></textarea>
-        </div>
-
-        <div class="form-group form-checkbox-group" style="margin-bottom: 24px;">
-          <label class="checkbox-label" style="display:flex; align-items:center; gap:8px; font-size:0.84375rem; color:var(--fnx-body);">
-            <input type="checkbox" name="lead_consent" required checked>
-            <span><?php _e('I consent to FoundNXT storing my information to respond to this enquiry.', 'foundnxt'); ?></span>
-          </label>
-        </div>
-
-        <button type="submit" class="btn-primary form-submit-btn" style="width:100%; padding:14px; font-size:1rem; font-weight:700;">
-          <?php _e('Send Message', 'foundnxt'); ?> →
-        </button>
-      </form>
+      </div>
     </div>
 
   </div>
