@@ -813,6 +813,7 @@ function fnx_handle_lead_submission() {
 
     $name          = isset($_POST['lead_name'])    ? sanitize_text_field(wp_unslash($_POST['lead_name'])) : '';
     $email         = isset($_POST['lead_email'])   ? sanitize_email(wp_unslash($_POST['lead_email'])) : '';
+    $phone         = isset($_POST['lead_phone'])   ? sanitize_text_field(wp_unslash($_POST['lead_phone'])) : '';
     $company_site  = isset($_POST['lead_company']) ? sanitize_text_field(wp_unslash($_POST['lead_company'])) : '';
     $company_stage = isset($_POST['lead_stage'])   ? sanitize_text_field(wp_unslash($_POST['lead_stage'])) : 'Not Specified';
     $service_help  = isset($_POST['lead_help'])    ? sanitize_text_field(wp_unslash($_POST['lead_help'])) : 'General Enquiry';
@@ -830,8 +831,8 @@ function fnx_handle_lead_submission() {
         'post_type'    => 'fnx_lead',
         'post_title'   => sprintf('%s — %s (%s)', $name, $service_help, date('M j, Y H:i')),
         'post_content' => sprintf(
-            "Name: %s\nEmail: %s\nCompany/Website: %s\nCompany Stage: %s\nHelp Required: %s\nLead Type: %s\n\nMessage:\n%s",
-            $name, $email, $company_site, $company_stage, $service_help, $lead_type, $message
+            "Name: %s\nEmail: %s\nMobile/Phone: %s\nCompany/Website: %s\nCompany Stage: %s\nHelp Required: %s\nLead Type: %s\n\nMessage:\n%s",
+            $name, $email, $phone, $company_site, $company_stage, $service_help, $lead_type, $message
         ),
         'post_status'  => 'publish',
     ]);
@@ -839,6 +840,7 @@ function fnx_handle_lead_submission() {
     if ($post_id && ! is_wp_error($post_id)) {
         update_post_meta($post_id, 'lead_name', $name);
         update_post_meta($post_id, 'lead_email', $email);
+        update_post_meta($post_id, 'lead_phone', $phone);
         update_post_meta($post_id, 'lead_company', $company_site);
         update_post_meta($post_id, 'lead_stage', $company_stage);
         update_post_meta($post_id, 'lead_help', $service_help);
@@ -851,6 +853,7 @@ function fnx_handle_lead_submission() {
     $body        = "New Lead Received on FoundNXT!\n\n"
                  . "Name: {$name}\n"
                  . "Email: {$email}\n"
+                 . "Mobile / Phone: {$phone}\n"
                  . "Company / Website: {$company_site}\n"
                  . "Company Stage: {$company_stage}\n"
                  . "Need Help With: {$service_help}\n"

@@ -120,9 +120,16 @@ echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCA
 
             <div class="form-row-v2 grid-2">
               <div class="form-group-v2">
+                <label for="lead_phone"><?php _e('Mobile / Phone Number (Optional)', 'foundnxt'); ?></label>
+                <input type="tel" id="lead_phone" name="lead_phone" placeholder="<?php esc_attr_e('+1 (555) 000-0000', 'foundnxt'); ?>">
+              </div>
+              <div class="form-group-v2">
                 <label for="lead_company"><?php _e('Company / Website (Optional)', 'foundnxt'); ?></label>
                 <input type="text" id="lead_company" name="lead_company" placeholder="<?php esc_attr_e('https://yourcompany.com', 'foundnxt'); ?>">
               </div>
+            </div>
+
+            <div class="form-row-v2 grid-2">
               <div class="form-group-v2">
                 <label for="lead_stage"><?php _e('Company Stage or Size', 'foundnxt'); ?></label>
                 <select id="lead_stage" name="lead_stage">
@@ -132,18 +139,17 @@ echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCA
                   <option value="Enterprise / Established"><?php _e('Enterprise / Established', 'foundnxt'); ?></option>
                 </select>
               </div>
-            </div>
-
-            <div class="form-group-v2">
-              <label for="lead_help"><?php _e('What do you need help with?', 'foundnxt'); ?></label>
-              <select id="lead_help" name="lead_help">
-                <option value="Market Research Request" <?php selected($pre_help, 'Market Research Request'); ?>><?php _e('Market Research Request', 'foundnxt'); ?></option>
-                <option value="Valuation Guidance" <?php selected($pre_help, 'Valuation Guidance'); ?>><?php _e('Valuation Guidance', 'foundnxt'); ?></option>
-                <option value="Tech & AI Strategy" <?php selected($pre_help, 'Tech & AI Strategy'); ?>><?php _e('Tech & AI Strategy', 'foundnxt'); ?></option>
-                <option value="Marketing Help" <?php selected($pre_help, 'Marketing Help'); ?>><?php _e('Marketing & Growth Help', 'foundnxt'); ?></option>
-                <option value="Partnerships" <?php selected($pre_help, 'Partnerships'); ?>><?php _e('Partnerships & Sponsored Content', 'foundnxt'); ?></option>
-                <option value="Other" <?php selected($pre_help, 'Other'); ?>><?php _e('Other Inquiry', 'foundnxt'); ?></option>
-              </select>
+              <div class="form-group-v2">
+                <label for="lead_help"><?php _e('What do you need help with?', 'foundnxt'); ?></label>
+                <select id="lead_help" name="lead_help">
+                  <option value="Market Research Request" <?php selected($pre_help, 'Market Research Request'); ?>><?php _e('Market Research Request', 'foundnxt'); ?></option>
+                  <option value="Valuation Guidance" <?php selected($pre_help, 'Valuation Guidance'); ?>><?php _e('Valuation Guidance', 'foundnxt'); ?></option>
+                  <option value="Tech & AI Strategy" <?php selected($pre_help, 'Tech & AI Strategy'); ?>><?php _e('Tech & AI Strategy', 'foundnxt'); ?></option>
+                  <option value="Marketing Help" <?php selected($pre_help, 'Marketing Help'); ?>><?php _e('Marketing & Growth Help', 'foundnxt'); ?></option>
+                  <option value="Partnerships" <?php selected($pre_help, 'Partnerships'); ?>><?php _e('Partnerships & Sponsored Content', 'foundnxt'); ?></option>
+                  <option value="Other" <?php selected($pre_help, 'Other'); ?>><?php _e('Other Inquiry', 'foundnxt'); ?></option>
+                </select>
+              </div>
             </div>
 
             <div class="form-group-v2">

@@ -12168,6 +12168,7 @@ body[data-theme="dark"] .fnx-newsletter-banner {
 }
 .form-group-v2 input[type="text"],
 .form-group-v2 input[type="email"],
+.form-group-v2 input[type="tel"],
 .form-group-v2 select,
 .form-group-v2 textarea {
   width: 100%;
@@ -12303,14 +12304,17 @@ body.dark .hp-contact-v2-form-box {
 }
 body.dark-mode .form-group-v2 input[type="text"],
 body.dark-mode .form-group-v2 input[type="email"],
+body.dark-mode .form-group-v2 input[type="tel"],
 body.dark-mode .form-group-v2 select,
 body.dark-mode .form-group-v2 textarea,
 body[data-theme="dark"] .form-group-v2 input[type="text"],
 body[data-theme="dark"] .form-group-v2 input[type="email"],
+body[data-theme="dark"] .form-group-v2 input[type="tel"],
 body[data-theme="dark"] .form-group-v2 select,
 body[data-theme="dark"] .form-group-v2 textarea,
 body.dark .form-group-v2 input[type="text"],
 body.dark .form-group-v2 input[type="email"],
+body.dark .form-group-v2 input[type="tel"],
 body.dark .form-group-v2 select,
 body.dark .form-group-v2 textarea {
   background: rgba(15, 23, 42, 0.8);
