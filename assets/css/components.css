@@ -1807,12 +1807,12 @@ body.dark .phb-desc {
 .fnx-fluent-form-wrap .ff-el-form-control {
   width: 100% !important;
   padding: 13px 20px !important;
-  background: rgba(255,255,255,.10) !important;
-  border: 1px solid rgba(255,255,255,.22) !important;
+  background: var(--fnx-surface) !important;
+  border: 1.5px solid var(--fnx-border) !important;
   border-radius: 100px !important;
-  color: #fff !important;
-  font-size: 0.875rem !important;
-  font-family: 'Inter', sans-serif !important;
+  color: var(--fnx-ink) !important;
+  font-size: 0.9375rem !important;
+  font-family: var(--fnx-font-body) !important;
   outline: none !important;
   transition: all .2s !important;
   box-sizing: border-box !important;
@@ -1822,14 +1822,14 @@ body.dark .phb-desc {
 .fnx-fluent-form-wrap input[type="text"]::placeholder,
 .fnx-fluent-form-wrap input[type="email"]::placeholder,
 .fnx-fluent-form-wrap .ff-el-form-control::placeholder {
-  color: rgba(255,255,255,.5) !important;
+  color: var(--fnx-muted) !important;
 }
 .fnx-fluent-form-wrap input[type="text"]:focus,
 .fnx-fluent-form-wrap input[type="email"]:focus,
 .fnx-fluent-form-wrap .ff-el-form-control:focus {
-  border-color: rgba(255,255,255,.55) !important;
-  background: rgba(255,255,255,.16) !important;
-  box-shadow: 0 0 0 3px rgba(255,255,255,.08) !important;
+  border-color: var(--fnx-primary) !important;
+  background: var(--fnx-surface) !important;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15) !important;
 }
 
 /* Submit button */
@@ -1837,15 +1837,16 @@ body.dark .phb-desc {
 .fnx-fluent-form-wrap button[type="submit"] {
   width: 100% !important;
   display: block !important;
-  background: #fff !important;
-  color: #1a7a45 !important;
+  background: var(--fnx-gradient-primary) !important;
+  background-size: 150% 150% !important;
+  color: #ffffff !important;
   font-weight: 700 !important;
-  font-size: 0.9rem !important;
-  font-family: 'Inter', sans-serif !important;
-  padding: 14px 24px !important;
+  font-size: 0.9375rem !important;
+  font-family: var(--fnx-font-body) !important;
+  padding: 13px 24px !important;
   border-radius: 100px !important;
   border: none !important;
-  box-shadow: 0 4px 18px rgba(0,0,0,.18) !important;
+  box-shadow: var(--fnx-shadow-primary) !important;
   cursor: pointer !important;
   transition: all .2s !important;
   margin-top: 4px !important;
@@ -1855,10 +1856,9 @@ body.dark .phb-desc {
 }
 .fnx-fluent-form-wrap .ff-btn-submit:hover,
 .fnx-fluent-form-wrap button[type="submit"]:hover {
-  background: #f0fdf4 !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 8px 28px rgba(0,0,0,.22) !important;
-  color: #0f7240 !important;
+  box-shadow: 0 10px 30px -4px rgba(79, 70, 229, 0.45) !important;
+  color: #ffffff !important;
 }
 
 /* Privacy note below button */
@@ -6227,12 +6227,12 @@ body.dark .phb-desc {
 .fnx-fluent-form-wrap .ff-el-form-control {
   width: 100% !important;
   padding: 13px 20px !important;
-  background: rgba(255,255,255,.10) !important;
-  border: 1px solid rgba(255,255,255,.22) !important;
+  background: var(--fnx-surface) !important;
+  border: 1.5px solid var(--fnx-border) !important;
   border-radius: 100px !important;
-  color: #fff !important;
-  font-size: 0.875rem !important;
-  font-family: 'Inter', sans-serif !important;
+  color: var(--fnx-ink) !important;
+  font-size: 0.9375rem !important;
+  font-family: var(--fnx-font-body) !important;
   outline: none !important;
   transition: all .2s !important;
   box-sizing: border-box !important;
@@ -6242,14 +6242,14 @@ body.dark .phb-desc {
 .fnx-fluent-form-wrap input[type="text"]::placeholder,
 .fnx-fluent-form-wrap input[type="email"]::placeholder,
 .fnx-fluent-form-wrap .ff-el-form-control::placeholder {
-  color: rgba(255,255,255,.5) !important;
+  color: var(--fnx-muted) !important;
 }
 .fnx-fluent-form-wrap input[type="text"]:focus,
 .fnx-fluent-form-wrap input[type="email"]:focus,
 .fnx-fluent-form-wrap .ff-el-form-control:focus {
-  border-color: rgba(255,255,255,.55) !important;
-  background: rgba(255,255,255,.16) !important;
-  box-shadow: 0 0 0 3px rgba(255,255,255,.08) !important;
+  border-color: var(--fnx-primary) !important;
+  background: var(--fnx-surface) !important;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15) !important;
 }
 
 /* Submit button */
@@ -6257,15 +6257,16 @@ body.dark .phb-desc {
 .fnx-fluent-form-wrap button[type="submit"] {
   width: 100% !important;
   display: block !important;
-  background: #fff !important;
-  color: #1a7a45 !important;
+  background: var(--fnx-gradient-primary) !important;
+  background-size: 150% 150% !important;
+  color: #ffffff !important;
   font-weight: 700 !important;
-  font-size: 0.9rem !important;
-  font-family: 'Inter', sans-serif !important;
-  padding: 14px 24px !important;
+  font-size: 0.9375rem !important;
+  font-family: var(--fnx-font-body) !important;
+  padding: 13px 24px !important;
   border-radius: 100px !important;
   border: none !important;
-  box-shadow: 0 4px 18px rgba(0,0,0,.18) !important;
+  box-shadow: var(--fnx-shadow-primary) !important;
   cursor: pointer !important;
   transition: all .2s !important;
   margin-top: 4px !important;
@@ -6275,10 +6276,9 @@ body.dark .phb-desc {
 }
 .fnx-fluent-form-wrap .ff-btn-submit:hover,
 .fnx-fluent-form-wrap button[type="submit"]:hover {
-  background: #f0fdf4 !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 8px 28px rgba(0,0,0,.22) !important;
-  color: #0f7240 !important;
+  box-shadow: 0 10px 30px -4px rgba(79, 70, 229, 0.45) !important;
+  color: #ffffff !important;
 }
 
 /* Privacy note below button */

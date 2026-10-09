@@ -20,17 +20,13 @@
       <div class="newsletter-form">
         <div class="newsletter-form-title"><?php _e('Join 10,000+ Founders & Leaders', 'foundnxt'); ?></div>
         <div class="fnx-fluent-form-wrap">
-          <?php if (shortcode_exists('fluentform')): ?>
-            <?php echo do_shortcode('[fluentform id="7"]'); ?>
-          <?php else: ?>
-            <form class="fnx-newsletter-fallback-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-              <input type="hidden" name="action" value="fnx_lead_submit">
-              <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-              <input type="hidden" name="lead_type" value="Footer Newsletter Signup">
-              <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
-              <button type="submit" class="btn-primary"><?php _e('Subscribe Free', 'foundnxt'); ?> →</button>
-            </form>
-          <?php endif; ?>
+          <form class="fnx-newsletter-fallback-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+            <input type="hidden" name="action" value="fnx_lead_submit">
+            <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+            <input type="hidden" name="lead_type" value="Footer Newsletter Signup">
+            <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
+            <button type="submit" class="btn-primary"><?php _e('Subscribe Free', 'foundnxt'); ?> →</button>
+          </form>
           <p class="subscribe-privacy">🔒 <?php _e('Free forever. Unsubscribe in one click.', 'foundnxt'); ?></p>
         </div>
       </div>
