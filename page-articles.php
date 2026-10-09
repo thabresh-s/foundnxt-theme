@@ -27,18 +27,20 @@ if ($active_cat_id) $args['cat'] = $active_cat_id;
 if ($search_query)  $args['s']   = $search_query;
 $articles_query = new WP_Query($args);
 
-$all_cats = get_categories(['hide_empty' => true, 'parent' => 0, 'orderby' => 'count', 'order' => 'DESC', 'number' => 8]);
+$all_cats = get_categories(['hide_empty' => false, 'exclude' => [1], 'orderby' => 'name', 'order' => 'ASC', 'number' => 8]);
 
-$trending_posts = get_posts(['posts_per_page' => 5, 'post_status' => 'publish', 'meta_key' => 'fnx_featured', 'meta_value' => '1', 'orderby' => 'date', 'order' => 'DESC']);
-if (empty($trending_posts)) $trending_posts = get_posts(['posts_per_page' => 5, 'post_status' => 'publish', 'orderby' => 'date', 'order' => 'DESC']);
-
-$cat_sections = [
-    ['slug' => 'funding',     'label' => 'Funding News',            'icon' => '💰', 'color' => 'green', 'count' => 4],
-    ['slug' => 'startups',    'label' => 'Startups & Growth',       'icon' => '🚀', 'color' => 'blue',  'count' => 4],
-    ['slug' => 'valuation',   'label' => 'Valuation & Deals',       'icon' => '💼', 'color' => 'amber', 'count' => 4],
+$cat_icons = [
+    'business-strategy' => '💼',
+    'startups-funding'  => '🚀',
+    'valuation-finance' => '📈',
+    'markets-economy'   => '🌐',
+    'technology-ai'     => '🤖',
+    'marketing-growth'  => '🎯',
+    'global-business'   => '🗺️',
+    'news-insights'     => '📰',
 ];
 
-$schema = ['@context' => 'https://schema.org', '@type' => 'CollectionPage', 'name' => 'Articles — FoundNXT', 'description' => 'Practical articles on startup funding, valuation, and business growth.', 'url' => esc_url(get_permalink()), 'publisher' => ['@type' => 'Organization', 'name' => get_bloginfo('name')]];
+$schema = ['@context' => 'https://schema.org', '@type' => 'CollectionPage', 'name' => 'Articles — FoundNXT', 'description' => 'Practical articles on business strategy, startups, valuation, technology, and markets.', 'url' => esc_url(get_permalink()), 'publisher' => ['@type' => 'Organization', 'name' => get_bloginfo('name')]];
 echo '<script type="application/ld+json">' . wp_json_encode($schema) . '</script>' . "\n";
 $bc = ['@context' => 'https://schema.org', '@type' => 'BreadcrumbList', 'itemListElement' => [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'Articles', 'item' => get_permalink()]]];
 echo '<script type="application/ld+json">' . wp_json_encode($bc) . '</script>' . "\n";
@@ -52,9 +54,9 @@ echo '<script type="application/ld+json">' . wp_json_encode($bc) . '</script>' .
     <!-- HERO BAND -->
     <div class="apv2-hero">
       <div class="apv2-hero-text">
-        <span class="apv2-eyebrow"><span class="apv2-eyebrow-dot"></span><?php echo $active_cat ? esc_html($active_cat->name) : 'FoundNXT'; ?></span>
-        <h1 class="apv2-h1"><?php echo $active_cat ? esc_html($active_cat->name . ' — Articles &amp; Guides') : 'Startups, Funding &amp;<br>Valuation Stories'; ?></h1>
-        <p class="apv2-lead"><?php echo $active_cat ? esc_html($active_cat->description ?: 'Practical insights written simply for India.') : 'Practical insights for entrepreneurs, startup founders, and working professionals.'; ?></p>
+        <span class="apv2-eyebrow"><span class="apv2-eyebrow-dot"></span><?php echo $active_cat ? esc_html($active_cat->name) : 'FoundNXT Articles'; ?></span>
+        <h1 class="apv2-h1"><?php echo $active_cat ? esc_html($active_cat->name . ' — Articles &amp; Guides') : 'Business, Markets &amp;<br>Technology Playbooks'; ?></h1>
+        <p class="apv2-lead"><?php echo $active_cat ? esc_html($active_cat->description ?: 'Practical insights for founders and business leaders.') : 'Practical insights on startups, valuation, AI, marketing, and global business built for founders and leaders.'; ?></p>
         <?php if (!$active_cat && !$search_query): ?>
         <div class="apv2-stats">
           <div class="apv2-stat"><strong><?php echo wp_count_posts()->publish; ?>+</strong><span>Articles</span></div>
@@ -69,7 +71,7 @@ echo '<script type="application/ld+json">' . wp_json_encode($bc) . '</script>' .
         <form class="apv2-search-form" action="<?php echo esc_url($page_url); ?>" method="get" role="search">
           <div class="apv2-search-wrap">
             <svg class="apv2-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <input type="search" name="s" class="apv2-search-input" placeholder="Search articles, topics, funds…" value="<?php echo esc_attr($search_query); ?>" autocomplete="off">
+            <input type="search" name="s" class="apv2-search-input" placeholder="Search articles, topics, terms…" value="<?php echo esc_attr($search_query); ?>" autocomplete="off">
             <button type="submit" class="apv2-search-btn">Search</button>
           </div>
         </form>
@@ -89,7 +91,6 @@ echo '<script type="application/ld+json">' . wp_json_encode($bc) . '</script>' .
       <div class="apv2-filter-scroll">
         <a href="<?php echo esc_url($page_url); ?>" class="apv2-fchip<?php echo (!$active_cat && !$search_query) ? ' active' : ''; ?>"><span class="apv2-fchip-icon">✦</span> All</a>
         <?php
-        $cat_icons = ['funding' => '💰', 'startups' => '🚀', 'business' => '💼', 'valuation' => '📈', 'growth' => '🎯', 'technology' => '⚙️', 'venture-capital' => '🤝', 'ipo' => '🔔'];
         foreach ($all_cats as $cat): $icon = $cat_icons[$cat->slug] ?? '📌'; ?>
         <a href="<?php echo esc_url(add_query_arg('cat', $cat->slug, $page_url)); ?>" class="apv2-fchip<?php echo ($active_cat_slug === $cat->slug) ? ' active' : ''; ?>">
           <span class="apv2-fchip-icon"><?php echo $icon; ?></span><?php echo esc_html($cat->name); ?><span class="apv2-fchip-count"><?php echo (int) $cat->count; ?></span>

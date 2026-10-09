@@ -2,47 +2,30 @@
 
 <?php if (is_front_page() && is_home()): ?>
   <!-- ══════════════════════════════════
-     HOMEPAGE — FOUNDNXT DRAFT
-     Server-side rendered post lists & conversion layout
+     HOMEPAGE — FOUNDNXT REBUILD
+     Content-focused business intelligence & lead generation layout
 ══════════════════════════════════ -->
 
   <?php
-  function fnx_get_posts_data($args = [])
-  {
+  function fnx_get_hp_posts($args = []) {
     $defaults = ['post_status' => 'publish', 'posts_per_page' => 6, 'suppress_filters' => false];
     return get_posts(array_merge($defaults, $args));
   }
-  function fnx_get_cats()
-  {
-    $cats = get_categories(['orderby' => 'name', 'order' => 'ASC', 'hide_empty' => false, 'number' => 12]);
-    if (empty($cats)) {
-      // Fallback categories for crawlers/visitors
-      return [
-        (object)['term_id' => 1, 'name' => 'Startups', 'count' => 1, 'slug' => 'startups'],
-        (object)['term_id' => 2, 'name' => 'Tech', 'count' => 1, 'slug' => 'technology'],
-        (object)['term_id' => 3, 'name' => 'Scaling', 'count' => 1, 'slug' => 'scaling'],
-        (object)['term_id' => 4, 'name' => 'Careers', 'count' => 1, 'slug' => 'careers'],
-      ];
-    }
-    return $cats;
-  }
-  function fnx_fmt_date($date)
-  {
+  function fnx_fmt_date($date) {
     return date_i18n('M j, Y', strtotime($date));
   }
   ?>
 
-  <!-- ── BLOCK 1: INTRO HERO ── -->
-  <section class="hp-block hp-intro">
-
+  <!-- ── 2. HERO SECTION ── -->
+  <section class="hp-block hp-hero-v2">
     <div class="hp-hero-bg" aria-hidden="true">
       <span class="hp-hero-blob hp-hero-blob--1"></span>
       <span class="hp-hero-blob hp-hero-blob--2"></span>
       <span class="hp-hero-blob hp-hero-blob--3"></span>
       <svg class="hp-hero-grid" width="100%" height="100%" preserveAspectRatio="none">
         <defs>
-          <pattern id="hpDotGrid" width="26" height="26" patternUnits="userSpaceOnUse">
-            <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
+          <pattern id="hpDotGrid" width="28" height="28" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1.5" fill="currentColor" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#hpDotGrid)" />
@@ -50,417 +33,475 @@
     </div>
 
     <div class="container">
-      <div class="hp-hero-split">
+      <div class="hp-hero-content text-center">
+        <!-- Floating Topic Badges -->
+        <div class="hp-hero-floating-chips" aria-hidden="true">
+          <span class="hp-hero-chip chip--indigo">Business Strategy</span>
+          <span class="hp-hero-chip chip--coral">Startups & Funding</span>
+          <span class="hp-hero-chip chip--teal">Valuation & Finance</span>
+          <span class="hp-hero-chip chip--violet">Technology & AI</span>
+          <span class="hp-hero-chip chip--amber">Markets & Economy</span>
+        </div>
 
-        <!-- ══ LEFT: Headline + Target Audience + Inline Capture ══ -->
-        <div class="hp-hero-left">
-          <span class="hp-eyebrow hp-eyebrow--nxt">
-            <span class="hp-eyebrow-dot" aria-hidden="true"></span>
-            <span class="hp-eyebrow-shimmer"><?php _e("Where founders find what's next.", 'foundnxt'); ?></span>
-          </span>
+        <span class="hp-eyebrow hp-eyebrow--nxt">
+          <span class="hp-eyebrow-dot" aria-hidden="true"></span>
+          <span class="hp-eyebrow-shimmer"><?php _e('Business, Markets & Technology: Explained for Founders and Leaders', 'foundnxt'); ?></span>
+        </span>
 
-          <h1 class="hp-h1">
-            <span class="hp-h1-line1">
-              <span class="hp-word hp-w1">Think</span> <span class="hp-word hp-w2">Smarter.</span>
-              <span class="hp-hl hp-hl1">Build</span> <span class="hp-word hp-w3">Bigger.</span>
-              <span class="hp-word hp-w4">Grow</span> <span class="hp-hl hp-hl2">Faster.</span>
-            </span>
-          </h1>
+        <h1 class="hp-h1-v2">
+          Business, Markets &amp; Technology, <span class="hp-hl-v2">Explained.</span>
+        </h1>
 
-          <p class="hp-h1-sub">
-            <?php _e('Actionable playbooks, fundraising guides, and scaling frameworks for early-stage founders —', 'foundnxt'); ?>
-            <span class="hp-sub-hl"><?php _e('build faster and scale smarter without the guesswork.', 'foundnxt'); ?></span>
-          </p>
+        <p class="hp-h1-sub-v2">
+          <?php _e('Practical insights on startups, valuation, AI, marketing, and global business, built for founders and leaders who want to scale smarter.', 'foundnxt'); ?>
+        </p>
 
-          <!-- Inline Newsletter Capture (Hero Area) -->
-          <form class="hp-hero-inline-subscribe" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-            <input type="hidden" name="action" value="fnx_newsletter_submit">
-            <div class="hp-hero-inline-wrap">
-              <input type="email" name="fnx_email" placeholder="<?php esc_attr_e('Enter your founder email...', 'foundnxt'); ?>" required>
-              <button type="submit" class="btn-primary"><?php _e('Get Access', 'foundnxt'); ?> →</button>
-            </div>
-            <p class="hp-hero-inline-note">✓ <?php _e('Free weekly growth briefs. No spam.', 'foundnxt'); ?></p>
-          </form>
+        <div class="hp-hero-cta-row flex-center">
+          <a href="#newsletter-section" class="btn-primary hp-hero-cta-btn">
+            <?php _e('Get the Free Weekly Brief', 'foundnxt'); ?> →
+          </a>
+          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="btn-outline hp-hero-cta-btn">
+            <?php _e('Explore Articles', 'foundnxt'); ?>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
 
-          <!-- Primary CTAs -->
-          <div class="hp-hero-cta-row">
-            <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="btn-primary hp-hero-cta-main">
-              <?php _e('Explore Articles', 'foundnxt'); ?>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="<?php echo esc_url(home_url('/#services')); ?>" class="btn-outline hp-hero-cta-main">
-              <?php _e('Founder Services', 'foundnxt'); ?>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </div>
-        </div><!-- /.hp-hero-left -->
-
-        <!-- ══ RIGHT: Modern Contact Form ══ -->
-        <div class="hp-hero-right">
-          <div class="hp-contact-card" id="hp-contact-form">
-
-            <div class="hp-contact-card-head">
-              <span class="hp-contact-card-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              </span>
-              <div>
-                <h2 class="hp-contact-card-title"><?php _e("Let's Talk Growth", 'foundnxt'); ?></h2>
-                <p class="hp-contact-card-sub"><?php _e("Tell us what you're building — we'll reply within 24–48 hrs.", 'foundnxt'); ?></p>
-              </div>
-            </div>
-
-            <?php
-            if (isset($_GET['fnx_contact'])) {
-              if ($_GET['fnx_contact'] === 'success') {
-                echo '<div class="hp-contact-alert hp-contact-alert--ok" role="status">' . esc_html__('Thanks! Your message has been sent — we\'ll be in touch soon.', 'foundnxt') . '</div>';
-              } elseif ($_GET['fnx_contact'] === 'error') {
-                echo '<div class="hp-contact-alert hp-contact-alert--err" role="alert">' . esc_html__('Something went wrong. Please check your details and try again.', 'foundnxt') . '</div>';
-              }
-            }
-            ?>
-
-            <form class="hp-contact-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>#hp-contact-form">
-              <input type="hidden" name="action" value="fnx_homepage_contact">
-              <?php wp_nonce_field('fnx_homepage_contact', 'fnx_homepage_contact_nonce'); ?>
-              
-              <!-- Honeypot -->
-              <div class="hp-contact-hp" aria-hidden="true">
-                <label for="hp-website">Website</label>
-                <input type="text" id="hp-website" name="hp_website" tabindex="-1" autocomplete="off">
-              </div>
-
-              <div class="hp-contact-field">
-                <label for="hp-contact-name"><?php _e('Name', 'foundnxt'); ?></label>
-                <input type="text" id="hp-contact-name" name="hp_contact_name" placeholder="<?php esc_attr_e('Jordan Lee', 'foundnxt'); ?>" required>
-              </div>
-
-              <div class="hp-contact-field">
-                <label for="hp-contact-email"><?php _e('Email', 'foundnxt'); ?></label>
-                <input type="email" id="hp-contact-email" name="hp_contact_email" placeholder="<?php esc_attr_e('you@company.com', 'foundnxt'); ?>" required>
-              </div>
-
-              <div class="hp-contact-field">
-                <label for="hp-contact-website"><?php _e('Website (Optional)', 'foundnxt'); ?></label>
-                <input type="url" id="hp-contact-website" name="hp_contact_site" placeholder="<?php esc_attr_e('https://yourcompany.com', 'foundnxt'); ?>">
-              </div>
-
-              <div class="hp-contact-field">
-                <label for="hp-contact-help"><?php _e('What do you need help with?', 'foundnxt'); ?></label>
-                <select id="hp-contact-help" name="hp_contact_help">
-                  <option value="Product & Tech Strategy"><?php _e('Product & Tech Strategy', 'foundnxt'); ?></option>
-                  <option value="Valuation Guidance"><?php _e('Valuation Guidance', 'foundnxt'); ?></option>
-                  <option value="Investor Introductions"><?php _e('Investor Introductions', 'foundnxt'); ?></option>
-                  <option value="Content & Partnerships"><?php _e('Content & Partnerships', 'foundnxt'); ?></option>
-                  <option value="Other Inquiry"><?php _e('Other Inquiry', 'foundnxt'); ?></option>
-                </select>
-              </div>
-
-              <div class="hp-contact-field">
-                <label for="hp-contact-message"><?php _e('Message', 'foundnxt'); ?></label>
-                <textarea id="hp-contact-message" name="hp_contact_message" rows="3" placeholder="<?php esc_attr_e('Describe your startup stage, requirement, or question…', 'foundnxt'); ?>" required></textarea>
-              </div>
-
-              <button type="submit" class="btn-primary hp-contact-submit">
-                <?php _e('Send Message', 'foundnxt'); ?>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-
-              <p class="hp-contact-privacy"><?php _e("We'll only use these details to respond to your message.", 'foundnxt'); ?></p>
-            </form>
-
-          </div><!-- /.hp-contact-card -->
-        </div><!-- /.hp-hero-right -->
-
-      </div><!-- /.hp-hero-split -->
-    </div>
-  </section>
-
-  <!-- ── BLOCK 2: FEATURED / POPULAR ARTICLES ── -->
-  <section class="hp-block hp-featured">
-    <div class="container">
-      <div class="hp-sec-header fnx-reveal">
-        <span class="hp-sec-v2-tag"><?php _e('Must Read', 'foundnxt'); ?></span>
-        <h2><?php _e('Featured', 'foundnxt'); ?> <em><?php _e('Playbooks', 'foundnxt'); ?></em></h2>
-        <hr class="hp-rule">
-      </div>
-
-      <div class="hp-featured-grid">
-        <?php
-        $featured_posts = fnx_get_posts_data(['posts_per_page' => 3]);
-        if (!empty($featured_posts)):
-          foreach ($featured_posts as $fp):
-        ?>
-            <a class="hp-feat-card fnx-reveal" href="<?php echo esc_url(get_permalink($fp->ID)); ?>">
-              <div class="hp-feat-body">
-                <span class="hp-feat-badge">🔥 <?php _e('Featured', 'foundnxt'); ?></span>
-                <h3 class="hp-feat-title"><?php echo esc_html(get_the_title($fp->ID)); ?></h3>
-                <p class="hp-feat-desc"><?php echo esc_html(wp_trim_words(get_the_excerpt($fp->ID), 18)); ?></p>
-                <div class="hp-feat-foot">
-                  <span><?php echo fnx_fmt_date($fp->post_date); ?></span>
-                  <span class="hp-feat-arrow">Read Article →</span>
-                </div>
-              </div>
-            </a>
-        <?php
-          endforeach;
-        else:
-        ?>
-          <div class="hp-feat-card fnx-reveal">
-            <div class="hp-feat-body">
-              <span class="hp-feat-badge">🚀 <?php _e('Startups', 'foundnxt'); ?></span>
-              <h3 class="hp-feat-title"><?php _e('Building Product-Market Fit in 2026', 'foundnxt'); ?></h3>
-              <p class="hp-feat-desc"><?php _e('How modern founders validate ideas, run feedback loops, and scale early user adoption.', 'foundnxt'); ?></p>
-              <div class="hp-feat-foot">
-                <span><?php echo date('M j, Y'); ?></span>
-                <span class="hp-feat-arrow">Read Article →</span>
-              </div>
-            </div>
-          </div>
-        <?php endif; ?>
+        <p class="hp-trust-line">
+          ✓ <?php _e('Free weekly insights. No spam.', 'foundnxt'); ?>
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- ── BLOCK 3: WHAT YOU'LL FIND HERE — Category Roadmap (SVG Icons) ── -->
-  <section class="hp-block hp-pillars">
+  <!-- ── 3. CATEGORY GRID (8 Colorful Cards) ── -->
+  <section class="hp-block hp-categories-v2">
     <div class="container">
-
-      <div class="hp-sec-header hp-pillars-header fnx-reveal">
-        <h2><?php _e("What You'll", 'foundnxt'); ?> <em><?php _e('Find Here', 'foundnxt'); ?></em></h2>
-        <hr class="hp-rule">
+      <div class="hp-sec-header text-center fnx-reveal">
+        <span class="hp-sec-tag"><?php _e('Explore Topics', 'foundnxt'); ?></span>
+        <h2><?php _e('Browse by', 'foundnxt'); ?> <em><?php _e('Category', 'foundnxt'); ?></em></h2>
       </div>
 
-      <div class="hp-roadmap">
+      <div class="hp-cat-grid-v2">
         <?php
-        $pillars = [
+        $cats_spec = [
           [
-            'svg'   => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"/></svg>',
-            'title' => __('Startups', 'foundnxt'),
-            'desc'  => __('Real playbooks on ideation, fundraising, product-market fit, and the mistakes that kill startups early.', 'foundnxt'),
-            'url'   => home_url('/category/startups/'),
-            'accent'=> '#4f46e5',
+            'name'  => __('Business & Strategy', 'foundnxt'),
+            'slug'  => 'business-strategy',
+            'color' => '#4F46E5',
+            'desc'  => __('SaaS models, operational scaling frameworks, and corporate strategy.', 'foundnxt'),
+            'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>'
           ],
           [
-            'svg'   => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/></svg>',
-            'title' => __('Tech', 'foundnxt'),
-            'desc'  => __('The shifts in tools, AI, and infrastructure that are quietly reshaping how companies build and compete.', 'foundnxt'),
-            'url'   => home_url('/category/technology/'),
-            'accent'=> '#2563eb',
+            'name'  => __('Startups & Funding', 'foundnxt'),
+            'slug'  => 'startups-funding',
+            'color' => '#FF6B6B',
+            'desc'  => __('Fundraising playbooks, pitch deck guides, and VC investor relations.', 'foundnxt'),
+            'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"/></svg>'
           ],
           [
-            'svg'   => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
-            'title' => __('Scaling', 'foundnxt'),
-            'desc'  => __('What breaks when you go from 10 to 100 to 1,000 — and how the best teams rebuild without losing speed.', 'foundnxt'),
-            'url'   => home_url('/category/scaling/'),
-            'accent'=> '#0891b2',
+            'name'  => __('Valuation & Finance', 'foundnxt'),
+            'slug'  => 'valuation-finance',
+            'color' => '#14B8A6',
+            'desc'  => __('Startup valuation methods, financial modeling, and cap tables.', 'foundnxt'),
+            'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'
           ],
           [
-            'svg'   => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
-            'title' => __('Careers & Entrepreneurship', 'foundnxt'),
-            'desc'  => __("Career moves, founder journeys, and honest takes on what it actually takes to bet on yourself.", 'foundnxt'),
-            'url'   => home_url('/category/careers/'),
-            'accent'=> '#d97706',
+            'name'  => __('Markets & Economy', 'foundnxt'),
+            'slug'  => 'markets-economy',
+            'color' => '#F59E0B',
+            'desc'  => __('Macroeconomic analysis, sector forecasts, and interest rate impacts.', 'foundnxt'),
+            'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>'
+          ],
+          [
+            'name'  => __('Technology & AI', 'foundnxt'),
+            'slug'  => 'technology-ai',
+            'color' => '#7C3AED',
+            'desc'  => __('Enterprise AI workflows, software architecture, and tech trends.', 'foundnxt'),
+            'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/></svg>'
+          ],
+          [
+            'name'  => __('Marketing & Growth', 'foundnxt'),
+            'slug'  => 'marketing-growth',
+            'color' => '#EC4899',
+            'desc'  => __('0-to-1 customer acquisition, technical SEO, and product-led growth.', 'foundnxt'),
+            'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>'
+          ],
+          [
+            'name'  => __('Global Business', 'foundnxt'),
+            'slug'  => 'global-business',
+            'color' => '#0EA5E9',
+            'desc'  => __('International expansion, supply chain logistics, and global trade.', 'foundnxt'),
+            'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+          ],
+          [
+            'name'  => __('News & Insights', 'foundnxt'),
+            'slug'  => 'news-insights',
+            'color' => '#10B981',
+            'desc'  => __('Timely business intelligence digests and weekly executive roundups.', 'foundnxt'),
+            'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M18 18h-8M18 10h-8"/></svg>'
           ],
         ];
-        $total = count($pillars);
-        ?>
-        <?php foreach ($pillars as $i => $p): ?>
-          <div class="hp-roadmap-item" style="--pillar-accent:<?php echo esc_attr($p['accent']); ?>; --i:<?php echo (int) $i; ?>;">
-            <div class="hp-roadmap-node-col">
-              <a class="hp-roadmap-dot-wrap" href="<?php echo esc_url($p['url']); ?>" aria-label="<?php echo esc_attr($p['title']); ?>">
-                <span class="hp-roadmap-dot" aria-hidden="true"><?php echo $p['svg']; ?></span>
-                <span class="hp-roadmap-step" aria-hidden="true"><?php echo esc_html(sprintf('%02d', $i + 1)); ?></span>
-              </a>
-              <?php if ($i < $total - 1): ?>
-                <span class="hp-roadmap-track" aria-hidden="true"></span>
-              <?php endif; ?>
-            </div>
-            <div class="hp-roadmap-content">
-              <h3 class="hp-roadmap-title">
-                <a href="<?php echo esc_url($p['url']); ?>"><?php echo esc_html($p['title']); ?></a>
-                <span class="hp-roadmap-arrow" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-              </h3>
-              <p class="hp-roadmap-desc"><?php echo esc_html($p['desc']); ?></p>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      </div><!-- /.hp-roadmap -->
 
+        foreach ($cats_spec as $c_idx => $c):
+          $term = get_term_by('slug', $c['slug'], 'category');
+          $c_url = $term ? get_category_link($term->term_id) : home_url('/category/' . $c['slug'] . '/');
+          $c_cnt = $term ? $term->count : 0;
+        ?>
+          <a href="<?php echo esc_url($c_url); ?>" class="hp-cat-card-v2 fnx-reveal" style="--cat-accent: <?php echo esc_attr($c['color']); ?>; --i: <?php echo (int)$c_idx; ?>;">
+            <div class="hp-cat-card-icon" style="color: <?php echo esc_attr($c['color']); ?>; background: <?php echo esc_attr($c['color']); ?>15;">
+              <?php echo $c['icon']; ?>
+            </div>
+            <h3 class="hp-cat-card-title"><?php echo esc_html($c['name']); ?></h3>
+            <p class="hp-cat-card-desc"><?php echo esc_html($c['desc']); ?></p>
+            <div class="hp-cat-card-foot">
+              <span class="hp-cat-count"><?php echo esc_html($c_cnt); ?> Articles</span>
+              <span class="hp-cat-arrow" style="color: <?php echo esc_attr($c['color']); ?>;">→</span>
+            </div>
+          </a>
+        <?php endforeach; ?>
+      </div>
     </div>
   </section>
 
-  <!-- ── BLOCK 4: FOUNDER SERVICES ── -->
-  <section class="hp-block hp-services" id="services">
+  <!-- ── 4. FEATURED ARTICLES (3 Large Cards) ── -->
+  <section class="hp-block hp-featured-v2">
     <div class="container">
       <div class="hp-sec-header fnx-reveal">
-        <span class="hp-sec-v2-tag"><?php _e('Tailored Advisory', 'foundnxt'); ?></span>
-        <h2><?php _e('Services for', 'foundnxt'); ?> <em><?php _e('Founders', 'foundnxt'); ?></em></h2>
-        <p class="hp-services-sub"><?php _e('Hands-on guidance and network access to help you execute faster.', 'foundnxt'); ?></p>
-        <hr class="hp-rule">
+        <span class="hp-sec-tag"><?php _e('Top Selection', 'foundnxt'); ?></span>
+        <h2><?php _e('Featured', 'foundnxt'); ?> <em><?php _e('Articles', 'foundnxt'); ?></em></h2>
       </div>
 
-      <div class="hp-services-grid">
-        <div class="hp-service-card fnx-reveal">
-          <div class="hp-service-icon">💡</div>
-          <h3 class="hp-service-title"><?php _e('Product & Tech Strategy', 'foundnxt'); ?></h3>
-          <p class="hp-service-desc"><?php _e('Architecture reviews, tech stack selection, and AI workflow integration built for scalable growth.', 'foundnxt'); ?></p>
-          <a href="#hp-contact-form" class="btn-outline hp-service-btn"><?php _e('Request Strategy Review', 'foundnxt'); ?> →</a>
-        </div>
-
-        <div class="hp-service-card fnx-reveal">
-          <div class="hp-service-icon">📊</div>
-          <h3 class="hp-service-title"><?php _e('Valuation & Pitch Guidance', 'foundnxt'); ?></h3>
-          <p class="hp-service-desc"><?php _e('Pitch deck feedback, financial modeling, and valuation benchmarking before your seed round.', 'foundnxt'); ?></p>
-          <a href="#hp-contact-form" class="btn-outline hp-service-btn"><?php _e('Get Valuation Help', 'foundnxt'); ?> →</a>
-        </div>
-
-        <div class="hp-service-card fnx-reveal">
-          <div class="hp-service-icon">🤝</div>
-          <h3 class="hp-service-title"><?php _e('Investor Introductions', 'foundnxt'); ?></h3>
-          <p class="hp-service-desc"><?php _e('Warm introductions to active angel investors and seed VCs aligned with your industry.', 'foundnxt'); ?></p>
-          <a href="#hp-contact-form" class="btn-outline hp-service-btn"><?php _e('Explore Introductions', 'foundnxt'); ?> →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── BLOCK 5: WHO WE ARE (Editorial Blurb) ── -->
-  <section class="hp-block hp-about-blurb">
-    <div class="container">
-      <div class="hp-about-card fnx-reveal">
-        <div class="hp-about-badge">⚡ <?php _e('Who We Are', 'foundnxt'); ?></div>
-        <h2 class="hp-about-heading"><?php _e('Built by builders, for builders.', 'foundnxt'); ?></h2>
-        <p class="hp-about-text">
-          <?php _e('FoundNXT is an independent editorial & advisory platform covering startup fundraising, emerging technology, scaling ops, and founder career paths.', 'foundnxt'); ?>
-        </p>
-        <a href="<?php echo esc_url(home_url('/about/')); ?>" class="btn-outline hp-about-cta"><?php _e('Read Our Story & Team', 'foundnxt'); ?> →</a>
+      <div class="hp-featured-grid-v2">
+        <?php
+        $featured_posts = fnx_get_hp_posts(['posts_per_page' => 3]);
+        if (!empty($featured_posts)):
+          foreach ($featured_posts as $f_idx => $fp):
+            $f_cats  = wp_get_post_categories($fp->ID);
+            $f_cname = $f_cats ? get_cat_name($f_cats[0]) : 'Featured';
+            $f_cslug = $f_cats ? get_category($f_cats[0])->slug : 'news-insights';
+            $f_color = fnx_get_category_color($f_cslug);
+        ?>
+            <article class="hp-feat-card-v2 fnx-reveal" style="--feat-color: <?php echo esc_attr($f_color); ?>;">
+              <?php if (has_post_thumbnail($fp->ID)): ?>
+                <a href="<?php echo esc_url(get_permalink($fp->ID)); ?>" class="hp-feat-thumb">
+                  <?php echo get_the_post_thumbnail($fp->ID, 'fnx-card', ['alt' => esc_attr(get_the_title($fp->ID))]); ?>
+                </a>
+              <?php endif; ?>
+              <div class="hp-feat-content">
+                <span class="hp-feat-chip" style="background: <?php echo esc_attr($f_color); ?>18; color: <?php echo esc_attr($f_color); ?>;">
+                  <?php echo esc_html($f_cname); ?>
+                </span>
+                <h3 class="hp-feat-title">
+                  <a href="<?php echo esc_url(get_permalink($fp->ID)); ?>"><?php echo esc_html(get_the_title($fp->ID)); ?></a>
+                </h3>
+                <p class="hp-feat-excerpt"><?php echo esc_html(wp_trim_words(get_the_excerpt($fp->ID), 22)); ?></p>
+                <div class="hp-feat-meta">
+                  <span><?php echo fnx_fmt_date($fp->post_date); ?></span>
+                  <span>•</span>
+                  <span><?php echo fnx_read_time($fp->ID); ?></span>
+                </div>
+              </div>
+            </article>
+        <?php endforeach; endif; ?>
       </div>
     </div>
   </section>
 
-  <!-- ── BLOCK 6: RECENT POSTS BENTO GRID ── -->
-  <section class="hp-block hp-recent">
+  <!-- ── 5. LATEST ARTICLES (Responsive Grid of 6 Posts) ── -->
+  <section class="hp-block hp-latest-v2">
     <div class="container">
-
-      <!-- Section Header -->
-      <div class="hp-sec-v2 fnx-reveal">
-        <div class="hp-sec-v2-left">
-          <span class="hp-sec-v2-tag"><?php _e('Fresh off the press', 'foundnxt'); ?></span>
-          <h2 class="hp-sec-v2-title"><?php _e('Recent', 'foundnxt'); ?> <em><?php _e('Articles', 'foundnxt'); ?></em></h2>
+      <div class="flex-between hp-latest-header fnx-reveal">
+        <div>
+          <span class="hp-sec-tag"><?php _e('Fresh Intelligence', 'foundnxt'); ?></span>
+          <h2><?php _e('Latest', 'foundnxt'); ?> <em><?php _e('Insights', 'foundnxt'); ?></em></h2>
         </div>
-        <a class="hp-sec-v2-link" href="<?php echo esc_url(home_url('/articles/')); ?>">
-          <?php _e('View All', 'foundnxt'); ?>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="btn-outline">
+          <?php _e('View All Articles', 'foundnxt'); ?> →
         </a>
       </div>
 
-      <?php
-      $recent = fnx_get_posts_data(['posts_per_page' => 6]);
-      $cat_cache = [];
-      foreach (get_categories(['number' => 50, 'hide_empty' => false]) as $c)
-        $cat_cache[$c->term_id] = $c->name;
-      $rc_accents = ['#4f46e5','#2563eb','#7c3aed','#d97706','#e11d48','#0891b2'];
-      ?>
-
-      <!-- Bento grid: 6 cards in magazine layout -->
-      <div class="hp-bento">
-
-        <?php foreach ($recent as $idx => $p):
-          $pcat = wp_get_post_categories($p->ID);
-          $cname = ($pcat && isset($cat_cache[$pcat[0]])) ? $cat_cache[$pcat[0]] : 'Article';
-          $accent = $rc_accents[$idx % count($rc_accents)];
-          $is_hero = ($idx === 0);
-          $card_class = 'hp-bcard' . ($is_hero ? ' hp-bcard--hero' : '') . ' hp-bcard--idx-' . $idx;
-        ?>
-          <a class="<?php echo $card_class; ?> fnx-reveal" href="<?php echo esc_url(get_permalink($p->ID)); ?>"
-             style="--rc-accent:<?php echo $accent; ?>; --i:<?php echo (int) $idx; ?>;">
-            <?php if (has_post_thumbnail($p->ID)): ?>
-              <div class="hp-bcard-img">
-                <?php echo get_the_post_thumbnail($p->ID, $is_hero ? 'fnx-card' : 'fnx-thumb', [
-                  'loading' => $idx === 0 ? 'eager' : 'lazy',
-                  'alt' => esc_attr(get_the_title($p->ID))
-                ]); ?>
-                <div class="hp-bcard-img-overlay"></div>
-              </div>
-            <?php else: ?>
-              <div class="hp-bcard-img hp-bcard-img--empty">
-                <span class="hp-bcard-emoji">📰</span>
-              </div>
-            <?php endif; ?>
-
-            <div class="hp-bcard-body">
-              <div class="hp-bcard-top">
-                <span class="hp-bcard-cat"><?php echo esc_html($cname); ?></span>
-                <span class="hp-bcard-num"><?php echo str_pad($idx + 1, 2, '0', STR_PAD_LEFT); ?></span>
-              </div>
-              <div class="hp-bcard-title"><?php echo esc_html(get_the_title($p->ID)); ?></div>
-              <?php if ($is_hero): ?>
-                <p class="hp-bcard-excerpt"><?php echo esc_html(wp_trim_words(get_the_excerpt($p->ID), 20)); ?></p>
-              <?php endif; ?>
-              <div class="hp-bcard-foot">
-                <span class="hp-bcard-date"><?php echo fnx_fmt_date($p->post_date); ?></span>
-                <span class="hp-bcard-read">Read <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              </div>
-            </div>
-            <div class="hp-bcard-accent-bar"></div>
-          </a>
-        <?php endforeach;
-        wp_reset_postdata(); ?>
-
-      </div><!-- /.hp-bento -->
-
-      <!-- All Articles Section -->
-      <div class="hp-all-hdr-v2">
-        <div class="hp-all-hdr-v2-inner">
-          <div class="hp-all-hdr-v2-line"></div>
-          <h2 class="hp-all-hdr-v2-title">
-            <span class="hp-all-hdr-v2-icon">📰</span>
-            <?php _e('All Articles', 'foundnxt'); ?>
-          </h2>
-          <div class="hp-all-hdr-v2-line"></div>
-        </div>
-      </div>
-
-      <div class="posts-grid" id="posts-grid">
-        <?php $all = fnx_get_posts_data(['posts_per_page' => 12]);
-        foreach ($all as $p):
-          setup_postdata($GLOBALS['post'] =& $p);
+      <div class="posts-grid hp-latest-grid">
+        <?php
+        $latest_posts = fnx_get_hp_posts(['posts_per_page' => 6]);
+        foreach ($latest_posts as $lp):
+          setup_postdata($GLOBALS['post'] =& $lp);
           get_template_part('template-parts/post-card');
         endforeach;
-        wp_reset_postdata(); ?>
+        wp_reset_postdata();
+        ?>
       </div>
-
-      <?php
-      $total_posts = wp_count_posts()->publish;
-      $max_pages   = ceil($total_posts / 12);
-      ?>
-      <nav class="hp-pagination" id="hp-pagination"
-           data-max="<?php echo $max_pages; ?>"
-           data-cat="0"
-           data-total="<?php echo $total_posts; ?>"
-           aria-label="Articles pagination">
-        <span class="hp-page-info-ssr">Page 1 of <?php echo max(1, $max_pages); ?></span>
-      </nav>
-      <p class="hp-pagination-info" id="hp-pagination-info"></p>
-
     </div>
   </section>
 
-  <!-- ── BLOCK 7: COMING SOON — Tools Built for Builders ── -->
-  <section class="hp-block hp-tools-teaser">
+  <!-- ── 6. LEAD MAGNET BANNER ── -->
+  <section class="hp-block hp-lead-magnet-banner">
     <div class="container">
-      <div class="hp-tools-teaser-card fnx-reveal">
-        <span class="hp-tools-teaser-badge"><?php _e('Coming Soon', 'foundnxt'); ?></span>
-        <h2 class="hp-tools-teaser-h2"><?php _e('Tools Built for Builders', 'foundnxt'); ?></h2>
-        <p class="hp-tools-teaser-p">
-          <?php _e("We're not stopping at content. FoundNXT is building a suite of tools to help you go from idea to execution — startup trackers, growth calculators, career planners, and more. Be the first to try them.", 'foundnxt'); ?>
+      <div class="hp-lm-banner-inner fnx-reveal">
+        <div class="hp-lm-banner-text">
+          <span class="hp-lm-badge">📥 <?php _e('Free Founder Download', 'foundnxt'); ?></span>
+          <h2 class="hp-lm-h2"><?php _e("The Founder's Valuation & Scaling Cheat Sheet", 'foundnxt'); ?></h2>
+          <p class="hp-lm-p"><?php _e('Get the exact financial models, fundraising pitch deck checklists, and unit economics formulas top founders use to scale.', 'foundnxt'); ?></p>
+        </div>
+        <div class="hp-lm-banner-form-wrap">
+          <form class="hp-lm-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+            <input type="hidden" name="action" value="fnx_lead_submit">
+            <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+            <input type="hidden" name="lead_type" value="Lead Magnet - Homepage Valuation Cheat Sheet">
+            <div class="hp-lm-form-fields">
+              <input type="text" name="lead_name" placeholder="<?php esc_attr_e('Your Name', 'foundnxt'); ?>" required>
+              <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Your Work Email', 'foundnxt'); ?>" required>
+              <button type="submit" class="btn-primary hp-lm-btn"><?php _e('Send Me the Guide', 'foundnxt'); ?> →</button>
+            </div>
+            <p class="hp-lm-note">🔒 <?php _e('100% free. Sent directly to your inbox.', 'foundnxt'); ?></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 7. INSIGHTS / MARKET PULSE STRIP ── -->
+  <section class="hp-block hp-market-pulse">
+    <div class="container">
+      <div class="hp-pulse-strip fnx-reveal">
+        <div class="hp-pulse-label">
+          <span class="pulse-dot"></span>
+          <strong><?php _e('Market Pulse', 'foundnxt'); ?></strong>
+        </div>
+        <div class="hp-pulse-items">
+          <div class="hp-pulse-item">
+            <?php _e('📈 Early-stage AI startup valuations surge as enterprise adoption hits 45%', 'foundnxt'); ?>
+          </div>
+          <div class="hp-pulse-item">
+            <?php _e('💡 SaaS benchmarks 2026: Median Net Revenue Retention reaches 112%', 'foundnxt'); ?>
+          </div>
+          <div class="hp-pulse-item">
+            <?php _e('🌐 Southeast Asia tech expansion accelerates with $12B in regional capital', 'foundnxt'); ?>
+          </div>
+          <div class="hp-pulse-item">
+            <?php _e('⚡ Interest rate stabilization triggers renewed founder M&A activity', 'foundnxt'); ?>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 8. SERVICES / "WORK WITH US" (Enquiry-style) ── -->
+  <section class="hp-block hp-services-v2" id="services">
+    <div class="container">
+      <div class="hp-sec-header text-center fnx-reveal">
+        <span class="hp-sec-tag"><?php _e('Advisory & Intelligence', 'foundnxt'); ?></span>
+        <h2><?php _e('Work With', 'foundnxt'); ?> <em><?php _e('Us', 'foundnxt'); ?></em></h2>
+        <p class="hp-sec-sub"><?php _e('Specialized founder advisory, research requests, and growth partnerships.', 'foundnxt'); ?></p>
+      </div>
+
+      <div class="hp-services-grid-v2">
+        <!-- Service 1 -->
+        <div class="hp-service-card-v2 fnx-reveal">
+          <div class="service-icon-wrap" style="color: #4F46E5; background: rgba(79,70,229,0.12);">
+            🔍
+          </div>
+          <h3 class="service-card-h3"><?php _e('Market Research Request', 'foundnxt'); ?></h3>
+          <p class="service-card-p"><?php _e('Custom market intelligence, competitive analysis, and industry trend reports built for founders and investment teams.', 'foundnxt'); ?></p>
+          <a href="#contact" data-service="Market Research Request" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="hp-service-card-v2 fnx-reveal">
+          <div class="service-icon-wrap" style="color: #14B8A6; background: rgba(20,184,166,0.12);">
+            📊
+          </div>
+          <h3 class="service-card-h3"><?php _e('Valuation Guidance', 'foundnxt'); ?></h3>
+          <p class="service-card-p"><?php _e('Independent financial modeling, cap table health checks, and 409A/fundraising valuation guidance.', 'foundnxt'); ?></p>
+          <a href="#contact" data-service="Valuation Guidance" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="hp-service-card-v2 fnx-reveal">
+          <div class="service-icon-wrap" style="color: #7C3AED; background: rgba(124,58,237,0.12);">
+            ⚡
+          </div>
+          <h3 class="service-card-h3"><?php _e('Tech & AI Strategy', 'foundnxt'); ?></h3>
+          <p class="service-card-p"><?php _e('Architecture reviews, AI workflow automation roadmap, and technical build vs. buy decision audits.', 'foundnxt'); ?></p>
+          <a href="#contact" data-service="Tech & AI Strategy" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="hp-service-card-v2 fnx-reveal">
+          <div class="service-icon-wrap" style="color: #EC4899; background: rgba(236,72,153,0.12);">
+            🚀
+          </div>
+          <h3 class="service-card-h3"><?php _e('Marketing & Growth Help', 'foundnxt'); ?></h3>
+          <p class="service-card-p"><?php _e('Topical SEO cluster audits, 0-to-1 customer acquisition strategies, and GTM positioning for scaling companies.', 'foundnxt'); ?></p>
+          <a href="#contact" data-service="Marketing Help" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="hp-service-card-v2 fnx-reveal">
+          <div class="service-icon-wrap" style="color: #F59E0B; background: rgba(245,158,11,0.12);">
+            🤝
+          </div>
+          <h3 class="service-card-h3"><?php _e('Partnerships & Sponsored Content', 'foundnxt'); ?></h3>
+          <p class="service-card-p"><?php _e('Reach thousands of founders and tech leaders through dedicated newsletter sponsorships and editorial partnerships.', 'foundnxt'); ?></p>
+          <a href="#contact" data-service="Partnerships" class="btn-outline service-enquire-btn"><?php _e('Enquire', 'foundnxt'); ?> →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 9. ABOUT SNIPPET SECTION ── -->
+  <section class="hp-block hp-about-snippet">
+    <div class="container">
+      <div class="hp-about-snippet-card fnx-reveal">
+        <span class="hp-about-badge">⚡ <?php _e('About FoundNXT', 'foundnxt'); ?></span>
+        <h2 class="hp-about-h2"><?php _e('Independent Intelligence for Founders & Leaders', 'foundnxt'); ?></h2>
+        <p class="hp-about-p">
+          <?php _e('FoundNXT is an independent business and technology publication helping founders and leaders understand markets, technology, and growth.', 'foundnxt'); ?>
         </p>
-        <a href="#hp-contact-form" class="btn-primary hp-tools-teaser-cta">
-          <?php _e('Get early access', 'foundnxt'); ?>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <a href="<?php echo esc_url(home_url('/about/')); ?>" class="btn-outline">
+          <?php _e('Learn More About FoundNXT', 'foundnxt'); ?> →
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 10. TOOLS COMING SOON ── -->
+  <section class="hp-block hp-tools-coming-soon">
+    <div class="container">
+      <div class="hp-tools-card fnx-reveal">
+        <span class="hp-tools-badge">🛠️ <?php _e('Coming Soon', 'foundnxt'); ?></span>
+        <h2 class="hp-tools-h2"><?php _e('Founder Tools & Calculators', 'foundnxt'); ?></h2>
+        <p class="hp-tools-sub"><?php _e('Interactive decision-making tools built specifically for founders and operators:', 'foundnxt'); ?></p>
+        
+        <div class="hp-tools-list">
+          <div class="hp-tool-item">
+            <span class="tool-icon">🧮</span>
+            <strong>Startup Valuation Calculator</strong>
+          </div>
+          <div class="hp-tool-item">
+            <span class="tool-icon">🤖</span>
+            <strong>AI Cost Savings Calculator</strong>
+          </div>
+          <div class="hp-tool-item">
+            <span class="tool-icon">📊</span>
+            <strong>Market Size Estimator</strong>
+          </div>
+        </div>
+
+        <form class="hp-tools-access-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+          <input type="hidden" name="action" value="fnx_lead_submit">
+          <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+          <input type="hidden" name="lead_type" value="Tools Early Access Sign Up">
+          <div class="tools-input-wrap">
+            <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email for early access...', 'foundnxt'); ?>" required>
+            <button type="submit" class="btn-primary"><?php _e('Get Early Access', 'foundnxt'); ?></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 11. NEWSLETTER SECTION ── -->
+  <section class="hp-block hp-newsletter-section" id="newsletter-section">
+    <div class="container">
+      <div class="hp-newsletter-card fnx-reveal">
+        <div class="hp-newsletter-content">
+          <span class="hp-nl-badge">✉️ <?php _e('Weekly Brief', 'foundnxt'); ?></span>
+          <h2 class="hp-nl-h2"><?php _e('Get the sharpest business insights every week', 'foundnxt'); ?></h2>
+          <p class="hp-nl-sub"><?php _e('Practical playbooks on business strategy, valuation, AI, marketing, and global expansion delivered every Monday morning.', 'foundnxt'); ?></p>
+          
+          <form class="hp-nl-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+            <input type="hidden" name="action" value="fnx_lead_submit">
+            <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+            <input type="hidden" name="lead_type" value="Homepage Newsletter Signup">
+            <div class="nl-input-wrap">
+              <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your founder email...', 'foundnxt'); ?>" required>
+              <button type="submit" class="btn-primary"><?php _e('Subscribe Free', 'foundnxt'); ?> →</button>
+            </div>
+            <p class="nl-privacy">✓ <?php _e('Free forever. No spam. Unsubscribe in one click.', 'foundnxt'); ?></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 12. UNIFIED CONTACT FORM SECTION (Target for Enquiry Buttons) ── -->
+  <section class="hp-block hp-contact-section" id="contact">
+    <div class="container container-narrow">
+      <div class="hp-contact-box fnx-reveal">
+        <div class="hp-contact-head text-center">
+          <h2><?php _e('Get in Touch with', 'foundnxt'); ?> <em><?php _e('FoundNXT', 'foundnxt'); ?></em></h2>
+          <p><?php _e('Tell us about your requirement — our advisory team replies within 24–48 hours.', 'foundnxt'); ?></p>
+        </div>
+
+        <?php
+        if (isset($_GET['fnx_lead']) && $_GET['fnx_lead'] === 'success') {
+          echo '<div class="hp-contact-alert hp-contact-alert--ok" role="status">✓ ' . esc_html__('Thank you! Your message has been received. We will get back to you shortly.', 'foundnxt') . '</div>';
+        }
+        ?>
+
+        <form class="hp-lead-contact-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>#contact">
+          <input type="hidden" name="action" value="fnx_lead_submit">
+          <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+          <input type="hidden" name="lead_type" value="Contact Form Submission">
+          
+          <!-- Honeypot -->
+          <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row grid-2">
+            <div class="form-group">
+              <label for="lead_name"><?php _e('Name *', 'foundnxt'); ?></label>
+              <input type="text" id="lead_name" name="lead_name" placeholder="<?php esc_attr_e('Jordan Lee', 'foundnxt'); ?>" required>
+            </div>
+            <div class="form-group">
+              <label for="lead_email"><?php _e('Work Email *', 'foundnxt'); ?></label>
+              <input type="email" id="lead_email" name="lead_email" placeholder="<?php esc_attr_e('jordan@company.com', 'foundnxt'); ?>" required>
+            </div>
+          </div>
+
+          <div class="form-row grid-2">
+            <div class="form-group">
+              <label for="lead_company"><?php _e('Company / Website (Optional)', 'foundnxt'); ?></label>
+              <input type="text" id="lead_company" name="lead_company" placeholder="<?php esc_attr_e('https://yourcompany.com', 'foundnxt'); ?>">
+            </div>
+            <div class="form-group">
+              <label for="lead_stage"><?php _e('Company Stage or Size', 'foundnxt'); ?></label>
+              <select id="lead_stage" name="lead_stage">
+                <option value="Early Stage / Seed"><?php _e('Early Stage / Seed', 'foundnxt'); ?></option>
+                <option value="Growth / Series A+"><?php _e('Growth / Series A+', 'foundnxt'); ?></option>
+                <option value="Scaleup"><?php _e('Scaleup', 'foundnxt'); ?></option>
+                <option value="Enterprise / Established"><?php _e('Enterprise / Established', 'foundnxt'); ?></option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lead_help"><?php _e('What do you need help with?', 'foundnxt'); ?></label>
+            <select id="lead_help" name="lead_help">
+              <option value="Market Research Request"><?php _e('Market Research Request', 'foundnxt'); ?></option>
+              <option value="Valuation Guidance"><?php _e('Valuation Guidance', 'foundnxt'); ?></option>
+              <option value="Tech & AI Strategy"><?php _e('Tech & AI Strategy', 'foundnxt'); ?></option>
+              <option value="Marketing Help"><?php _e('Marketing & Growth Help', 'foundnxt'); ?></option>
+              <option value="Partnerships"><?php _e('Partnerships & Sponsored Content', 'foundnxt'); ?></option>
+              <option value="Other"><?php _e('Other Inquiry', 'foundnxt'); ?></option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="lead_message"><?php _e('Message *', 'foundnxt'); ?></label>
+            <textarea id="lead_message" name="lead_message" rows="4" placeholder="<?php esc_attr_e('Tell us about your company, requirements, or questions...', 'foundnxt'); ?>" required></textarea>
+          </div>
+
+          <div class="form-group form-checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="lead_consent" required checked>
+              <span><?php _e('I consent to FoundNXT processing my details to respond to my enquiry.', 'foundnxt'); ?></span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary form-submit-btn">
+            <?php _e('Submit Enquiry', 'foundnxt'); ?> →
+          </button>
+        </form>
       </div>
     </div>
   </section>
@@ -470,19 +511,12 @@
   <div class="fnx-archive">
     <div class="container">
       <div class="archive-header">
-        <div class="archive-title-wrap">
-          <h1 class="archive-title"><?php single_cat_title(); ?></h1>
-        </div>
+        <h1 class="archive-title"><?php single_cat_title(); ?></h1>
       </div>
-      <div class="archive-layout">
-        <div class="archive-posts">
-          <div class="posts-grid" id="posts-grid">
-            <?php while (have_posts()): the_post();
-              get_template_part('template-parts/post-card');
-            endwhile; ?>
-          </div>
-        </div>
-        <?php get_sidebar(); ?>
+      <div class="posts-grid" id="posts-grid">
+        <?php while (have_posts()): the_post();
+          get_template_part('template-parts/post-card');
+        endwhile; ?>
       </div>
     </div>
   </div>

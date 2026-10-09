@@ -144,7 +144,18 @@
         echo '<ul class="nav-menu">';
         echo '<li><a href="' . esc_url(home_url('/')) . '">' . __('Home', 'foundnxt') . '</a></li>';
         echo '<li><a href="' . esc_url(home_url('/articles/')) . '">' . __('Articles', 'foundnxt') . '</a></li>';
-        echo '<li><a href="' . esc_url(home_url('/#services')) . '">' . __('Services', 'foundnxt') . '</a></li>';
+        
+        // Categories Dropdown
+        echo '<li class="menu-item-has-children"><a href="' . esc_url(home_url('/articles/')) . '">' . __('Categories', 'foundnxt') . ' <span class="dropdown-arrow">▾</span></a>';
+        echo '<ul class="sub-menu">';
+        $hdr_cats = get_categories(['orderby' => 'name', 'order' => 'ASC', 'hide_empty' => false, 'exclude' => [1]]);
+        foreach ($hdr_cats as $cat) {
+          $c_color = fnx_get_category_color($cat->slug);
+          echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '"><span class="cat-menu-dot" style="background:' . esc_attr($c_color) . '"></span>' . esc_html($cat->name) . '</a></li>';
+        }
+        echo '</ul></li>';
+
+        echo '<li><a href="' . esc_url(home_url('/services/')) . '">' . __('Services', 'foundnxt') . '</a></li>';
         echo '<li><a href="' . esc_url(home_url('/about/')) . '">' . __('About', 'foundnxt') . '</a></li>';
         echo '<li><a href="' . esc_url(home_url('/contact/')) . '">' . __('Contact', 'foundnxt') . '</a></li>';
         echo '</ul>';
@@ -155,7 +166,7 @@
     <!-- Header Actions -->
     <div class="header-actions">
 
-      <!-- Search Toggle — FIX: SVG icon instead of emoji for crisp rendering -->
+      <!-- Search Toggle -->
       <button class="action-btn search-btn" id="search-toggle"
         aria-label="<?php esc_attr_e('Open search', 'foundnxt'); ?>"
         aria-expanded="false" aria-controls="header-search">
@@ -189,6 +200,9 @@
         <span class="icon-dark"  aria-hidden="true">🌙</span>
       </button>
       <?php endif; ?>
+
+      <!-- Header Gradient Subscribe Button -->
+      <a href="#newsletter-section" class="btn-primary header-subscribe-btn"><?php _e('Subscribe', 'foundnxt'); ?></a>
 
       <!-- Mobile Menu Toggle -->
       <button class="action-btn mobile-toggle" id="mobile-toggle"

@@ -102,27 +102,27 @@ endif;
   <div class="container">
 
     <?php if (is_category()):
-      $cat = get_queried_object();
-      // Build icon/color per category slug — extend as needed
-      $slug        = $cat->slug;
-      $icon_map    = [
-        'startups'   => '🚀',
-        'funding'    => '💰',
-        'valuation'  => '📈',
-        'business'   => '💼',
-        'growth'     => '🎯',
-        'technology' => '⚙️',
-        'venture-capital' => '🤝',
-        'ipo'        => '🔔',
+      $cat        = get_queried_object();
+      $slug       = $cat->slug;
+      $cat_color  = fnx_get_category_color($slug);
+      $icon_map   = [
+        'business-strategy' => '💼',
+        'startups-funding'  => '🚀',
+        'valuation-finance' => '📈',
+        'markets-economy'   => '🌐',
+        'technology-ai'     => '🤖',
+        'marketing-growth'  => '🎯',
+        'global-business'   => '🗺️',
+        'news-insights'     => '📰',
       ];
-      $cat_icon    = $icon_map[ $slug ] ?? '📰';
-      $post_count  = $cat->count;
+      $cat_icon   = $icon_map[$slug] ?? '📰';
+      $post_count = $cat->count;
     ?>
 
-    <!-- CATEGORY HERO BANNER — v2.2 redesign -->
-    <div class="archive-banner cat-banner" role="banner">
+    <!-- CATEGORY HERO BANNER — Styled with category color -->
+    <div class="archive-banner cat-banner" role="banner" style="--cat-accent: <?php echo esc_attr($cat_color); ?>; border-top: 4px solid <?php echo esc_attr($cat_color); ?>;">
       <!-- Decorative blobs -->
-      <span class="cat-banner-blob cat-banner-blob--1" aria-hidden="true"></span>
+      <span class="cat-banner-blob cat-banner-blob--1" aria-hidden="true" style="background: <?php echo esc_attr($cat_color); ?>22;"></span>
       <span class="cat-banner-blob cat-banner-blob--2" aria-hidden="true"></span>
 
       <div class="cat-banner-body">
@@ -130,7 +130,9 @@ endif;
         <nav class="cat-breadcrumb" aria-label="<?php esc_attr_e('Breadcrumb', 'foundnxt'); ?>">
           <a href="<?php echo esc_url(home_url('/')); ?>"><?php _e('Home', 'foundnxt'); ?></a>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4.5 2.5L8 6L4.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span><?php _e('Category', 'foundnxt'); ?></span>
+          <a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Categories', 'foundnxt'); ?></a>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4.5 2.5L8 6L4.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><?php single_cat_title(); ?></span>
         </nav>
 
         <!-- Icon + Title -->

@@ -51,8 +51,8 @@
         else: ?>
           <div class="footer-logo-text"><?php bloginfo('name'); ?></div>
         <?php endif; ?>
-        <p class="footer-tagline"><?php echo esc_html(get_theme_mod('fnx_footer_tagline', __("Where founders find what's next.", 'foundnxt'))); ?></p>
-        <p class="footer-tagline-sub"><?php echo esc_html(get_theme_mod('fnx_footer_tagline_sub', __('Startups. Tech. Scaling. Careers. Built for what\'s coming.', 'foundnxt'))); ?></p>
+        <p class="footer-tagline"><?php echo esc_html(get_theme_mod('fnx_footer_tagline', __('Business, Markets & Technology: Explained for Founders and Leaders.', 'foundnxt'))); ?></p>
+        <p class="footer-tagline-sub"><?php echo esc_html(get_theme_mod('fnx_footer_tagline_sub', __('Business. Markets. Technology. Growth.', 'foundnxt'))); ?></p>
 
         <!-- Social Links (rel="noopener noreferrer" for security) -->
         <div class="footer-social">
@@ -77,16 +77,16 @@
           <?php if ($i === 1): ?>
             <h4 class="footer-col-title"><?php _e('Categories', 'foundnxt'); ?></h4>
             <ul class="footer-links">
-              <?php $cats = get_categories(['number' => 8, 'orderby' => 'name', 'order' => 'ASC', 'hide_empty' => false]);
+              <?php $cats = get_categories(['number' => 8, 'orderby' => 'name', 'order' => 'ASC', 'hide_empty' => false, 'exclude' => [1]]);
               if (!empty($cats)):
                 foreach ($cats as $cat): ?>
                   <li><a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"><?php echo esc_html($cat->name); ?> <span>(<?php echo $cat->count; ?>)</span></a></li>
                 <?php endforeach;
               else: ?>
-                <li><a href="<?php echo esc_url(home_url('/category/startups/')); ?>"><?php _e('Startups', 'foundnxt'); ?></a></li>
-                <li><a href="<?php echo esc_url(home_url('/category/technology/')); ?>"><?php _e('Tech', 'foundnxt'); ?></a></li>
-                <li><a href="<?php echo esc_url(home_url('/category/scaling/')); ?>"><?php _e('Scaling', 'foundnxt'); ?></a></li>
-                <li><a href="<?php echo esc_url(home_url('/category/careers/')); ?>"><?php _e('Careers', 'foundnxt'); ?></a></li>
+                <li><a href="<?php echo esc_url(home_url('/category/business-strategy/')); ?>"><?php _e('Business & Strategy', 'foundnxt'); ?></a></li>
+                <li><a href="<?php echo esc_url(home_url('/category/startups-funding/')); ?>"><?php _e('Startups & Funding', 'foundnxt'); ?></a></li>
+                <li><a href="<?php echo esc_url(home_url('/category/valuation-finance/')); ?>"><?php _e('Valuation & Finance', 'foundnxt'); ?></a></li>
+                <li><a href="<?php echo esc_url(home_url('/category/technology-ai/')); ?>"><?php _e('Technology & AI', 'foundnxt'); ?></a></li>
               <?php endif; ?>
             </ul>
           <?php elseif ($i === 2): ?>
@@ -94,14 +94,14 @@
             <ul class="footer-links">
               <?php wp_nav_menu(['theme_location' => 'footer-2', 'container' => false, 'items_wrap' => '%3$s', 'fallback_cb' => false]); ?>
               <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About', 'foundnxt'); ?></a></li>
-              <li><a href="<?php echo esc_url(home_url('/#services')); ?>"><?php _e('Services', 'foundnxt'); ?></a></li>
+              <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Services', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact Us', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Articles', 'foundnxt'); ?></a></li>
             </ul>
           <?php else: ?>
             <h4 class="footer-col-title"><?php _e('Latest Posts', 'foundnxt'); ?></h4>
             <ul class="footer-recent-posts">
-              <?php $recent = get_posts(['posts_per_page' => 5, 'post_status' => 'publish']);
+              <?php $recent = get_posts(['posts_per_page' => 3, 'post_status' => 'publish']);
               if (!empty($recent)):
                 foreach ($recent as $p): ?>
                   <li>
