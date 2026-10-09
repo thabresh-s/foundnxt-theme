@@ -739,16 +739,10 @@ add_action('wp_footer', 'fnx_translate_toggle_script', 99);
 
 /* ============================================================
    HOMEPAGE HERO — CONTACT FORM SUBMISSION HANDLER
-   Handles the Name / Email / Message form that replaced the
-   animated illustration in the homepage hero (index.php).
    ============================================================ */
-    $sent = wp_mail($to, $subject, $body, $headers);
+add_action('admin_post_fnx_homepage_contact',        'fnx_handle_lead_submission');
+add_action('admin_post_nopriv_fnx_homepage_contact', 'fnx_handle_lead_submission');
 
-    wp_safe_redirect(add_query_arg('fnx_contact', $sent ? 'success' : 'error', $redirect) . '#hp-contact-form');
-    exit;
-}
-add_action('admin_post_fnx_homepage_contact', 'fnx_handle_homepage_contact');
-add_action('admin_post_nopriv_fnx_homepage_contact', 'fnx_handle_homepage_contact');
 
 
 /* ============================================================
