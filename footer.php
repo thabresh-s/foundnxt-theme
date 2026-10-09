@@ -92,6 +92,7 @@
             <h4 class="footer-col-title"><?php _e('Pages', 'foundnxt'); ?></h4>
             <ul class="footer-links">
               <?php wp_nav_menu(['theme_location' => 'footer-2', 'container' => false, 'items_wrap' => '%3$s', 'fallback_cb' => false]); ?>
+              <li><a href="<?php echo esc_url(home_url('/tools/')); ?>"><?php _e('Tech & Tools Stack', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Services', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact Us', 'foundnxt'); ?></a></li>

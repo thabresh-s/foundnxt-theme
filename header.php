@@ -155,6 +155,7 @@
         }
         echo '</ul></li>';
 
+        echo '<li><a href="' . esc_url(home_url('/tools/')) . '">' . __('Tools', 'foundnxt') . '</a></li>';
         echo '<li><a href="' . esc_url(home_url('/services/')) . '">' . __('Services', 'foundnxt') . '</a></li>';
         echo '<li><a href="' . esc_url(home_url('/about/')) . '">' . __('About', 'foundnxt') . '</a></li>';
         echo '<li><a href="' . esc_url(home_url('/contact/')) . '">' . __('Contact', 'foundnxt') . '</a></li>';

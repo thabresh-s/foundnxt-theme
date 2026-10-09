@@ -388,60 +388,7 @@
     </div>
   </section>
 
-  <!-- ── 10. TOOLS COMING SOON (Interactive Tool Lab) ── -->
-  <section class="hp-block hp-tools-v2-section">
-    <div class="container">
-      <div class="hp-tools-v2-card fnx-reveal">
-        <div class="hp-sec-header text-center">
-          <span class="hp-sec-tag-pill hp-sec-tag-pill--amber">🛠️ <?php _e('Coming Soon', 'foundnxt'); ?></span>
-          <h2 class="hp-tools-v2-title"><?php _e('Interactive Founder Tools & Calculators', 'foundnxt'); ?></h2>
-          <p class="hp-tools-v2-sub"><?php _e('We are building free, data-driven decision tools designed specifically for startup operators:', 'foundnxt'); ?></p>
-        </div>
 
-        <div class="hp-tools-v2-grid">
-          <!-- Tool Card 1 -->
-          <div class="hp-tool-card-v2 tool-card--valuation">
-            <div class="tool-card-badge">DCF & Multiples</div>
-            <div class="tool-card-icon">🧮</div>
-            <h3 class="tool-card-title"><?php _e('Startup Valuation Calculator', 'foundnxt'); ?></h3>
-            <p class="tool-card-desc"><?php _e('Benchmark pre-money valuations using revenue multiples, ARR growth rates, and stage data.', 'foundnxt'); ?></p>
-            <span class="tool-card-status">⚡ <?php _e('In Private Beta', 'foundnxt'); ?></span>
-          </div>
-
-          <!-- Tool Card 2 -->
-          <div class="hp-tool-card-v2 tool-card--ai">
-            <div class="tool-card-badge">ROI Estimator</div>
-            <div class="tool-card-icon">🤖</div>
-            <h3 class="tool-card-title"><?php _e('AI Cost Savings Calculator', 'foundnxt'); ?></h3>
-            <p class="tool-card-desc"><?php _e('Calculate net annual savings and payback periods when automating operational workflows.', 'foundnxt'); ?></p>
-            <span class="tool-card-status">⚡ <?php _e('In Development', 'foundnxt'); ?></span>
-          </div>
-
-          <!-- Tool Card 3 -->
-          <div class="hp-tool-card-v2 tool-card--market">
-            <div class="tool-card-badge">TAM / SAM / SOM</div>
-            <div class="tool-card-icon">📊</div>
-            <h3 class="tool-card-title"><?php _e('Market Size Estimator', 'foundnxt'); ?></h3>
-            <p class="tool-card-desc"><?php _e('Bottom-up market sizing framework to build defensible pitch deck TAM estimates.', 'foundnxt'); ?></p>
-            <span class="tool-card-status">⚡ <?php _e('Coming Q3 2026', 'foundnxt'); ?></span>
-          </div>
-        </div>
-
-        <div class="hp-tools-v2-access-wrap">
-          <form class="hp-tools-access-form-v2" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-            <input type="hidden" name="action" value="fnx_lead_submit">
-            <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-            <input type="hidden" name="lead_type" value="Tools Early Access Sign Up">
-            <div class="tools-input-group-v2">
-              <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email for early access access…', 'foundnxt'); ?>" required>
-              <button type="submit" class="btn-primary tools-submit-btn-v2"><?php _e('Get Early Access', 'foundnxt'); ?> →</button>
-            </div>
-            <p class="tools-note-v2">🔒 <?php _e('Early access members receive free calculator templates first.', 'foundnxt'); ?></p>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
 
 
 

@@ -1086,6 +1086,11 @@ function fnx_auto_setup_v2() {
             'template' => 'page-articles.php',
             'content'  => 'Browse all FoundNXT articles across business strategy, startups, valuation, markets, technology, marketing, and global business.'
         ],
+        'Tools' => [
+            'slug'     => 'tools',
+            'template' => 'page-tools.php',
+            'content'  => 'Curated business software and tech recommendations for scaling startups, featuring top open-source alternatives and enterprise SaaS solutions.'
+        ],
     ];
 
     foreach ($pages_data as $title => $data) {
