@@ -1025,4 +1025,165 @@ button, .btn {
   border: 1px solid rgba(16,185,129,0.3);
 }
 
+/* ============================================================
+   PAGE LAYOUT FIXES — SERVICES, ABOUT, & CONTACT
+   ============================================================ */
+
+/* ── HERO LAYOUT FIX (Services, About, Contact) ── */
+.about-hero {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  max-width: 860px !important;
+  margin: 0 auto 48px !important;
+  padding: 32px 0 20px !important;
+  border-bottom: none !important;
+  grid-template-columns: none !important;
+}
+.about-h1 {
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem) !important;
+  font-weight: 800 !important;
+  color: var(--fnx-ink) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.03em !important;
+  margin: 0 0 16px !important;
+  text-align: center !important;
+}
+.about-lead {
+  font-size: clamp(1.05rem, 2vw, 1.25rem) !important;
+  color: var(--fnx-body) !important;
+  line-height: 1.65 !important;
+  max-width: 780px !important;
+  margin: 0 auto 28px !important;
+  text-align: center !important;
+}
+
+/* ── ABOUT PAGE: MISSION & STANDARDS CARDS ── */
+.hp-about-card-box {
+  background: var(--fnx-card);
+  border: 1.5px solid var(--fnx-border);
+  border-radius: var(--fnx-radius);
+  padding: 36px 32px;
+  box-shadow: var(--fnx-shadow-sm);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.hp-about-card-box:hover {
+  transform: translateY(-3px);
+  border-color: var(--fnx-primary);
+  box-shadow: var(--fnx-shadow-md);
+}
+.hp-about-card-box h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--fnx-ink);
+}
+.hp-about-card-box p {
+  font-size: 0.9375rem;
+  color: var(--fnx-body);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── ABOUT PAGE: CORE EDITORIAL PILLARS (grid-4) ── */
+.pillar-card {
+  background: var(--fnx-card);
+  border: 1.5px solid var(--fnx-border);
+  border-radius: var(--fnx-radius);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--fnx-shadow-sm);
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.pillar-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--fnx-primary);
+  box-shadow: var(--fnx-shadow-md);
+}
+.pillar-icon {
+  font-size: 1.75rem;
+  margin-bottom: 12px;
+  display: block;
+}
+.pillar-card h4 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--fnx-ink);
+}
+.pillar-card p {
+  font-size: 0.84375rem;
+  color: var(--fnx-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── SERVICES PAGE: PROCESS STEPS (grid-4) ── */
+.hp-process-step {
+  background: var(--fnx-card);
+  border: 1.5px solid var(--fnx-border);
+  border-radius: var(--fnx-radius);
+  padding: 28px 24px;
+  position: relative;
+  box-shadow: var(--fnx-shadow-sm);
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.hp-process-step:hover {
+  transform: translateY(-4px);
+  border-color: var(--fnx-primary);
+  box-shadow: var(--fnx-shadow-md);
+}
+.step-num {
+  font-family: var(--fnx-font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--fnx-primary);
+  opacity: 0.85;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+.hp-process-step h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--fnx-ink);
+}
+.hp-process-step p {
+  font-size: 0.84375rem;
+  color: var(--fnx-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── CONTACT PAGE: ENHANCED FORM STYLING ── */
+.fnx-contact-page .hp-contact-box {
+  background: var(--fnx-card);
+  border: 1.5px solid var(--fnx-border);
+  border-radius: var(--fnx-radius-lg);
+  padding: clamp(28px, 4vw, 48px);
+  box-shadow: var(--fnx-shadow-md);
+}
+.fnx-contact-page input,
+.fnx-contact-page select,
+.fnx-contact-page textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--fnx-radius-sm);
+  border: 1.5px solid var(--fnx-border);
+  background: var(--fnx-surface);
+  color: var(--fnx-ink);
+  font-size: 0.9375rem;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.fnx-contact-page input:focus,
+.fnx-contact-page select:focus,
+.fnx-contact-page textarea:focus {
+  outline: none;
+  border-color: var(--fnx-primary);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+}
+
+
 
