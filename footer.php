@@ -8,27 +8,30 @@
   <div class="container"><?php dynamic_sidebar('fnx-before-footer'); ?></div>
 </section>
 <?php else: ?>
-<section class="fnx-newsletter-banner">
+<section class="fnx-newsletter-banner" id="newsletter-section">
   <div class="container">
     <div class="newsletter-inner">
       <div class="newsletter-text">
         <div class="newsletter-eyebrow">✉️ <?php _e('Free Newsletter', 'foundnxt'); ?></div>
         <h2 class="newsletter-heading"><?php echo esc_html(get_theme_mod('fnx_newsletter_heading', __("Get the next big idea before it's big.", 'foundnxt'))); ?></h2>
         <p class="newsletter-sub"><?php echo esc_html(get_theme_mod('fnx_newsletter_sub', __('Join smart founders, builders, and innovators getting the sharpest insights on startups, tech, and growth — straight to their inbox.', 'foundnxt'))); ?></p>
-        <p class="newsletter-note"><?php _e('No spam, just signal.', 'foundnxt'); ?></p>
+        <p class="newsletter-note">✓ <?php _e('Free weekly executive brief. No spam, ever.', 'foundnxt'); ?></p>
       </div>
       <div class="newsletter-form">
-        <div class="newsletter-form-title"><?php _e('Join Smart Readers', 'foundnxt'); ?></div>
+        <div class="newsletter-form-title"><?php _e('Join 10,000+ Founders & Leaders', 'foundnxt'); ?></div>
         <div class="fnx-fluent-form-wrap">
           <?php if (shortcode_exists('fluentform')): ?>
             <?php echo do_shortcode('[fluentform id="7"]'); ?>
           <?php else: ?>
-            <form class="fnx-newsletter-fallback-form" method="post" action="#">
-              <input type="email" name="fnx_newsletter_email" placeholder="<?php esc_attr_e('Enter your email', 'foundnxt'); ?>" required>
-              <button type="submit"><?php _e('Subscribe', 'foundnxt'); ?></button>
+            <form class="fnx-newsletter-fallback-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+              <input type="hidden" name="action" value="fnx_lead_submit">
+              <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+              <input type="hidden" name="lead_type" value="Footer Newsletter Signup">
+              <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
+              <button type="submit" class="btn-primary"><?php _e('Subscribe Free', 'foundnxt'); ?> →</button>
             </form>
           <?php endif; ?>
-          <p class="subscribe-privacy"><?php _e('Free forever. No spam. Unsubscribe in one click.', 'foundnxt'); ?></p>
+          <p class="subscribe-privacy">🔒 <?php _e('Free forever. Unsubscribe in one click.', 'foundnxt'); ?></p>
         </div>
       </div>
     </div>
