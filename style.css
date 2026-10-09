@@ -20,6 +20,11 @@ Tags:        blog, startups, funding, business, dark-mode, custom-colors, custom
 :root {
   /* Brand Colors & Gradients */
   --fnx-primary:        #4F46E5; /* Electric Indigo */
+  --fnx-primary-dark:   #3730A3;
+  --fnx-primary-mid:    #4338CA;
+  --fnx-primary-light:  #EEF2FF;
+  --fnx-primary-border: #C7D2FE;
+  --fnx-primary-hover:  #4338CA;
   --fnx-secondary:      #7C3AED; /* Vibrant Violet */
   --fnx-accent-coral:   #FF6B6B; /* Coral */
   --fnx-accent-teal:    #14B8A6; /* Teal */
@@ -92,6 +97,11 @@ body[data-mode="dark"],
 body.dark,
 html.dark body,
 html[data-theme="dark"] body {
+  --fnx-primary-dark:   #312E81;
+  --fnx-primary-mid:    #4338CA;
+  --fnx-primary-light:  rgba(79, 70, 229, 0.18);
+  --fnx-primary-border: rgba(99, 102, 241, 0.35);
+  --fnx-primary-hover:  #6366F1;
   --fnx-ink:          #E2E8F0;
   --fnx-body:         #CBD5E1;
   --fnx-muted:        #94A3B8;
@@ -112,6 +122,11 @@ html[data-theme="dark"] body {
 
 @media (prefers-color-scheme: dark) {
   body:not(.light-mode):not([data-theme="light"]):not([data-mode="light"]) {
+    --fnx-primary-dark:   #312E81;
+    --fnx-primary-mid:    #4338CA;
+    --fnx-primary-light:  rgba(79, 70, 229, 0.18);
+    --fnx-primary-border: rgba(99, 102, 241, 0.35);
+    --fnx-primary-hover:  #6366F1;
     --fnx-ink:          #E2E8F0;
     --fnx-body:         #CBD5E1;
     --fnx-muted:        #94A3B8;
@@ -365,3 +380,19 @@ button, .btn {
   transition: top .2s;
 }
 .skip-link:focus { top: 0; }
+
+/* Header Subscribe Button */
+.header-subscribe-btn {
+  padding: 0.5em 1.25em;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .header-subscribe-btn {
+    display: none;
+  }
+}
+
