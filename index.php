@@ -348,160 +348,252 @@
     </div>
   </section>
 
-  <!-- ── 9. ABOUT SNIPPET SECTION ── -->
-  <section class="hp-block hp-about-snippet">
+  <!-- ── 9. ABOUT SNIPPET SECTION (Bento Split Card) ── -->
+  <section class="hp-block hp-about-v2-section">
     <div class="container">
-      <div class="hp-about-snippet-card fnx-reveal">
-        <span class="hp-about-badge">⚡ <?php _e('About FoundNXT', 'foundnxt'); ?></span>
-        <h2 class="hp-about-h2"><?php _e('Independent Intelligence for Founders & Leaders', 'foundnxt'); ?></h2>
-        <p class="hp-about-p">
-          <?php _e('FoundNXT is an independent business and technology publication helping founders and leaders understand markets, technology, and growth.', 'foundnxt'); ?>
-        </p>
-        <a href="<?php echo esc_url(home_url('/about/')); ?>" class="btn-outline">
-          <?php _e('Learn More About FoundNXT', 'foundnxt'); ?> →
-        </a>
+      <div class="hp-about-v2-card fnx-reveal">
+        <div class="hp-about-v2-grid">
+          <div class="hp-about-v2-info">
+            <span class="hp-sec-tag-pill">⚡ <?php _e('About FoundNXT', 'foundnxt'); ?></span>
+            <h2 class="hp-about-v2-title"><?php _e('Independent Intelligence for Founders & Leaders', 'foundnxt'); ?></h2>
+            <p class="hp-about-v2-desc">
+              <?php _e('FoundNXT is an independent business and technology publication. We translate complex corporate finance, startup valuation, enterprise AI, and market shifts into clear, practical frameworks so founders can scale faster and build bigger.', 'foundnxt'); ?>
+            </p>
+            <div class="hp-about-v2-stats">
+              <div class="hp-about-stat-pill">
+                <span class="stat-dot stat-dot--indigo"></span>
+                <strong>100% Free</strong> Intelligence
+              </div>
+              <div class="hp-about-stat-pill">
+                <span class="stat-dot stat-dot--coral"></span>
+                <strong>Zero</strong> Jargon Walls
+              </div>
+              <div class="hp-about-stat-pill">
+                <span class="stat-dot stat-dot--emerald"></span>
+                <strong>8 Core</strong> Pillars
+              </div>
+            </div>
+          </div>
+          <div class="hp-about-v2-cta-box">
+            <div class="hp-about-v2-quote-icon">“</div>
+            <p class="hp-about-v2-quote-text">
+              <?php _e('Where founders find what is next in business, strategy, and technology.', 'foundnxt'); ?>
+            </p>
+            <a href="<?php echo esc_url(home_url('/about/')); ?>" class="btn-primary hp-about-v2-btn">
+              <?php _e('Learn More About FoundNXT', 'foundnxt'); ?> →
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ── 10. TOOLS COMING SOON ── -->
-  <section class="hp-block hp-tools-coming-soon">
+  <!-- ── 10. TOOLS COMING SOON (Interactive Tool Lab) ── -->
+  <section class="hp-block hp-tools-v2-section">
     <div class="container">
-      <div class="hp-tools-card fnx-reveal">
-        <span class="hp-tools-badge">🛠️ <?php _e('Coming Soon', 'foundnxt'); ?></span>
-        <h2 class="hp-tools-h2"><?php _e('Founder Tools & Calculators', 'foundnxt'); ?></h2>
-        <p class="hp-tools-sub"><?php _e('Interactive decision-making tools built specifically for founders and operators:', 'foundnxt'); ?></p>
-        
-        <div class="hp-tools-list">
-          <div class="hp-tool-item">
-            <span class="tool-icon">🧮</span>
-            <strong>Startup Valuation Calculator</strong>
+      <div class="hp-tools-v2-card fnx-reveal">
+        <div class="hp-sec-header text-center">
+          <span class="hp-sec-tag-pill hp-sec-tag-pill--amber">🛠️ <?php _e('Coming Soon', 'foundnxt'); ?></span>
+          <h2 class="hp-tools-v2-title"><?php _e('Interactive Founder Tools & Calculators', 'foundnxt'); ?></h2>
+          <p class="hp-tools-v2-sub"><?php _e('We are building free, data-driven decision tools designed specifically for startup operators:', 'foundnxt'); ?></p>
+        </div>
+
+        <div class="hp-tools-v2-grid">
+          <!-- Tool Card 1 -->
+          <div class="hp-tool-card-v2 tool-card--valuation">
+            <div class="tool-card-badge">DCF & Multiples</div>
+            <div class="tool-card-icon">🧮</div>
+            <h3 class="tool-card-title"><?php _e('Startup Valuation Calculator', 'foundnxt'); ?></h3>
+            <p class="tool-card-desc"><?php _e('Benchmark pre-money valuations using revenue multiples, ARR growth rates, and stage data.', 'foundnxt'); ?></p>
+            <span class="tool-card-status">⚡ <?php _e('In Private Beta', 'foundnxt'); ?></span>
           </div>
-          <div class="hp-tool-item">
-            <span class="tool-icon">🤖</span>
-            <strong>AI Cost Savings Calculator</strong>
+
+          <!-- Tool Card 2 -->
+          <div class="hp-tool-card-v2 tool-card--ai">
+            <div class="tool-card-badge">ROI Estimator</div>
+            <div class="tool-card-icon">🤖</div>
+            <h3 class="tool-card-title"><?php _e('AI Cost Savings Calculator', 'foundnxt'); ?></h3>
+            <p class="tool-card-desc"><?php _e('Calculate net annual savings and payback periods when automating operational workflows.', 'foundnxt'); ?></p>
+            <span class="tool-card-status">⚡ <?php _e('In Development', 'foundnxt'); ?></span>
           </div>
-          <div class="hp-tool-item">
-            <span class="tool-icon">📊</span>
-            <strong>Market Size Estimator</strong>
+
+          <!-- Tool Card 3 -->
+          <div class="hp-tool-card-v2 tool-card--market">
+            <div class="tool-card-badge">TAM / SAM / SOM</div>
+            <div class="tool-card-icon">📊</div>
+            <h3 class="tool-card-title"><?php _e('Market Size Estimator', 'foundnxt'); ?></h3>
+            <p class="tool-card-desc"><?php _e('Bottom-up market sizing framework to build defensible pitch deck TAM estimates.', 'foundnxt'); ?></p>
+            <span class="tool-card-status">⚡ <?php _e('Coming Q3 2026', 'foundnxt'); ?></span>
           </div>
         </div>
 
-        <form class="hp-tools-access-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-          <input type="hidden" name="action" value="fnx_lead_submit">
-          <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-          <input type="hidden" name="lead_type" value="Tools Early Access Sign Up">
-          <div class="tools-input-wrap">
-            <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email for early access...', 'foundnxt'); ?>" required>
-            <button type="submit" class="btn-primary"><?php _e('Get Early Access', 'foundnxt'); ?></button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 11. NEWSLETTER SECTION ── -->
-  <section class="hp-block hp-newsletter-section" id="newsletter-section">
-    <div class="container">
-      <div class="hp-newsletter-card fnx-reveal">
-        <div class="hp-newsletter-content">
-          <span class="hp-nl-badge">✉️ <?php _e('Weekly Brief', 'foundnxt'); ?></span>
-          <h2 class="hp-nl-h2"><?php _e('Get the sharpest business insights every week', 'foundnxt'); ?></h2>
-          <p class="hp-nl-sub"><?php _e('Practical playbooks on business strategy, valuation, AI, marketing, and global expansion delivered every Monday morning.', 'foundnxt'); ?></p>
-          
-          <form class="hp-nl-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+        <div class="hp-tools-v2-access-wrap">
+          <form class="hp-tools-access-form-v2" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden" name="action" value="fnx_lead_submit">
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-            <input type="hidden" name="lead_type" value="Homepage Newsletter Signup">
-            <div class="nl-input-wrap">
-              <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your founder email...', 'foundnxt'); ?>" required>
-              <button type="submit" class="btn-primary"><?php _e('Subscribe Free', 'foundnxt'); ?> →</button>
+            <input type="hidden" name="lead_type" value="Tools Early Access Sign Up">
+            <div class="tools-input-group-v2">
+              <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email for early access access…', 'foundnxt'); ?>" required>
+              <button type="submit" class="btn-primary tools-submit-btn-v2"><?php _e('Get Early Access', 'foundnxt'); ?> →</button>
             </div>
-            <p class="nl-privacy">✓ <?php _e('Free forever. No spam. Unsubscribe in one click.', 'foundnxt'); ?></p>
+            <p class="tools-note-v2">🔒 <?php _e('Early access members receive free calculator templates first.', 'foundnxt'); ?></p>
           </form>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── 12. UNIFIED CONTACT FORM SECTION (Target for Enquiry Buttons) ── -->
-  <section class="hp-block hp-contact-section" id="contact">
-    <div class="container container-narrow">
-      <div class="hp-contact-box fnx-reveal">
-        <div class="hp-contact-head text-center">
-          <h2><?php _e('Get in Touch with', 'foundnxt'); ?> <em><?php _e('FoundNXT', 'foundnxt'); ?></em></h2>
-          <p><?php _e('Tell us about your requirement — our advisory team replies within 24–48 hours.', 'foundnxt'); ?></p>
+  <!-- ── 11. NEWSLETTER SECTION (Executive Brief Spotlight) ── -->
+  <section class="hp-block hp-nl-v2-section" id="newsletter-section">
+    <div class="container">
+      <div class="hp-nl-v2-spotlight fnx-reveal">
+        <div class="hp-nl-v2-grid">
+          <div class="hp-nl-v2-text">
+            <span class="hp-sec-tag-pill hp-sec-tag-pill--violet">✉️ <?php _e('Weekly Executive Brief', 'foundnxt'); ?></span>
+            <h2 class="hp-nl-v2-title"><?php _e('Get the sharpest business insights every week', 'foundnxt'); ?></h2>
+            <p class="hp-nl-v2-sub"><?php _e('Practical playbooks on business strategy, valuation, AI, marketing, and global expansion delivered straight to your inbox.', 'foundnxt'); ?></p>
+            
+            <ul class="hp-nl-v2-checklist">
+              <li>
+                <span class="check-icon">✓</span>
+                <span><?php _e('Delivered every Monday morning at 7:00 AM EST', 'foundnxt'); ?></span>
+              </li>
+              <li>
+                <span class="check-icon">✓</span>
+                <span><?php _e('Practical SaaS benchmarks, AI roadmaps & valuation formulas', 'foundnxt'); ?></span>
+              </li>
+              <li>
+                <span class="check-icon">✓</span>
+                <span><?php _e('Join 10,000+ startup founders, operators & investors', 'foundnxt'); ?></span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="hp-nl-v2-form-card">
+            <div class="nl-card-header">
+              <span class="nl-card-icon">⚡</span>
+              <h3><?php _e('Subscribe to FoundNXT Brief', 'foundnxt'); ?></h3>
+            </div>
+            <form class="hp-nl-form-v2" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+              <input type="hidden" name="action" value="fnx_lead_submit">
+              <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+              <input type="hidden" name="lead_type" value="Homepage Newsletter Signup">
+              <div class="nl-input-group-v2">
+                <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your founder email…', 'foundnxt'); ?>" required>
+                <button type="submit" class="btn-primary nl-submit-btn-v2"><?php _e('Subscribe Free', 'foundnxt'); ?> →</button>
+              </div>
+              <p class="nl-privacy-v2">🔒 <?php _e('Free forever. No spam. Unsubscribe in one click.', 'foundnxt'); ?></p>
+            </form>
+          </div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <?php
-        if (isset($_GET['fnx_lead']) && $_GET['fnx_lead'] === 'success') {
-          echo '<div class="hp-contact-alert hp-contact-alert--ok" role="status">✓ ' . esc_html__('Thank you! Your message has been received. We will get back to you shortly.', 'foundnxt') . '</div>';
-        }
-        ?>
+  <!-- ── 12. UNIFIED CONTACT FORM SECTION (Executive Advisory Suite) ── -->
+  <section class="hp-block hp-contact-v2-section" id="contact">
+    <div class="container">
+      <div class="hp-contact-v2-wrapper fnx-reveal">
+        <div class="hp-contact-v2-grid">
+          <!-- Left Column: Contact Positioning -->
+          <div class="hp-contact-v2-side">
+            <span class="hp-sec-tag-pill hp-sec-tag-pill--indigo">💬 <?php _e('Executive Advisory', 'foundnxt'); ?></span>
+            <h2 class="hp-contact-v2-title"><?php _e('Get in Touch with', 'foundnxt'); ?> <span class="text-gradient"><?php _e('FoundNXT', 'foundnxt'); ?></span></h2>
+            <p class="hp-contact-v2-lead">
+              <?php _e('Have a custom market research request, valuation inquiry, tech strategy audit, or partnership proposal? Fill out the form — our advisory team responds within 24–48 hours.', 'foundnxt'); ?>
+            </p>
 
-        <form class="hp-lead-contact-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>#contact">
-          <input type="hidden" name="action" value="fnx_lead_submit">
-          <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-          <input type="hidden" name="lead_type" value="Contact Form Submission">
-          
-          <!-- Honeypot -->
-          <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" autocomplete="off">
-
-          <div class="form-row grid-2">
-            <div class="form-group">
-              <label for="lead_name"><?php _e('Name *', 'foundnxt'); ?></label>
-              <input type="text" id="lead_name" name="lead_name" placeholder="<?php esc_attr_e('Jordan Lee', 'foundnxt'); ?>" required>
-            </div>
-            <div class="form-group">
-              <label for="lead_email"><?php _e('Work Email *', 'foundnxt'); ?></label>
-              <input type="email" id="lead_email" name="lead_email" placeholder="<?php esc_attr_e('jordan@company.com', 'foundnxt'); ?>" required>
-            </div>
-          </div>
-
-          <div class="form-row grid-2">
-            <div class="form-group">
-              <label for="lead_company"><?php _e('Company / Website (Optional)', 'foundnxt'); ?></label>
-              <input type="text" id="lead_company" name="lead_company" placeholder="<?php esc_attr_e('https://yourcompany.com', 'foundnxt'); ?>">
-            </div>
-            <div class="form-group">
-              <label for="lead_stage"><?php _e('Company Stage or Size', 'foundnxt'); ?></label>
-              <select id="lead_stage" name="lead_stage">
-                <option value="Early Stage / Seed"><?php _e('Early Stage / Seed', 'foundnxt'); ?></option>
-                <option value="Growth / Series A+"><?php _e('Growth / Series A+', 'foundnxt'); ?></option>
-                <option value="Scaleup"><?php _e('Scaleup', 'foundnxt'); ?></option>
-                <option value="Enterprise / Established"><?php _e('Enterprise / Established', 'foundnxt'); ?></option>
-              </select>
+            <div class="hp-contact-v2-features">
+              <div class="hp-contact-feat-item">
+                <div class="feat-icon">⚡</div>
+                <div>
+                  <strong><?php _e('24–48 Hour Response', 'foundnxt'); ?></strong>
+                  <p><?php _e('Direct access to our senior research & strategy team.', 'foundnxt'); ?></p>
+                </div>
+              </div>
+              <div class="hp-contact-feat-item">
+                <div class="feat-icon">🔒</div>
+                <div>
+                  <strong><?php _e('Strict Confidentiality', 'foundnxt'); ?></strong>
+                  <p><?php _e('Your company data and details remain 100% private.', 'foundnxt'); ?></p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="lead_help"><?php _e('What do you need help with?', 'foundnxt'); ?></label>
-            <select id="lead_help" name="lead_help">
-              <option value="Market Research Request"><?php _e('Market Research Request', 'foundnxt'); ?></option>
-              <option value="Valuation Guidance"><?php _e('Valuation Guidance', 'foundnxt'); ?></option>
-              <option value="Tech & AI Strategy"><?php _e('Tech & AI Strategy', 'foundnxt'); ?></option>
-              <option value="Marketing Help"><?php _e('Marketing & Growth Help', 'foundnxt'); ?></option>
-              <option value="Partnerships"><?php _e('Partnerships & Sponsored Content', 'foundnxt'); ?></option>
-              <option value="Other"><?php _e('Other Inquiry', 'foundnxt'); ?></option>
-            </select>
-          </div>
+          <!-- Right Column: Contact Form -->
+          <div class="hp-contact-v2-form-box">
+            <?php
+            if (isset($_GET['fnx_lead']) && $_GET['fnx_lead'] === 'success') {
+              echo '<div class="hp-contact-alert hp-contact-alert--ok" role="status">✓ ' . esc_html__('Thank you! Your enquiry has been received. Our team will contact you shortly.', 'foundnxt') . '</div>';
+            }
+            ?>
 
-          <div class="form-group">
-            <label for="lead_message"><?php _e('Message *', 'foundnxt'); ?></label>
-            <textarea id="lead_message" name="lead_message" rows="4" placeholder="<?php esc_attr_e('Tell us about your company, requirements, or questions...', 'foundnxt'); ?>" required></textarea>
-          </div>
+            <form class="hp-lead-contact-form-v2" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>#contact">
+              <input type="hidden" name="action" value="fnx_lead_submit">
+              <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+              <input type="hidden" name="lead_type" value="Contact Form Submission">
+              
+              <!-- Honeypot -->
+              <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" autocomplete="off">
 
-          <div class="form-group form-checkbox-group">
-            <label class="checkbox-label">
-              <input type="checkbox" name="lead_consent" required checked>
-              <span><?php _e('I consent to FoundNXT processing my details to respond to my enquiry.', 'foundnxt'); ?></span>
-            </label>
-          </div>
+              <div class="form-row-v2 grid-2">
+                <div class="form-group-v2">
+                  <label for="lead_name"><?php _e('Name *', 'foundnxt'); ?></label>
+                  <input type="text" id="lead_name" name="lead_name" placeholder="<?php esc_attr_e('Jordan Lee', 'foundnxt'); ?>" required>
+                </div>
+                <div class="form-group-v2">
+                  <label for="lead_email"><?php _e('Work Email *', 'foundnxt'); ?></label>
+                  <input type="email" id="lead_email" name="lead_email" placeholder="<?php esc_attr_e('jordan@company.com', 'foundnxt'); ?>" required>
+                </div>
+              </div>
 
-          <button type="submit" class="btn-primary form-submit-btn">
-            <?php _e('Submit Enquiry', 'foundnxt'); ?> →
-          </button>
-        </form>
+              <div class="form-row-v2 grid-2">
+                <div class="form-group-v2">
+                  <label for="lead_company"><?php _e('Company / Website (Optional)', 'foundnxt'); ?></label>
+                  <input type="text" id="lead_company" name="lead_company" placeholder="<?php esc_attr_e('https://yourcompany.com', 'foundnxt'); ?>">
+                </div>
+                <div class="form-group-v2">
+                  <label for="lead_stage"><?php _e('Company Stage or Size', 'foundnxt'); ?></label>
+                  <select id="lead_stage" name="lead_stage">
+                    <option value="Early Stage / Seed"><?php _e('Early Stage / Seed', 'foundnxt'); ?></option>
+                    <option value="Growth / Series A+"><?php _e('Growth / Series A+', 'foundnxt'); ?></option>
+                    <option value="Scaleup"><?php _e('Scaleup', 'foundnxt'); ?></option>
+                    <option value="Enterprise / Established"><?php _e('Enterprise / Established', 'foundnxt'); ?></option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group-v2">
+                <label for="lead_help"><?php _e('What do you need help with?', 'foundnxt'); ?></label>
+                <select id="lead_help" name="lead_help">
+                  <option value="Market Research Request"><?php _e('Market Research Request', 'foundnxt'); ?></option>
+                  <option value="Valuation Guidance"><?php _e('Valuation Guidance', 'foundnxt'); ?></option>
+                  <option value="Tech & AI Strategy"><?php _e('Tech & AI Strategy', 'foundnxt'); ?></option>
+                  <option value="Marketing Help"><?php _e('Marketing & Growth Help', 'foundnxt'); ?></option>
+                  <option value="Partnerships"><?php _e('Partnerships & Sponsored Content', 'foundnxt'); ?></option>
+                  <option value="Other"><?php _e('Other Inquiry', 'foundnxt'); ?></option>
+                </select>
+              </div>
+
+              <div class="form-group-v2">
+                <label for="lead_message"><?php _e('Message *', 'foundnxt'); ?></label>
+                <textarea id="lead_message" name="lead_message" rows="4" placeholder="<?php esc_attr_e('Tell us about your company, requirements, or questions...', 'foundnxt'); ?>" required></textarea>
+              </div>
+
+              <div class="form-group-v2 form-checkbox-group-v2">
+                <label class="checkbox-label-v2">
+                  <input type="checkbox" name="lead_consent" required checked>
+                  <span><?php _e('I consent to FoundNXT processing my details to respond to my enquiry.', 'foundnxt'); ?></span>
+                </label>
+              </div>
+
+              <button type="submit" class="btn-primary form-submit-btn-v2">
+                <?php _e('Submit Enquiry', 'foundnxt'); ?> →
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </section>
