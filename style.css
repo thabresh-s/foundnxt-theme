@@ -1280,20 +1280,30 @@ body[data-theme="dark"] .fnx-newsletter-banner {
 }
 
 .fnx-newsletter-fallback-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .fnx-newsletter-fallback-form input[type="email"] {
-  width: 100%;
-  padding: 13px 20px !important;
+  width: 100% !important;
+  height: 48px !important;
+  max-height: 48px !important;
+  min-height: 48px !important;
+  line-height: 48px !important;
+  padding: 0 20px !important;
+  box-sizing: border-box !important;
   border-radius: 100px !important;
   border: 1.5px solid var(--fnx-border) !important;
   background: var(--fnx-surface) !important;
   color: var(--fnx-ink) !important;
   font-size: 0.9375rem !important;
-  transition: border-color .2s ease, box-shadow .2s ease;
+  font-family: var(--fnx-font-body) !important;
+  outline: none !important;
+  flex: none !important;
 }
 
 .fnx-newsletter-fallback-form input[type="email"]:focus {
@@ -1302,9 +1312,15 @@ body[data-theme="dark"] .fnx-newsletter-banner {
   box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15) !important;
 }
 
-.fnx-newsletter-fallback-form button[type="submit"] {
-  width: 100%;
-  padding: 13px !important;
+.fnx-newsletter-fallback-form button[type="submit"],
+.fnx-newsletter-fallback-form button {
+  width: 100% !important;
+  height: 48px !important;
+  max-height: 48px !important;
+  min-height: 48px !important;
+  line-height: 48px !important;
+  padding: 0 24px !important;
+  box-sizing: border-box !important;
   border-radius: 100px !important;
   font-size: 0.9375rem !important;
   font-weight: 700 !important;
@@ -1315,11 +1331,17 @@ body[data-theme="dark"] .fnx-newsletter-banner {
   box-shadow: var(--fnx-shadow-primary) !important;
   cursor: pointer !important;
   transition: transform .22s ease, box-shadow .22s ease !important;
+  flex: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.fnx-newsletter-fallback-form button[type="submit"]:hover {
+.fnx-newsletter-fallback-form button[type="submit"]:hover,
+.fnx-newsletter-fallback-form button:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 10px 30px -4px rgba(79, 70, 229, 0.45) !important;
+  color: #ffffff !important;
 }
 
 .subscribe-privacy {
