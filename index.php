@@ -19,30 +19,11 @@
   <!-- ── 2. HERO SECTION ── -->
   <section class="hp-block hp-hero-v2">
     <div class="hp-hero-bg" aria-hidden="true">
-      <span class="hp-hero-blob hp-hero-blob--1"></span>
-      <span class="hp-hero-blob hp-hero-blob--2"></span>
-      <span class="hp-hero-blob hp-hero-blob--3"></span>
-      <svg class="hp-hero-grid" width="100%" height="100%" preserveAspectRatio="none">
-        <defs>
-          <pattern id="hpDotGrid" width="28" height="28" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.5" fill="currentColor" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#hpDotGrid)" />
-      </svg>
+      <div class="hp-hero-ambient-glow"></div>
     </div>
 
     <div class="container">
       <div class="hp-hero-content text-center">
-        <!-- Floating Topic Badges -->
-        <div class="hp-hero-floating-chips" aria-hidden="true">
-          <span class="hp-hero-chip chip--indigo">Business Strategy</span>
-          <span class="hp-hero-chip chip--coral">Startups & Funding</span>
-          <span class="hp-hero-chip chip--teal">Valuation & Finance</span>
-          <span class="hp-hero-chip chip--violet">Technology & AI</span>
-          <span class="hp-hero-chip chip--amber">Markets & Economy</span>
-        </div>
-
         <span class="hp-eyebrow hp-eyebrow--nxt">
           <span class="hp-eyebrow-dot" aria-hidden="true"></span>
           <span class="hp-eyebrow-shimmer"><?php _e('Business, Markets & Technology: Explained for Founders and Leaders', 'foundnxt'); ?></span>
@@ -57,18 +38,13 @@
         </p>
 
         <div class="hp-hero-cta-row flex-center">
-          <a href="#newsletter-section" class="btn-primary hp-hero-cta-btn">
-            <?php _e('Get the Free Weekly Brief', 'foundnxt'); ?> →
+          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="btn-primary hp-hero-cta-btn">
+            <?php _e('Explore Articles', 'foundnxt'); ?> →
           </a>
-          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="btn-outline hp-hero-cta-btn">
-            <?php _e('Explore Articles', 'foundnxt'); ?>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <a href="<?php echo esc_url(home_url('/tools/')); ?>" class="btn-outline hp-hero-cta-btn">
+            🛠️ <?php _e('Tech & Tools Stack', 'foundnxt'); ?>
           </a>
         </div>
-
-        <p class="hp-trust-line">
-          ✓ <?php _e('Free weekly insights. No spam.', 'foundnxt'); ?>
-        </p>
       </div>
     </div>
   </section>

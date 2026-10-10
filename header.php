@@ -75,30 +75,6 @@
 <?php wp_body_open(); ?>
 <a class="skip-link" href="#main-content"><?php _e('Skip to content', 'foundnxt'); ?></a>
 
-<!-- TOP ANNOUNCEMENT BAR -->
-<?php if (get_theme_mod('fnx_topbar_enabled', true)): ?>
-<div class="fnx-topbar" id="fnx-topbar" role="region" aria-label="<?php esc_attr_e('Latest articles ticker', 'foundnxt'); ?>">
-  <div class="topbar-inner">
-    <span class="topbar-label">📰 <?php _e("What's New?", 'foundnxt'); ?></span>
-    <div class="topbar-ticker" aria-hidden="true">
-      <div class="ticker-track" id="ticker-track">
-        <?php
-        $ticker_posts = get_posts(['posts_per_page' => 8, 'post_status' => 'publish']);
-        $ticker_html  = '';
-        foreach ($ticker_posts as $p) {
-            $ticker_html .= '<a href="' . esc_url(get_permalink($p->ID)) . '" class="ticker-item" tabindex="-1">'
-                          . esc_html(get_the_title($p->ID)) . '</a>';
-        }
-        echo $ticker_html . $ticker_html;
-        wp_reset_postdata();
-        ?>
-      </div>
-    </div>
-    <button class="topbar-close" id="topbar-close" aria-label="<?php esc_attr_e('Close announcement bar', 'foundnxt'); ?>">✕</button>
-  </div>
-</div>
-<?php endif; ?>
-
 <!-- MAIN HEADER / NAV -->
 <header class="fnx-header" id="fnx-header" role="banner">
   <div class="header-inner container">
@@ -174,25 +150,6 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
 
-      <!-- Google Translate Toggle -->
-      <div class="fnx-translate-wrap" id="fnx-translate-wrap">
-        <button class="action-btn translate-btn" id="translate-toggle"
-          aria-label="<?php esc_attr_e('Translate this page', 'foundnxt'); ?>"
-          aria-expanded="false" aria-controls="fnx-translate-dropdown">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
-            <path d="M5 8l6 6"/>
-            <path d="m4 14 6-6 2-3"/>
-            <path d="M2 5h12"/>
-            <path d="M7 2h1"/>
-            <path d="m22 22-5-10-5 10"/>
-            <path d="M14 18h6"/>
-          </svg>
-        </button>
-        <div class="fnx-translate-dropdown" id="fnx-translate-dropdown" aria-hidden="true">
-          <!-- Language list injected by JS -->
-        </div>
-      </div>
-
       <!-- Dark Mode Toggle -->
       <?php if (get_theme_mod('fnx_dark_mode_toggle', true)): ?>
       <button class="action-btn dark-toggle" id="dark-toggle"
@@ -202,8 +159,8 @@
       </button>
       <?php endif; ?>
 
-      <!-- Header Gradient Subscribe Button -->
-      <a href="#newsletter-section" class="btn-primary header-subscribe-btn"><?php _e('Subscribe', 'foundnxt'); ?></a>
+      <!-- Header Modern Action CTA -->
+      <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary header-cta-btn"><?php _e('Get in Touch', 'foundnxt'); ?> →</a>
 
       <!-- Mobile Menu Toggle -->
       <button class="action-btn mobile-toggle" id="mobile-toggle"
