@@ -3475,7 +3475,7 @@ body[data-theme="dark"] .logo-light { display: none !important; }
    ABOUT PAGE  (page-about.php)
    ============================================================ */
 
-.fnx-about-page { padding: 40px 0 80px; }
+.fnx-about-page { padding: clamp(16px, 2.5vw, 32px) 0 clamp(24px, 4vw, 48px); }
 
 /* ── Shared section scaffolding ── */
 .about-section { margin-bottom: 48px; }
@@ -11303,88 +11303,90 @@ body { top: 0 !important; }
   flex-direction: column !important;
   align-items: center !important;
   text-align: center !important;
-  max-width: 860px !important;
-  margin: 0 auto 48px !important;
-  padding: 32px 0 20px !important;
+  max-width: 820px !important;
+  margin: 0 auto clamp(20px, 3.5vw, 36px) !important;
+  padding: clamp(12px, 2vw, 24px) 0 0 !important;
   border-bottom: none !important;
   grid-template-columns: none !important;
 }
 .about-h1 {
-  font-size: clamp(2.2rem, 4.5vw, 3.5rem) !important;
+  font-size: clamp(2rem, 4vw, 3.2rem) !important;
   font-weight: 800 !important;
-  color: var(--fnx-ink) !important;
+  color: var(--text, var(--fnx-ink)) !important;
   line-height: 1.15 !important;
-  letter-spacing: -0.03em !important;
-  margin: 0 0 16px !important;
+  letter-spacing: -0.025em !important;
+  margin: 0 0 12px !important;
   text-align: center !important;
 }
 .about-lead {
-  font-size: clamp(1.05rem, 2vw, 1.25rem) !important;
-  color: var(--fnx-body) !important;
-  line-height: 1.65 !important;
-  max-width: 780px !important;
-  margin: 0 auto 28px !important;
+  font-size: clamp(1rem, 1.8vw, 1.15rem) !important;
+  color: var(--muted, var(--fnx-body)) !important;
+  line-height: 1.6 !important;
+  max-width: 720px !important;
+  margin: 0 auto !important;
   text-align: center !important;
 }
 
 /* ── ABOUT PAGE: MISSION & STANDARDS CARDS ── */
 .hp-about-card-box {
-  background: var(--fnx-card);
-  border: 1.5px solid var(--fnx-border);
-  border-radius: var(--fnx-radius);
-  padding: 36px 32px;
-  box-shadow: var(--fnx-shadow-sm);
+  background: var(--surface, var(--fnx-card));
+  border: 1px solid var(--border, var(--fnx-border));
+  border-radius: var(--radius-lg, var(--fnx-radius));
+  padding: clamp(20px, 3vw, 28px);
+  box-shadow: var(--shadow-sm, var(--fnx-shadow-sm));
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 .hp-about-card-box:hover {
   transform: translateY(-3px);
-  border-color: var(--fnx-primary);
-  box-shadow: var(--fnx-shadow-md);
+  border-color: color-mix(in srgb, var(--brand, var(--fnx-primary)) 40%, var(--border, var(--fnx-border)));
+  box-shadow: var(--shadow-md, var(--fnx-shadow-md));
 }
 .hp-about-card-box h3 {
-  font-size: 1.35rem;
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
   font-weight: 700;
-  margin-bottom: 12px;
-  color: var(--fnx-ink);
+  margin-bottom: 10px;
+  color: var(--text, var(--fnx-ink));
 }
 .hp-about-card-box p {
   font-size: 0.9375rem;
-  color: var(--fnx-body);
-  line-height: 1.65;
+  color: var(--muted, var(--fnx-body));
+  line-height: 1.6;
   margin: 0;
 }
 
 /* ── ABOUT PAGE: CORE EDITORIAL PILLARS (grid-4) ── */
 .pillar-card {
-  background: var(--fnx-card);
-  border: 1.5px solid var(--fnx-border);
-  border-radius: var(--fnx-radius);
-  padding: 24px 20px;
+  background: var(--surface, var(--fnx-card));
+  border: 1px solid var(--border, var(--fnx-border));
+  border-radius: var(--radius-md, var(--fnx-radius));
+  padding: clamp(16px, 2vw, 20px);
   display: flex;
   flex-direction: column;
-  box-shadow: var(--fnx-shadow-sm);
+  box-shadow: var(--shadow-sm, var(--fnx-shadow-sm));
   transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
 }
 .pillar-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--fnx-primary);
-  box-shadow: var(--fnx-shadow-md);
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--brand, var(--fnx-primary)) 45%, var(--border, var(--fnx-border)));
+  box-shadow: var(--shadow-md, var(--fnx-shadow-md));
 }
 .pillar-icon {
-  font-size: 1.75rem;
-  margin-bottom: 12px;
-  display: block;
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  display: inline-block;
+  line-height: 1;
 }
 .pillar-card h4 {
-  font-size: 1.0625rem;
+  font-size: 1.025rem;
   font-weight: 700;
-  margin-bottom: 8px;
-  color: var(--fnx-ink);
+  margin-bottom: 6px;
+  color: var(--text, var(--fnx-ink));
+  line-height: 1.25;
 }
 .pillar-card p {
-  font-size: 0.84375rem;
-  color: var(--fnx-muted);
-  line-height: 1.55;
+  font-size: 0.84rem;
+  color: var(--muted, var(--fnx-muted));
+  line-height: 1.5;
   margin: 0;
 }
 
