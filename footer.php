@@ -76,17 +76,13 @@
           <?php if ($i === 1): ?>
             <h4 class="footer-col-title"><?php _e('Categories', 'foundnxt'); ?></h4>
             <ul class="footer-links">
-              <?php $cats = get_categories(['number' => 8, 'orderby' => 'count', 'order' => 'DESC', 'hide_empty' => true, 'exclude' => [1]]);
-              if (!empty($cats)):
-                foreach ($cats as $cat): ?>
-                  <li><a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"><?php echo esc_html($cat->name); ?> <span>(<?php echo $cat->count; ?>)</span></a></li>
-                <?php endforeach;
-              else: ?>
-                <li><a href="<?php echo esc_url(home_url('/category/startups-funding/')); ?>"><?php _e('Startups & Funding', 'foundnxt'); ?></a></li>
-                <li><a href="<?php echo esc_url(home_url('/category/technology-ai/')); ?>"><?php _e('Technology & AI', 'foundnxt'); ?></a></li>
-                <li><a href="<?php echo esc_url(home_url('/category/business-strategy/')); ?>"><?php _e('Business Strategy', 'foundnxt'); ?></a></li>
-                <li><a href="<?php echo esc_url(home_url('/category/valuation-finance/')); ?>"><?php _e('Valuation & Finance', 'foundnxt'); ?></a></li>
-              <?php endif; ?>
+              <?php foreach (fnx_get_primary_categories() as $pcat): ?>
+                <li>
+                  <a href="<?php echo esc_url($pcat['url']); ?>">
+                    <?php echo esc_html($pcat['name']); ?>
+                  </a>
+                </li>
+              <?php endforeach; ?>
             </ul>
           <?php elseif ($i === 2): ?>
             <h4 class="footer-col-title"><?php _e('Navigation', 'foundnxt'); ?></h4>

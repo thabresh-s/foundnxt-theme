@@ -1285,4 +1285,69 @@ function fnx_auto_setup_v2() {
 add_action('after_setup_theme', 'fnx_auto_setup_v2', 99);
 add_action('admin_init',        'fnx_auto_setup_v2', 99);
 
+/**
+ * Primary categories source of truth:
+ * Startups & Funding, Tech & AI, Scaling, Valuation, Markets, News, Careers & Growth
+ */
+function fnx_get_primary_categories() {
+    return [
+        [
+            'name'  => __('Startups & Funding', 'foundnxt'),
+            'slug'  => 'startups-funding',
+            'url'   => home_url('/category/startups-funding/'),
+            'color' => '#8b5cf6',
+            'badge' => '01 / PILLAR',
+            'desc'  => __('From pitch decks and VC term sheets to cap table models and fundraising mechanics for early-stage and growth founders.', 'foundnxt'),
+        ],
+        [
+            'name'  => __('Tech & AI', 'foundnxt'),
+            'slug'  => 'technology-ai',
+            'url'   => home_url('/category/technology-ai/'),
+            'color' => '#00d4aa',
+            'badge' => '02',
+            'desc'  => __('Enterprise AI workflows, LLM agents, and software architecture decisions.', 'foundnxt'),
+        ],
+        [
+            'name'  => __('Scaling', 'foundnxt'),
+            'slug'  => 'business-strategy',
+            'url'   => home_url('/category/business-strategy/'),
+            'color' => '#ff7a45',
+            'badge' => '03',
+            'desc'  => __('SaaS operational metrics, unit economics, and team governance frameworks.', 'foundnxt'),
+        ],
+        [
+            'name'  => __('Valuation', 'foundnxt'),
+            'slug'  => 'valuation-finance',
+            'url'   => home_url('/category/valuation-finance/'),
+            'color' => '#3b82f6',
+            'badge' => '04',
+            'desc'  => __('Discounted cash flows, multiples analysis, and 409A benchmarks for founders.', 'foundnxt'),
+        ],
+        [
+            'name'  => __('Markets', 'foundnxt'),
+            'slug'  => 'markets-economy',
+            'url'   => home_url('/category/markets-economy/'),
+            'color' => '#10b981',
+            'badge' => '05',
+            'desc'  => __('Interest rates, macroeconomic cycles, and venture capital liquidity trends.', 'foundnxt'),
+        ],
+        [
+            'name'  => __('News', 'foundnxt'),
+            'slug'  => 'news-insights',
+            'url'   => home_url('/category/news-insights/'),
+            'color' => '#ec4899',
+            'badge' => '06',
+            'desc'  => __('Curated executive briefings distilling market signals, funding rounds, and scaling updates.', 'foundnxt'),
+        ],
+        [
+            'name'  => __('Careers & Growth', 'foundnxt'),
+            'slug'  => 'marketing-growth',
+            'url'   => home_url('/category/marketing-growth/'),
+            'color' => '#f59e0b',
+            'badge' => '07',
+            'desc'  => __('0-to-1 customer acquisition, product-led growth, and executive hiring.', 'foundnxt'),
+        ],
+    ];
+}
+
 

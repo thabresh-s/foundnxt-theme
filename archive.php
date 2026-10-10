@@ -175,6 +175,9 @@ endif;
     </div>
     <?php endif; ?>
 
+    <!-- Category Filter Bar (Above Post Grid) -->
+    <?php get_template_part('template-parts/category-filter-bar'); ?>
+
     <div class="archive-layout">
 
       <!-- MAIN POSTS -->

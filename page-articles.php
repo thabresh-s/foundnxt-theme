@@ -86,18 +86,8 @@ echo '<script type="application/ld+json">' . wp_json_encode($bc) . '</script>' .
       </div>
     </div>
 
-    <!-- CATEGORY FILTER STRIP -->
-    <nav class="apv2-filter" aria-label="Filter by category">
-      <div class="apv2-filter-scroll">
-        <a href="<?php echo esc_url($page_url); ?>" class="apv2-fchip<?php echo (!$active_cat && !$search_query) ? ' active' : ''; ?>"><span class="apv2-fchip-icon">✦</span> All</a>
-        <?php
-        foreach ($all_cats as $cat): $icon = $cat_icons[$cat->slug] ?? '📌'; ?>
-        <a href="<?php echo esc_url(add_query_arg('cat', $cat->slug, $page_url)); ?>" class="apv2-fchip<?php echo ($active_cat_slug === $cat->slug) ? ' active' : ''; ?>">
-          <span class="apv2-fchip-icon"><?php echo $icon; ?></span><?php echo esc_html($cat->name); ?><span class="apv2-fchip-count"><?php echo (int) $cat->count; ?></span>
-        </a>
-        <?php endforeach; ?>
-      </div>
-    </nav>
+    <!-- CATEGORY FILTER STRIP (Above Post Grid) -->
+    <?php get_template_part('template-parts/category-filter-bar'); ?>
 
     <!-- MAIN TWO-COLUMN LAYOUT -->
     <div class="apv2-layout">

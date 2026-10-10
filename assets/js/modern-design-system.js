@@ -244,6 +244,72 @@
     });
   }
 
+  // ── 9. OFF-CANVAS MOBILE DRAWER TOGGLE ──
+  function initMobileNav() {
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileClose = document.getElementById('mobile-close');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+
+    if (!mobileToggle || !mobileNav) return;
+
+    function openNav() {
+      mobileNav.classList.add('open', 'is-open');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      mobileToggle.setAttribute('aria-expanded', 'true');
+      if (mobileOverlay) {
+        mobileOverlay.classList.add('open', 'is-active');
+        mobileOverlay.setAttribute('aria-hidden', 'false');
+      }
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeNav() {
+      mobileNav.classList.remove('open', 'is-open');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+      if (mobileOverlay) {
+        mobileOverlay.classList.remove('open', 'is-active');
+        mobileOverlay.setAttribute('aria-hidden', 'true');
+      }
+      document.body.style.overflow = '';
+      mobileToggle.focus();
+    }
+
+    mobileToggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      openNav();
+    });
+
+    if (mobileClose) {
+      mobileClose.addEventListener('click', function (e) {
+        e.preventDefault();
+        closeNav();
+      });
+    }
+
+    if (mobileOverlay) {
+      mobileOverlay.addEventListener('click', function (e) {
+        e.preventDefault();
+        closeNav();
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && (mobileNav.classList.contains('open') || mobileNav.classList.contains('is-open'))) {
+        closeNav();
+      }
+    });
+
+    // Close on navigation link click
+    const navLinks = mobileNav.querySelectorAll('.mobile-menu-link:not(.mobile-categories-summary), .mobile-sublink, .mobile-cta-btn');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        closeNav();
+      });
+    });
+  }
+
   // DOMContentLoaded initialization
   function initAll() {
     initTopBanner();
@@ -254,6 +320,7 @@
     initReadingProgress();
     initThemeToggle();
     initMobileTOC();
+    initMobileNav();
   }
 
   if (document.readyState === 'loading') {

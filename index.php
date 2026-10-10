@@ -127,117 +127,35 @@
       </div>
 
       <div class="bento-grid">
-        <!-- Tile 1: Startups & Funding (Large Feature Tile) -->
-        <a href="<?php echo esc_url(home_url('/category/startups-funding/')); ?>" class="bento-tile bento-tile-1">
-          <div class="bento-icon-row">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"/></svg>
-            </div>
-            <span class="bento-number">01 / PILLAR</span>
-          </div>
-          <div>
-            <h3 class="bento-title"><?php _e('Startups & Funding Playbooks', 'foundnxt'); ?></h3>
-            <p class="bento-desc"><?php _e('From pitch decks and VC term sheets to cap table models and fundraising mechanics for early-stage and growth founders.', 'foundnxt'); ?></p>
-          </div>
-        </a>
+        <?php 
+        $bento_cats = fnx_get_primary_categories();
+        $bento_icons = [
+          'startups-funding'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"/></svg>',
+          'technology-ai'     => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/></svg>',
+          'business-strategy' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+          'valuation-finance' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+          'markets-economy'   => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
+          'news-insights'     => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M18 18h-8M18 10h-8"/></svg>',
+          'marketing-growth'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+        ];
 
-        <!-- Tile 2: Tech & Architecture -->
-        <a href="<?php echo esc_url(home_url('/category/technology-ai/')); ?>" class="bento-tile bento-tile-2">
-          <div class="bento-icon-row">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/></svg>
+        foreach ($bento_cats as $idx => $bcat):
+          $tile_num = $idx + 1;
+          $tile_icon = $bento_icons[$bcat['slug']] ?? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>';
+        ?>
+          <a href="<?php echo esc_url($bcat['url']); ?>" class="bento-tile bento-tile-<?php echo $tile_num; ?>">
+            <div class="bento-icon-row">
+              <div class="bento-icon">
+                <?php echo $tile_icon; ?>
+              </div>
+              <span class="bento-number"><?php echo esc_html($bcat['badge']); ?></span>
             </div>
-            <span class="bento-number">02</span>
-          </div>
-          <div>
-            <h3 class="bento-title"><?php _e('Tech & AI Stack', 'foundnxt'); ?></h3>
-            <p class="bento-desc"><?php _e('Enterprise AI workflows, LLM agents, and software architecture decisions.', 'foundnxt'); ?></p>
-          </div>
-        </a>
-
-        <!-- Tile 3: Scaling & Strategy -->
-        <a href="<?php echo esc_url(home_url('/category/business-strategy/')); ?>" class="bento-tile bento-tile-3">
-          <div class="bento-icon-row">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <div>
+              <h3 class="bento-title"><?php echo esc_html($bcat['name']); ?></h3>
+              <p class="bento-desc"><?php echo esc_html($bcat['desc']); ?></p>
             </div>
-            <span class="bento-number">03</span>
-          </div>
-          <div>
-            <h3 class="bento-title"><?php _e('Scaling Frameworks', 'foundnxt'); ?></h3>
-            <p class="bento-desc"><?php _e('SaaS operational metrics, unit economics, and team governance.', 'foundnxt'); ?></p>
-          </div>
-        </a>
-
-        <!-- Tile 4: Careers & Growth -->
-        <a href="<?php echo esc_url(home_url('/category/marketing-growth/')); ?>" class="bento-tile bento-tile-4">
-          <div class="bento-icon-row">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            </div>
-            <span class="bento-number">04</span>
-          </div>
-          <div>
-            <h3 class="bento-title"><?php _e('Growth Levers', 'foundnxt'); ?></h3>
-            <p class="bento-desc"><?php _e('0-to-1 customer acquisition, product-led growth, and executive hiring.', 'foundnxt'); ?></p>
-          </div>
-        </a>
-
-        <!-- Tile 5: AI Workflows -->
-        <a href="<?php echo esc_url(home_url('/category/technology-ai/')); ?>" class="bento-tile bento-tile-5">
-          <div class="bento-icon-row">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"/></svg>
-            </div>
-            <span class="bento-number">05</span>
-          </div>
-          <div>
-            <h3 class="bento-title"><?php _e('Applied AI Systems', 'foundnxt'); ?></h3>
-            <p class="bento-desc"><?php _e('Automating business processes with cutting-edge AI architectures.', 'foundnxt'); ?></p>
-          </div>
-        </a>
-
-        <!-- Tile 6: Markets & Economy -->
-        <a href="<?php echo esc_url(home_url('/category/markets-economy/')); ?>" class="bento-tile bento-tile-6">
-          <div class="bento-icon-row">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-            </div>
-            <span class="bento-number">06</span>
-          </div>
-          <div>
-            <h3 class="bento-title"><?php _e('Market Macro', 'foundnxt'); ?></h3>
-            <p class="bento-desc"><?php _e('Interest rates, sector cycles, and venture capital liquidity trends.', 'foundnxt'); ?></p>
-          </div>
-        </a>
-
-        <!-- Tile 7: Valuation & Finance -->
-        <a href="<?php echo esc_url(home_url('/category/valuation-finance/')); ?>" class="bento-tile bento-tile-7">
-          <div class="bento-icon-row">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </div>
-            <span class="bento-number">07</span>
-          </div>
-          <div>
-            <h3 class="bento-title"><?php _e('Valuation Guidance', 'foundnxt'); ?></h3>
-            <p class="bento-desc"><?php _e('Discounted cash flows, multiples analysis, and 409A standards.', 'foundnxt'); ?></p>
-          </div>
-        </a>
-
-        <!-- Tile 8: News & Intel (Wide Tile) -->
-        <a href="<?php echo esc_url(home_url('/category/news-insights/')); ?>" class="bento-tile bento-tile-8">
-          <div class="bento-icon-row">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M18 18h-8M18 10h-8"/></svg>
-            </div>
-            <span class="bento-number">08 / INTELLIGENCE</span>
-          </div>
-          <div>
-            <h3 class="bento-title"><?php _e('Executive Briefs & Industry Updates', 'foundnxt'); ?></h3>
-            <p class="bento-desc"><?php _e('Curated weekly dispatches distilling market signals, venture capital rounds, and scaling playbooks.', 'foundnxt'); ?></p>
-          </div>
-        </a>
+          </a>
+        <?php endforeach; ?>
       </div>
     </div>
   </section>

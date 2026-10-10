@@ -75,7 +75,7 @@
 <?php wp_body_open(); ?>
 <a class="skip-link" href="#main-content"><?php _e('Skip to content', 'foundnxt'); ?></a>
 
-<!-- ── TOP "WHAT'S NEW?" BANNER (Slim, Dismissible, Height Reserved) ── -->
+<!-- ── TOP ANNOUNCEMENT BANNER (Centered Text, Pinned Close Button, Shared 72rem Container) ── -->
 <aside class="fnx-top-banner" id="fnx-top-banner" aria-label="<?php esc_attr_e('Announcement', 'foundnxt'); ?>">
   <div class="top-banner-inner container">
     <div class="top-banner-content">
@@ -89,11 +89,11 @@
   </div>
 </aside>
 
-<!-- MAIN HEADER / NAV -->
+<!-- MAIN HEADER (3-Column Grid: Logo | Centered Links | Actions) -->
 <header class="fnx-header" id="fnx-header" role="banner">
   <div class="header-inner container">
 
-    <!-- Logo: Single accessible brand element (no duplicate image downloads) -->
+    <!-- Column 1: Logo -->
     <div class="header-logo">
       <?php
       $custom_logo_id = get_theme_mod('custom_logo');
@@ -119,52 +119,47 @@
       <?php endif; ?>
     </div>
 
-    <!-- Primary Nav -->
-    <nav class="header-nav" id="primary-nav" role="navigation" aria-label="<?php esc_attr_e('Primary', 'foundnxt'); ?>">
-      <?php
-      if (has_nav_menu('primary')) {
-        wp_nav_menu([
-          'theme_location' => 'primary',
-          'container'      => false,
-          'menu_class'     => 'nav-menu',
-          'fallback_cb'    => false,
-          'walker'         => new FNX_Nav_Walker(),
-        ]);
-      } else {
-        echo '<ul class="nav-menu">';
-        echo '<li><a href="' . esc_url(home_url('/')) . '">' . __('Home', 'foundnxt') . '</a></li>';
-        echo '<li><a href="' . esc_url(home_url('/articles/')) . '">' . __('Articles', 'foundnxt') . '</a></li>';
+    <!-- Column 2: Centered Links with Categories Dropdown -->
+    <nav class="header-nav" id="primary-nav" role="navigation" aria-label="<?php esc_attr_e('Primary Navigation', 'foundnxt'); ?>">
+      <ul class="nav-menu">
+        <li><a href="<?php echo esc_url(home_url('/')); ?>"><?php _e('Home', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Articles', 'foundnxt'); ?></a></li>
         
-        // Categories Dropdown
-        echo '<li class="menu-item-has-children"><a href="' . esc_url(home_url('/articles/')) . '">' . __('Categories', 'foundnxt') . ' <span class="dropdown-arrow">▾</span></a>';
-        echo '<ul class="sub-menu">';
-        $hdr_cats = get_categories(['orderby' => 'name', 'order' => 'ASC', 'hide_empty' => false, 'exclude' => [1]]);
-        foreach ($hdr_cats as $cat) {
-          $c_color = fnx_get_category_color($cat->slug);
-          echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '"><span class="cat-menu-dot" style="background:' . esc_attr($c_color) . '"></span>' . esc_html($cat->name) . '</a></li>';
-        }
-        echo '</ul></li>';
+        <!-- Categories Dropdown (7 Unified Categories) -->
+        <li class="menu-item-has-children has-dropdown">
+          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="nav-parent-link" aria-haspopup="true" aria-expanded="false">
+            <?php _e('Categories', 'foundnxt'); ?>
+            <svg class="nav-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <ul class="sub-menu" role="menu">
+            <?php foreach (fnx_get_primary_categories() as $pcat): ?>
+              <li role="none">
+                <a href="<?php echo esc_url($pcat['url']); ?>" role="menuitem">
+                  <span class="cat-menu-dot" style="background:<?php echo esc_attr($pcat['color']); ?>"></span>
+                  <span><?php echo esc_html($pcat['name']); ?></span>
+                </a>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        </li>
 
-        echo '<li><a href="' . esc_url(home_url('/tools/')) . '">' . __('Tools', 'foundnxt') . '</a></li>';
-        echo '<li><a href="' . esc_url(home_url('/services/')) . '">' . __('Services', 'foundnxt') . '</a></li>';
-        echo '<li><a href="' . esc_url(home_url('/about/')) . '">' . __('About', 'foundnxt') . '</a></li>';
-        echo '<li><a href="' . esc_url(home_url('/contact/')) . '">' . __('Contact', 'foundnxt') . '</a></li>';
-        echo '</ul>';
-      }
-      ?>
+        <li><a href="<?php echo esc_url(home_url('/tools/')); ?>"><?php _e('Tools', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Services', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact', 'foundnxt'); ?></a></li>
+      </ul>
     </nav>
 
-    <!-- Header Actions -->
+    <!-- Column 3: Actions (Search, Theme Toggle, "Get In Touch" button, and Mobile Hamburger) -->
     <div class="header-actions">
-
-      <!-- Single Search Trigger (Opens Overlay with Focus Trap) -->
+      <!-- Search Trigger (Accessible Overlay with Focus Trap) -->
       <button class="action-btn search-btn" id="search-toggle"
         aria-label="<?php esc_attr_e('Open search', 'foundnxt'); ?>"
         aria-expanded="false" aria-controls="fnx-search-modal">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
 
-      <!-- Dark Mode Toggle -->
+      <!-- Theme Toggle -->
       <?php if (get_theme_mod('fnx_dark_mode_toggle', true)): ?>
       <button class="action-btn dark-toggle" id="dark-toggle"
         aria-label="<?php esc_attr_e('Toggle dark mode', 'foundnxt'); ?>">
@@ -173,10 +168,10 @@
       </button>
       <?php endif; ?>
 
-      <!-- Header Modern Action CTA -->
-      <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary header-cta-btn"><?php _e('Get in Touch', 'foundnxt'); ?> →</a>
+      <!-- Desktop Action CTA: "Get In Touch" Button -->
+      <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary header-cta-btn"><?php _e('Get In Touch', 'foundnxt'); ?> →</a>
 
-      <!-- Mobile Menu Toggle (min 44x44px) -->
+      <!-- Mobile Hamburger (Visible under 900px, 44x44px minimum tap target) -->
       <button class="action-btn mobile-toggle" id="mobile-toggle"
         aria-label="<?php esc_attr_e('Open menu', 'foundnxt'); ?>"
         aria-expanded="false" aria-controls="mobile-nav">
@@ -186,23 +181,9 @@
           <span class="burger"></span>
         </span>
       </button>
-
     </div>
+
   </div>
-
-  <!-- Category Chip Bar (Startups, Tech, Scaling, Careers, AI, Markets, News) -->
-  <nav class="fnx-category-chip-bar" aria-label="<?php esc_attr_e('Topic categories', 'foundnxt'); ?>">
-    <div class="category-chip-scroll container">
-      <a href="<?php echo esc_url(home_url('/category/startups-funding/')); ?>" class="cat-chip cat-chip--startups"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Startups', 'foundnxt'); ?></a>
-      <a href="<?php echo esc_url(home_url('/category/technology-ai/')); ?>" class="cat-chip cat-chip--tech"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Tech', 'foundnxt'); ?></a>
-      <a href="<?php echo esc_url(home_url('/category/business-strategy/')); ?>" class="cat-chip cat-chip--scaling"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Scaling', 'foundnxt'); ?></a>
-      <a href="<?php echo esc_url(home_url('/category/technology-ai/')); ?>" class="cat-chip cat-chip--ai"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('AI', 'foundnxt'); ?></a>
-      <a href="<?php echo esc_url(home_url('/category/markets-economy/')); ?>" class="cat-chip cat-chip--markets"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Markets', 'foundnxt'); ?></a>
-      <a href="<?php echo esc_url(home_url('/category/valuation-finance/')); ?>" class="cat-chip cat-chip--valuation"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Valuation', 'foundnxt'); ?></a>
-      <a href="<?php echo esc_url(home_url('/category/news-insights/')); ?>" class="cat-chip cat-chip--news"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('News', 'foundnxt'); ?></a>
-      <a href="<?php echo esc_url(home_url('/category/marketing-growth/')); ?>" class="cat-chip cat-chip--careers"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Careers & Growth', 'foundnxt'); ?></a>
-    </div>
-  </nav>
 </header>
 
 <!-- Accessible Search Overlay with Focus Trap & Esc to Close (Single Search Element) -->
@@ -223,7 +204,7 @@
   </div>
 </div>
 
-<!-- Mobile Nav Drawer -->
+<!-- Off-Canvas Menu (< 900px Screens, 44px Minimum Tap Targets) -->
 <div class="fnx-mobile-nav" id="mobile-nav" aria-hidden="true">
   <div class="mobile-nav-inner">
     <div class="mobile-nav-header">
@@ -233,21 +214,53 @@
         </a>
       <?php else: ?>
         <a href="<?php echo $site_url; ?>" class="brand-logo-wrap" aria-label="<?php echo $site_name; ?>">
+          <span class="brand-logo-icon" aria-hidden="true" style="width:28px;height:28px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </span>
           <span class="brand-logo-main">Found<span class="brand-logo-nxt">NXT</span></span>
         </a>
       <?php endif; ?>
       <button class="mobile-close" id="mobile-close" aria-label="<?php esc_attr_e('Close menu', 'foundnxt'); ?>">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
-    <?php wp_nav_menu([
-      'theme_location' => 'primary',
-      'container'      => false,
-      'menu_class'     => 'mobile-menu',
-      'fallback_cb'    => false,
-    ]); ?>
+
+    <div class="mobile-nav-body">
+      <ul class="mobile-menu-list">
+        <li><a href="<?php echo esc_url(home_url('/')); ?>" class="mobile-menu-link"><?php _e('Home', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/articles/')); ?>" class="mobile-menu-link"><?php _e('Articles', 'foundnxt'); ?></a></li>
+        
+        <!-- Categories Collapsible Accordion (7 Unified Categories) -->
+        <li class="mobile-menu-group">
+          <details class="mobile-categories-accordion" id="mobile-categories-accordion">
+            <summary class="mobile-menu-link mobile-categories-summary">
+              <span><?php _e('Categories', 'foundnxt'); ?></span>
+              <svg class="mobile-chevron" width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <ul class="mobile-submenu-list">
+              <?php foreach (fnx_get_primary_categories() as $pcat): ?>
+                <li>
+                  <a href="<?php echo esc_url($pcat['url']); ?>" class="mobile-sublink">
+                    <span class="cat-menu-dot" style="background:<?php echo esc_attr($pcat['color']); ?>"></span>
+                    <span><?php echo esc_html($pcat['name']); ?></span>
+                  </a>
+                </li>
+              <?php endforeach; ?>
+            </ul>
+          </details>
+        </li>
+
+        <li><a href="<?php echo esc_url(home_url('/tools/')); ?>" class="mobile-menu-link"><?php _e('Tools', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/services/')); ?>" class="mobile-menu-link"><?php _e('Services', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/about/')); ?>" class="mobile-menu-link"><?php _e('About', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/contact/')); ?>" class="mobile-menu-link"><?php _e('Contact', 'foundnxt'); ?></a></li>
+      </ul>
+    </div>
+
     <div class="mobile-nav-footer">
-      <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary" style="width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;"><?php _e('Get in Touch', 'foundnxt'); ?> →</a>
+      <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary mobile-cta-btn">
+        <?php _e('Get In Touch', 'foundnxt'); ?> →
+      </a>
     </div>
   </div>
 </div>
