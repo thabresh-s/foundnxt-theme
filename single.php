@@ -363,7 +363,7 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
       <?php foreach ($related as $rp): ?>
         <a href="<?php echo esc_url(get_permalink($rp->ID)); ?>" class="related-card">
           <?php if (has_post_thumbnail($rp->ID)): ?>
-            <div class="related-thumb"><?php echo get_the_post_thumbnail($rp->ID, 'fnx-card'); ?></div>
+            <div class="related-thumb"><?php echo get_the_post_thumbnail($rp->ID, 'fnx-card', ['loading' => 'lazy', 'decoding' => 'async']); ?></div>
           <?php endif; ?>
           <div class="related-body">
             <?php $rcats = get_the_category($rp->ID); if ($rcats): ?>

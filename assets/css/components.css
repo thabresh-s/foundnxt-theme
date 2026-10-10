@@ -13166,32 +13166,47 @@ body.dark .header-nav .nav-menu > li > a:hover {
   .hp-cat-card-v2 {
     padding: 16px 14px !important;
     border-radius: 14px !important;
+    min-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
-  .cat-icon-wrap {
-    width: 40px !important;
-    height: 40px !important;
+  .hp-cat-card-icon {
+    width: 38px !important;
+    height: 38px !important;
     margin-bottom: 10px !important;
+    border-radius: 10px !important;
   }
-  .cat-icon-wrap svg {
+  .hp-cat-card-icon svg {
     width: 20px !important;
     height: 20px !important;
   }
-  .hp-cat-card-v2 h3 {
+  .hp-cat-card-title {
     font-size: 0.875rem !important;
     margin-bottom: 4px !important;
     line-height: 1.25 !important;
+    font-weight: 700 !important;
   }
-  .hp-cat-card-v2 p {
+  .hp-cat-card-desc {
     font-size: 0.75rem !important;
     line-height: 1.35 !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 10px !important;
   }
-  .cat-count-badge {
+  .hp-cat-card-foot {
+    margin-top: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  .hp-cat-count {
     font-size: 0.6875rem !important;
+    font-weight: 600 !important;
+  }
+  .hp-cat-arrow {
+    font-size: 0.75rem !important;
   }
 
   /* ── Featured & Latest Articles ── */
@@ -13203,7 +13218,18 @@ body.dark .header-nav .nav-menu > li > a:hover {
     border-radius: 16px !important;
   }
   .hp-feat-thumb {
-    max-height: 210px !important;
+    aspect-ratio: 16 / 9 !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    border-radius: 14px 14px 0 0 !important;
+    overflow: hidden !important;
+  }
+  .hp-feat-thumb img {
+    aspect-ratio: 16 / 9 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
   }
   .hp-feat-content {
     padding: 18px 16px !important;
@@ -13253,6 +13279,30 @@ body.dark .header-nav .nav-menu > li > a:hover {
     min-height: 48px !important;
     font-size: 0.9375rem !important;
     border-radius: 10px !important;
+  }
+
+  /* ── Market Pulse Strip on Mobile ── */
+  .hp-pulse-strip {
+    flex-direction: column !important;
+    padding: 14px 16px !important;
+    border-radius: 14px !important;
+    gap: 12px !important;
+    align-items: flex-start !important;
+  }
+  .hp-pulse-items {
+    gap: 10px !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+    padding-bottom: 4px !important;
+    width: 100% !important;
+  }
+  .hp-pulse-item {
+    font-size: 0.8125rem !important;
+    background: var(--fnx-bg) !important;
+    padding: 6px 14px !important;
+    border-radius: 100px !important;
+    border: 1px solid var(--fnx-border) !important;
+    white-space: nowrap !important;
   }
 
   /* ── Services Section & Services Page ── */
@@ -13322,6 +13372,15 @@ body.dark .header-nav .nav-menu > li > a:hover {
   .service-card-p {
     font-size: 0.875rem !important;
     margin-bottom: 18px !important;
+  }
+  .service-enquire-btn {
+    width: 100% !important;
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    font-size: 0.875rem !important;
   }
   .service-perks-v2 {
     margin-bottom: 20px !important;
@@ -13558,3 +13617,83 @@ body.dark .header-nav .nav-menu > li > a:hover {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ============================================================
+   EASY LOADING & MODERN MOBILE PERFORMANCE OPTIMIZATIONS
+   ============================================================ */
+
+/* 1. content-visibility for below-the-fold content: defer heavy layout calculations */
+.hp-categories-v2,
+.hp-featured-v2,
+.hp-latest-v2,
+.hp-lead-magnet-banner,
+.hp-market-pulse,
+.hp-services-v2,
+.hp-about-v2-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto none auto 420px;
+}
+
+/* 2. Cumulative Layout Shift (CLS) elimination for responsive media */
+.hp-feat-thumb,
+.post-card-thumb,
+.apv2-card-img,
+.related-thumb {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+  background: var(--fnx-border);
+}
+
+.hp-feat-thumb img,
+.post-card-thumb img,
+.apv2-card-img img,
+.related-thumb img {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 3. Instant touch responsiveness (eliminates 300ms mobile tap delay) */
+a,
+button,
+input,
+select,
+textarea,
+.hp-cat-card-v2,
+.hp-feat-card-v2,
+.post-card,
+.tool-recommend-card,
+.hp-service-card-v2,
+.btn-primary,
+.btn-outline,
+.tools-filter-pill,
+.services-quick-pill {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(79, 70, 229, 0.1);
+}
+
+/* 4. Momentum touch scrolling & swipe stability */
+.hp-pulse-items,
+.tools-filter-nav,
+.services-quick-pills,
+.topbar-ticker {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+/* 5. iOS form input zoom prevention (smooth UX on mobile focus) */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="password"],
+  input[type="search"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+

@@ -64,56 +64,56 @@
             'name'  => __('Business & Strategy', 'foundnxt'),
             'slug'  => 'business-strategy',
             'color' => '#4F46E5',
-            'desc'  => __('SaaS models, operational scaling frameworks, and corporate strategy.', 'foundnxt'),
+            'desc'  => __('SaaS models, scaling frameworks & corporate strategy.', 'foundnxt'),
             'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>'
           ],
           [
             'name'  => __('Startups & Funding', 'foundnxt'),
             'slug'  => 'startups-funding',
             'color' => '#FF6B6B',
-            'desc'  => __('Fundraising playbooks, pitch deck guides, and VC investor relations.', 'foundnxt'),
+            'desc'  => __('Fundraising playbooks, pitch decks & VC relations.', 'foundnxt'),
             'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"/></svg>'
           ],
           [
             'name'  => __('Valuation & Finance', 'foundnxt'),
             'slug'  => 'valuation-finance',
             'color' => '#14B8A6',
-            'desc'  => __('Startup valuation methods, financial modeling, and cap tables.', 'foundnxt'),
+            'desc'  => __('Startup valuation methods, financial models & cap tables.', 'foundnxt'),
             'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'
           ],
           [
             'name'  => __('Markets & Economy', 'foundnxt'),
             'slug'  => 'markets-economy',
             'color' => '#F59E0B',
-            'desc'  => __('Macroeconomic analysis, sector forecasts, and interest rate impacts.', 'foundnxt'),
+            'desc'  => __('Macro intelligence, sector trends & economic outlook.', 'foundnxt'),
             'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>'
           ],
           [
             'name'  => __('Technology & AI', 'foundnxt'),
             'slug'  => 'technology-ai',
             'color' => '#7C3AED',
-            'desc'  => __('Enterprise AI workflows, software architecture, and tech trends.', 'foundnxt'),
+            'desc'  => __('Enterprise AI workflows, software architecture & trends.', 'foundnxt'),
             'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/></svg>'
           ],
           [
             'name'  => __('Marketing & Growth', 'foundnxt'),
             'slug'  => 'marketing-growth',
             'color' => '#EC4899',
-            'desc'  => __('0-to-1 customer acquisition, technical SEO, and product-led growth.', 'foundnxt'),
+            'desc'  => __('0-to-1 customer acquisition, technical SEO & growth levers.', 'foundnxt'),
             'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>'
           ],
           [
             'name'  => __('Global Business', 'foundnxt'),
             'slug'  => 'global-business',
             'color' => '#0EA5E9',
-            'desc'  => __('International expansion, supply chain logistics, and global trade.', 'foundnxt'),
+            'desc'  => __('Cross-border expansion, supply chains & global trade.', 'foundnxt'),
             'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
           ],
           [
             'name'  => __('News & Insights', 'foundnxt'),
             'slug'  => 'news-insights',
             'color' => '#10B981',
-            'desc'  => __('Timely business intelligence digests and weekly executive roundups.', 'foundnxt'),
+            'desc'  => __('Executive briefs, curated analysis & industry intelligence.', 'foundnxt'),
             'icon'  => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M18 18h-8M18 10h-8"/></svg>'
           ],
         ];
@@ -160,7 +160,11 @@
             <article class="hp-feat-card-v2 fnx-reveal" style="--feat-color: <?php echo esc_attr($f_color); ?>;">
               <?php if (has_post_thumbnail($fp->ID)): ?>
                 <a href="<?php echo esc_url(get_permalink($fp->ID)); ?>" class="hp-feat-thumb">
-                  <?php echo get_the_post_thumbnail($fp->ID, 'fnx-card', ['alt' => esc_attr(get_the_title($fp->ID))]); ?>
+                  <?php echo get_the_post_thumbnail($fp->ID, 'fnx-card', [
+                    'alt'      => esc_attr(get_the_title($fp->ID)),
+                    'loading'  => 'lazy',
+                    'decoding' => 'async'
+                  ]); ?>
                 </a>
               <?php endif; ?>
               <div class="hp-feat-content">
@@ -170,7 +174,7 @@
                 <h3 class="hp-feat-title">
                   <a href="<?php echo esc_url(get_permalink($fp->ID)); ?>"><?php echo esc_html(get_the_title($fp->ID)); ?></a>
                 </h3>
-                <p class="hp-feat-excerpt"><?php echo esc_html(wp_trim_words(get_the_excerpt($fp->ID), 22)); ?></p>
+                <p class="hp-feat-excerpt"><?php echo esc_html(wp_trim_words(get_the_excerpt($fp->ID), 16)); ?></p>
                 <div class="hp-feat-meta">
                   <span><?php echo fnx_fmt_date($fp->post_date); ?></span>
                   <span>•</span>

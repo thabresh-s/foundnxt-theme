@@ -27,7 +27,7 @@ $accent     = $cat_colors[$color_idx];
 
     <a href="<?php the_permalink(); ?>" class="post-card-title" itemprop="headline"><?php the_title(); ?></a>
 
-    <p class="post-card-excerpt" itemprop="description"><?php echo wp_trim_words(get_the_excerpt(), 22); ?></p>
+    <p class="post-card-excerpt" itemprop="description"><?php echo wp_trim_words(get_the_excerpt(), 16); ?></p>
 
     <div class="post-card-footer">
       <div class="post-card-author">
