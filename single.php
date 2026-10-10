@@ -1,8 +1,8 @@
 <?php get_header(); ?>
 
-<!-- Reading Progress Bar -->
-<div class="fnx-progress-bar" id="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-  <div class="progress-fill" id="progress-fill"></div>
+<!-- Reading Progress Bar (Scroll-Driven CSS + JS fallback) -->
+<div class="fnx-reading-progress-track fnx-progress-bar" id="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+  <div class="fnx-reading-progress-bar progress-fill" id="progress-fill"></div>
 </div>
 
 <?php while (have_posts()): the_post(); ?>
@@ -88,7 +88,8 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
     <div class="post-layout">
 
       <!-- Article Content -->
-      <article class="post-content-wrap" id="post-content" itemscope itemtype="https://schema.org/Article">
+      <!-- Article Content (Single Column 65-72ch) -->
+      <article class="post-content-wrap single-article-container" id="post-content" itemscope itemtype="https://schema.org/Article">
         <meta itemprop="headline"       content="<?php echo esc_attr(get_the_title()); ?>">
         <meta itemprop="datePublished"  content="<?php echo get_the_date('c'); ?>">
         <meta itemprop="dateModified"   content="<?php echo get_the_modified_date('c'); ?>">
@@ -105,7 +106,20 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
         </div>
         <?php endif; ?>
 
-        <div class="post-content entry-content" itemprop="articleBody">
+        <!-- Mobile-first collapsible Table of Contents -->
+        <details class="fnx-mobile-toc" id="fnx-mobile-toc">
+          <summary class="fnx-mobile-toc-summary">
+            <span>📑 <?php _e('Table of Contents', 'foundnxt'); ?></span>
+            <span class="toc-arrow" aria-hidden="true">▾</span>
+          </summary>
+          <div class="fnx-mobile-toc-content">
+            <ul class="toc-mobile-list" id="toc-mobile-list">
+              <li><span class="toc-empty-msg"><?php _e('Loading headings…', 'foundnxt'); ?></span></li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="post-content entry-content article-body-content" itemprop="articleBody">
           <?php the_content(); ?>
         </div>
 
@@ -199,6 +213,23 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
           </div>
         </div>
         <?php endif; endif; ?>
+
+        <!-- Article End Newsletter CTA -->
+        <div class="fnx-article-newsletter-box">
+          <div class="article-nl-badge">📬 <?php _e('Weekly Executive Briefing', 'foundnxt'); ?></div>
+          <h3 class="article-nl-title"><?php _e('Scale Smarter in the AI Era', 'foundnxt'); ?></h3>
+          <p class="article-nl-sub"><?php _e('Actionable venture teardowns, market intelligence, and curated founder tools sent straight to your inbox.', 'foundnxt'); ?></p>
+          <form class="article-nl-form newsletter-fw-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+            <input type="hidden" name="action" value="fnx_lead_submit">
+            <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+            <input type="hidden" name="lead_type" value="Single Article End Newsletter CTA">
+            <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
+            <div class="article-nl-input-row">
+              <input type="email" name="lead_email" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
+              <button type="submit" class="newsletter-fw-btn"><?php _e('Get Free Access', 'foundnxt'); ?> →</button>
+            </div>
+          </form>
+        </div>
 
         <!-- Comments -->
         <?php if (comments_open() || get_comments_number()): ?>

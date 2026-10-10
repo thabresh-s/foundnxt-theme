@@ -76,43 +76,46 @@
           <?php if ($i === 1): ?>
             <h4 class="footer-col-title"><?php _e('Categories', 'foundnxt'); ?></h4>
             <ul class="footer-links">
-              <?php $cats = get_categories(['number' => 8, 'orderby' => 'name', 'order' => 'ASC', 'hide_empty' => false, 'exclude' => [1]]);
+              <?php $cats = get_categories(['number' => 8, 'orderby' => 'count', 'order' => 'DESC', 'hide_empty' => true, 'exclude' => [1]]);
               if (!empty($cats)):
                 foreach ($cats as $cat): ?>
                   <li><a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"><?php echo esc_html($cat->name); ?> <span>(<?php echo $cat->count; ?>)</span></a></li>
                 <?php endforeach;
               else: ?>
-                <li><a href="<?php echo esc_url(home_url('/category/business-strategy/')); ?>"><?php _e('Business & Strategy', 'foundnxt'); ?></a></li>
                 <li><a href="<?php echo esc_url(home_url('/category/startups-funding/')); ?>"><?php _e('Startups & Funding', 'foundnxt'); ?></a></li>
-                <li><a href="<?php echo esc_url(home_url('/category/valuation-finance/')); ?>"><?php _e('Valuation & Finance', 'foundnxt'); ?></a></li>
                 <li><a href="<?php echo esc_url(home_url('/category/technology-ai/')); ?>"><?php _e('Technology & AI', 'foundnxt'); ?></a></li>
+                <li><a href="<?php echo esc_url(home_url('/category/business-strategy/')); ?>"><?php _e('Business Strategy', 'foundnxt'); ?></a></li>
+                <li><a href="<?php echo esc_url(home_url('/category/valuation-finance/')); ?>"><?php _e('Valuation & Finance', 'foundnxt'); ?></a></li>
               <?php endif; ?>
             </ul>
           <?php elseif ($i === 2): ?>
-            <h4 class="footer-col-title"><?php _e('Pages', 'foundnxt'); ?></h4>
+            <h4 class="footer-col-title"><?php _e('Navigation', 'foundnxt'); ?></h4>
             <ul class="footer-links">
               <?php wp_nav_menu(['theme_location' => 'footer-2', 'container' => false, 'items_wrap' => '%3$s', 'fallback_cb' => false]); ?>
-              <li><a href="<?php echo esc_url(home_url('/tools/')); ?>"><?php _e('Tech & Tools Stack', 'foundnxt'); ?></a></li>
-              <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About', 'foundnxt'); ?></a></li>
-              <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Services', 'foundnxt'); ?></a></li>
+              <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Articles & Guides', 'foundnxt'); ?></a></li>
+              <li><a href="<?php echo esc_url(home_url('/tools/')); ?>"><?php _e('Tools Stack', 'foundnxt'); ?></a></li>
+              <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Advisory Services', 'foundnxt'); ?></a></li>
+              <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About FoundNXT', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact Us', 'foundnxt'); ?></a></li>
-              <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Articles', 'foundnxt'); ?></a></li>
             </ul>
           <?php else: ?>
-            <h4 class="footer-col-title"><?php _e('Latest Posts', 'foundnxt'); ?></h4>
-            <ul class="footer-recent-posts">
-              <?php $recent = get_posts(['posts_per_page' => 3, 'post_status' => 'publish']);
-              if (!empty($recent)):
-                foreach ($recent as $p): ?>
+            <?php
+            $recent = get_posts(['posts_per_page' => 3, 'post_status' => 'publish']);
+            if (!empty($recent)):
+            ?>
+              <h4 class="footer-col-title"><?php _e('Latest Posts', 'foundnxt'); ?></h4>
+              <ul class="footer-recent-posts">
+                <?php foreach ($recent as $p): ?>
                   <li>
                     <a href="<?php echo esc_url(get_permalink($p->ID)); ?>"><?php echo esc_html(get_the_title($p->ID)); ?></a>
                     <span class="post-date"><?php echo get_the_date('M j, Y', $p->ID); ?></span>
                   </li>
-                <?php endforeach; wp_reset_postdata();
-              else: ?>
-                <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Explore Articles', 'foundnxt'); ?></a></li>
-              <?php endif; ?>
-            </ul>
+                <?php endforeach; wp_reset_postdata(); ?>
+              </ul>
+            <?php else: ?>
+              <h4 class="footer-col-title"><?php _e('Executive Brief', 'foundnxt'); ?></h4>
+              <p style="font-size:0.875rem; color:var(--muted); line-height:1.55;"><?php _e('Where founders find what is next in business, venture, and software engineering.', 'foundnxt'); ?></p>
+            <?php endif; ?>
           <?php endif; ?>
         <?php endif; ?>
       </div>
@@ -133,11 +136,15 @@
   </div><!-- /.container -->
 </footer>
 
-<!-- Cookie Consent Notice -->
-<div id="fnx-cookie-banner" class="fnx-cookie-banner" role="dialog" aria-label="Cookie consent">
-  <div class="fnx-cookie-inner container">
-    <p><?php _e('We use cookies to enhance your experience and analyze traffic. By using FoundNXT, you agree to our privacy policy.', 'foundnxt'); ?> <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php _e('Learn More', 'foundnxt'); ?></a></p>
-    <button id="fnx-accept-cookies" class="btn-primary"><?php _e('Accept', 'foundnxt'); ?></button>
+<!-- Cookie Consent Notice (Accept, Decline, Preferences) -->
+<div id="fnx-cookie-consent" class="fnx-cookie-consent" role="dialog" aria-label="<?php esc_attr_e('Cookie consent', 'foundnxt'); ?>">
+  <div class="cookie-consent-text">
+    <p><?php _e('We use cookies to optimize navigation, remember your preferences, and analyze site traffic.', 'foundnxt'); ?> <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php _e('Privacy Policy', 'foundnxt'); ?></a>.</p>
+  </div>
+  <div class="cookie-actions">
+    <button type="button" id="cookie-btn-accept" class="cookie-btn cookie-btn--accept"><?php _e('Accept All', 'foundnxt'); ?></button>
+    <button type="button" id="cookie-btn-decline" class="cookie-btn cookie-btn--decline"><?php _e('Decline Non-Essential', 'foundnxt'); ?></button>
+    <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>" id="cookie-btn-pref" class="cookie-btn cookie-btn--pref"><?php _e('Preferences', 'foundnxt'); ?></a>
   </div>
 </div>
 

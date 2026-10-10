@@ -24,7 +24,7 @@ function fnx_setup() {
     // Custom SEO Title
     add_filter('pre_get_document_title', function($title) {
         if (is_front_page() || is_home()) {
-            return 'FoundNXT | Business, Markets & Technology Insights for Founders';
+            return 'FoundNXT | How to Scale Your Company in the AI Era';
         }
         return $title;
     }, 15);
@@ -101,8 +101,25 @@ function fnx_enqueue() {
     wp_enqueue_style('fnx-components', FNX_URI . '/assets/css/components.css', ['foundnxt-style'], FNX_VERSION);
     wp_enqueue_style('fnx-blocks',     FNX_URI . '/assets/css/blocks.css',     ['foundnxt-style'], FNX_VERSION);
 
+    // Modern Design System Stylesheet (v2.0.0: @layer, color-mix, light-dark, container queries)
+    wp_enqueue_style(
+        'fnx-modern-design-system',
+        FNX_URI . '/assets/css/modern-design-system.css',
+        ['foundnxt-style', 'fnx-components'],
+        '2.0.0'
+    );
+
     // Theme JS
     wp_enqueue_script('fnx-main', FNX_URI . '/assets/js/main.js', [], FNX_VERSION, true);
+
+    // Modern Design System JS (Search overlay focus trap, banner dismissal, cookie consent)
+    wp_enqueue_script(
+        'fnx-modern-design-system',
+        FNX_URI . '/assets/js/modern-design-system.js',
+        [],
+        '2.0.0',
+        true
+    );
 
     // Pass data to JS
     wp_localize_script('fnx-main', 'fnxData', [
@@ -411,8 +428,13 @@ function fnx_open_graph() {
     if (is_feed() || is_admin()) return;
 
     $type  = is_single() ? 'article' : 'website';
-    $title = is_singular() ? get_the_title() : get_bloginfo('name');
-    $desc  = is_singular() ? get_the_excerpt() : get_bloginfo('description');
+    if (is_front_page() || is_home()) {
+        $title = 'FoundNXT | How to Scale Your Company in the AI Era';
+        $desc  = 'How to scale company in AI era. Insights, playbooks, tech recommendations, and business frameworks for founders.';
+    } else {
+        $title = is_singular() ? get_the_title() : get_bloginfo('name');
+        $desc  = is_singular() ? get_the_excerpt() : get_bloginfo('description');
+    }
     $url   = is_singular() ? get_permalink() : home_url('/');
     $image = is_singular() ? get_the_post_thumbnail_url(null, 'fnx-hero') : '';
     ?>
@@ -525,16 +547,34 @@ remove_action('admin_print_scripts', 'print_emoji_detection_script');
 remove_action('wp_print_styles',     'print_emoji_styles');
 remove_action('admin_print_styles',  'print_emoji_styles');
 
-// Remove WP block library CSS if not using blocks heavily
-// Uncomment below to disable default block CSS (use only if customizing fully)
-// add_filter('should_load_separate_core_block_assets', '__return_false');
+// Remove jQuery Migrate from front-end to reduce script weight & INP
+add_action('wp_default_scripts', function ($scripts) {
+    if (!is_admin() && isset($scripts->registered['jquery'])) {
+        $script = $scripts->registered['jquery'];
+        if ($script->deps) {
+            $script->deps = array_diff($script->deps, ['jquery-migrate']);
+        }
+    }
+});
 
-// Preconnect hints
+// Remove core wp-embed script on front-end
+add_action('wp_footer', function() {
+    wp_deregister_script('wp-embed');
+});
+
+// Automatically wrap content tables in responsive overflow container
+function fnx_wrap_responsive_tables($content) {
+    if (is_admin()) return $content;
+    return preg_replace('/<table(.*?)<\/table>/is', '<div class="table-responsive-wrapper"><table$1</table></div>', $content);
+}
+add_filter('the_content', 'fnx_wrap_responsive_tables', 20);
+
+// Preconnect hints & font preload
 function fnx_preconnect() {
     echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
     echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
-    // Preload the most-used font weights to prevent FOUT on post titles
-    echo '<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,700;8..60,900&family=Inter:wght@400;500;600&family=Lora:wght@400;600&display=swap">' . "\n";
+    // Preload primary heading & body font weights to prevent layout shift & FOUT
+    echo '<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Sora:wght@600;700;800&display=swap">' . "\n";
 }
 add_action('wp_head', 'fnx_preconnect', 1);
 

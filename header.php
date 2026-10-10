@@ -75,32 +75,46 @@
 <?php wp_body_open(); ?>
 <a class="skip-link" href="#main-content"><?php _e('Skip to content', 'foundnxt'); ?></a>
 
+<!-- ── TOP "WHAT'S NEW?" BANNER (Slim, Dismissible, Height Reserved) ── -->
+<aside class="fnx-top-banner" id="fnx-top-banner" aria-label="<?php esc_attr_e('Announcement', 'foundnxt'); ?>">
+  <div class="top-banner-inner container">
+    <div class="top-banner-content">
+      <span class="top-banner-badge">✨ <?php _e("What's New", 'foundnxt'); ?></span>
+      <span class="top-banner-text">
+        <?php _e('The 2026 Founder AI Valuation & Scaling Framework is live.', 'foundnxt'); ?>
+        <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="top-banner-link"><?php _e('Explore Articles', 'foundnxt'); ?> →</a>
+      </span>
+    </div>
+    <button type="button" class="top-banner-close" id="top-banner-close" aria-label="<?php esc_attr_e('Dismiss announcement', 'foundnxt'); ?>">&times;</button>
+  </div>
+</aside>
+
 <!-- MAIN HEADER / NAV -->
 <header class="fnx-header" id="fnx-header" role="banner">
   <div class="header-inner container">
 
-    <!-- Logo: Single accessible anchor for crawlers/screen readers -->
+    <!-- Logo: Single accessible brand element (no duplicate image downloads) -->
     <div class="header-logo">
       <?php
-      $light_logo_id = get_theme_mod('custom_logo');
-      $dark_logo_id  = get_theme_mod('fnx_dark_logo');
-      $site_url      = esc_url(home_url('/'));
-      $site_name     = esc_attr(get_bloginfo('name'));
+      $custom_logo_id = get_theme_mod('custom_logo');
+      $site_url       = esc_url(home_url('/'));
+      $site_name      = esc_attr(get_bloginfo('name'));
 
-      if ($light_logo_id):
-        $light_url = wp_get_attachment_image_url($light_logo_id, 'full');
-        $dark_url  = $dark_logo_id ? wp_get_attachment_image_url($dark_logo_id, 'full') : $light_url;
+      if ($custom_logo_id):
+        $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
       ?>
-        <a href="<?php echo $site_url; ?>" class="logo-link logo-light" aria-label="FoundNXT Home">
-          <img src="<?php echo esc_url($light_url); ?>" alt="FoundNXT" width="180" height="52" loading="eager">
-        </a>
-        <a href="<?php echo $site_url; ?>" class="logo-link logo-dark" aria-hidden="true" tabindex="-1">
-          <img src="<?php echo esc_url($dark_url); ?>" alt="" width="180" height="52" loading="eager">
+        <a href="<?php echo $site_url; ?>" class="brand-logo-wrap" aria-label="<?php echo $site_name; ?> Home">
+          <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo $site_name; ?>" width="160" height="40" loading="eager" fetchpriority="high">
         </a>
       <?php else: ?>
-        <a href="<?php echo $site_url; ?>" class="logo-text" aria-label="FoundNXT Home">
-          FoundNXT
-          <span class="logo-sub"><?php bloginfo('description'); ?></span>
+        <a href="<?php echo $site_url; ?>" class="brand-logo-wrap" aria-label="<?php echo $site_name; ?> Home">
+          <span class="brand-logo-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </span>
+          <span class="brand-logo-text">
+            <span class="brand-logo-main">Found<span class="brand-logo-nxt">NXT</span></span>
+            <span class="brand-logo-sub"><?php _e('Scale in AI Era', 'foundnxt'); ?></span>
+          </span>
         </a>
       <?php endif; ?>
     </div>
@@ -143,10 +157,10 @@
     <!-- Header Actions -->
     <div class="header-actions">
 
-      <!-- Search Toggle -->
+      <!-- Single Search Trigger (Opens Overlay with Focus Trap) -->
       <button class="action-btn search-btn" id="search-toggle"
         aria-label="<?php esc_attr_e('Open search', 'foundnxt'); ?>"
-        aria-expanded="false" aria-controls="header-search">
+        aria-expanded="false" aria-controls="fnx-search-modal">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
 
@@ -162,7 +176,7 @@
       <!-- Header Modern Action CTA -->
       <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary header-cta-btn"><?php _e('Get in Touch', 'foundnxt'); ?> →</a>
 
-      <!-- Mobile Menu Toggle -->
+      <!-- Mobile Menu Toggle (min 44x44px) -->
       <button class="action-btn mobile-toggle" id="mobile-toggle"
         aria-label="<?php esc_attr_e('Open menu', 'foundnxt'); ?>"
         aria-expanded="false" aria-controls="mobile-nav">
@@ -176,44 +190,51 @@
     </div>
   </div>
 
-  <!-- Search Bar -->
-  <div class="header-search" id="header-search" aria-hidden="true" role="search">
-    <div class="search-inner container">
-      <form method="get" action="<?php echo esc_url(home_url('/')); ?>" class="search-form">
-        <label for="search-input" class="sr-only"><?php _e('Search articles', 'foundnxt'); ?></label>
-        <input type="search" name="s" id="search-input"
-          placeholder="<?php esc_attr_e('Search articles, topics…', 'foundnxt'); ?>"
-          value="<?php echo esc_attr(get_search_query()); ?>"
-          autocomplete="off">
-        <button type="submit" class="btn-primary search-submit">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <?php _e('Search', 'foundnxt'); ?>
-        </button>
-      </form>
-      <button class="search-close" id="search-close" aria-label="<?php esc_attr_e('Close search', 'foundnxt'); ?>">✕</button>
+  <!-- Category Chip Bar (Startups, Tech, Scaling, Careers, AI, Markets, News) -->
+  <nav class="fnx-category-chip-bar" aria-label="<?php esc_attr_e('Topic categories', 'foundnxt'); ?>">
+    <div class="category-chip-scroll container">
+      <a href="<?php echo esc_url(home_url('/category/startups-funding/')); ?>" class="cat-chip cat-chip--startups"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Startups', 'foundnxt'); ?></a>
+      <a href="<?php echo esc_url(home_url('/category/technology-ai/')); ?>" class="cat-chip cat-chip--tech"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Tech', 'foundnxt'); ?></a>
+      <a href="<?php echo esc_url(home_url('/category/business-strategy/')); ?>" class="cat-chip cat-chip--scaling"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Scaling', 'foundnxt'); ?></a>
+      <a href="<?php echo esc_url(home_url('/category/technology-ai/')); ?>" class="cat-chip cat-chip--ai"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('AI', 'foundnxt'); ?></a>
+      <a href="<?php echo esc_url(home_url('/category/markets-economy/')); ?>" class="cat-chip cat-chip--markets"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Markets', 'foundnxt'); ?></a>
+      <a href="<?php echo esc_url(home_url('/category/valuation-finance/')); ?>" class="cat-chip cat-chip--valuation"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Valuation', 'foundnxt'); ?></a>
+      <a href="<?php echo esc_url(home_url('/category/news-insights/')); ?>" class="cat-chip cat-chip--news"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('News', 'foundnxt'); ?></a>
+      <a href="<?php echo esc_url(home_url('/category/marketing-growth/')); ?>" class="cat-chip cat-chip--careers"><span class="cat-chip-dot" aria-hidden="true"></span><?php _e('Careers & Growth', 'foundnxt'); ?></a>
     </div>
-  </div>
+  </nav>
 </header>
+
+<!-- Accessible Search Overlay with Focus Trap & Esc to Close (Single Search Element) -->
+<div class="fnx-search-modal" id="fnx-search-modal" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e('Search', 'foundnxt'); ?>" aria-hidden="true">
+  <div class="search-modal-card">
+    <div class="search-modal-header">
+      <span class="search-modal-title"><?php _e('Search FoundNXT', 'foundnxt'); ?></span>
+      <button type="button" class="search-modal-close" id="search-modal-close" aria-label="<?php esc_attr_e('Close search', 'foundnxt'); ?>">&times;</button>
+    </div>
+    <form method="get" action="<?php echo esc_url(home_url('/')); ?>" class="search-modal-form" role="search">
+      <label for="search-modal-input" class="sr-only"><?php _e('Search articles, playbooks, frameworks', 'foundnxt'); ?></label>
+      <input type="search" name="s" id="search-modal-input" class="search-modal-input" placeholder="<?php esc_attr_e('Search articles, playbooks, tools, topics…', 'foundnxt'); ?>" value="<?php echo esc_attr(get_search_query()); ?>" autocomplete="off" required>
+      <button type="submit" class="search-modal-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span><?php _e('Search', 'foundnxt'); ?></span>
+      </button>
+    </form>
+  </div>
+</div>
 
 <!-- Mobile Nav Drawer -->
 <div class="fnx-mobile-nav" id="mobile-nav" aria-hidden="true">
   <div class="mobile-nav-inner">
     <div class="mobile-nav-header">
-      <?php
-      $light_logo_id = get_theme_mod('custom_logo');
-      $dark_logo_id  = get_theme_mod('fnx_dark_logo');
-      $site_url      = esc_url(home_url('/'));
-      $site_name     = esc_attr(get_bloginfo('name'));
-      if ($light_logo_id):
-        $light_url = wp_get_attachment_image_url($light_logo_id, 'full');
-        $dark_url  = $dark_logo_id ? wp_get_attachment_image_url($dark_logo_id, 'full') : $light_url;
-      ?>
+      <?php if ($custom_logo_id): ?>
         <a href="<?php echo $site_url; ?>" aria-label="<?php echo $site_name; ?>">
-          <img src="<?php echo esc_url($light_url); ?>" alt="<?php echo $site_name; ?>" class="mobile-logo mobile-logo-light" style="max-height:32px;width:auto;">
-          <img src="<?php echo esc_url($dark_url); ?>"  alt="<?php echo $site_name; ?>" class="mobile-logo mobile-logo-dark"  style="max-height:32px;width:auto;">
+          <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo $site_name; ?>" class="mobile-logo" style="max-height:32px;width:auto;">
         </a>
       <?php else: ?>
-        <a href="<?php echo $site_url; ?>" class="mobile-logo-text" style="font-weight:700;font-size:1.1rem;color:var(--fnx-ink);text-decoration:none;"><?php bloginfo('name'); ?></a>
+        <a href="<?php echo $site_url; ?>" class="brand-logo-wrap" aria-label="<?php echo $site_name; ?>">
+          <span class="brand-logo-main">Found<span class="brand-logo-nxt">NXT</span></span>
+        </a>
       <?php endif; ?>
       <button class="mobile-close" id="mobile-close" aria-label="<?php esc_attr_e('Close menu', 'foundnxt'); ?>">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -226,12 +247,7 @@
       'fallback_cb'    => false,
     ]); ?>
     <div class="mobile-nav-footer">
-      <form method="get" action="<?php echo esc_url(home_url('/')); ?>" role="search">
-        <label for="mobile-search" class="sr-only"><?php _e('Search', 'foundnxt'); ?></label>
-        <input type="search" name="s" id="mobile-search"
-          placeholder="<?php esc_attr_e('Search…', 'foundnxt'); ?>"
-          value="<?php echo esc_attr(get_search_query()); ?>">
-      </form>
+      <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary" style="width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;"><?php _e('Get in Touch', 'foundnxt'); ?> →</a>
     </div>
   </div>
 </div>

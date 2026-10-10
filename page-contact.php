@@ -104,8 +104,8 @@ echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCA
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
             <input type="hidden" name="lead_type" value="Contact Page Form Submission">
             
-            <!-- Honeypot -->
-            <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" autocomplete="off">
+            <!-- Honeypot (hidden properly from accessibility tree & assistive tech) -->
+            <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
 
             <div class="form-row-v2 grid-2">
               <div class="form-group-v2">
