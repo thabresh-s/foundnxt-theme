@@ -1537,6 +1537,15 @@
     display: flex;
     gap: 10px;
   }
+  @media (max-width: 540px) {
+    .newsletter-fw-form {
+      flex-direction: column;
+    }
+    .newsletter-fw-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
   .newsletter-fw-input {
     flex: 1;
     min-height: 50px;
@@ -1556,6 +1565,9 @@
     font-weight: 700;
     transition: transform 0.15s, background 0.2s;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .newsletter-fw-btn:hover {
     background: #1e293b;

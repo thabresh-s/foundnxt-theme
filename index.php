@@ -296,7 +296,7 @@
   </section>
 
   <!-- ── 8. NEWSLETTER (FULL-WIDTH GRADIENT BAND) ── -->
-  <section class="fnx-newsletter-fullwidth defer-render">
+  <section class="fnx-newsletter-fullwidth defer-render" id="newsletter-section">
     <div class="container">
       <div class="newsletter-fw-inner">
         <div class="newsletter-fw-text">
@@ -312,6 +312,7 @@
             <input type="email" name="lead_email" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Your work email…', 'foundnxt'); ?>" required>
             <button type="submit" class="newsletter-fw-btn"><?php _e('Subscribe Free', 'foundnxt'); ?> →</button>
           </form>
+          <p class="newsletter-privacy" style="margin-top: 10px; font-size: 0.8125rem; opacity: 0.9; color: #ffffff;">🔒 <?php _e('Free weekly brief. Unsubscribe in one click.', 'foundnxt'); ?></p>
         </div>
       </div>
     </div>
