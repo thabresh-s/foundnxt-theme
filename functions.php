@@ -362,6 +362,15 @@ function fnx_customizer($wp_customize) {
     // Hero Fluent Form ID
     $wp_customize->add_setting('fnx_hero_ff_id', ['default' => '1', 'sanitize_callback' => 'absint']);
     $wp_customize->add_control('fnx_hero_ff_id', ['label' => __('Hero Section: Fluent Form ID', 'foundnxt'), 'description' => __('Enter the Fluent Forms form ID to embed in the homepage hero newsletter section.', 'foundnxt'), 'section' => 'fnx_newsletter', 'type' => 'number']);
+
+    // Google Sheets Webhook URL
+    $wp_customize->add_setting('fnx_gsheet_webhook_url', ['default' => '', 'sanitize_callback' => 'esc_url_raw']);
+    $wp_customize->add_control('fnx_gsheet_webhook_url', [
+        'label'       => __('Google Sheets Webhook URL', 'foundnxt'),
+        'description' => __('Paste your Google Apps Script Web App URL to automatically sync newsletter signups and leads directly into Google Sheets.', 'foundnxt'),
+        'section'     => 'fnx_newsletter',
+        'type'        => 'url',
+    ]);
 }
 add_action('customize_register', 'fnx_customizer');
 
@@ -909,12 +918,275 @@ function fnx_handle_lead_submission() {
 
     @wp_mail($admin_email, $subject, $body, $headers);
 
+    // 3. Sync to Google Sheets if Webhook URL is configured
+    fnx_sync_lead_to_gsheets([
+        'name'      => $name,
+        'email'     => $email,
+        'lead_type' => $lead_type,
+        'phone'     => $phone,
+        'company'   => $company_site,
+        'stage'     => $company_stage,
+        'help'      => $service_help,
+        'message'   => $message,
+        'source'    => $referer,
+    ]);
+
     $referer = wp_get_referer() ?: home_url('/');
     wp_safe_redirect(add_query_arg('fnx_lead', 'success', $referer) . '#contact');
     exit;
 }
 add_action('admin_post_fnx_lead_submit',        'fnx_handle_lead_submission');
 add_action('admin_post_nopriv_fnx_lead_submit', 'fnx_handle_lead_submission');
+
+
+/* ============================================================
+   FOUNDNXT — GOOGLE SHEETS SYNC INTEGRATION
+   ============================================================ */
+
+/**
+ * Dispatch lead data to Google Sheets via Webhook URL.
+ * Supports Google Apps Script Web App, Make.com, or Zapier webhooks.
+ *
+ * @param array $lead_data
+ * @return bool|WP_Error
+ */
+function fnx_sync_lead_to_gsheets($lead_data) {
+    $webhook_url = defined('FNX_GSHEET_WEBHOOK_URL') && FNX_GSHEET_WEBHOOK_URL
+        ? FNX_GSHEET_WEBHOOK_URL
+        : get_option('fnx_gsheet_webhook_url', get_theme_mod('fnx_gsheet_webhook_url', ''));
+
+    if (empty($webhook_url) || ! filter_var($webhook_url, FILTER_VALIDATE_URL)) {
+        return false;
+    }
+
+    $payload = [
+        'timestamp' => current_time('mysql'),
+        'date'      => current_time('M j, Y H:i:s'),
+        'name'      => sanitize_text_field($lead_data['name'] ?? ''),
+        'email'     => sanitize_email($lead_data['email'] ?? ''),
+        'lead_type' => sanitize_text_field($lead_data['lead_type'] ?? 'Newsletter Signup'),
+        'phone'     => sanitize_text_field($lead_data['phone'] ?? ''),
+        'company'   => sanitize_text_field($lead_data['company'] ?? ''),
+        'stage'     => sanitize_text_field($lead_data['stage'] ?? ''),
+        'help'      => sanitize_text_field($lead_data['help'] ?? ''),
+        'message'   => sanitize_textarea_field($lead_data['message'] ?? ''),
+        'source'    => esc_url_raw($lead_data['source'] ?? home_url('/')),
+    ];
+
+    $response = wp_remote_post($webhook_url, [
+        'method'      => 'POST',
+        'timeout'     => 12,
+        'redirection' => 5,
+        'httpversion' => '1.1',
+        'headers'     => [
+            'Content-Type' => 'application/json; charset=utf-8',
+            'Accept'       => 'application/json',
+        ],
+        'body'        => wp_json_encode($payload),
+    ]);
+
+    if (is_wp_error($response)) {
+        error_log('[FoundNXT Google Sheets Error] ' . $response->get_error_message());
+        return $response;
+    }
+
+    return true;
+}
+
+/**
+ * Register Google Sheets submenu page under FoundNXT Leads CPT
+ */
+function fnx_add_gsheet_admin_page() {
+    add_submenu_page(
+        'edit.php?post_type=fnx_lead',
+        __('Google Sheets Sync', 'foundnxt'),
+        __('Google Sheets Sync', 'foundnxt'),
+        'manage_options',
+        'fnx-gsheet-sync',
+        'fnx_render_gsheet_admin_page'
+    );
+}
+add_action('admin_menu', 'fnx_add_gsheet_admin_page');
+
+/**
+ * Render Google Sheets Settings & Setup Page
+ */
+function fnx_render_gsheet_admin_page() {
+    if (! current_user_can('manage_options')) {
+        return;
+    }
+
+    $notice = '';
+
+    // Handle Form Save
+    if (isset($_POST['fnx_save_gsheet_settings']) && check_admin_referer('fnx_gsheet_settings_action', 'fnx_gsheet_nonce')) {
+        $saved_url = esc_url_raw(trim($_POST['fnx_gsheet_webhook_url'] ?? ''));
+        update_option('fnx_gsheet_webhook_url', $saved_url);
+        set_theme_mod('fnx_gsheet_webhook_url', $saved_url);
+        $notice = '<div class="notice notice-success is-dismissible"><p><strong>' . __('Settings saved successfully!', 'foundnxt') . '</strong></p></div>';
+    }
+
+    // Handle Test Connection
+    if (isset($_POST['fnx_test_gsheet_connection']) && check_admin_referer('fnx_gsheet_settings_action', 'fnx_gsheet_nonce')) {
+        $test_res = fnx_sync_lead_to_gsheets([
+            'name'      => 'FoundNXT Test Subscriber',
+            'email'     => 'test@foundnxt.com',
+            'lead_type' => 'Test Connection',
+            'phone'     => '+1 (555) 000-0000',
+            'company'   => 'FoundNXT Media',
+            'message'   => 'Test submission confirming Google Sheets sync connection is active.',
+            'source'    => admin_url('edit.php?post_type=fnx_lead&page=fnx-gsheet-sync'),
+        ]);
+
+        if (is_wp_error($test_res)) {
+            $notice = '<div class="notice notice-error is-dismissible"><p><strong>' . sprintf(__('Test failed: %s', 'foundnxt'), esc_html($test_res->get_error_message())) . '</strong></p></div>';
+        } elseif ($test_res === true) {
+            $notice = '<div class="notice notice-success is-dismissible"><p><strong>' . __('Success! A test row was sent to your Google Sheet. Check your spreadsheet now.', 'foundnxt') . '</strong></p></div>';
+        } else {
+            $notice = '<div class="notice notice-warning is-dismissible"><p><strong>' . __('Please enter a valid Google Sheets Webhook URL first.', 'foundnxt') . '</strong></p></div>';
+        }
+    }
+
+    $current_url = get_option('fnx_gsheet_webhook_url', get_theme_mod('fnx_gsheet_webhook_url', ''));
+    ?>
+    <div class="wrap" style="max-width: 960px;">
+        <h1 style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+            <span class="dashicons dashicons-spreadsheet" style="font-size: 32px; width: 32px; height: 32px; color: #10b981;"></span>
+            <?php _e('FoundNXT — Google Sheets Newsletter & Lead Sync', 'foundnxt'); ?>
+        </h1>
+
+        <?php echo $notice; ?>
+
+        <div style="background: #ffffff; border: 1px solid #ccd0d4; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 24px;">
+            <h2 style="margin-top: 0; font-size: 1.25rem;"><?php _e('1. Webhook Configuration', 'foundnxt'); ?></h2>
+            <p style="color: #64748b; font-size: 0.95rem;">
+                <?php _e('Paste your Google Apps Script Web App URL below. When visitors enter their name and email in the newsletter or contact forms, FoundNXT will immediately append a new row to your Google Sheet.', 'foundnxt'); ?>
+            </p>
+
+            <form method="post" action="">
+                <?php wp_nonce_field('fnx_gsheet_settings_action', 'fnx_gsheet_nonce'); ?>
+                <table class="form-table" role="presentation">
+                    <tbody>
+                        <tr>
+                            <th scope="row"><label for="fnx_gsheet_webhook_url"><?php _e('Google Sheets Webhook URL', 'foundnxt'); ?></label></th>
+                            <td>
+                                <input type="url" name="fnx_gsheet_webhook_url" id="fnx_gsheet_webhook_url" value="<?php echo esc_attr($current_url); ?>" class="large-text" placeholder="https://script.google.com/macros/s/AKfycbx.../exec" style="min-height: 40px; font-family: monospace;">
+                                <p class="description">
+                                    <?php _e('Enter the Web App URL generated from your Google Apps Script deployment.', 'foundnxt'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="display: flex; gap: 12px; align-items: center; margin-top: 16px;">
+                    <button type="submit" name="fnx_save_gsheet_settings" class="button button-primary button-large">
+                        <?php _e('Save Webhook URL', 'foundnxt'); ?>
+                    </button>
+                    <?php if (! empty($current_url)): ?>
+                    <button type="submit" name="fnx_test_gsheet_connection" class="button button-secondary button-large">
+                        <?php _e('Send Test Row to Google Sheet', 'foundnxt'); ?>
+                    </button>
+                    <?php endif; ?>
+                </div>
+            </form>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #ccd0d4; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 24px;">
+            <h2 style="margin-top: 0; font-size: 1.25rem;"><?php _e('2. Setup Instructions (Takes 2 Minutes)', 'foundnxt'); ?></h2>
+            <ol style="line-height: 1.8; font-size: 0.95rem; color: #1e293b;">
+                <li>Open <a href="https://sheets.new" target="_blank" rel="noopener noreferrer"><strong>Google Sheets (create a new blank sheet)</strong></a> and name it <em>FoundNXT Leads</em>.</li>
+                <li>In the top menu of your Google Sheet, click <strong>Extensions &gt; Apps Script</strong>.</li>
+                <li>Delete any default code inside the script editor, and paste the code block below.</li>
+                <li>In the top right, click <strong>Deploy &gt; New deployment</strong>.</li>
+                <li>Select type: <strong>Web app</strong> (gear icon).</li>
+                <li>Set <strong>Execute as:</strong> <em>Me (your Google account)</em> and <strong>Who has access:</strong> <em>Anyone</em>.</li>
+                <li>Click <strong>Deploy</strong>, authorize permissions, and copy the <strong>Web app URL</strong>.</li>
+                <li>Paste the URL into the box above and click <strong>Save Webhook URL</strong>!</li>
+            </ol>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #ccd0d4; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h2 style="margin: 0; font-size: 1.25rem;"><?php _e('3. Google Apps Script Code (Copy & Paste)', 'foundnxt'); ?></h2>
+                <button type="button" class="button button-secondary" id="fnx-copy-code-btn" onclick="fnxCopyAppsScript();">
+                    <span class="dashicons dashicons-admin-page" style="vertical-align: middle; margin-top: -2px;"></span> <?php _e('Copy Code', 'foundnxt'); ?>
+                </button>
+            </div>
+            <pre id="fnx-apps-script-code" style="background: #0f172a; color: #e2e8f0; padding: 18px; border-radius: 6px; font-size: 13px; line-height: 1.6; overflow-x: auto; font-family: 'JetBrains Mono', Consolas, monospace; user-select: all;">function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    
+    // Auto-create header row if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "Timestamp",
+        "Name",
+        "Email",
+        "Lead Type",
+        "Phone / Mobile",
+        "Company / Website",
+        "Stage",
+        "Help Topic",
+        "Message",
+        "Source Page"
+      ]);
+      sheet.getRange(1, 1, 1, 10)
+        .setFontWeight("bold")
+        .setBackground("#6d5efc")
+        .setFontColor("#ffffff");
+      sheet.setFrozenRows(1);
+    }
+    
+    // Parse incoming JSON data
+    var data = {};
+    if (e && e.postData && e.postData.contents) {
+      data = JSON.parse(e.postData.contents);
+    } else if (e && e.parameter) {
+      data = e.parameter;
+    }
+    
+    sheet.appendRow([
+      data.timestamp || new Date().toLocaleString(),
+      data.name || "",
+      data.email || "",
+      data.lead_type || "Newsletter Signup",
+      data.phone || "",
+      data.company || "",
+      data.stage || "",
+      data.help || "",
+      data.message || "",
+      data.source || ""
+    ]);
+    
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "success", message: "Saved to Google Sheet" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}</pre>
+        </div>
+    </div>
+    <script>
+    function fnxCopyAppsScript() {
+        var code = document.getElementById('fnx-apps-script-code').innerText;
+        navigator.clipboard.writeText(code).then(function() {
+            var btn = document.getElementById('fnx-copy-code-btn');
+            var origText = btn.innerHTML;
+            btn.innerHTML = '✔ Copied to Clipboard!';
+            btn.style.color = '#10b981';
+            setTimeout(function() {
+                btn.innerHTML = origText;
+                btn.style.color = '';
+            }, 3000);
+        });
+    }
+    </script>
+    <?php
+}
 
 
 /* ============================================================
