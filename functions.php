@@ -860,6 +860,11 @@ function fnx_handle_lead_submission() {
     $message       = isset($_POST['lead_message']) ? sanitize_textarea_field(wp_unslash($_POST['lead_message'])) : '';
     $lead_type     = isset($_POST['lead_type'])    ? sanitize_text_field(wp_unslash($_POST['lead_type'])) : 'Lead Submission';
 
+    if (empty($name) && ! empty($email) && is_email($email)) {
+        $parts = explode('@', $email);
+        $name  = ucwords(str_replace(['.', '_', '-'], ' ', sanitize_text_field($parts[0])));
+    }
+
     if (empty($name) || empty($email) || ! is_email($email)) {
         $referer = wp_get_referer() ?: home_url('/');
         wp_safe_redirect(add_query_arg('fnx_lead', 'error', $referer));

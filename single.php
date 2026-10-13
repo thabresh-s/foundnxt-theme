@@ -224,10 +224,11 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
             <input type="hidden" name="lead_type" value="Single Article End Newsletter CTA">
             <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
-            <div class="article-nl-input-row">
+            <div class="newsletter-fw-fields">
+              <input type="text" name="lead_name" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Your full name…', 'foundnxt'); ?>" required>
               <input type="email" name="lead_email" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
-              <button type="submit" class="newsletter-fw-btn"><?php _e('Get Free Access', 'foundnxt'); ?> →</button>
             </div>
+            <button type="submit" class="newsletter-fw-btn"><?php _e('Get Free Access', 'foundnxt'); ?> →</button>
           </form>
         </div>
 

@@ -309,7 +309,10 @@
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
             <input type="hidden" name="lead_type" value="Fullwidth Newsletter Band">
             <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
-            <input type="email" name="lead_email" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Your work email…', 'foundnxt'); ?>" required>
+            <div class="newsletter-fw-fields">
+              <input type="text" name="lead_name" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Your full name…', 'foundnxt'); ?>" required>
+              <input type="email" name="lead_email" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Your work email…', 'foundnxt'); ?>" required>
+            </div>
             <button type="submit" class="newsletter-fw-btn"><?php _e('Subscribe Free', 'foundnxt'); ?> →</button>
           </form>
           <p class="newsletter-privacy" style="margin-top: 10px; font-size: 0.8125rem; opacity: 0.9; color: #ffffff;">🔒 <?php _e('Free weekly brief. Unsubscribe in one click.', 'foundnxt'); ?></p>

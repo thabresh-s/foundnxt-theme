@@ -24,8 +24,11 @@
             <input type="hidden" name="action" value="fnx_lead_submit">
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
             <input type="hidden" name="lead_type" value="Footer Newsletter Signup">
-            <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
-            <button type="submit" class="btn-primary"><?php _e('Subscribe Free', 'foundnxt'); ?> →</button>
+            <div class="newsletter-fw-fields" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+              <input type="text" name="lead_name" placeholder="<?php esc_attr_e('Your full name…', 'foundnxt'); ?>" required>
+              <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%;"><?php _e('Subscribe Free', 'foundnxt'); ?> →</button>
           </form>
           <p class="subscribe-privacy">🔒 <?php _e('Free forever. Unsubscribe in one click.', 'foundnxt'); ?></p>
         </div>

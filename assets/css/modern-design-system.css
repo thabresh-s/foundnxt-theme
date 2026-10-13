@@ -1531,47 +1531,85 @@
   .newsletter-fw-form-wrap {
     flex: 1;
     min-width: min(100%, 320px);
-    max-width: 520px;
+    max-width: 560px;
   }
   .newsletter-fw-form {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
   }
-  @media (max-width: 540px) {
-    .newsletter-fw-form {
-      flex-direction: column;
-    }
-    .newsletter-fw-btn {
-      width: 100%;
-      justify-content: center;
+  .newsletter-fw-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+  @media (max-width: 560px) {
+    .newsletter-fw-fields {
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
   }
   .newsletter-fw-input {
-    flex: 1;
+    width: 100%;
     min-height: 50px;
     border-radius: var(--radius-md);
     background: #ffffff;
-    border: none;
+    border: 1.5px solid transparent;
     padding-inline: 18px;
     font-size: 1rem; /* 16px to prevent iOS auto-zoom */
     color: #0f172a;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+  }
+  .newsletter-fw-input::placeholder {
+    color: #64748b;
+    opacity: 0.85;
+  }
+  .newsletter-fw-input:focus-visible,
+  .newsletter-fw-input:focus {
+    outline: none;
+    border-color: #0f172a;
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.25);
   }
   .newsletter-fw-btn {
+    width: 100%;
     min-height: 50px;
     padding-inline: 24px;
     border-radius: var(--radius-md);
     background: #0f172a;
     color: #ffffff;
     font-weight: 700;
-    transition: transform 0.15s, background 0.2s;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
     white-space: nowrap;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
   }
   .newsletter-fw-btn:hover {
     background: #1e293b;
     transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.35);
+  }
+  .newsletter-fw-btn:active {
+    transform: translateY(0);
+  }
+  .newsletter-privacy {
+    margin-top: 8px;
+    font-size: 0.8125rem;
+    opacity: 0.92;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
   /* ── 11. ARTICLE PAGE STYLING (Single Column 65-72ch) ── */
@@ -1772,6 +1810,13 @@
     margin-bottom: 20px;
     line-height: 1.6;
     text-wrap: pretty;
+  }
+  .article-nl-form {
+    max-width: 520px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
   .article-nl-input-row {
     display: flex;
