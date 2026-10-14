@@ -101,12 +101,12 @@ function fnx_enqueue() {
     wp_enqueue_style('fnx-components', FNX_URI . '/assets/css/components.css', ['foundnxt-style'], FNX_VERSION);
     wp_enqueue_style('fnx-blocks',     FNX_URI . '/assets/css/blocks.css',     ['foundnxt-style'], FNX_VERSION);
 
-    // Modern Design System Stylesheet (v2.1.0: @layer, color-mix, light-dark, container queries, typography)
+    // Modern Design System Stylesheet (v2.2.0: @layer, color-mix, light-dark, container queries, typography, brand logo)
     wp_enqueue_style(
         'fnx-modern-design-system',
         FNX_URI . '/assets/css/modern-design-system.css',
         ['foundnxt-style', 'fnx-components'],
-        '2.1.0'
+        '2.2.0'
     );
 
     // Theme JS
@@ -446,6 +446,9 @@ function fnx_open_graph() {
     }
     $url   = is_singular() ? get_permalink() : home_url('/');
     $image = is_singular() ? get_the_post_thumbnail_url(null, 'fnx-hero') : '';
+    if (!$image) {
+        $image = get_theme_file_uri('assets/images/brand/png/foundnxt-logo-dark-bg.png');
+    }
     ?>
     <meta property="og:type"        content="<?= esc_attr($type) ?>">
     <meta property="og:title"       content="<?= esc_attr($title) ?>">
@@ -464,6 +467,57 @@ function fnx_open_graph() {
     <?php
 }
 add_action('wp_head', 'fnx_open_graph', 5);
+
+/**
+ * Modern Brand Favicons & Icons Hook
+ * Outputs SVG, ICO, Apple Touch Icon, and Web App Manifest in head if not set via Customizer
+ */
+function fnx_render_favicon_tags() {
+    if (!has_site_icon()) {
+        $theme_uri = get_template_directory_uri();
+        ?>
+<!-- FoundNXT Modern Favicons & App Icons -->
+<link rel="icon" type="image/svg+xml" href="<?php echo esc_url($theme_uri . '/assets/images/favicon.svg'); ?>">
+<link rel="icon" type="image/x-icon" href="<?php echo esc_url($theme_uri . '/assets/images/favicon.ico'); ?>" sizes="32x32">
+<link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url($theme_uri . '/assets/images/apple-touch-icon.png'); ?>">
+<link rel="manifest" href="<?php echo esc_url($theme_uri . '/assets/images/site.webmanifest'); ?>">
+<meta name="theme-color" content="#0E1220">
+<meta name="msapplication-TileColor" content="#0E1220">
+        <?php
+    }
+}
+add_action('wp_head', 'fnx_render_favicon_tags', 1);
+add_action('admin_head', 'fnx_render_favicon_tags', 1);
+add_action('login_head', 'fnx_render_favicon_tags', 1);
+
+/**
+ * Custom Login Page Logo
+ */
+function fnx_login_logo_customizer() {
+    $logo_url = get_theme_file_uri('assets/images/logo-light.svg');
+    ?>
+    <style type="text/css">
+        #login h1 a, .login h1 a {
+            background-image: url('<?php echo esc_url($logo_url); ?>') !important;
+            background-size: contain !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            width: 220px !important;
+            height: 52px !important;
+            margin-bottom: 24px !important;
+        }
+        body.login {
+            background: #0E1220 !important;
+        }
+        body.login #loginform {
+            border-radius: 14px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        }
+    </style>
+    <?php
+}
+add_action('login_enqueue_scripts', 'fnx_login_logo_customizer');
 
 /* ============================================================
    AJAX: LOAD MORE POSTS

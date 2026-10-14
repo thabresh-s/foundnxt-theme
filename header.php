@@ -8,7 +8,12 @@
 <link rel="canonical" href="<?php echo esc_url(get_permalink()); ?>">
 <?php endif; ?>
 <meta name="description" content="<?php echo esc_attr(get_theme_mod('fnx_seo_description', __('Actionable playbooks, tech insights, and scaling strategies for startup founders. Learn how to build faster, secure funding, and navigate your founder journey.', 'foundnxt'))); ?>">
-<link rel="profile" href="https://gmpg.org/xfn/11">
+<!-- FoundNXT Modern Favicons & App Icons -->
+<link rel="icon" type="image/svg+xml" href="<?php echo esc_url(get_theme_file_uri('assets/images/favicon.svg')); ?>">
+<link rel="icon" type="image/x-icon" href="<?php echo esc_url(get_theme_file_uri('assets/images/favicon.ico')); ?>" sizes="32x32">
+<link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url(get_theme_file_uri('assets/images/apple-touch-icon.png')); ?>">
+<link rel="manifest" href="<?php echo esc_url(get_theme_file_uri('assets/images/site.webmanifest')); ?>">
+<meta name="theme-color" content="#0E1220">
 <?php wp_head(); ?>
 
 <!-- Schema.org JSON-LD Structured Data -->
@@ -98,25 +103,16 @@
       <?php
       $custom_logo_id = get_theme_mod('custom_logo');
       $site_url       = esc_url(home_url('/'));
-      $site_name      = esc_attr(get_bloginfo('name'));
+      $site_name      = esc_attr(get_bloginfo('name', 'display') ?: 'FoundNXT');
+      $dark_logo_id   = get_theme_mod('fnx_dark_logo');
 
-      if ($custom_logo_id):
-        $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
+      $light_logo_src = $custom_logo_id ? wp_get_attachment_image_url($custom_logo_id, 'full') : get_theme_file_uri('assets/images/logo-light.svg');
+      $dark_logo_src  = $dark_logo_id ? wp_get_attachment_image_url($dark_logo_id, 'full') : ($custom_logo_id ? $light_logo_src : get_theme_file_uri('assets/images/logo-dark.svg'));
       ?>
-        <a href="<?php echo $site_url; ?>" class="brand-logo-wrap" aria-label="<?php echo $site_name; ?> Home">
-          <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo $site_name; ?>" width="160" height="40" loading="eager" fetchpriority="high">
-        </a>
-      <?php else: ?>
-        <a href="<?php echo $site_url; ?>" class="brand-logo-wrap" aria-label="<?php echo $site_name; ?> Home">
-          <span class="brand-logo-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          </span>
-          <span class="brand-logo-text">
-            <span class="brand-logo-main">Found<span class="brand-logo-nxt">NXT</span></span>
-            <span class="brand-logo-sub"><?php _e('Scale in AI Era', 'foundnxt'); ?></span>
-          </span>
-        </a>
-      <?php endif; ?>
+      <a href="<?php echo $site_url; ?>" class="brand-logo-wrap" aria-label="<?php echo $site_name; ?> Home">
+        <img src="<?php echo esc_url($light_logo_src); ?>" alt="<?php echo $site_name; ?>" class="fnx-logo-img fnx-logo-light" width="165" height="42" loading="eager" fetchpriority="high">
+        <img src="<?php echo esc_url($dark_logo_src); ?>" alt="<?php echo $site_name; ?>" class="fnx-logo-img fnx-logo-dark" width="165" height="42" loading="eager" fetchpriority="high">
+      </a>
     </div>
 
     <!-- Column 2: Centered Links with Categories Dropdown -->
@@ -208,18 +204,10 @@
 <div class="fnx-mobile-nav" id="mobile-nav" aria-hidden="true">
   <div class="mobile-nav-inner">
     <div class="mobile-nav-header">
-      <?php if ($custom_logo_id): ?>
-        <a href="<?php echo $site_url; ?>" aria-label="<?php echo $site_name; ?>">
-          <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo $site_name; ?>" class="mobile-logo" style="max-height:32px;width:auto;">
-        </a>
-      <?php else: ?>
-        <a href="<?php echo $site_url; ?>" class="brand-logo-wrap" aria-label="<?php echo $site_name; ?>">
-          <span class="brand-logo-icon" aria-hidden="true" style="width:28px;height:28px;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          </span>
-          <span class="brand-logo-main">Found<span class="brand-logo-nxt">NXT</span></span>
-        </a>
-      <?php endif; ?>
+      <a href="<?php echo $site_url; ?>" class="brand-logo-wrap" aria-label="<?php echo $site_name; ?>">
+        <img src="<?php echo esc_url($light_logo_src); ?>" alt="<?php echo $site_name; ?>" class="fnx-logo-img fnx-logo-light" width="145" height="36" loading="eager">
+        <img src="<?php echo esc_url($dark_logo_src); ?>" alt="<?php echo $site_name; ?>" class="fnx-logo-img fnx-logo-dark" width="145" height="36" loading="eager">
+      </a>
       <button class="mobile-close" id="mobile-close" aria-label="<?php esc_attr_e('Close menu', 'foundnxt'); ?>">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>

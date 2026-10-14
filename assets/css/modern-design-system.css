@@ -2666,3 +2666,85 @@ h1.entry-title {
   color: var(--brand) !important;
 }
 
+/* ── 14. Brand Logo & Dark Mode Switching ── */
+.brand-logo-wrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+}
+
+.fnx-logo-img {
+  display: block;
+  height: 38px !important;
+  width: auto !important;
+  max-width: 185px !important;
+  object-fit: contain !important;
+  transition: opacity 0.2s ease, transform 0.2s ease !important;
+}
+
+.brand-logo-wrap:hover .fnx-logo-img {
+  opacity: 0.9 !important;
+}
+
+.mobile-nav-header .fnx-logo-img {
+  height: 32px !important;
+  max-width: 155px !important;
+}
+
+.footer-logo-wrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  margin-bottom: 14px !important;
+  text-decoration: none !important;
+}
+
+.fnx-footer-logo {
+  display: block;
+  height: 36px !important;
+  width: auto !important;
+  max-width: 175px !important;
+  object-fit: contain !important;
+  transition: opacity 0.2s ease !important;
+}
+
+.footer-logo-wrap:hover .fnx-footer-logo {
+  opacity: 0.9 !important;
+}
+
+/* Light Mode: display light logo, hide dark logo */
+.fnx-logo-light {
+  display: inline-block !important;
+}
+.fnx-logo-dark {
+  display: none !important;
+}
+
+/* Dark Mode: hide light logo, display dark logo */
+:root[data-theme="dark"] .fnx-logo-light,
+body.dark-mode .fnx-logo-light,
+body.dark .fnx-logo-light,
+body[data-theme="dark"] .fnx-logo-light,
+body[data-mode="dark"] .fnx-logo-light {
+  display: none !important;
+}
+
+:root[data-theme="dark"] .fnx-logo-dark,
+body.dark-mode .fnx-logo-dark,
+body.dark .fnx-logo-dark,
+body[data-theme="dark"] .fnx-logo-dark,
+body[data-mode="dark"] .fnx-logo-dark {
+  display: inline-block !important;
+}
+
+/* Auto system preference dark mode */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body:not(.light-mode) .fnx-logo-light {
+    display: none !important;
+  }
+  :root:not([data-theme="light"]) body:not(.light-mode) .fnx-logo-dark {
+    display: inline-block !important;
+  }
+}
+
+

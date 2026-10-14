@@ -50,10 +50,18 @@
 
       <!-- Brand Column -->
       <div class="footer-brand">
-        <?php if (has_custom_logo()): the_custom_logo();
-        else: ?>
-          <div class="footer-logo-text"><?php bloginfo('name'); ?></div>
-        <?php endif; ?>
+        <?php
+        $site_url       = esc_url(home_url('/'));
+        $site_name      = esc_attr(get_bloginfo('name', 'display') ?: 'FoundNXT');
+        $custom_logo_id = get_theme_mod('custom_logo');
+        $dark_logo_id   = get_theme_mod('fnx_dark_logo');
+        $footer_light   = $custom_logo_id ? wp_get_attachment_image_url($custom_logo_id, 'full') : get_theme_file_uri('assets/images/logo-light.svg');
+        $footer_dark    = $dark_logo_id ? wp_get_attachment_image_url($dark_logo_id, 'full') : ($custom_logo_id ? $footer_light : get_theme_file_uri('assets/images/logo-dark.svg'));
+        ?>
+        <a href="<?php echo $site_url; ?>" class="footer-logo-wrap" aria-label="<?php echo $site_name; ?> Home">
+          <img class="fnx-footer-logo fnx-logo-light" src="<?php echo esc_url($footer_light); ?>" alt="<?php echo $site_name; ?>" width="160" height="38" loading="lazy">
+          <img class="fnx-footer-logo fnx-logo-dark" src="<?php echo esc_url($footer_dark); ?>" alt="<?php echo $site_name; ?>" width="160" height="38" loading="lazy">
+        </a>
         <p class="footer-tagline"><?php echo esc_html(get_theme_mod('fnx_footer_tagline', __('Business, Markets & Technology: Explained for Founders and Leaders.', 'foundnxt'))); ?></p>
         <p class="footer-tagline-sub"><?php echo esc_html(get_theme_mod('fnx_footer_tagline_sub', __('Business. Markets. Technology. Growth.', 'foundnxt'))); ?></p>
 
