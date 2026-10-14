@@ -121,6 +121,7 @@ html[data-theme="dark"] body {
 }
 
 @media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]),
   body:not(.light-mode):not([data-theme="light"]):not([data-mode="light"]) {
     --fnx-primary-dark:   #312E81;
     --fnx-primary-mid:    #4338CA;

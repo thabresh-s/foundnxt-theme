@@ -14,6 +14,26 @@
 <link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url(get_theme_file_uri('assets/images/apple-touch-icon.png')); ?>">
 <link rel="manifest" href="<?php echo esc_url(get_theme_file_uri('assets/images/site.webmanifest')); ?>">
 <meta name="theme-color" content="#0E1220">
+<script>
+  (function() {
+    try {
+      localStorage.removeItem('fnx_theme');
+      var isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var root = document.documentElement;
+      if (isDark) {
+        root.setAttribute('data-theme', 'dark');
+        root.classList.add('dark-mode');
+        root.classList.remove('light-mode');
+        root.style.colorScheme = 'dark';
+      } else {
+        root.setAttribute('data-theme', 'light');
+        root.classList.add('light-mode');
+        root.classList.remove('dark-mode');
+        root.style.colorScheme = 'light';
+      }
+    } catch(e) {}
+  })();
+</script>
 <?php wp_head(); ?>
 
 <!-- Schema.org JSON-LD Structured Data -->
@@ -155,14 +175,6 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
 
-      <!-- Theme Toggle -->
-      <?php if (get_theme_mod('fnx_dark_mode_toggle', true)): ?>
-      <button class="action-btn dark-toggle" id="dark-toggle"
-        aria-label="<?php esc_attr_e('Toggle dark mode', 'foundnxt'); ?>">
-        <span class="icon-light" aria-hidden="true">☀️</span>
-        <span class="icon-dark"  aria-hidden="true">🌙</span>
-      </button>
-      <?php endif; ?>
 
       <!-- Desktop Action CTA: "Get In Touch" Button -->
       <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary header-cta-btn"><?php _e('Get In Touch', 'foundnxt'); ?> →</a>

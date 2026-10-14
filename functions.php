@@ -101,12 +101,12 @@ function fnx_enqueue() {
     wp_enqueue_style('fnx-components', FNX_URI . '/assets/css/components.css', ['foundnxt-style'], FNX_VERSION);
     wp_enqueue_style('fnx-blocks',     FNX_URI . '/assets/css/blocks.css',     ['foundnxt-style'], FNX_VERSION);
 
-    // Modern Design System Stylesheet (v2.2.0: @layer, color-mix, light-dark, container queries, typography, brand logo)
+    // Modern Design System Stylesheet (v2.3.0: system dark/light mode, brand logo)
     wp_enqueue_style(
         'fnx-modern-design-system',
         FNX_URI . '/assets/css/modern-design-system.css',
         ['foundnxt-style', 'fnx-components'],
-        '2.2.0'
+        '2.3.0'
     );
 
     // Theme JS
@@ -117,7 +117,7 @@ function fnx_enqueue() {
         'fnx-modern-design-system',
         FNX_URI . '/assets/js/modern-design-system.js',
         [],
-        '2.0.0',
+        '2.3.0',
         true
     );
 
@@ -325,8 +325,7 @@ function fnx_customizer($wp_customize) {
     $wp_customize->add_control('fnx_topbar_text', ['label' => __('Top Bar Text', 'foundnxt'), 'section' => 'fnx_header', 'type' => 'text']);
     $wp_customize->add_setting('fnx_topbar_enabled', ['default' => true, 'sanitize_callback' => 'wp_validate_boolean']);
     $wp_customize->add_control('fnx_topbar_enabled', ['label' => __('Show Scrolling Top Bar', 'foundnxt'), 'section' => 'fnx_header', 'type' => 'checkbox']);
-    $wp_customize->add_setting('fnx_dark_mode_toggle', ['default' => true, 'sanitize_callback' => 'wp_validate_boolean']);
-    $wp_customize->add_control('fnx_dark_mode_toggle', ['label' => __('Show Dark Mode Toggle', 'foundnxt'), 'section' => 'fnx_header', 'type' => 'checkbox']);
+
 
     // Homepage Section removed — hero H1, subtitle, and post count are
     // hardcoded in index.php and not read via get_theme_mod(), so these

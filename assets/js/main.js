@@ -12,40 +12,36 @@
   const on = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 
   /* ══════════════════════════════════════
-     DARK MODE
+     SYSTEM THEME SYNC (DEFAULT LIGHT, RESPECT OS DARK MODE)
   ══════════════════════════════════════ */
-  const DARK_KEY = 'fnx_theme';
   const body = document.body;
-  const darkBtn = $('#dark-toggle');
 
-  function applyTheme(theme) {
-    // FIX: apply to BOTH html and body so CSS vars work before/after JS fires
+  function syncSystemTheme(isDark) {
+    const theme = isDark ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', theme);
-    document.documentElement.classList.toggle('dark-mode', theme === 'dark');
-    document.documentElement.classList.toggle('light-mode', theme === 'light');
-    body.setAttribute('data-theme', theme);
-    body.classList.toggle('dark-mode', theme === 'dark');
-    body.classList.toggle('light-mode', theme === 'light');
-    localStorage.setItem(DARK_KEY, theme);
+    document.documentElement.classList.toggle('dark-mode', isDark);
+    document.documentElement.classList.toggle('light-mode', !isDark);
+    document.documentElement.style.colorScheme = theme;
+    if (body) {
+      body.setAttribute('data-theme', theme);
+      body.classList.toggle('dark-mode', isDark);
+      body.classList.toggle('light-mode', !isDark);
+    }
   }
 
-  // Init: use saved preference, then OS preference
-  (function initTheme() {
-    const saved = localStorage.getItem(DARK_KEY);
-    if (saved) { applyTheme(saved); return; }
-    const osDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    applyTheme(osDark ? 'dark' : 'light');
-  })();
+  // Purge any legacy manual toggle storage so system preference governs cleanly
+  try {
+    localStorage.removeItem('fnx_theme');
+  } catch (e) {}
 
-  // Watch OS changes
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    if (!localStorage.getItem(DARK_KEY)) applyTheme(e.matches ? 'dark' : 'light');
-  });
+  const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
+  syncSystemTheme(mediaDark.matches);
 
-  on(darkBtn, 'click', () => {
-    const current = body.getAttribute('data-theme') || 'light';
-    applyTheme(current === 'dark' ? 'light' : 'dark');
-  });
+  if (mediaDark.addEventListener) {
+    mediaDark.addEventListener('change', e => syncSystemTheme(e.matches));
+  } else if (mediaDark.addListener) {
+    mediaDark.addListener(e => syncSystemTheme(e.matches));
+  }
 
   /* ══════════════════════════════════════
      STICKY HEADER

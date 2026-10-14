@@ -190,27 +190,32 @@
     }, { passive: true });
   }
 
-  // ── 7. LIGHT / DARK THEME TOGGLE WITH COLOR-SCHEME SYNC ──
+  // ── 7. LIGHT / DARK SYSTEM THEME SYNC ──
   function initThemeToggle() {
-    const toggles = document.querySelectorAll('#dark-toggle, .dark-toggle');
-    if (!toggles.length) return;
+    try {
+      localStorage.removeItem('fnx_theme');
+    } catch (e) {}
 
-    function applyTheme(theme) {
+    const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
+    function sync(isDark) {
+      const theme = isDark ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', theme);
       document.documentElement.classList.remove('light-mode', 'dark-mode');
-      document.documentElement.classList.add(theme === 'dark' ? 'dark-mode' : 'light-mode');
+      document.documentElement.classList.add(isDark ? 'dark-mode' : 'light-mode');
       document.documentElement.style.colorScheme = theme;
-      localStorage.setItem('fnx_theme', theme);
+      if (document.body) {
+        document.body.setAttribute('data-theme', theme);
+        document.body.classList.remove('light-mode', 'dark-mode');
+        document.body.classList.add(isDark ? 'dark-mode' : 'light-mode');
+      }
     }
 
-    toggles.forEach(toggle => {
-      toggle.addEventListener('click', function () {
-        const current = document.documentElement.getAttribute('data-theme') ||
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        const next = current === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-      });
-    });
+    sync(mediaDark.matches);
+    if (mediaDark.addEventListener) {
+      mediaDark.addEventListener('change', e => sync(e.matches));
+    } else if (mediaDark.addListener) {
+      mediaDark.addListener(e => sync(e.matches));
+    }
   }
 
   // ── 8. MOBILE COLLAPSIBLE TOC POPULATION ──

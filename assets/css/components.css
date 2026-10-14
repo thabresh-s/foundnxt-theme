@@ -333,13 +333,8 @@
 /* Search icon */
 .btn-icon { font-size: 1rem; display: block; line-height: 1; }
 
-/* Dark mode toggle — show correct icon per theme */
-.dark-toggle .icon-light { display: flex; align-items: center; justify-content: center; }
-.dark-toggle .icon-dark  { display: none; align-items: center; justify-content: center; }
-body[data-theme="dark"] .dark-toggle .icon-light { display: none; }
-body[data-theme="dark"] .dark-toggle .icon-dark  { display: flex; }
-.dark-mode .dark-toggle .icon-light { display: none; }
-.dark-mode .dark-toggle .icon-dark  { display: flex; }
+/* Dark mode toggle (removed from UI) */
+.dark-toggle, #dark-toggle { display: none !important; }
 
 /* Burger menu icon */
 .burger-wrap {

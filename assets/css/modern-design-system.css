@@ -146,7 +146,27 @@
     --cat-business: #4f46e5; /* electric indigo */
   }
 
-  /* Explicit Data-Theme Overrides for Manual Mode / Fallback */
+  /* Native System Dark Mode support */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]),
+    body:not(.light-mode):not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0a0e17;
+      --surface: #131b2e;
+      --surface-elevated: #1a233a;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #1e293b;
+      --border-subtle: #151f33;
+      --glass-bg: rgba(10, 14, 23, 0.88);
+      --glass-border: rgba(30, 41, 59, 0.75);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 6px 20px -3px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  /* Explicit Data-Theme Overrides */
   :root[data-theme="light"],
   body.light-mode {
     color-scheme: light;
@@ -165,7 +185,9 @@
   }
 
   :root[data-theme="dark"],
-  body.dark-mode {
+  body.dark-mode,
+  body[data-theme="dark"],
+  body.dark {
     color-scheme: dark;
     --bg: #0a0e17;
     --surface: #131b2e;
@@ -2739,10 +2761,12 @@ body[data-mode="dark"] .fnx-logo-dark {
 
 /* Auto system preference dark mode */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) body:not(.light-mode) .fnx-logo-light {
+  :root:not([data-theme="light"]) .fnx-logo-light,
+  body:not(.light-mode):not([data-theme="light"]) .fnx-logo-light {
     display: none !important;
   }
-  :root:not([data-theme="light"]) body:not(.light-mode) .fnx-logo-dark {
+  :root:not([data-theme="light"]) .fnx-logo-dark,
+  body:not(.light-mode):not([data-theme="light"]) .fnx-logo-dark {
     display: inline-block !important;
   }
 }
