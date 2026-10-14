@@ -101,23 +101,23 @@ function fnx_enqueue() {
     wp_enqueue_style('fnx-components', FNX_URI . '/assets/css/components.css', ['foundnxt-style'], FNX_VERSION);
     wp_enqueue_style('fnx-blocks',     FNX_URI . '/assets/css/blocks.css',     ['foundnxt-style'], FNX_VERSION);
 
-    // Modern Design System Stylesheet (v2.4.0: brand color sync, system dark/light mode, brand logo)
+    // Modern Design System Stylesheet (v2.4.1: brand color sync, system dark/light mode, brand logo)
     wp_enqueue_style(
         'fnx-modern-design-system',
         FNX_URI . '/assets/css/modern-design-system.css',
         ['foundnxt-style', 'fnx-components'],
-        '2.4.0'
+        '2.4.1'
     );
 
     // Theme JS
     wp_enqueue_script('fnx-main', FNX_URI . '/assets/js/main.js', [], FNX_VERSION, true);
 
-    // Modern Design System JS (Search overlay focus trap, banner dismissal, cookie consent)
+    // Modern Design System JS (Search overlay focus trap, banner dismissal)
     wp_enqueue_script(
         'fnx-modern-design-system',
         FNX_URI . '/assets/js/modern-design-system.js',
         [],
-        '2.4.0',
+        '2.4.1',
         true
     );
 

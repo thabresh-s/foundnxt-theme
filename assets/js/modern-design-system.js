@@ -101,44 +101,6 @@
     });
   }
 
-  // ── 3. COOKIE CONSENT BANNER (Accept, Decline, Preferences) ──
-  function initCookieConsent() {
-    const banner = document.getElementById('fnx-cookie-consent');
-    if (!banner) return;
-
-    const consentStatus = localStorage.getItem('fnx_cookie_consent');
-    if (consentStatus) {
-      banner.classList.add('is-hidden');
-      return;
-    }
-
-    const acceptBtn = document.getElementById('cookie-btn-accept');
-    const declineBtn = document.getElementById('cookie-btn-decline');
-    const prefBtn = document.getElementById('cookie-btn-pref');
-
-    if (acceptBtn) {
-      acceptBtn.addEventListener('click', function () {
-        localStorage.setItem('fnx_cookie_consent', 'accepted');
-        banner.classList.add('is-hidden');
-      });
-    }
-
-    if (declineBtn) {
-      declineBtn.addEventListener('click', function () {
-        localStorage.setItem('fnx_cookie_consent', 'declined');
-        banner.classList.add('is-hidden');
-      });
-    }
-
-    if (prefBtn) {
-      prefBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        // Redirect or open privacy policy preferences section
-        window.location.href = prefBtn.getAttribute('href') || '/privacy-policy/';
-      });
-    }
-  }
-
   // ── 4. TOOLS "COMING SOON" DEDICATED WAITLIST FORM ──
   function initToolsWaitlist() {
     const waitlistForms = document.querySelectorAll('.tools-waitlist-form');
@@ -319,7 +281,6 @@
   function initAll() {
     initTopBanner();
     initSearchOverlay();
-    initCookieConsent();
     initToolsWaitlist();
     initContactForm();
     initReadingProgress();

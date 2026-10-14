@@ -73,19 +73,6 @@
     }
   });
 
-  const cookieBanner = $('#fnx-cookie-banner');
-  const cookieAccept = $('#fnx-accept-cookies');
-  if (cookieBanner) {
-    if (localStorage.getItem('fnx_cookie_consent') === 'true') {
-      cookieBanner.style.display = 'none';
-    } else {
-      cookieBanner.style.display = 'block';
-    }
-    on(cookieAccept, 'click', () => {
-      localStorage.setItem('fnx_cookie_consent', 'true');
-      cookieBanner.style.display = 'none';
-    });
-  }
 
   /* ══════════════════════════════════════
      MOBILE NAV

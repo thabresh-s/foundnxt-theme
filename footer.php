@@ -144,18 +144,6 @@
   </div><!-- /.container -->
 </footer>
 
-<!-- Cookie Consent Notice (Accept, Decline, Preferences) -->
-<div id="fnx-cookie-consent" class="fnx-cookie-consent" role="dialog" aria-label="<?php esc_attr_e('Cookie consent', 'foundnxt'); ?>">
-  <div class="cookie-consent-text">
-    <p><?php _e('We use cookies to optimize navigation, remember your preferences, and analyze site traffic.', 'foundnxt'); ?> <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php _e('Privacy Policy', 'foundnxt'); ?></a>.</p>
-  </div>
-  <div class="cookie-actions">
-    <button type="button" id="cookie-btn-accept" class="cookie-btn cookie-btn--accept"><?php _e('Accept All', 'foundnxt'); ?></button>
-    <button type="button" id="cookie-btn-decline" class="cookie-btn cookie-btn--decline"><?php _e('Decline Non-Essential', 'foundnxt'); ?></button>
-    <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>" id="cookie-btn-pref" class="cookie-btn cookie-btn--pref"><?php _e('Preferences', 'foundnxt'); ?></a>
-  </div>
-</div>
-
 <?php wp_footer(); ?>
 </body>
 </html>
