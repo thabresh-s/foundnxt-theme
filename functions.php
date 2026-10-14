@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.0.0');
+define('FNX_VERSION', '1.0.1');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -101,12 +101,12 @@ function fnx_enqueue() {
     wp_enqueue_style('fnx-components', FNX_URI . '/assets/css/components.css', ['foundnxt-style'], FNX_VERSION);
     wp_enqueue_style('fnx-blocks',     FNX_URI . '/assets/css/blocks.css',     ['foundnxt-style'], FNX_VERSION);
 
-    // Modern Design System Stylesheet (v2.0.0: @layer, color-mix, light-dark, container queries)
+    // Modern Design System Stylesheet (v2.1.0: @layer, color-mix, light-dark, container queries, typography)
     wp_enqueue_style(
         'fnx-modern-design-system',
         FNX_URI . '/assets/css/modern-design-system.css',
         ['foundnxt-style', 'fnx-components'],
-        '2.0.0'
+        '2.1.0'
     );
 
     // Theme JS

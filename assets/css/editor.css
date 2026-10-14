@@ -4,7 +4,7 @@
    ============================================================ */
 
 .editor-styles-wrapper {
-  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif) !important;
   font-size: 1.0625rem !important;
   line-height: 1.78 !important;
   color: #374151 !important;
@@ -17,7 +17,7 @@
 .editor-styles-wrapper h1,
 .editor-styles-wrapper h2,
 .editor-styles-wrapper h3 {
-  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-family: var(--font-heading, 'Sora', sans-serif) !important;
   color: #1a1a2e !important;
   line-height: 1.2 !important;
   letter-spacing: -.025em !important;
@@ -80,11 +80,11 @@
 .editor-styles-wrapper .fnx-cons-heading { color:#dc2626 !important; font-family:'Inter',sans-serif !important; font-size:.875rem !important; margin:0 0 10px !important; }
 
 .editor-styles-wrapper .fnx-stats-row { background:#f7f8fa; border:1px solid #e5e7eb; border-radius:12px; padding:24px; margin:20px 0; }
-.editor-styles-wrapper .fnx-stat-number { font-size:2.25rem !important; font-weight:700 !important; color:#4f46e5 !important; margin:0 0 4px !important; font-family:'Source Serif 4',serif !important; }
+.editor-styles-wrapper .fnx-stat-number { font-size:2.25rem !important; font-weight:700 !important; color:#4f46e5 !important; margin:0 0 4px !important; font-family: var(--font-heading, 'Sora', sans-serif) !important; }
 .editor-styles-wrapper .fnx-stat-label  { font-size:.75rem !important; color:#6b7280 !important; margin:0 !important; }
 
 .editor-styles-wrapper .fnx-step { display:flex; gap:16px; padding:16px 0; border-bottom:1px solid #e5e7eb; }
-.editor-styles-wrapper .fnx-step-num { font-size:1.25rem; font-weight:700; color:#4f46e5; font-family:'Source Serif 4',serif; flex-shrink:0; width:36px; }
+.editor-styles-wrapper .fnx-step-num { font-size:1.25rem; font-weight:700; color:#4f46e5; font-family: var(--font-heading, 'Sora', sans-serif); flex-shrink:0; width:36px; }
 .editor-styles-wrapper .fnx-step-title { font-size:.9375rem !important; font-weight:700 !important; margin:0 0 5px !important; }
 .editor-styles-wrapper .fnx-step-desc  { font-size:.8125rem !important; color:#6b7280 !important; margin:0 !important; }
 
@@ -93,7 +93,7 @@
 .editor-styles-wrapper .fnx-faq-answer   { font-size:.8125rem !important; color:#6b7280 !important; margin:0 !important; }
 
 .editor-styles-wrapper .fnx-pullquote-inner { background:#f7f8fa !important; border-radius:12px !important; padding:24px 28px !important; border:none !important; }
-.editor-styles-wrapper .fnx-pullquote-inner p { font-family:'Source Serif 4',serif !important; font-size:1.125rem !important; font-style:italic !important; color:#1a1a2e !important; }
+.editor-styles-wrapper .fnx-pullquote-inner p { font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif) !important; font-size:1.125rem !important; font-style:italic !important; color:#1a1a2e !important; }
 
 .editor-styles-wrapper .fnx-related-inline { background:#f7f8fa; border:1px solid #e5e7eb; border-radius:10px; padding:16px 20px; margin:20px 0; }
 .editor-styles-wrapper .fnx-related-label { font-size:.6875rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:#4f46e5; margin-bottom:8px; }
@@ -135,7 +135,7 @@
 .editor-styles-wrapper .fnx-check-icon { width:18px; height:18px; border-radius:50%; background:#4f46e5; color:#fff; font-size:.625rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 
 .editor-styles-wrapper .fnx-definition { background:#f7f8fa; border-left:4px solid #4f46e5; border-radius:0 10px 10px 0; padding:16px 20px; }
-.editor-styles-wrapper .fnx-def-term { font-size:1.0625rem; font-weight:700; color:#1a1a2e; margin-bottom:6px; display:flex; align-items:center; gap:8px; font-family:'Source Serif 4',serif; }
+.editor-styles-wrapper .fnx-def-term { font-size:1.0625rem; font-weight:700; color:#1a1a2e; margin-bottom:6px; display:flex; align-items:center; gap:8px; font-family: var(--font-heading, 'Sora', sans-serif); }
 .editor-styles-wrapper .fnx-def-tag { font-size:.5625rem; font-weight:600; color:#4f46e5; background:#eef2ff; border:1px solid #a7d7b8; border-radius:4px; padding:1px 6px; font-family:'Inter',sans-serif; text-transform:uppercase; }
 .editor-styles-wrapper .fnx-def-text { font-size:.8125rem !important; color:#6b7280 !important; margin:0 !important; }
 
@@ -145,7 +145,7 @@
 .editor-styles-wrapper .fnx-author-role { font-size:.625rem; font-weight:600; color:#4f46e5; text-transform:uppercase; letter-spacing:1px; margin-bottom:7px; }
 
 .editor-styles-wrapper .fnx-big-number { text-align:center; padding:28px 20px; border-top:2px solid #e5e7eb; border-bottom:2px solid #e5e7eb; }
-.editor-styles-wrapper .fnx-bnum-figure { font-size:3.5rem; font-weight:700; color:#4f46e5; font-family:'Source Serif 4',serif; line-height:1; margin-bottom:10px; }
+.editor-styles-wrapper .fnx-bnum-figure { font-size:3.5rem; font-weight:700; color:#4f46e5; font-family: var(--font-heading, 'Sora', sans-serif); line-height:1; margin-bottom:10px; }
 .editor-styles-wrapper .fnx-bnum-context { font-size:.8125rem !important; color:#6b7280 !important; max-width:480px; margin:0 auto !important; }
 
 .editor-styles-wrapper .fnx-risk-banner { display:flex; gap:12px; align-items:flex-start; background:#fffbeb; border:1px solid #fde68a; border-radius:10px; padding:14px 18px; }
@@ -179,13 +179,13 @@
   line-height: 1.78 !important;
   color: #374151 !important;
   max-width: 700px !important;
-  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-family: var(--font-heading, 'Sora', sans-serif) !important;
   -webkit-font-smoothing: antialiased !important;
 }
 
 /* Headings */
 .editor-styles-wrapper h2 {
-  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-family: var(--font-heading, 'Sora', sans-serif) !important;
   font-size: clamp(1.3125rem, 2.6vw, 1.75rem) !important;
   font-weight: 700 !important;
   color: #1a1a2e !important;
@@ -197,7 +197,7 @@
   display: inline-block !important;
 }
 .editor-styles-wrapper h3 {
-  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-family: var(--font-heading, 'Sora', sans-serif) !important;
   font-size: clamp(1.0625rem, 2vw, 1.3125rem) !important;
   font-weight: 700 !important;
   color: #1a1a2e !important;

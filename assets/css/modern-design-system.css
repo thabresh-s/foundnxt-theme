@@ -2195,3 +2195,474 @@
     border: 0;
   }
 }
+
+/* ============================================================
+   ARTICLE & BLOG POST TYPOGRAPHY SYSTEM (UNLAYERED OVERRIDES)
+   Matches Homepage Sora & Plus Jakarta Sans Design System
+   Optimal 68-72ch Reading Measure, Fluid Clamp Typography & Contrast
+   ============================================================ */
+
+/* ── 1. Post Hero Title & Header Meta ── */
+.phb-title,
+.post-title,
+h1.entry-title {
+  font-family: var(--font-heading) !important;
+  font-size: clamp(2rem, 4vw + 0.5rem, 3.25rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.028em !important;
+  line-height: 1.18 !important;
+  color: var(--text) !important;
+  text-wrap: balance !important;
+  margin: 0 0 1.25rem !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+.phb-desc {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(1.0625rem, 1.25vw + 0.25rem, 1.25rem) !important;
+  font-style: normal !important;
+  font-weight: 450 !important;
+  line-height: 1.68 !important;
+  color: var(--muted) !important;
+  background: color-mix(in srgb, var(--brand) 6%, var(--surface)) !important;
+  border-left: 3px solid var(--brand) !important;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
+  padding: 16px 20px !important;
+  margin: 0 0 1.5rem !important;
+  text-wrap: pretty !important;
+}
+
+.phb-chips,
+.phb-chip,
+.phb-badge,
+.post-meta-top,
+.post-cat-link,
+.post-badge {
+  font-family: var(--font-sans) !important;
+}
+
+.post-byline,
+.byline-author,
+.author-name,
+.author-label,
+.byline-meta {
+  font-family: var(--font-sans) !important;
+  color: var(--muted) !important;
+}
+
+.author-name {
+  color: var(--text) !important;
+  font-weight: 600 !important;
+}
+
+/* ── 2. Reading Measure & Container Layout ── */
+.post-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 300px !important;
+  gap: clamp(2rem, 4vw, 3.5rem) !important;
+  align-items: start !important;
+}
+
+@media (max-width: 1024px) {
+  .post-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+.single-article-container,
+.post-content-wrap {
+  width: 100% !important;
+  max-width: 72ch !important;
+  margin-inline: auto !important;
+}
+
+/* ── 3. Post Content Core Typography (Plus Jakarta Sans) ── */
+.post-content,
+.entry-content,
+.article-body-content,
+.page-content {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(1.0625rem, 0.35vw + 0.95rem, 1.1875rem) !important;
+  line-height: 1.82 !important;
+  letter-spacing: -0.006em !important;
+  color: var(--text) !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+  text-wrap: pretty !important;
+}
+
+/* ── 4. Post Paragraphs & Lead Intro ── */
+.post-content p,
+.entry-content p,
+.article-body-content p,
+.page-content p {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(1.0625rem, 0.35vw + 0.95rem, 1.1875rem) !important;
+  line-height: 1.82 !important;
+  letter-spacing: -0.006em !important;
+  color: var(--text) !important;
+  margin-bottom: 1.6em !important;
+  text-wrap: pretty !important;
+}
+
+/* First paragraph editorial lead */
+.post-content > p:first-of-type,
+.article-body-content > p:first-of-type,
+.entry-content > p:first-of-type {
+  font-size: clamp(1.1875rem, 0.6vw + 0.95rem, 1.3125rem) !important;
+  line-height: 1.75 !important;
+  font-weight: 450 !important;
+  color: var(--text) !important;
+  letter-spacing: -0.012em !important;
+}
+
+/* Strong / Bold */
+.post-content strong,
+.post-content b,
+.entry-content strong,
+.article-body-content strong {
+  font-weight: 700 !important;
+  color: var(--text) !important;
+}
+
+/* ── 5. Headings Inside Content (Sora) ── */
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6,
+.entry-content h1,
+.entry-content h2,
+.entry-content h3,
+.entry-content h4,
+.entry-content h5,
+.entry-content h6,
+.article-body-content h1,
+.article-body-content h2,
+.article-body-content h3,
+.article-body-content h4,
+.article-body-content h5,
+.article-body-content h6 {
+  font-family: var(--font-heading) !important;
+  color: var(--text) !important;
+  text-wrap: balance !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.post-content h2,
+.entry-content h2,
+.article-body-content h2 {
+  font-size: clamp(1.625rem, 2.5vw + 0.4rem, 2.15rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.024em !important;
+  margin-top: 2.5em !important;
+  margin-bottom: 0.85em !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 2px solid color-mix(in srgb, var(--brand) 25%, var(--border)) !important;
+}
+
+.post-content h3,
+.entry-content h3,
+.article-body-content h3 {
+  font-size: clamp(1.3125rem, 1.8vw + 0.3rem, 1.625rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.32 !important;
+  letter-spacing: -0.018em !important;
+  margin-top: 2.1em !important;
+  margin-bottom: 0.65em !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.post-content h3::before,
+.article-body-content h3::before {
+  content: '' !important;
+  display: inline-block !important;
+  width: 4px !important;
+  height: 1.1em !important;
+  background: var(--brand) !important;
+  border-radius: 2px !important;
+  flex-shrink: 0 !important;
+}
+
+.post-content h4,
+.entry-content h4,
+.article-body-content h4 {
+  font-size: clamp(1.125rem, 1.2vw + 0.2rem, 1.3125rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.012em !important;
+  margin-top: 1.8em !important;
+  margin-bottom: 0.5em !important;
+}
+
+.post-content h5,
+.post-content h6,
+.entry-content h5,
+.entry-content h6,
+.article-body-content h5,
+.article-body-content h6 {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--muted) !important;
+  margin-top: 1.5em !important;
+  margin-bottom: 0.4em !important;
+}
+
+/* ── 6. Lists & Nested Items ── */
+.post-content ul,
+.post-content ol,
+.entry-content ul,
+.entry-content ol,
+.article-body-content ul,
+.article-body-content ol {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(1.0625rem, 0.35vw + 0.95rem, 1.1875rem) !important;
+  line-height: 1.78 !important;
+  color: var(--text) !important;
+  margin: 0 0 1.6em !important;
+  padding-left: 1.5rem !important;
+}
+
+.post-content ul,
+.entry-content ul,
+.article-body-content ul {
+  list-style: disc !important;
+}
+
+.post-content ol,
+.entry-content ol,
+.article-body-content ol {
+  list-style: decimal !important;
+}
+
+.post-content li,
+.entry-content li,
+.article-body-content li {
+  margin-bottom: 0.55em !important;
+  padding-left: 0.25rem !important;
+}
+
+.post-content li::marker,
+.article-body-content li::marker {
+  color: var(--brand) !important;
+  font-weight: 700 !important;
+}
+
+/* ── 7. Blockquotes & Pullquotes ── */
+.post-content blockquote,
+.entry-content blockquote,
+.article-body-content blockquote,
+.fnx-pullquote {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(1.125rem, 0.8vw + 0.95rem, 1.25rem) !important;
+  font-style: italic !important;
+  line-height: 1.7 !important;
+  color: var(--text) !important;
+  background: color-mix(in srgb, var(--brand) 6%, var(--surface)) !important;
+  border-left: 4px solid var(--brand) !important;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0 !important;
+  padding: 1.25rem 1.75rem !important;
+  margin: 2em 0 !important;
+}
+
+.post-content blockquote p,
+.article-body-content blockquote p {
+  font-family: var(--font-sans) !important;
+  font-style: italic !important;
+  color: var(--text) !important;
+  margin-bottom: 0.75em !important;
+}
+
+.post-content blockquote cite,
+.article-body-content blockquote cite {
+  font-family: var(--font-sans) !important;
+  font-style: normal !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  color: var(--muted) !important;
+  display: block !important;
+}
+
+/* ── 8. Code & Monospace ── */
+.post-content code,
+.entry-content code,
+.article-body-content code {
+  font-family: var(--font-mono) !important;
+  font-size: 0.88em !important;
+  background: color-mix(in srgb, var(--text) 8%, transparent) !important;
+  color: var(--brand) !important;
+  padding: 0.2em 0.45em !important;
+  border-radius: 4px !important;
+}
+
+.post-content pre,
+.entry-content pre,
+.article-body-content pre {
+  font-family: var(--font-mono) !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.62 !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 1.25rem 1.5rem !important;
+  margin: 1.8em 0 !important;
+  overflow-x: auto !important;
+}
+
+.post-content pre code,
+.entry-content pre code,
+.article-body-content pre code {
+  background: none !important;
+  color: inherit !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+}
+
+/* ── 9. Post Links ── */
+.post-content a,
+.entry-content a,
+.article-body-content a {
+  color: var(--brand) !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 1.5px !important;
+  text-underline-offset: 3px !important;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease !important;
+}
+
+.post-content a:hover,
+.entry-content a:hover,
+.article-body-content a:hover {
+  color: var(--brand-hover) !important;
+  text-decoration-color: var(--brand-hover) !important;
+}
+
+/* Exclude buttons and badges from text link styles */
+.post-content .fnx-btn,
+.post-content .tag-chip,
+.post-content .share-btn {
+  text-decoration: none !important;
+}
+
+/* ── 10. Callouts & Takeaways ── */
+.fnx-callout,
+.callout-takeaway {
+  background: color-mix(in srgb, var(--brand) 7%, var(--surface)) !important;
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, var(--border)) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 1.25rem 1.5rem !important;
+  margin: 2em 0 !important;
+}
+
+.callout-label {
+  font-family: var(--font-heading) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--brand) !important;
+  margin-bottom: 0.35rem !important;
+}
+
+.callout-text {
+  font-family: var(--font-sans) !important;
+  font-size: 1.0625rem !important;
+  line-height: 1.7 !important;
+  color: var(--text) !important;
+  margin: 0 !important;
+}
+
+/* ── 11. Tables in Posts ── */
+.post-content table,
+.entry-content table,
+.article-body-content table {
+  width: 100% !important;
+  margin: 2em 0 !important;
+  border-collapse: collapse !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.95rem !important;
+}
+
+.post-content th,
+.entry-content th,
+.article-body-content th {
+  font-family: var(--font-heading) !important;
+  font-weight: 700 !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  padding: 12px 16px !important;
+  text-align: left !important;
+  border-bottom: 2px solid var(--border) !important;
+}
+
+.post-content td,
+.entry-content td,
+.article-body-content td {
+  padding: 12px 16px !important;
+  border-bottom: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+
+/* ── 12. Tags, Share & Navigation ── */
+.post-tags,
+.post-share,
+.post-nav-nextprev {
+  font-family: var(--font-sans) !important;
+}
+
+.tags-label,
+.share-label {
+  font-family: var(--font-heading) !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  color: var(--text) !important;
+}
+
+.tag-chip {
+  font-family: var(--font-sans) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  border-radius: var(--radius-full) !important;
+}
+
+/* ── 13. Mobile Table of Contents ── */
+.fnx-mobile-toc {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  margin: 1.75em 0 !important;
+}
+
+.fnx-mobile-toc-summary {
+  font-family: var(--font-heading) !important;
+  font-weight: 700 !important;
+  font-size: 0.9375rem !important;
+  color: var(--text) !important;
+  padding: 14px 18px !important;
+  cursor: pointer !important;
+}
+
+.toc-mobile-list {
+  font-family: var(--font-sans) !important;
+  font-size: 0.9375rem !important;
+  padding: 0 18px 14px !important;
+}
+
+.toc-mobile-list a {
+  color: var(--text) !important;
+  text-decoration: none !important;
+}
+
+.toc-mobile-list a:hover {
+  color: var(--brand) !important;
+}
+
