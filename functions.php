@@ -959,18 +959,30 @@ function fnx_sync_lead_to_gsheets($lead_data) {
         return false;
     }
 
+    $lead_type = sanitize_text_field($lead_data['lead_type'] ?? '');
+    $message   = sanitize_textarea_field($lead_data['message'] ?? '');
+
+    // Classify destination tab: 'contact' or 'newsletter'
+    if (isset($lead_data['target_sheet']) && in_array($lead_data['target_sheet'], ['newsletter', 'contact'], true)) {
+        $target_sheet = $lead_data['target_sheet'];
+    } else {
+        $is_contact = stripos($lead_type, 'Contact') !== false || ! empty($message) || ! empty($lead_data['company']);
+        $target_sheet = $is_contact ? 'contact' : 'newsletter';
+    }
+
     $payload = [
-        'timestamp' => current_time('mysql'),
-        'date'      => current_time('M j, Y H:i:s'),
-        'name'      => sanitize_text_field($lead_data['name'] ?? ''),
-        'email'     => sanitize_email($lead_data['email'] ?? ''),
-        'lead_type' => sanitize_text_field($lead_data['lead_type'] ?? 'Newsletter Signup'),
-        'phone'     => sanitize_text_field($lead_data['phone'] ?? ''),
-        'company'   => sanitize_text_field($lead_data['company'] ?? ''),
-        'stage'     => sanitize_text_field($lead_data['stage'] ?? ''),
-        'help'      => sanitize_text_field($lead_data['help'] ?? ''),
-        'message'   => sanitize_textarea_field($lead_data['message'] ?? ''),
-        'source'    => esc_url_raw($lead_data['source'] ?? home_url('/')),
+        'target_sheet' => $target_sheet,
+        'timestamp'    => current_time('mysql'),
+        'date'         => current_time('M j, Y H:i:s'),
+        'name'         => sanitize_text_field($lead_data['name'] ?? ''),
+        'email'        => sanitize_email($lead_data['email'] ?? ''),
+        'lead_type'    => $lead_type ?: ($target_sheet === 'contact' ? 'Contact Form Submission' : 'Newsletter Signup'),
+        'phone'        => sanitize_text_field($lead_data['phone'] ?? ''),
+        'company'      => sanitize_text_field($lead_data['company'] ?? ''),
+        'stage'        => sanitize_text_field($lead_data['stage'] ?? ''),
+        'help'         => sanitize_text_field($lead_data['help'] ?? ''),
+        'message'      => $message,
+        'source'       => esc_url_raw($lead_data['source'] ?? home_url('/')),
     ];
 
     $response = wp_remote_post($webhook_url, [
@@ -1026,22 +1038,44 @@ function fnx_render_gsheet_admin_page() {
         $notice = '<div class="notice notice-success is-dismissible"><p><strong>' . __('Settings saved successfully!', 'foundnxt') . '</strong></p></div>';
     }
 
-    // Handle Test Connection
-    if (isset($_POST['fnx_test_gsheet_connection']) && check_admin_referer('fnx_gsheet_settings_action', 'fnx_gsheet_nonce')) {
+    // Handle Test Newsletter Connection
+    if (isset($_POST['fnx_test_newsletter']) && check_admin_referer('fnx_gsheet_settings_action', 'fnx_gsheet_nonce')) {
         $test_res = fnx_sync_lead_to_gsheets([
-            'name'      => 'FoundNXT Test Subscriber',
-            'email'     => 'test@foundnxt.com',
-            'lead_type' => 'Test Connection',
-            'phone'     => '+1 (555) 000-0000',
-            'company'   => 'FoundNXT Media',
-            'message'   => 'Test submission confirming Google Sheets sync connection is active.',
-            'source'    => admin_url('edit.php?post_type=fnx_lead&page=fnx-gsheet-sync'),
+            'target_sheet' => 'newsletter',
+            'name'         => 'FoundNXT Test Subscriber',
+            'email'        => 'subscriber@foundnxt.com',
+            'lead_type'    => 'Newsletter Signup Test',
+            'source'       => home_url('/#newsletter-section'),
         ]);
 
         if (is_wp_error($test_res)) {
             $notice = '<div class="notice notice-error is-dismissible"><p><strong>' . sprintf(__('Test failed: %s', 'foundnxt'), esc_html($test_res->get_error_message())) . '</strong></p></div>';
         } elseif ($test_res === true) {
-            $notice = '<div class="notice notice-success is-dismissible"><p><strong>' . __('Success! A test row was sent to your Google Sheet. Check your spreadsheet now.', 'foundnxt') . '</strong></p></div>';
+            $notice = '<div class="notice notice-success is-dismissible"><p><strong>' . __('Success! A test row was sent to your "newsletter" tab in Google Sheets. Check your spreadsheet now.', 'foundnxt') . '</strong></p></div>';
+        } else {
+            $notice = '<div class="notice notice-warning is-dismissible"><p><strong>' . __('Please enter a valid Google Sheets Webhook URL first.', 'foundnxt') . '</strong></p></div>';
+        }
+    }
+
+    // Handle Test Contact Connection
+    if (isset($_POST['fnx_test_contact']) && check_admin_referer('fnx_gsheet_settings_action', 'fnx_gsheet_nonce')) {
+        $test_res = fnx_sync_lead_to_gsheets([
+            'target_sheet' => 'contact',
+            'name'         => 'Jordan Lee (Test Contact)',
+            'email'        => 'jordan@company.com',
+            'lead_type'    => 'Contact Page Form Submission',
+            'phone'        => '+1 (555) 019-2834',
+            'company'      => 'Acme Technologies Inc.',
+            'stage'        => 'Growth / Series A+',
+            'help'         => 'Valuation Guidance',
+            'message'      => 'This is a test submission verifying that contact page enquiries cleanly sync into the "contact" tab.',
+            'source'       => home_url('/contact/'),
+        ]);
+
+        if (is_wp_error($test_res)) {
+            $notice = '<div class="notice notice-error is-dismissible"><p><strong>' . sprintf(__('Test failed: %s', 'foundnxt'), esc_html($test_res->get_error_message())) . '</strong></p></div>';
+        } elseif ($test_res === true) {
+            $notice = '<div class="notice notice-success is-dismissible"><p><strong>' . __('Success! A test row was sent to your "contact" tab in Google Sheets. Check your spreadsheet now.', 'foundnxt') . '</strong></p></div>';
         } else {
             $notice = '<div class="notice notice-warning is-dismissible"><p><strong>' . __('Please enter a valid Google Sheets Webhook URL first.', 'foundnxt') . '</strong></p></div>';
         }
@@ -1049,18 +1083,19 @@ function fnx_render_gsheet_admin_page() {
 
     $current_url = get_option('fnx_gsheet_webhook_url', get_theme_mod('fnx_gsheet_webhook_url', ''));
     ?>
-    <div class="wrap" style="max-width: 960px;">
+    <div class="wrap" style="max-width: 980px;">
         <h1 style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
             <span class="dashicons dashicons-spreadsheet" style="font-size: 32px; width: 32px; height: 32px; color: #10b981;"></span>
-            <?php _e('FoundNXT — Google Sheets Newsletter & Lead Sync', 'foundnxt'); ?>
+            <?php _e('FoundNXT — Google Sheets 2-Page Sync (Newsletter & Contact)', 'foundnxt'); ?>
         </h1>
 
         <?php echo $notice; ?>
 
+        <!-- Step 1: Webhook URL & Testing -->
         <div style="background: #ffffff; border: 1px solid #ccd0d4; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 24px;">
             <h2 style="margin-top: 0; font-size: 1.25rem;"><?php _e('1. Webhook Configuration', 'foundnxt'); ?></h2>
-            <p style="color: #64748b; font-size: 0.95rem;">
-                <?php _e('Paste your Google Apps Script Web App URL below. When visitors enter their name and email in the newsletter or contact forms, FoundNXT will immediately append a new row to your Google Sheet.', 'foundnxt'); ?>
+            <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 18px;">
+                <?php _e('Paste your Google Apps Script Web App URL below. When visitors subscribe to the newsletter, it routes to the <strong>newsletter</strong> tab. When visitors send a contact form enquiry, it routes to the <strong>contact</strong> tab.', 'foundnxt'); ?>
             </p>
 
             <form method="post" action="">
@@ -1079,66 +1114,58 @@ function fnx_render_gsheet_admin_page() {
                     </tbody>
                 </table>
 
-                <div style="display: flex; gap: 12px; align-items: center; margin-top: 16px;">
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 18px;">
                     <button type="submit" name="fnx_save_gsheet_settings" class="button button-primary button-large">
                         <?php _e('Save Webhook URL', 'foundnxt'); ?>
                     </button>
                     <?php if (! empty($current_url)): ?>
-                    <button type="submit" name="fnx_test_gsheet_connection" class="button button-secondary button-large">
-                        <?php _e('Send Test Row to Google Sheet', 'foundnxt'); ?>
+                    <button type="submit" name="fnx_test_newsletter" class="button button-secondary button-large">
+                        <span class="dashicons dashicons-email" style="vertical-align: middle; margin-top: -2px;"></span> <?php _e('Test "newsletter" Tab', 'foundnxt'); ?>
+                    </button>
+                    <button type="submit" name="fnx_test_contact" class="button button-secondary button-large">
+                        <span class="dashicons dashicons-id-alt" style="vertical-align: middle; margin-top: -2px;"></span> <?php _e('Test "contact" Tab', 'foundnxt'); ?>
                     </button>
                     <?php endif; ?>
                 </div>
             </form>
         </div>
 
+        <!-- Step 2: Spreadsheet Structure & Instructions -->
         <div style="background: #ffffff; border: 1px solid #ccd0d4; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 24px;">
-            <h2 style="margin-top: 0; font-size: 1.25rem;"><?php _e('2. Setup Instructions (Takes 2 Minutes)', 'foundnxt'); ?></h2>
-            <ol style="line-height: 1.8; font-size: 0.95rem; color: #1e293b;">
-                <li>Open <a href="https://sheets.new" target="_blank" rel="noopener noreferrer"><strong>Google Sheets (create a new blank sheet)</strong></a> and name it <em>FoundNXT Leads</em>.</li>
-                <li>In the top menu of your Google Sheet, click <strong>Extensions &gt; Apps Script</strong>.</li>
-                <li>Delete any default code inside the script editor, and paste the code block below.</li>
+            <h2 style="margin-top: 0; font-size: 1.25rem;"><?php _e('2. Setup Instructions for 2-Tab Sheet', 'foundnxt'); ?></h2>
+            <p style="color: #475569; font-size: 0.95rem;">
+                Your Google Spreadsheet contains two tabs at the bottom: <code>newsletter</code> and <code>contact</code>.
+            </p>
+            <ol style="line-height: 1.8; font-size: 0.95rem; color: #1e293b; padding-left: 20px;">
+                <li>In your Google Sheet with the <strong>newsletter</strong> and <strong>contact</strong> tabs, click <strong>Extensions &gt; Apps Script</strong>.</li>
+                <li>Delete any code in the script editor, and paste the code block below in Section 3.</li>
                 <li>In the top right, click <strong>Deploy &gt; New deployment</strong>.</li>
-                <li>Select type: <strong>Web app</strong> (gear icon).</li>
+                <li>Click the gear icon (Select type) and choose <strong>Web app</strong>.</li>
                 <li>Set <strong>Execute as:</strong> <em>Me (your Google account)</em> and <strong>Who has access:</strong> <em>Anyone</em>.</li>
-                <li>Click <strong>Deploy</strong>, authorize permissions, and copy the <strong>Web app URL</strong>.</li>
-                <li>Paste the URL into the box above and click <strong>Save Webhook URL</strong>!</li>
+                <li>Click <strong>Deploy</strong>, grant permission when prompted, and copy the <strong>Web app URL</strong>.</li>
+                <li>Paste the URL in Step 1 above, click <strong>Save Webhook URL</strong>, and click the test buttons!</li>
             </ol>
+
+            <div style="background: #f8fafc; border-left: 4px solid #6d5efc; padding: 12px 16px; margin-top: 14px; border-radius: 4px;">
+                <p style="margin: 0; font-size: 0.875rem; color: #334155;">
+                    💡 <strong>Smart Column Detection:</strong> If your <code>newsletter</code> tab already has column headers like <code>Name</code> and <code>Email</code>, the script dynamically matches them and appends rows into your exact columns!
+                </p>
+            </div>
         </div>
 
+        <!-- Step 3: Google Apps Script Code -->
         <div style="background: #ffffff; border: 1px solid #ccd0d4; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                 <h2 style="margin: 0; font-size: 1.25rem;"><?php _e('3. Google Apps Script Code (Copy & Paste)', 'foundnxt'); ?></h2>
                 <button type="button" class="button button-secondary" id="fnx-copy-code-btn" onclick="fnxCopyAppsScript();">
-                    <span class="dashicons dashicons-admin-page" style="vertical-align: middle; margin-top: -2px;"></span> <?php _e('Copy Code', 'foundnxt'); ?>
+                    <span class="dashicons dashicons-admin-page" style="vertical-align: middle; margin-top: -2px;"></span> <?php _e('Copy Apps Script Code', 'foundnxt'); ?>
                 </button>
             </div>
             <pre id="fnx-apps-script-code" style="background: #0f172a; color: #e2e8f0; padding: 18px; border-radius: 6px; font-size: 13px; line-height: 1.6; overflow-x: auto; font-family: 'JetBrains Mono', Consolas, monospace; user-select: all;">function doPost(e) {
   try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
     
-    // Auto-create header row if sheet is empty
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow([
-        "Timestamp",
-        "Name",
-        "Email",
-        "Lead Type",
-        "Phone / Mobile",
-        "Company / Website",
-        "Stage",
-        "Help Topic",
-        "Message",
-        "Source Page"
-      ]);
-      sheet.getRange(1, 1, 1, 10)
-        .setFontWeight("bold")
-        .setBackground("#6d5efc")
-        .setFontColor("#ffffff");
-      sheet.setFrozenRows(1);
-    }
-    
-    // Parse incoming JSON data
+    // 1. Parse incoming JSON data
     var data = {};
     if (e && e.postData && e.postData.contents) {
       data = JSON.parse(e.postData.contents);
@@ -1146,22 +1173,126 @@ function fnx_render_gsheet_admin_page() {
       data = e.parameter;
     }
     
-    sheet.appendRow([
-      data.timestamp || new Date().toLocaleString(),
-      data.name || "",
-      data.email || "",
-      data.lead_type || "Newsletter Signup",
-      data.phone || "",
-      data.company || "",
-      data.stage || "",
-      data.help || "",
-      data.message || "",
-      data.source || ""
-    ]);
+    var timestamp = data.timestamp || new Date().toLocaleString();
+    var name      = data.name || "";
+    var email     = data.email || "";
+    var leadType  = data.lead_type || "";
+    var phone     = data.phone || "";
+    var company   = data.company || "";
+    var stage     = data.stage || "";
+    var help      = data.help || "";
+    var message   = data.message || "";
+    var source    = data.source || "";
+    var target    = (data.target_sheet || "").toLowerCase().trim();
+    
+    // 2. Determine target sheet: 'contact' or 'newsletter'
+    var isContact = (target === "contact") ||
+                    (leadType.toLowerCase().indexOf("contact") !== -1) ||
+                    (message && message.length > 0) ||
+                    (phone && phone.length > 0) ||
+                    (company && company.length > 0) ||
+                    (help && help.length > 0 && help !== "General Enquiry");
+    
+    var targetSheetName = isContact ? "contact" : "newsletter";
+    
+    // 3. Find sheet tab (case-insensitive)
+    var sheet = ss.getSheetByName(targetSheetName);
+    if (!sheet) {
+      var allSheets = ss.getSheets();
+      for (var i = 0; i < allSheets.length; i++) {
+        if (allSheets[i].getName().toLowerCase().trim() === targetSheetName) {
+          sheet = allSheets[i];
+          break;
+        }
+      }
+    }
+    
+    // Create sheet if it does not exist
+    if (!sheet) {
+      sheet = ss.insertSheet(targetSheetName);
+    }
+    
+    // 4. Auto-create headers if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      if (targetSheetName === "newsletter") {
+        sheet.appendRow(["Timestamp", "Name", "Email", "Lead Type", "Source Page"]);
+        sheet.getRange(1, 1, 1, 5)
+          .setFontWeight("bold")
+          .setBackground("#6d5efc")
+          .setFontColor("#ffffff");
+        sheet.setFrozenRows(1);
+      } else {
+        sheet.appendRow([
+          "Timestamp",
+          "Name",
+          "Email",
+          "Phone / Mobile",
+          "Company / Website",
+          "Company Stage",
+          "Help Topic",
+          "Message",
+          "Source Page"
+        ]);
+        sheet.getRange(1, 1, 1, 9)
+          .setFontWeight("bold")
+          .setBackground("#00d4aa")
+          .setFontColor("#0f172a");
+        sheet.setFrozenRows(1);
+      }
+    }
+    
+    // 5. Match columns dynamically if headers exist
+    var lastCol = sheet.getLastColumn();
+    var headers = [];
+    if (lastCol > 0 && sheet.getLastRow() >= 1) {
+      headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
+    }
+    
+    if (headers && headers.length > 0) {
+      var row = [];
+      for (var c = 0; c < headers.length; c++) {
+        var h = String(headers[c]).toLowerCase().trim();
+        if (h === "name" || h === "full name" || h === "your name") {
+          row.push(name);
+        } else if (h === "email" || h === "work email" || h === "email address") {
+          row.push(email);
+        } else if (h === "timestamp" || h === "date" || h === "time" || h === "date & time") {
+          row.push(timestamp);
+        } else if (h === "phone" || h === "mobile" || h === "phone number" || h === "phone / mobile") {
+          row.push(phone);
+        } else if (h === "company" || h === "website" || h === "company / website") {
+          row.push(company);
+        } else if (h === "stage" || h === "company stage" || h === "size") {
+          row.push(stage);
+        } else if (h === "help" || h === "topic" || h === "help topic" || h === "service") {
+          row.push(help);
+        } else if (h === "message" || h === "inquiry" || h === "notes") {
+          row.push(message);
+        } else if (h === "source" || h === "source page" || h === "page" || h === "url") {
+          row.push(source);
+        } else if (h === "lead type" || h === "type" || h === "form") {
+          row.push(leadType);
+        } else {
+          row.push("");
+        }
+      }
+      sheet.appendRow(row);
+    } else {
+      if (targetSheetName === "newsletter") {
+        sheet.appendRow([timestamp, name, email, leadType || "Newsletter Signup", source]);
+      } else {
+        sheet.appendRow([timestamp, name, email, phone, company, stage, help, message, source]);
+      }
+    }
     
     return ContentService
-      .createTextOutput(JSON.stringify({ status: "success", message: "Saved to Google Sheet" }))
+      .createTextOutput(JSON.stringify({
+        status: "success",
+        sheet: sheet.getName(),
+        message: "Saved to " + sheet.getName() + " tab successfully"
+      }))
       .setMimeType(ContentService.MimeType.JSON);
+      
   } catch (err) {
     return ContentService
       .createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
