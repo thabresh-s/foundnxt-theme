@@ -24,6 +24,7 @@
             <input type="hidden" name="action" value="fnx_lead_submit">
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
             <input type="hidden" name="lead_type" value="Footer Newsletter Signup">
+            <input type="hidden" name="target_sheet" value="newsletter">
             <div class="newsletter-fw-fields" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
               <input type="text" name="lead_name" placeholder="<?php esc_attr_e('Your full name…', 'foundnxt'); ?>" required>
               <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>

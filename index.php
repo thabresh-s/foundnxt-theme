@@ -41,6 +41,7 @@
             <input type="hidden" name="action" value="fnx_lead_submit">
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
             <input type="hidden" name="lead_type" value="Hero Newsletter Access">
+            <input type="hidden" name="target_sheet" value="newsletter">
             <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
             <input type="email" name="lead_email" class="hero-access-input" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
             <button type="submit" class="hero-access-btn"><?php _e('Get Access', 'foundnxt'); ?> →</button>
@@ -287,6 +288,7 @@
           <input type="hidden" name="action" value="fnx_lead_submit">
           <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
           <input type="hidden" name="lead_type" value="Tools Directory Early Access Waitlist">
+          <input type="hidden" name="target_sheet" value="newsletter">
           <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
           <input type="email" name="lead_email" class="tools-waitlist-input" placeholder="<?php esc_attr_e('Enter your work email for early access…', 'foundnxt'); ?>" required>
           <button type="submit" class="tools-waitlist-btn"><?php _e('Join Waitlist', 'foundnxt'); ?> →</button>
@@ -308,6 +310,7 @@
             <input type="hidden" name="action" value="fnx_lead_submit">
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
             <input type="hidden" name="lead_type" value="Fullwidth Newsletter Band">
+            <input type="hidden" name="target_sheet" value="newsletter">
             <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
             <div class="newsletter-fw-fields">
               <input type="text" name="lead_name" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Your full name…', 'foundnxt'); ?>" required>

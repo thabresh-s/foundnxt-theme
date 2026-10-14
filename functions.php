@@ -868,6 +868,7 @@ function fnx_handle_lead_submission() {
     $service_help  = isset($_POST['lead_help'])    ? sanitize_text_field(wp_unslash($_POST['lead_help'])) : 'General Enquiry';
     $message       = isset($_POST['lead_message']) ? sanitize_textarea_field(wp_unslash($_POST['lead_message'])) : '';
     $lead_type     = isset($_POST['lead_type'])    ? sanitize_text_field(wp_unslash($_POST['lead_type'])) : 'Lead Submission';
+    $target_sheet  = isset($_POST['target_sheet']) ? sanitize_key($_POST['target_sheet']) : '';
 
     if (empty($name) && ! empty($email) && is_email($email)) {
         $parts = explode('@', $email);
@@ -920,15 +921,16 @@ function fnx_handle_lead_submission() {
 
     // 3. Sync to Google Sheets if Webhook URL is configured
     fnx_sync_lead_to_gsheets([
-        'name'      => $name,
-        'email'     => $email,
-        'lead_type' => $lead_type,
-        'phone'     => $phone,
-        'company'   => $company_site,
-        'stage'     => $company_stage,
-        'help'      => $service_help,
-        'message'   => $message,
-        'source'    => $referer,
+        'target_sheet' => $target_sheet,
+        'name'         => $name,
+        'email'        => $email,
+        'lead_type'    => $lead_type,
+        'phone'        => $phone,
+        'company'      => $company_site,
+        'stage'        => $company_stage,
+        'help'         => $service_help,
+        'message'      => $message,
+        'source'       => $referer,
     ]);
 
     $referer = wp_get_referer() ?: home_url('/');
@@ -951,12 +953,13 @@ add_action('admin_post_nopriv_fnx_lead_submit', 'fnx_handle_lead_submission');
  * @return bool|WP_Error
  */
 function fnx_sync_lead_to_gsheets($lead_data) {
+    $default_webhook = 'https://script.google.com/macros/s/AKfycbyn-p1CB4KOwABIk4gSFnOqL1Tu9eS13xl-xfIoCR9tmqceIBF-JAYOQgWqi-j8QP25/exec';
     $webhook_url = defined('FNX_GSHEET_WEBHOOK_URL') && FNX_GSHEET_WEBHOOK_URL
         ? FNX_GSHEET_WEBHOOK_URL
-        : get_option('fnx_gsheet_webhook_url', get_theme_mod('fnx_gsheet_webhook_url', ''));
+        : get_option('fnx_gsheet_webhook_url', get_theme_mod('fnx_gsheet_webhook_url', $default_webhook));
 
     if (empty($webhook_url) || ! filter_var($webhook_url, FILTER_VALIDATE_URL)) {
-        return false;
+        $webhook_url = $default_webhook;
     }
 
     $lead_type = sanitize_text_field($lead_data['lead_type'] ?? '');
@@ -1081,7 +1084,7 @@ function fnx_render_gsheet_admin_page() {
         }
     }
 
-    $current_url = get_option('fnx_gsheet_webhook_url', get_theme_mod('fnx_gsheet_webhook_url', ''));
+    $current_url = get_option('fnx_gsheet_webhook_url', get_theme_mod('fnx_gsheet_webhook_url', 'https://script.google.com/macros/s/AKfycbyn-p1CB4KOwABIk4gSFnOqL1Tu9eS13xl-xfIoCR9tmqceIBF-JAYOQgWqi-j8QP25/exec'));
     ?>
     <div class="wrap" style="max-width: 980px;">
         <h1 style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
@@ -1400,6 +1403,7 @@ function fnx_insert_lead_magnets_in_content($content) {
         <input type="hidden" name="action" value="fnx_lead_submit">
         <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
         <input type="hidden" name="lead_type" value="Lead Magnet - <?php echo esc_attr($cat_name); ?>">
+        <input type="hidden" name="target_sheet" value="newsletter">
         <div class="magnet-form-grid">
           <input type="text" name="lead_name" placeholder="<?php esc_attr_e('Your Name', 'foundnxt'); ?>" required>
           <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Your Work Email', 'foundnxt'); ?>" required>
