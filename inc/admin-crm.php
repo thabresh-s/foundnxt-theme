@@ -2,9 +2,8 @@
 /**
  * FoundNXT CRM — Modern Lead Management Table & Dashboard for WordPress Admin
  *
- * Transforms the fnx_lead CPT into a high-end, responsive CRM table structure
- * featuring KPI metrics, contact avatars, channel pills, company stages,
- * quick-view slide-over modal, filtering, and CSV export.
+ * Separates Contact Inquiries and Newsletter Subscribers with dedicated views,
+ * submenus, tailored table columns, KPI metrics, Quick View drawer, and CSV exports.
  *
  * @package FoundNXT
  */
@@ -15,7 +14,49 @@ if (! defined('ABSPATH')) {
 
 /**
  * ══════════════════════════════════════════════════════════════
- * 1. LEAD DATA HELPER
+ * 1. DEDICATED ADMIN SUBMENUS FOR SEPARATE VIEWS
+ * ══════════════════════════════════════════════════════════════
+ */
+function fnx_crm_register_submenus() {
+    // 1. Contact Inquiries Submenu
+    add_submenu_page(
+        'edit.php?post_type=fnx_lead',
+        __('Contact Inquiries', 'foundnxt'),
+        __('💬 Contact Inquiries', 'foundnxt'),
+        'manage_options',
+        'edit.php?post_type=fnx_lead&fnx_channel=contact'
+    );
+
+    // 2. Newsletter Subscribers Submenu
+    add_submenu_page(
+        'edit.php?post_type=fnx_lead',
+        __('Newsletter Subscribers', 'foundnxt'),
+        __('✉️ Newsletter Subscribers', 'foundnxt'),
+        'manage_options',
+        'edit.php?post_type=fnx_lead&fnx_channel=newsletter'
+    );
+}
+add_action('admin_menu', 'fnx_crm_register_submenus', 9);
+
+/**
+ * Highlight the active submenu item in the admin sidebar
+ */
+add_filter('submenu_file', function($submenu_file) {
+    if (isset($_GET['post_type']) && $_GET['post_type'] === 'fnx_lead') {
+        $channel = sanitize_key($_GET['fnx_channel'] ?? '');
+        if ($channel === 'contact') {
+            return 'edit.php?post_type=fnx_lead&fnx_channel=contact';
+        } elseif ($channel === 'newsletter') {
+            return 'edit.php?post_type=fnx_lead&fnx_channel=newsletter';
+        }
+    }
+    return $submenu_file;
+});
+
+
+/**
+ * ══════════════════════════════════════════════════════════════
+ * 2. LEAD DATA HELPER
  * ══════════════════════════════════════════════════════════════
  */
 function fnx_crm_get_lead($post_id) {
@@ -78,7 +119,7 @@ function fnx_crm_get_lead($post_id) {
         }
     }
 
-    $is_contact = stripos($lead_type, 'Contact') !== false || ! empty($message) || ! empty($phone);
+    $is_contact = (stripos($lead_type, 'Contact') !== false) || ! empty($message) || ! empty($phone);
     if (empty($target_sheet)) {
         $target_sheet = $is_contact ? 'contact' : 'newsletter';
     }
@@ -92,6 +133,7 @@ function fnx_crm_get_lead($post_id) {
         'stage'        => $stage ?: __('Not Specified', 'foundnxt'),
         'help'         => $help ?: __('General Enquiry', 'foundnxt'),
         'lead_type'    => $lead_type ?: ($is_contact ? 'Contact Page Enquiry' : 'Newsletter Signup'),
+        'is_contact'   => $is_contact,
         'message'      => $message,
         'source'       => $source ?: home_url('/'),
         'target_sheet' => $target_sheet,
@@ -133,22 +175,51 @@ function fnx_crm_avatar_gradient($name) {
 
 /**
  * ══════════════════════════════════════════════════════════════
- * 2. CUSTOM TABLE COLUMNS
+ * 3. SEPARATED TABLE COLUMNS
  * ══════════════════════════════════════════════════════════════
  */
 function fnx_crm_table_columns($columns) {
-    $custom = [
-        'cb'               => '<input type="checkbox" />',
-        'fnx_crm_contact'  => __('Contact / Lead', 'foundnxt'),
-        'fnx_crm_channel'  => __('Channel / Source', 'foundnxt'),
-        'fnx_crm_company'  => __('Company & Stage', 'foundnxt'),
-        'fnx_crm_topic'    => __('Requirement / Topic', 'foundnxt'),
-        'fnx_crm_message'  => __('Message Preview', 'foundnxt'),
-        'fnx_crm_sync'     => __('Sync Destination', 'foundnxt'),
-        'fnx_crm_date'     => __('Received', 'foundnxt'),
-        'fnx_crm_actions'  => __('Actions', 'foundnxt'),
+    $channel = sanitize_key($_GET['fnx_channel'] ?? '');
+
+    // 1. Newsletter Subscribers View
+    if ($channel === 'newsletter') {
+        return [
+            'cb'                 => '<input type="checkbox" />',
+            'fnx_crm_contact'    => __('Subscriber (Name & Email)', 'foundnxt'),
+            'fnx_crm_channel'    => __('Signup Form', 'foundnxt'),
+            'fnx_crm_source_url' => __('Source Page URL', 'foundnxt'),
+            'fnx_crm_sync'       => __('Google Sheets Sync', 'foundnxt'),
+            'fnx_crm_date'       => __('Subscribed Date', 'foundnxt'),
+            'fnx_crm_actions'    => __('Actions', 'foundnxt'),
+        ];
+    }
+
+    // 2. Contact Inquiries View
+    if ($channel === 'contact') {
+        return [
+            'cb'                 => '<input type="checkbox" />',
+            'fnx_crm_contact'    => __('Contact / Lead', 'foundnxt'),
+            'fnx_crm_company'    => __('Company & Stage', 'foundnxt'),
+            'fnx_crm_topic'      => __('Requirement / Topic', 'foundnxt'),
+            'fnx_crm_message'    => __('Message Preview', 'foundnxt'),
+            'fnx_crm_sync'       => __('Google Sheets Sync', 'foundnxt'),
+            'fnx_crm_date'       => __('Received Date', 'foundnxt'),
+            'fnx_crm_actions'    => __('Actions', 'foundnxt'),
+        ];
+    }
+
+    // 3. All Inbound Leads (Combined)
+    return [
+        'cb'                 => '<input type="checkbox" />',
+        'fnx_crm_contact'    => __('Contact / Lead', 'foundnxt'),
+        'fnx_crm_channel'    => __('Channel / Type', 'foundnxt'),
+        'fnx_crm_company'    => __('Company & Stage', 'foundnxt'),
+        'fnx_crm_topic'      => __('Requirement / Topic', 'foundnxt'),
+        'fnx_crm_message'    => __('Message Preview', 'foundnxt'),
+        'fnx_crm_sync'       => __('Sync Destination', 'foundnxt'),
+        'fnx_crm_date'       => __('Received', 'foundnxt'),
+        'fnx_crm_actions'    => __('Actions', 'foundnxt'),
     ];
-    return $custom;
 }
 add_filter('manage_edit-fnx_lead_columns', 'fnx_crm_table_columns');
 
@@ -229,6 +300,23 @@ function fnx_crm_render_column($column, $post_id) {
                 <?php echo esc_html($type); ?>
             </span>
             <?php
+            break;
+
+        case 'fnx_crm_source_url':
+            $source = $lead['source'];
+            if (! empty($source) && filter_var($source, FILTER_VALIDATE_URL)) {
+                $path = parse_url($source, PHP_URL_PATH);
+                $frag = parse_url($source, PHP_URL_FRAGMENT);
+                $label = ($path ?: '/') . ($frag ? '#' . $frag : '');
+                ?>
+                <a href="<?php echo esc_url($source); ?>" target="_blank" rel="noopener" class="fnx-crm-company-name" title="<?php echo esc_attr($source); ?>">
+                    <code><?php echo esc_html($label); ?></code>
+                    <span class="dashicons dashicons-external" style="font-size: 13px; width: 13px; height: 13px;"></span>
+                </a>
+                <?php
+            } else {
+                echo '<span class="fnx-text-muted">—</span>';
+            }
             break;
 
         case 'fnx_crm_company':
@@ -346,7 +434,7 @@ add_action('manage_fnx_lead_posts_custom_column', 'fnx_crm_render_column', 10, 2
 
 /**
  * ══════════════════════════════════════════════════════════════
- * 3. SORTABLE COLUMNS
+ * 4. SORTABLE COLUMNS
  * ══════════════════════════════════════════════════════════════
  */
 function fnx_crm_sortable_columns($columns) {
@@ -360,7 +448,7 @@ add_filter('manage_edit-fnx_lead_sortable_columns', 'fnx_crm_sortable_columns');
 
 /**
  * ══════════════════════════════════════════════════════════════
- * 4. SMART FILTERS IN TABLE HEADER
+ * 5. SMART FILTERS & QUERY ROUTING
  * ══════════════════════════════════════════════════════════════
  */
 function fnx_crm_table_filters($post_type) {
@@ -368,59 +456,72 @@ function fnx_crm_table_filters($post_type) {
         return;
     }
 
-    $selected_channel = isset($_GET['fnx_filter_channel']) ? sanitize_text_field($_GET['fnx_filter_channel']) : '';
-    $selected_topic   = isset($_GET['fnx_filter_topic'])   ? sanitize_text_field($_GET['fnx_filter_topic'])   : '';
-    $selected_stage   = isset($_GET['fnx_filter_stage'])   ? sanitize_text_field($_GET['fnx_filter_stage'])   : '';
+    $channel = sanitize_key($_GET['fnx_channel'] ?? '');
 
-    // Channel Filter
-    echo '<select name="fnx_filter_channel" id="fnx_filter_channel" style="margin-left: 6px;">';
-    echo '<option value="">' . __('All Channels', 'foundnxt') . '</option>';
-    $channels = [
-        'Contact Page Form Submission' => __('Contact Form Inquiries', 'foundnxt'),
-        'Newsletter Signup'            => __('Newsletter Signups', 'foundnxt'),
-        'Hero Newsletter Access'       => __('Hero Access Signups', 'foundnxt'),
-        'Tools Directory Early Access' => __('Tools Waitlist', 'foundnxt'),
-        'Lead Magnet'                  => __('Lead Magnets', 'foundnxt'),
-    ];
-    foreach ($channels as $key => $label) {
-        printf('<option value="%s" %s>%s</option>', esc_attr($key), selected($selected_channel, $key, false), esc_html($label));
-    }
-    echo '</select>';
+    // Show Topic and Stage filters only on Contact or All views
+    if ($channel !== 'newsletter') {
+        $selected_topic = isset($_GET['fnx_filter_topic']) ? sanitize_text_field($_GET['fnx_filter_topic']) : '';
+        $selected_stage = isset($_GET['fnx_filter_stage']) ? sanitize_text_field($_GET['fnx_filter_stage']) : '';
 
-    // Topic Filter
-    echo '<select name="fnx_filter_topic" id="fnx_filter_topic" style="margin-left: 6px;">';
-    echo '<option value="">' . __('All Help Topics', 'foundnxt') . '</option>';
-    $topics = [
-        'Valuation Guidance'     => __('Valuation Guidance', 'foundnxt'),
-        'Tech & AI Strategy'     => __('Tech & AI Strategy', 'foundnxt'),
-        'Market Research Request'=> __('Market Research', 'foundnxt'),
-        'Marketing Help'         => __('Marketing & Growth', 'foundnxt'),
-        'Partnerships'           => __('Partnerships', 'foundnxt'),
-        'General Enquiry'        => __('General Enquiry', 'foundnxt'),
-    ];
-    foreach ($topics as $key => $label) {
-        printf('<option value="%s" %s>%s</option>', esc_attr($key), selected($selected_topic, $key, false), esc_html($label));
-    }
-    echo '</select>';
+        // Topic Filter
+        echo '<select name="fnx_filter_topic" id="fnx_filter_topic" style="margin-left: 6px;">';
+        echo '<option value="">' . __('All Help Topics', 'foundnxt') . '</option>';
+        $topics = [
+            'Valuation Guidance'     => __('Valuation Guidance', 'foundnxt'),
+            'Tech & AI Strategy'     => __('Tech & AI Strategy', 'foundnxt'),
+            'Market Research Request'=> __('Market Research', 'foundnxt'),
+            'Marketing Help'         => __('Marketing & Growth', 'foundnxt'),
+            'Partnerships'           => __('Partnerships', 'foundnxt'),
+            'General Enquiry'        => __('General Enquiry', 'foundnxt'),
+        ];
+        foreach ($topics as $key => $label) {
+            printf('<option value="%s" %s>%s</option>', esc_attr($key), selected($selected_topic, $key, false), esc_html($label));
+        }
+        echo '</select>';
 
-    // Stage Filter
-    echo '<select name="fnx_filter_stage" id="fnx_filter_stage" style="margin-left: 6px;">';
-    echo '<option value="">' . __('All Company Stages', 'foundnxt') . '</option>';
-    $stages = [
-        'Early Stage / Seed'     => __('Early Stage / Seed', 'foundnxt'),
-        'Growth / Series A+'     => __('Growth / Series A+', 'foundnxt'),
-        'Scaleup'                => __('Scaleup', 'foundnxt'),
-        'Enterprise / Established'=> __('Enterprise / Established', 'foundnxt'),
-    ];
-    foreach ($stages as $key => $label) {
-        printf('<option value="%s" %s>%s</option>', esc_attr($key), selected($selected_stage, $key, false), esc_html($label));
+        // Stage Filter
+        echo '<select name="fnx_filter_stage" id="fnx_filter_stage" style="margin-left: 6px;">';
+        echo '<option value="">' . __('All Company Stages', 'foundnxt') . '</option>';
+        $stages = [
+            'Early Stage / Seed'      => __('Early Stage / Seed', 'foundnxt'),
+            'Growth / Series A+'      => __('Growth / Series A+', 'foundnxt'),
+            'Scaleup'                 => __('Scaleup', 'foundnxt'),
+            'Enterprise / Established'=> __('Enterprise / Established', 'foundnxt'),
+        ];
+        foreach ($stages as $key => $label) {
+            printf('<option value="%s" %s>%s</option>', esc_attr($key), selected($selected_stage, $key, false), esc_html($label));
+        }
+        echo '</select>';
     }
-    echo '</select>';
+
+    // Channel Form Filter (Newsletter forms or all)
+    if ($channel === 'newsletter' || empty($channel)) {
+        $selected_form = isset($_GET['fnx_filter_channel']) ? sanitize_text_field($_GET['fnx_filter_channel']) : '';
+        echo '<select name="fnx_filter_channel" id="fnx_filter_channel" style="margin-left: 6px;">';
+        echo '<option value="">' . __('All Signup Forms', 'foundnxt') . '</option>';
+        $forms = [
+            'Footer Newsletter Signup'            => __('Footer Form', 'foundnxt'),
+            'Hero Newsletter Access'              => __('Hero Access Form', 'foundnxt'),
+            'Fullwidth Newsletter Band'           => __('Fullwidth Newsletter Band', 'foundnxt'),
+            'Single Article End Newsletter CTA'   => __('Article End CTA', 'foundnxt'),
+            'Tools Directory Early Access Waitlist'=> __('Tools Waitlist', 'foundnxt'),
+            'Lead Magnet'                         => __('Lead Magnets', 'foundnxt'),
+        ];
+        foreach ($forms as $key => $label) {
+            printf('<option value="%s" %s>%s</option>', esc_attr($key), selected($selected_form, $key, false), esc_html($label));
+        }
+        echo '</select>';
+    }
+
+    // Preserve the active channel in pagination & filter submissions
+    if (! empty($channel)) {
+        printf('<input type="hidden" name="fnx_channel" value="%s">', esc_attr($channel));
+    }
 }
 add_action('restrict_manage_posts', 'fnx_crm_table_filters');
 
 /**
- * Filter Query
+ * Filter Query by Selected Channel (Contact vs Newsletter)
  */
 function fnx_crm_filter_query($query) {
     global $pagenow;
@@ -429,7 +530,40 @@ function fnx_crm_filter_query($query) {
     }
 
     $meta_query = [];
+    $channel_tab = sanitize_key($_GET['fnx_channel'] ?? '');
 
+    // 1. Separate by Channel Tab
+    if ($channel_tab === 'contact') {
+        $meta_query[] = [
+            'relation' => 'OR',
+            [
+                'key'     => 'lead_target_sheet',
+                'value'   => 'contact',
+                'compare' => '=',
+            ],
+            [
+                'key'     => 'lead_type',
+                'value'   => 'Contact',
+                'compare' => 'LIKE',
+            ],
+        ];
+    } elseif ($channel_tab === 'newsletter') {
+        $meta_query[] = [
+            'relation' => 'OR',
+            [
+                'key'     => 'lead_target_sheet',
+                'value'   => 'newsletter',
+                'compare' => '=',
+            ],
+            [
+                'key'     => 'lead_type',
+                'value'   => 'Contact',
+                'compare' => 'NOT LIKE',
+            ],
+        ];
+    }
+
+    // 2. Extra Dropdown Filters
     if (! empty($_GET['fnx_filter_channel'])) {
         $meta_query[] = [
             'key'     => 'lead_type',
@@ -450,7 +584,7 @@ function fnx_crm_filter_query($query) {
         $meta_query[] = [
             'key'     => 'lead_stage',
             'value'   => sanitize_text_field($_GET['fnx_filter_stage']),
-            'compare' => '=',
+            'compare' => 'LIKE',
         ];
     }
 
@@ -469,7 +603,7 @@ add_action('pre_get_posts', 'fnx_crm_filter_query');
 
 /**
  * ══════════════════════════════════════════════════════════════
- * 5. EXECUTIVE KPI DASHBOARD BAR (ABOVE THE TABLE)
+ * 6. EXECUTIVE KPI DASHBOARD BAR & MODERN SEGMENTED TABS
  * ══════════════════════════════════════════════════════════════
  */
 function fnx_crm_render_kpi_dashboard() {
@@ -478,35 +612,48 @@ function fnx_crm_render_kpi_dashboard() {
         return;
     }
 
-    // Calculate Lead Metrics
+    // Total Inbound Leads
     $counts = wp_count_posts('fnx_lead');
     $total_leads = ($counts->publish ?? 0) + ($counts->draft ?? 0);
 
-    // Count Contact Inquiries vs Newsletter
+    // Count Contact Inquiries
     $args_contact = [
         'post_type'   => 'fnx_lead',
         'post_status' => 'any',
         'fields'      => 'ids',
         'meta_query'  => [
+            'relation' => 'OR',
+            [
+                'key'     => 'lead_target_sheet',
+                'value'   => 'contact',
+                'compare' => '=',
+            ],
             [
                 'key'     => 'lead_type',
                 'value'   => 'Contact',
                 'compare' => 'LIKE',
-            ]
+            ],
         ]
     ];
     $contact_count = count(get_posts($args_contact));
 
+    // Count Newsletter Subscribers
     $args_newsletter = [
         'post_type'   => 'fnx_lead',
         'post_status' => 'any',
         'fields'      => 'ids',
         'meta_query'  => [
+            'relation' => 'OR',
+            [
+                'key'     => 'lead_target_sheet',
+                'value'   => 'newsletter',
+                'compare' => '=',
+            ],
             [
                 'key'     => 'lead_type',
-                'value'   => 'Newsletter',
-                'compare' => 'LIKE',
-            ]
+                'value'   => 'Contact',
+                'compare' => 'NOT LIKE',
+            ],
         ]
     ];
     $newsletter_count = count(get_posts($args_newsletter));
@@ -524,11 +671,45 @@ function fnx_crm_render_kpi_dashboard() {
     ];
     $recent_count = count(get_posts($args_recent));
 
-    $export_nonce = wp_create_nonce('fnx_crm_export_nonce');
-    $export_url   = admin_url('admin-post.php?action=fnx_export_leads_csv&_wpnonce=' . $export_nonce);
-    $sheets_url   = admin_url('edit.php?post_type=fnx_lead&page=fnx-gsheet-sync');
+    $current_channel = sanitize_key($_GET['fnx_channel'] ?? '');
+    $contact_url     = admin_url('edit.php?post_type=fnx_lead&fnx_channel=contact');
+    $newsletter_url  = admin_url('edit.php?post_type=fnx_lead&fnx_channel=newsletter');
+    $all_url         = admin_url('edit.php?post_type=fnx_lead');
+
+    $export_nonce    = wp_create_nonce('fnx_crm_export_nonce');
+    $export_url      = admin_url('admin-post.php?action=fnx_export_leads_csv&_wpnonce=' . $export_nonce . ($current_channel ? '&fnx_channel=' . $current_channel : ''));
+    $sheets_url      = admin_url('edit.php?post_type=fnx_lead&page=fnx-gsheet-sync');
+
+    // Dynamic Export Button Label
+    if ($current_channel === 'contact') {
+        $export_label = __('Export Contact Inquiries (CSV)', 'foundnxt');
+    } elseif ($current_channel === 'newsletter') {
+        $export_label = __('Export Subscribers (CSV)', 'foundnxt');
+    } else {
+        $export_label = __('Export All Leads (CSV)', 'foundnxt');
+    }
     ?>
     <div class="fnx-crm-kpi-wrap">
+        <!-- 1. Top Modern Segmented View Switcher -->
+        <div class="fnx-crm-nav-tabs">
+            <a href="<?php echo esc_url($contact_url); ?>" class="fnx-crm-tab <?php echo ($current_channel === 'contact') ? 'is-active is-contact' : ''; ?>">
+                <span class="dashicons dashicons-testimonial"></span>
+                <span class="fnx-tab-title"><?php _e('Contact Inquiries', 'foundnxt'); ?></span>
+                <span class="fnx-tab-badge fnx-badge-emerald"><?php echo esc_html($contact_count); ?></span>
+            </a>
+            <a href="<?php echo esc_url($newsletter_url); ?>" class="fnx-crm-tab <?php echo ($current_channel === 'newsletter') ? 'is-active is-newsletter' : ''; ?>">
+                <span class="dashicons dashicons-email-alt"></span>
+                <span class="fnx-tab-title"><?php _e('Newsletter Subscribers', 'foundnxt'); ?></span>
+                <span class="fnx-tab-badge fnx-badge-purple"><?php echo esc_html($newsletter_count); ?></span>
+            </a>
+            <a href="<?php echo esc_url($all_url); ?>" class="fnx-crm-tab <?php echo empty($current_channel) ? 'is-active is-all' : ''; ?>">
+                <span class="dashicons dashicons-groups"></span>
+                <span class="fnx-tab-title"><?php _e('All Leads (Combined)', 'foundnxt'); ?></span>
+                <span class="fnx-tab-badge fnx-badge-gray"><?php echo esc_html($total_leads); ?></span>
+            </a>
+        </div>
+
+        <!-- 2. KPI Cards Grid -->
         <div class="fnx-crm-kpi-grid">
             <!-- Card 1: Total Leads -->
             <div class="fnx-crm-kpi-card fnx-kpi-total">
@@ -541,20 +722,20 @@ function fnx_crm_render_kpi_dashboard() {
             </div>
 
             <!-- Card 2: Contact Form Inquiries -->
-            <div class="fnx-crm-kpi-card fnx-kpi-contact">
+            <div class="fnx-crm-kpi-card fnx-kpi-contact <?php echo ($current_channel === 'contact') ? 'is-highlighted' : ''; ?>">
                 <div class="fnx-crm-kpi-icon"><span class="dashicons dashicons-testimonial"></span></div>
                 <div class="fnx-crm-kpi-info">
-                    <span class="fnx-crm-kpi-label"><?php _e('High-Intent Inquiries', 'foundnxt'); ?></span>
+                    <span class="fnx-crm-kpi-label"><?php _e('Contact Inquiries', 'foundnxt'); ?></span>
                     <strong class="fnx-crm-kpi-num"><?php echo esc_html($contact_count); ?></strong>
-                    <span class="fnx-crm-kpi-hint"><?php _e('Contact page form leads', 'foundnxt'); ?></span>
+                    <span class="fnx-crm-kpi-hint"><?php _e('High-intent form leads', 'foundnxt'); ?></span>
                 </div>
             </div>
 
             <!-- Card 3: Newsletter Subscribers -->
-            <div class="fnx-crm-kpi-card fnx-kpi-newsletter">
+            <div class="fnx-crm-kpi-card fnx-kpi-newsletter <?php echo ($current_channel === 'newsletter') ? 'is-highlighted' : ''; ?>">
                 <div class="fnx-crm-kpi-icon"><span class="dashicons dashicons-email-alt"></span></div>
                 <div class="fnx-crm-kpi-info">
-                    <span class="fnx-crm-kpi-label"><?php _e('Newsletter Audience', 'foundnxt'); ?></span>
+                    <span class="fnx-crm-kpi-label"><?php _e('Newsletter Subscribers', 'foundnxt'); ?></span>
                     <strong class="fnx-crm-kpi-num"><?php echo esc_html($newsletter_count); ?></strong>
                     <span class="fnx-crm-kpi-hint"><?php _e('Homepage, footer & articles', 'foundnxt'); ?></span>
                 </div>
@@ -571,22 +752,28 @@ function fnx_crm_render_kpi_dashboard() {
             </div>
         </div>
 
-        <!-- CRM Toolbar Actions -->
+        <!-- 3. CRM Toolbar Actions -->
         <div class="fnx-crm-header-toolbar">
             <div class="fnx-crm-toolbar-left">
                 <span class="fnx-crm-brand-pill">
                     <span class="dashicons dashicons-database" style="font-size: 14px; width: 14px; height: 14px;"></span>
-                    <?php _e('FoundNXT Executive CRM', 'foundnxt'); ?>
+                    <?php if ($current_channel === 'contact'): ?>
+                        <?php _e('FoundNXT CRM — Contact Inquiries View', 'foundnxt'); ?>
+                    <?php elseif ($current_channel === 'newsletter'): ?>
+                        <?php _e('FoundNXT CRM — Newsletter Subscribers View', 'foundnxt'); ?>
+                    <?php else: ?>
+                        <?php _e('FoundNXT CRM — All Inbound Leads', 'foundnxt'); ?>
+                    <?php endif; ?>
                 </span>
                 <span class="fnx-crm-sync-indicator" title="<?php esc_attr_e('Synced with Google Sheets 2-Page Webhook', 'foundnxt'); ?>">
                     <span class="fnx-pulse-dot"></span>
-                    <?php _e('Live Google Sheets Sync Active', 'foundnxt'); ?>
+                    <?php _e('Google Sheets 2-Page Sync Active', 'foundnxt'); ?>
                 </span>
             </div>
             <div class="fnx-crm-toolbar-right">
                 <a href="<?php echo esc_url($export_url); ?>" class="button button-secondary fnx-crm-export-btn">
                     <span class="dashicons dashicons-download" style="vertical-align: middle; margin-top: -2px;"></span>
-                    <?php _e('Export to CSV', 'foundnxt'); ?>
+                    <?php echo esc_html($export_label); ?>
                 </a>
                 <a href="<?php echo esc_url($sheets_url); ?>" class="button button-secondary">
                     <span class="dashicons dashicons-spreadsheet" style="vertical-align: middle; margin-top: -2px; color: #10b981;"></span>
@@ -602,7 +789,7 @@ add_action('all_admin_notices', 'fnx_crm_render_kpi_dashboard');
 
 /**
  * ══════════════════════════════════════════════════════════════
- * 6. CSV EXPORT ENGINE
+ * 7. SEPARATED CSV EXPORT ENGINE
  * ══════════════════════════════════════════════════════════════
  */
 function fnx_crm_export_leads_csv() {
@@ -612,6 +799,8 @@ function fnx_crm_export_leads_csv() {
 
     check_admin_referer('fnx_crm_export_nonce');
 
+    $channel = sanitize_key($_GET['fnx_channel'] ?? '');
+
     $args = [
         'post_type'      => 'fnx_lead',
         'post_status'    => 'any',
@@ -620,9 +809,78 @@ function fnx_crm_export_leads_csv() {
         'order'          => 'DESC',
     ];
 
-    $query = new WP_Query($args);
+    if ($channel === 'contact') {
+        $args['meta_query'] = [
+            'relation' => 'OR',
+            [
+                'key'     => 'lead_target_sheet',
+                'value'   => 'contact',
+                'compare' => '=',
+            ],
+            [
+                'key'     => 'lead_type',
+                'value'   => 'Contact',
+                'compare' => 'LIKE',
+            ],
+        ];
+        $filename = 'foundnxt-contact-inquiries-' . date('Y-m-d') . '.csv';
+        $headers  = [
+            'Lead ID',
+            'Date Received',
+            'Name',
+            'Email',
+            'Phone / Mobile',
+            'Company / Website',
+            'Company Stage',
+            'Help Topic / Need',
+            'Channel / Form',
+            'Message',
+            'Source Page',
+            'Target Sheet'
+        ];
+    } elseif ($channel === 'newsletter') {
+        $args['meta_query'] = [
+            'relation' => 'OR',
+            [
+                'key'     => 'lead_target_sheet',
+                'value'   => 'newsletter',
+                'compare' => '=',
+            ],
+            [
+                'key'     => 'lead_type',
+                'value'   => 'Contact',
+                'compare' => 'NOT LIKE',
+            ],
+        ];
+        $filename = 'foundnxt-newsletter-subscribers-' . date('Y-m-d') . '.csv';
+        $headers  = [
+            'Subscriber ID',
+            'Subscribed Date',
+            'Full Name',
+            'Email Address',
+            'Signup Form',
+            'Source Page URL',
+            'Target Sheet'
+        ];
+    } else {
+        $filename = 'foundnxt-all-leads-' . date('Y-m-d') . '.csv';
+        $headers  = [
+            'Lead ID',
+            'Date Received',
+            'Name',
+            'Email',
+            'Phone / Mobile',
+            'Company / Website',
+            'Company Stage',
+            'Help Topic / Need',
+            'Channel / Lead Type',
+            'Target Sheet',
+            'Message',
+            'Source Page'
+        ];
+    }
 
-    $filename = 'foundnxt-leads-' . date('Y-m-d-His') . '.csv';
+    $query = new WP_Query($args);
 
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=' . $filename);
@@ -634,27 +892,43 @@ function fnx_crm_export_leads_csv() {
     // UTF-8 BOM for Microsoft Excel compatibility
     fprintf($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
-    // CSV Headers
-    fputcsv($output, [
-        'Lead ID',
-        'Date Received',
-        'Name',
-        'Email',
-        'Phone / Mobile',
-        'Company / Website',
-        'Company Stage',
-        'Help Topic / Need',
-        'Channel / Lead Type',
-        'Target Sheet',
-        'Message',
-        'Source Page'
-    ]);
+    // Write Headers
+    fputcsv($output, $headers);
 
     if ($query->have_posts()) {
         while ($query->have_posts()) {
             $query->the_post();
             $lead = fnx_crm_get_lead(get_the_ID());
-            if ($lead) {
+            if (! $lead) {
+                continue;
+            }
+
+            if ($channel === 'contact') {
+                fputcsv($output, [
+                    $lead['id'],
+                    $lead['date_full'],
+                    $lead['name'],
+                    $lead['email'],
+                    $lead['phone'],
+                    $lead['company'],
+                    $lead['stage'],
+                    $lead['help'],
+                    $lead['lead_type'],
+                    $lead['message'],
+                    $lead['source'],
+                    $lead['target_sheet'],
+                ]);
+            } elseif ($channel === 'newsletter') {
+                fputcsv($output, [
+                    $lead['id'],
+                    $lead['date_full'],
+                    $lead['name'],
+                    $lead['email'],
+                    $lead['lead_type'],
+                    $lead['source'],
+                    $lead['target_sheet'],
+                ]);
+            } else {
                 fputcsv($output, [
                     $lead['id'],
                     $lead['date_full'],
@@ -682,7 +956,7 @@ add_action('admin_post_fnx_export_leads_csv', 'fnx_crm_export_leads_csv');
 
 /**
  * ══════════════════════════════════════════════════════════════
- * 7. IN-PAGE QUICK VIEW SLIDE-OVER DRAWER MODAL
+ * 8. IN-PAGE QUICK VIEW SLIDE-OVER DRAWER MODAL
  * ══════════════════════════════════════════════════════════════
  */
 function fnx_crm_render_quick_view_modal() {
@@ -749,7 +1023,7 @@ function fnx_crm_render_quick_view_modal() {
 
             <!-- Inquiry Details -->
             <div class="fnx-drawer-section">
-                <h3 class="fnx-drawer-section-title"><?php _e('Inquiry Details', 'foundnxt'); ?></h3>
+                <h3 class="fnx-drawer-section-title"><?php _e('Inquiry & Sync Details', 'foundnxt'); ?></h3>
                 <div class="fnx-drawer-grid">
                     <div class="fnx-grid-item">
                         <label><?php _e('Help Required / Topic', 'foundnxt'); ?></label>
@@ -938,7 +1212,7 @@ add_action('admin_footer', 'fnx_crm_render_quick_view_modal');
 
 /**
  * ══════════════════════════════════════════════════════════════
- * 8. LEAD DETAIL METABOX (FOR post.php?post=...)
+ * 9. LEAD DETAIL METABOX (FOR post.php?post=...)
  * ══════════════════════════════════════════════════════════════
  */
 function fnx_crm_register_metaboxes() {
@@ -1042,7 +1316,7 @@ function fnx_crm_render_lead_metabox($post) {
 
 /**
  * ══════════════════════════════════════════════════════════════
- * 9. MODERN CRM STYLES (SCOPED STRICTLY TO fnx_lead SCREENS)
+ * 10. MODERN CRM STYLES (SCOPED STRICTLY TO fnx_lead SCREENS)
  * ══════════════════════════════════════════════════════════════
  */
 function fnx_crm_admin_styles() {
@@ -1053,12 +1327,75 @@ function fnx_crm_admin_styles() {
     ?>
     <style id="fnx-crm-admin-css">
     /* ════════════════════════════════════
-       KPI DASHBOARD CARDS
+       KPI DASHBOARD & SEGMENTED TABS
     ════════════════════════════════════ */
     .fnx-crm-kpi-wrap {
-        margin: 20px 0 20px 0;
+        margin: 16px 0 20px 0;
         max-width: 100%;
     }
+
+    /* Segmented Navigation Tabs */
+    .fnx-crm-nav-tabs {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        background: #f1f5f9;
+        padding: 5px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        margin-bottom: 18px;
+        width: fit-content;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    .fnx-crm-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 18px;
+        border-radius: 7px;
+        text-decoration: none !important;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #475569 !important;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+    }
+    .fnx-crm-tab:hover {
+        color: #0f172a !important;
+        background: rgba(255, 255, 255, 0.6);
+    }
+    .fnx-crm-tab.is-active {
+        background: #ffffff;
+        color: #0f172a !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    .fnx-crm-tab .dashicons {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+    }
+    .fnx-crm-tab.is-active.is-contact .dashicons {
+        color: #059669;
+    }
+    .fnx-crm-tab.is-active.is-newsletter .dashicons {
+        color: #6d5efc;
+    }
+    .fnx-crm-tab.is-active.is-all .dashicons {
+        color: #0284c7;
+    }
+    .fnx-tab-badge {
+        padding: 2px 7px;
+        border-radius: 9999px;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+    .fnx-badge-emerald { background: #d1fae5; color: #065f46; }
+    .fnx-badge-purple  { background: #ede9fe; color: #5b21b6; }
+    .fnx-badge-gray    { background: #e2e8f0; color: #334155; }
+
+    /* KPI Cards */
     .fnx-crm-kpi-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -1079,6 +1416,10 @@ function fnx_crm_admin_styles() {
     .fnx-crm-kpi-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+    }
+    .fnx-crm-kpi-card.is-highlighted {
+        border-color: #6d5efc;
+        box-shadow: 0 0 0 2px rgba(109, 94, 252, 0.15);
     }
     .fnx-crm-kpi-icon {
         width: 48px;
@@ -1586,6 +1927,14 @@ function fnx_crm_admin_styles() {
         .fnx-crm-header-toolbar {
             flex-direction: column;
             align-items: flex-start;
+        }
+        .fnx-crm-nav-tabs {
+            flex-direction: column;
+            width: 100%;
+        }
+        .fnx-crm-tab {
+            width: 100%;
+            justify-content: space-between;
         }
     }
     </style>
