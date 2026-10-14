@@ -18,64 +18,64 @@ Tags:        blog, startups, funding, business, dark-mode, custom-colors, custom
    CSS CUSTOM PROPERTIES — Light Mode (default)
    ============================================================ */
 :root {
-  /* Brand Colors & Gradients */
-  --fnx-primary:        #4F46E5; /* Electric Indigo */
-  --fnx-primary-dark:   #3730A3;
-  --fnx-primary-mid:    #4338CA;
-  --fnx-primary-light:  #EEF2FF;
-  --fnx-primary-border: #C7D2FE;
-  --fnx-primary-hover:  #4338CA;
-  --fnx-secondary:      #7C3AED; /* Vibrant Violet */
-  --fnx-accent-coral:   #FF6B6B; /* Coral */
-  --fnx-accent-teal:    #14B8A6; /* Teal */
-  --fnx-accent-amber:   #F59E0B; /* Amber */
-  --fnx-accent-violet:  #7C3AED; /* Violet */
-  --fnx-accent-pink:    #EC4899; /* Pink */
-  --fnx-accent-sky:     #0EA5E9; /* Sky Blue */
-  --fnx-accent-emerald: #10B981; /* Emerald */
+  /* Brand Colors & Gradients — Synced with FoundNXT Logo (#FF5A2C & #0E1220) */
+  --fnx-primary:        #FF5A2C; /* FoundNXT Orange */
+  --fnx-primary-dark:   #E84A1C;
+  --fnx-primary-mid:    #D83B0F;
+  --fnx-primary-light:  rgba(255, 90, 44, 0.08);
+  --fnx-primary-border: rgba(255, 90, 44, 0.28);
+  --fnx-primary-hover:  #E84A1C;
+  --fnx-secondary:      #FF8A50;
+  --fnx-accent-coral:   #FF5A2C;
+  --fnx-accent-teal:    #00D4AA;
+  --fnx-accent-amber:   #FFA834;
+  --fnx-accent-violet:  #FF7A45;
+  --fnx-accent-pink:    #EC4899;
+  --fnx-accent-sky:     #0EA5E9;
+  --fnx-accent-emerald: #10B981;
 
-  --fnx-gradient-primary: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #FF6B6B 100%);
-  --fnx-gradient-vibrant: linear-gradient(135deg, #4F46E5 0%, #7C3AED 30%, #FF6B6B 65%, #14B8A6 100%);
-  --fnx-gradient-hero:    linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #FF6B6B 100%);
-  --fnx-gradient-card:    linear-gradient(135deg, rgba(79,70,229,0.06) 0%, rgba(124,58,237,0.06) 100%);
+  --fnx-gradient-primary: linear-gradient(135deg, #FF5A2C 0%, #FF8A50 100%);
+  --fnx-gradient-vibrant: linear-gradient(135deg, #FF5A2C 0%, #FF7849 50%, #FFA834 100%);
+  --fnx-gradient-hero:    linear-gradient(135deg, #FF5A2C 0%, #FF8A50 100%);
+  --fnx-gradient-card:    linear-gradient(135deg, rgba(255, 90, 44, 0.06) 0%, rgba(255, 138, 80, 0.04) 100%);
 
   /* High-Chroma Category Colors */
-  --fnx-cat-strategy:   #4F46E5;
-  --fnx-cat-startups:   #FF6B6B;
-  --fnx-cat-valuation:  #14B8A6;
-  --fnx-cat-markets:    #F59E0B;
-  --fnx-cat-tech:       #7C3AED;
+  --fnx-cat-strategy:   #FF5A2C;
+  --fnx-cat-startups:   #FF5A2C;
+  --fnx-cat-valuation:  #00D4AA;
+  --fnx-cat-markets:    #FFA834;
+  --fnx-cat-tech:       #FF7A45;
   --fnx-cat-marketing:  #EC4899;
   --fnx-cat-global:     #0EA5E9;
   --fnx-cat-news:       #10B981;
 
   /* Typography */
-  --fnx-font-heading: 'Sora', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-  --fnx-font-body:    'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --fnx-ink:          #0F172A;
+  --fnx-font-heading: 'Sora', 'Plus Jakarta Sans', sans-serif;
+  --fnx-font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --fnx-ink:          #0E1220; /* Logo Deep Ink */
   --fnx-body:         #334155;
-  --fnx-muted:        #64748B;
+  --fnx-muted:        #5A6578;
   --fnx-subtle:       #94A3B8;
 
   /* Surfaces */
-  --fnx-bg:           #F8FAFC;
+  --fnx-bg:           #FFFFFF;
   --fnx-surface:      #FFFFFF;
-  --fnx-surface-2:    #F1F5F9;
+  --fnx-surface-2:    #F8FAFC;
   --fnx-card:         #FFFFFF;
   --fnx-border:       #E2E8F0;
   --fnx-border-dark:  #CBD5E1;
 
   /* Glassmorphism */
-  --fnx-glass-bg:     rgba(255, 255, 255, 0.85);
+  --fnx-glass-bg:     rgba(255, 255, 255, 0.88);
   --fnx-glass-border: rgba(226, 232, 240, 0.8);
   --fnx-glass-blur:   blur(18px) saturate(190%);
 
   /* Shadows & Ambient Glows */
-  --fnx-shadow-sm:    0 1px 2px 0 rgba(15, 23, 42, 0.05);
-  --fnx-shadow:       0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
-  --fnx-shadow-md:    0 10px 25px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
-  --fnx-shadow-lg:    0 20px 40px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
-  --fnx-shadow-primary: 0 8px 25px -4px rgba(79, 70, 229, 0.4);
+  --fnx-shadow-sm:    0 1px 2px 0 rgba(14, 18, 32, 0.05);
+  --fnx-shadow:       0 4px 6px -1px rgba(14, 18, 32, 0.05), 0 2px 4px -2px rgba(14, 18, 32, 0.03);
+  --fnx-shadow-md:    0 10px 25px -3px rgba(14, 18, 32, 0.08), 0 4px 6px -4px rgba(14, 18, 32, 0.03);
+  --fnx-shadow-lg:    0 20px 40px -5px rgba(14, 18, 32, 0.12), 0 8px 10px -6px rgba(14, 18, 32, 0.04);
+  --fnx-shadow-primary: 0 8px 25px -4px rgba(255, 90, 44, 0.35);
 
   /* Layout */
   --fnx-radius-sm:    8px;
@@ -89,7 +89,7 @@ Tags:        blog, startups, funding, business, dark-mode, custom-colors, custom
 }
 
 /* ============================================================
-   DARK MODE
+   DARK MODE — Synced with Logo Ink #0E1220
    ============================================================ */
 body.dark-mode,
 body[data-theme="dark"],
@@ -97,23 +97,23 @@ body[data-mode="dark"],
 body.dark,
 html.dark body,
 html[data-theme="dark"] body {
-  --fnx-primary-dark:   #312E81;
-  --fnx-primary-mid:    #4338CA;
-  --fnx-primary-light:  rgba(79, 70, 229, 0.18);
-  --fnx-primary-border: rgba(99, 102, 241, 0.35);
-  --fnx-primary-hover:  #6366F1;
-  --fnx-ink:          #E2E8F0;
+  --fnx-primary-dark:   #D83B0F;
+  --fnx-primary-mid:    #E84A1C;
+  --fnx-primary-light:  rgba(255, 90, 44, 0.16);
+  --fnx-primary-border: rgba(255, 90, 44, 0.32);
+  --fnx-primary-hover:  #FF7A45;
+  --fnx-ink:          #F5F7FA;
   --fnx-body:         #CBD5E1;
-  --fnx-muted:        #94A3B8;
+  --fnx-muted:        #9BA7BD;
   --fnx-subtle:       #64748B;
-  --fnx-bg:           #0B1020;
-  --fnx-surface:      #111827;
-  --fnx-surface-2:    #1F2937;
-  --fnx-card:         #151D2A;
-  --fnx-border:       #1E293B;
-  --fnx-border-dark:  #334155;
-  --fnx-glass-bg:     rgba(11, 16, 32, 0.85);
-  --fnx-glass-border: rgba(255, 255, 255, 0.1);
+  --fnx-bg:           #0E1220; /* Logo Dark Ink */
+  --fnx-surface:      #141A2D;
+  --fnx-surface-2:    #1B233C;
+  --fnx-card:         #141A2D;
+  --fnx-border:       #202A44;
+  --fnx-border-dark:  #2D3A5D;
+  --fnx-glass-bg:     rgba(14, 18, 32, 0.88);
+  --fnx-glass-border: rgba(255, 90, 44, 0.16);
   --fnx-shadow-sm:    0 1px 3px rgba(0,0,0,.4);
   --fnx-shadow:       0 4px 16px rgba(0,0,0,.4);
   --fnx-shadow-md:    0 12px 30px rgba(0,0,0,.5);
@@ -123,23 +123,23 @@ html[data-theme="dark"] body {
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]),
   body:not(.light-mode):not([data-theme="light"]):not([data-mode="light"]) {
-    --fnx-primary-dark:   #312E81;
-    --fnx-primary-mid:    #4338CA;
-    --fnx-primary-light:  rgba(79, 70, 229, 0.18);
-    --fnx-primary-border: rgba(99, 102, 241, 0.35);
-    --fnx-primary-hover:  #6366F1;
-    --fnx-ink:          #E2E8F0;
+    --fnx-primary-dark:   #D83B0F;
+    --fnx-primary-mid:    #E84A1C;
+    --fnx-primary-light:  rgba(255, 90, 44, 0.16);
+    --fnx-primary-border: rgba(255, 90, 44, 0.32);
+    --fnx-primary-hover:  #FF7A45;
+    --fnx-ink:          #F5F7FA;
     --fnx-body:         #CBD5E1;
-    --fnx-muted:        #94A3B8;
+    --fnx-muted:        #9BA7BD;
     --fnx-subtle:       #64748B;
-    --fnx-bg:           #0B1020;
-    --fnx-surface:      #111827;
-    --fnx-surface-2:    #1F2937;
-    --fnx-card:         #151D2A;
-    --fnx-border:       #1E293B;
-    --fnx-border-dark:  #334155;
-    --fnx-glass-bg:     rgba(11, 16, 32, 0.85);
-    --fnx-glass-border: rgba(255, 255, 255, 0.1);
+    --fnx-bg:           #0E1220; /* Logo Dark Ink */
+    --fnx-surface:      #141A2D;
+    --fnx-surface-2:    #1B233C;
+    --fnx-card:         #141A2D;
+    --fnx-border:       #202A44;
+    --fnx-border-dark:  #2D3A5D;
+    --fnx-glass-bg:     rgba(14, 18, 32, 0.88);
+    --fnx-glass-border: rgba(255, 90, 44, 0.16);
   }
 }
 
@@ -483,7 +483,7 @@ button, .btn {
   transition: transform .2s ease, box-shadow .2s ease;
 }
 .hp-hero-chip:hover { transform: translateY(-2px); box-shadow: var(--fnx-shadow); }
-.chip--indigo { border-color: rgba(79,70,229,0.3); color: #4F46E5; background: rgba(79,70,229,0.06); }
+.chip--indigo, .chip--brand { border-color: rgba(255,90,44,0.3); color: #FF5A2C; background: rgba(255,90,44,0.06); }
 .chip--coral  { border-color: rgba(255,107,107,0.3); color: #FF6B6B; background: rgba(255,107,107,0.06); }
 .chip--teal   { border-color: rgba(20,184,166,0.3); color: #14B8A6; background: rgba(20,184,166,0.06); }
 .chip--violet { border-color: rgba(124,58,237,0.3); color: #7C3AED; background: rgba(124,58,237,0.06); }

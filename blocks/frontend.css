@@ -5,11 +5,11 @@
 
 /* ── CSS Variables (light + dark) ── */
 :root {
-  --fnx-b-green:      #4f46e5;
-  --fnx-b-green-dk:   #3730a3;
-  --fnx-b-green-lite: #eef2ff;
-  --fnx-b-green-bdr:  #86efac;
-  --fnx-b-ink:        #1a1a2e;
+  --fnx-b-green:      #FF5A2C;
+  --fnx-b-green-dk:   #E84A1C;
+  --fnx-b-green-lite: rgba(255, 90, 44, 0.08);
+  --fnx-b-green-bdr:  rgba(255, 90, 44, 0.25);
+  --fnx-b-ink:        #0E1220;
   --fnx-b-body:       #374151;
   --fnx-b-muted:      #6b7280;
   --fnx-b-border:     #e5e7eb;
@@ -30,21 +30,34 @@
   --fnx-b-sans:       'DM Sans', -apple-system, sans-serif;
   --fnx-b-trans:      all .2s ease;
 }
-[data-theme="dark"] {
+[data-theme="dark"],
+html.dark {
   --fnx-b-ink:        #f0f0f0;
   --fnx-b-body:       #d1d5db;
   --fnx-b-muted:      #9ca3af;
-  --fnx-b-border:     #374151;
-  --fnx-b-surface:    #1f2937;
-  --fnx-b-card:       #111827;
-  --fnx-b-green-lite: #052e16;
-  --fnx-b-green-bdr:  #166534;
+  --fnx-b-border:     #202A44;
+  --fnx-b-surface:    #141A2D;
+  --fnx-b-card:       #0E1220;
+  --fnx-b-green-lite: rgba(255, 90, 44, 0.15);
+  --fnx-b-green-bdr:  rgba(255, 90, 44, 0.35);
   --fnx-b-red-lite:   #450a0a;
   --fnx-b-red-bdr:    #7f1d1d;
   --fnx-b-blue-lite:  #1e3a5f;
   --fnx-b-blue-bdr:   #1d4ed8;
   --fnx-b-amb-lite:   #3d2a00;
   --fnx-b-amb-bdr:    #b45309;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not(.light) {
+    --fnx-b-ink:        #f0f0f0;
+    --fnx-b-body:       #d1d5db;
+    --fnx-b-muted:      #9ca3af;
+    --fnx-b-border:     #202A44;
+    --fnx-b-surface:    #141A2D;
+    --fnx-b-card:       #0E1220;
+    --fnx-b-green-lite: rgba(255, 90, 44, 0.15);
+    --fnx-b-green-bdr:  rgba(255, 90, 44, 0.35);
+  }
 }
 
 /* ══════════════════════════════════════════════

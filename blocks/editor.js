@@ -33,8 +33,8 @@ function addArrItem(arr, tpl) { return arr.concat([Object.assign({}, tpl)]); }
 function removeArrItem(arr, i) { return arr.filter(function(_, j) { return j !== i; }); }
 
 /* ── colors ── */
-var GREEN      = '#4f46e5';
-var GREEN_LITE = '#eef2ff';
+var GREEN      = '#FF5A2C';
+var GREEN_LITE = 'rgba(255, 90, 44, 0.08)';
 var RED_LITE   = '#fef2f2';
 var RED        = '#dc2626';
 var BLUE_LITE  = '#eff6ff';
@@ -478,7 +478,7 @@ _blocks.registerBlockType('foundnxt/related-reading', {
 _blocks.registerBlockType('foundnxt/cta-box', {
     edit: function(props) {
         var a = props.attributes;
-        var bp = _useBlockProps({ style:{background:'linear-gradient(135deg,#4f46e5,#3730a3)', borderRadius:'12px', padding:'32px 36px', textAlign:'center', margin:'8px 0'} });
+        var bp = _useBlockProps({ style:{background:'linear-gradient(135deg,#FF5A2C,#E84A1C)', borderRadius:'12px', padding:'32px 36px', textAlign:'center', margin:'8px 0'} });
         return _el(_Fragment, null,
             _el(_InspectorControls, null,
                 _el(_PanelBody, { title:'Button Settings', initialOpen:true },

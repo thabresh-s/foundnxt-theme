@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.0.1');
+define('FNX_VERSION', '1.1.0');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -64,20 +64,20 @@ function fnx_setup() {
 
     // Block editor colour palette
     add_theme_support('editor-color-palette', [
-        ['name' => __('Green',        'foundnxt'), 'slug' => 'fnx-green',   'color' => '#4f46e5'],
-        ['name' => __('Green Dark',   'foundnxt'), 'slug' => 'fnx-green-dk','color' => '#3730a3'],
-        ['name' => __('Ink',          'foundnxt'), 'slug' => 'fnx-ink',     'color' => '#1a1a2e'],
-        ['name' => __('Body',         'foundnxt'), 'slug' => 'fnx-body',    'color' => '#374151'],
-        ['name' => __('Muted',        'foundnxt'), 'slug' => 'fnx-muted',   'color' => '#6b7280'],
-        ['name' => __('Surface',      'foundnxt'), 'slug' => 'fnx-surface', 'color' => '#f7f8fa'],
-        ['name' => __('White',        'foundnxt'), 'slug' => 'fnx-white',   'color' => '#ffffff'],
-        ['name' => __('Blue',         'foundnxt'), 'slug' => 'fnx-blue',    'color' => '#2563eb'],
-        ['name' => __('Amber',        'foundnxt'), 'slug' => 'fnx-amber',   'color' => '#d97706'],
+        ['name' => __('Brand Orange', 'foundnxt'), 'slug' => 'fnx-brand',    'color' => '#FF5A2C'],
+        ['name' => __('Brand Dark',   'foundnxt'), 'slug' => 'fnx-brand-dk', 'color' => '#E84A1C'],
+        ['name' => __('Ink',          'foundnxt'), 'slug' => 'fnx-ink',      'color' => '#0E1220'],
+        ['name' => __('Body',         'foundnxt'), 'slug' => 'fnx-body',     'color' => '#374151'],
+        ['name' => __('Muted',        'foundnxt'), 'slug' => 'fnx-muted',    'color' => '#6b7280'],
+        ['name' => __('Surface',      'foundnxt'), 'slug' => 'fnx-surface',  'color' => '#f7f8fa'],
+        ['name' => __('White',        'foundnxt'), 'slug' => 'fnx-white',    'color' => '#ffffff'],
+        ['name' => __('Blue',         'foundnxt'), 'slug' => 'fnx-blue',     'color' => '#2563eb'],
+        ['name' => __('Amber',        'foundnxt'), 'slug' => 'fnx-amber',    'color' => '#d97706'],
     ]);
 
     add_theme_support('editor-gradient-presets', [
-        ['name' => __('Green Fade', 'foundnxt'), 'slug' => 'fnx-green-fade', 'gradient' => 'linear-gradient(135deg, #4f46e5 0%, #0d6338 100%)'],
-        ['name' => __('Dark Hero',  'foundnxt'), 'slug' => 'fnx-dark-hero',  'gradient' => 'linear-gradient(135deg, #1a1a2e 0%, #2d3748 100%)'],
+        ['name' => __('Brand Fade', 'foundnxt'), 'slug' => 'fnx-brand-fade', 'gradient' => 'linear-gradient(135deg, #FF5A2C 0%, #FF7A45 100%)'],
+        ['name' => __('Dark Hero',  'foundnxt'), 'slug' => 'fnx-dark-hero',  'gradient' => 'linear-gradient(135deg, #0E1220 0%, #1B233C 100%)'],
     ]);
 }
 add_action('after_setup_theme', 'fnx_setup');
@@ -101,12 +101,12 @@ function fnx_enqueue() {
     wp_enqueue_style('fnx-components', FNX_URI . '/assets/css/components.css', ['foundnxt-style'], FNX_VERSION);
     wp_enqueue_style('fnx-blocks',     FNX_URI . '/assets/css/blocks.css',     ['foundnxt-style'], FNX_VERSION);
 
-    // Modern Design System Stylesheet (v2.3.0: system dark/light mode, brand logo)
+    // Modern Design System Stylesheet (v2.4.0: brand color sync, system dark/light mode, brand logo)
     wp_enqueue_style(
         'fnx-modern-design-system',
         FNX_URI . '/assets/css/modern-design-system.css',
         ['foundnxt-style', 'fnx-components'],
-        '2.3.0'
+        '2.4.0'
     );
 
     // Theme JS
@@ -117,7 +117,7 @@ function fnx_enqueue() {
         'fnx-modern-design-system',
         FNX_URI . '/assets/js/modern-design-system.js',
         [],
-        '2.3.0',
+        '2.4.0',
         true
     );
 
@@ -346,8 +346,8 @@ function fnx_customizer($wp_customize) {
         'title' => __('Brand & Colours', 'foundnxt'),
         'panel' => 'fnx_panel',
     ]);
-    $wp_customize->add_setting('fnx_primary_color', ['default' => '#4f46e5', 'sanitize_callback' => 'sanitize_hex_color']);
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'fnx_primary_color', ['label' => __('Primary Green', 'foundnxt'), 'section' => 'fnx_brand']));
+    $wp_customize->add_setting('fnx_primary_color', ['default' => '#FF5A2C', 'sanitize_callback' => 'sanitize_hex_color']);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'fnx_primary_color', ['label' => __('Primary Accent', 'foundnxt'), 'section' => 'fnx_brand']));
 
     // Newsletter
     $wp_customize->add_section('fnx_newsletter', [
@@ -391,9 +391,9 @@ add_action('customize_register', 'fnx_customize_dark_logo');
 
 // Dynamic colour CSS from customizer
 function fnx_customizer_css() {
-    $color = get_theme_mod('fnx_primary_color', '#4f46e5');
-    if ($color !== '#4f46e5') {
-        echo '<style>:root{--fnx-primary:' . esc_attr($color) . '}</style>';
+    $color = get_theme_mod('fnx_primary_color', '#FF5A2C');
+    if ($color !== '#FF5A2C') {
+        echo '<style>:root{--fnx-primary:' . esc_attr($color) . ';--brand:' . esc_attr($color) . '}</style>';
     }
 }
 add_action('wp_head', 'fnx_customizer_css');
@@ -853,7 +853,7 @@ add_action('admin_post_nopriv_fnx_homepage_contact', 'fnx_handle_lead_submission
    ============================================================ */
 function fnx_get_category_color($category_slug_or_id = 'news-insights') {
     $colors = [
-        'business-strategy' => '#4F46E5', // Indigo
+        'business-strategy' => '#FF5A2C', // FoundNXT Brand Orange
         'startups-funding'  => '#FF6B6B', // Coral
         'valuation-finance' => '#14B8A6', // Teal
         'markets-economy'   => '#F59E0B', // Amber
@@ -866,10 +866,10 @@ function fnx_get_category_color($category_slug_or_id = 'news-insights') {
         $term = get_term($category_slug_or_id, 'category');
         if ($term && !is_wp_error($term)) {
             $slug = $term->slug;
-            return isset($colors[$slug]) ? $colors[$slug] : '#4F46E5';
+            return isset($colors[$slug]) ? $colors[$slug] : '#FF5A2C';
         }
     }
-    return isset($colors[$category_slug_or_id]) ? $colors[$category_slug_or_id] : '#4F46E5';
+    return isset($colors[$category_slug_or_id]) ? $colors[$category_slug_or_id] : '#FF5A2C';
 }
 
 
@@ -1206,7 +1206,7 @@ function fnx_render_gsheet_admin_page() {
                 <li>Paste the URL in Step 1 above, click <strong>Save Webhook URL</strong>, and click the test buttons!</li>
             </ol>
 
-            <div style="background: #f8fafc; border-left: 4px solid #6d5efc; padding: 12px 16px; margin-top: 14px; border-radius: 4px;">
+            <div style="background: #f8fafc; border-left: 4px solid #FF5A2C; padding: 12px 16px; margin-top: 14px; border-radius: 4px;">
                 <p style="margin: 0; font-size: 0.875rem; color: #334155;">
                     💡 <strong>Smart Column Detection:</strong> If your <code>newsletter</code> tab already has column headers like <code>Name</code> and <code>Email</code>, the script dynamically matches them and appends rows into your exact columns!
                 </p>
@@ -1278,7 +1278,7 @@ function fnx_render_gsheet_admin_page() {
         sheet.appendRow(["Timestamp", "Name", "Email", "Lead Type", "Source Page"]);
         sheet.getRange(1, 1, 1, 5)
           .setFontWeight("bold")
-          .setBackground("#6d5efc")
+          .setBackground("#FF5A2C")
           .setFontColor("#ffffff");
         sheet.setFrozenRows(1);
       } else {

@@ -456,7 +456,7 @@
   const paginationEl   = $('#hp-pagination');
   const paginationInfo = $('#hp-pagination-info');
 
-  const CARD_ACCENTS = ['#4f46e5','#2563eb','#7c3aed','#d97706','#e11d48','#0891b2','#059669','#dc2626'];
+  const CARD_ACCENTS = ['#FF5A2C','#2563eb','#7c3aed','#d97706','#e11d48','#0891b2','#059669','#dc2626'];
 
   let paginState = {
     page:     1,

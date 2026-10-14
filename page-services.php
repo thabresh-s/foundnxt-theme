@@ -51,7 +51,7 @@ $services = [
     'title'    => __('Custom Market Research & Industry Intelligence', 'foundnxt'),
     'desc'     => __('In-depth market research, sector analysis, competitive benchmarking, and custom market opportunity sizing for founders and investment teams.', 'foundnxt'),
     'tag'      => __('Market Research', 'foundnxt'),
-    'accent'   => '#4F46E5',
+    'accent'   => '#FF5A2C',
     'help_val' => 'Market Research Request',
     'perks'    => ['Competitor Benchmarking', 'TAM / SAM Market Sizing', 'Custom Industry Reports'],
   ],

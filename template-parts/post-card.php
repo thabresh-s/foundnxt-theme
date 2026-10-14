@@ -9,7 +9,7 @@ $cat_url   = $cats ? get_category_link($cats[0]->term_id) : '#';
 $read_time = fnx_read_time();
 
 // Assign a deterministic accent color per category
-$cat_colors = ['#4f46e5','#2563eb','#7c3aed','#d97706','#e11d48','#0891b2','#059669','#dc2626'];
+$cat_colors = ['#FF5A2C','#2563eb','#7c3aed','#d97706','#e11d48','#0891b2','#059669','#dc2626'];
 $color_idx  = $cats ? ($cats[0]->term_id % count($cat_colors)) : 0;
 $accent     = $cat_colors[$color_idx];
 ?>

@@ -79,35 +79,36 @@
     /* Color Scheme standard declaration */
     color-scheme: light dark;
 
-    /* Core Brand Tokens */
-    --brand: #6d5efc;
-    --brand-hover: #5b4ce8;
-    --accent: #00d4aa;
-    --accent-hover: #00b894;
-    --warm: #ff7a45;
-    --warm-hover: #f06935;
+    /* Core Brand Tokens — Synced with FoundNXT Logo (#FF5A2C & #0E1220) */
+    --brand: #FF5A2C;
+    --brand-hover: #E84A1C;
+    --brand-active: #D83B0F;
+    --accent: #FF7A45;
+    --accent-hover: #E84A1C;
+    --warm: #FFA834;
+    --warm-hover: #F59B22;
 
     /* Semantic Light-Dark System */
-    --bg: light-dark(#ffffff, #0a0e17);
-    --surface: light-dark(#f8fafc, #131b2e);
-    --surface-elevated: light-dark(#ffffff, #1a233a);
-    --text: light-dark(#0f172a, #f1f5f9);
-    --muted: light-dark(#64748b, #94a3b8);
-    --border: light-dark(#e2e8f0, #1e293b);
-    --border-subtle: light-dark(#f1f5f9, #151f33);
+    --bg: light-dark(#ffffff, #0E1220);
+    --surface: light-dark(#f8fafc, #141A2D);
+    --surface-elevated: light-dark(#ffffff, #1B233C);
+    --text: light-dark(#0E1220, #F5F7FA);
+    --muted: light-dark(#5A6578, #9BA7BD);
+    --border: light-dark(#e2e8f0, #202A44);
+    --border-subtle: light-dark(#f1f5f9, #171E33);
 
     /* Glassmorphism via color-mix */
     --glass-bg: color-mix(in srgb, var(--surface) 84%, transparent);
     --glass-border: color-mix(in srgb, var(--border) 70%, transparent);
 
     /* Gradients */
-    --grad: linear-gradient(135deg, var(--brand), var(--accent));
-    --grad-warm: linear-gradient(135deg, var(--brand), var(--warm));
+    --grad: linear-gradient(135deg, #FF5A2C 0%, #FF8A50 100%);
+    --grad-warm: linear-gradient(135deg, #FF5A2C 0%, #FFA834 100%);
     --grad-surface: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
-    --grad-text: linear-gradient(135deg, var(--brand) 0%, var(--accent) 100%);
-    --grad-mesh: radial-gradient(at 0% 0%, color-mix(in srgb, var(--brand) 20%, transparent) 0px, transparent 55%),
-                 radial-gradient(at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent) 0px, transparent 55%),
-                 radial-gradient(at 50% 100%, color-mix(in srgb, var(--warm) 14%, transparent) 0px, transparent 60%);
+    --grad-text: linear-gradient(135deg, #FF5A2C 0%, #FF7849 50%, #FFA834 100%);
+    --grad-mesh: radial-gradient(at 0% 0%, color-mix(in srgb, #FF5A2C 16%, transparent) 0px, transparent 55%),
+                 radial-gradient(at 100% 0%, color-mix(in srgb, #FFA834 14%, transparent) 0px, transparent 55%),
+                 radial-gradient(at 50% 100%, color-mix(in srgb, #FF5A2C 10%, transparent) 0px, transparent 60%);
 
     /* Fluid Spacing Scale */
     --space: clamp(1rem, 2vw + 0.5rem, 2.5rem);
@@ -128,7 +129,7 @@
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 6px 20px -3px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.14);
-    --shadow-brand: 0 10px 30px -4px color-mix(in srgb, var(--brand) 30%, transparent);
+    --shadow-brand: 0 10px 30px -4px color-mix(in srgb, var(--brand) 32%, transparent);
 
     /* Typography Scale */
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -136,33 +137,33 @@
     --font-mono: 'JetBrains Mono', monospace;
 
     /* Category Badge Colors */
-    --cat-startups: #8b5cf6; /* violet */
+    --cat-startups: #FF5A2C; /* brand orange */
     --cat-tech:     #00d4aa; /* teal */
-    --cat-scaling:  #ff7a45; /* orange */
+    --cat-scaling:  #ff7a45; /* warm */
     --cat-careers:  #ec4899; /* pink */
     --cat-ai:       #6366f1; /* indigo */
     --cat-markets:  #f59e0b; /* amber */
     --cat-news:     #10b981; /* emerald */
-    --cat-business: #4f46e5; /* electric indigo */
+    --cat-business: #FF5A2C; /* brand orange */
   }
 
-  /* Native System Dark Mode support */
+  /* Native System Dark Mode support — Synced with Logo Ink #0E1220 */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]),
     body:not(.light-mode):not([data-theme="light"]) {
       color-scheme: dark;
-      --bg: #0a0e17;
-      --surface: #131b2e;
-      --surface-elevated: #1a233a;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --border: #1e293b;
-      --border-subtle: #151f33;
-      --glass-bg: rgba(10, 14, 23, 0.88);
-      --glass-border: rgba(30, 41, 59, 0.75);
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
-      --shadow-md: 0 6px 20px -3px rgba(0, 0, 0, 0.35);
-      --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.45);
+      --bg: #0E1220;
+      --surface: #141A2D;
+      --surface-elevated: #1B233C;
+      --text: #F5F7FA;
+      --muted: #9BA7BD;
+      --border: #202A44;
+      --border-subtle: #171E33;
+      --glass-bg: rgba(14, 18, 32, 0.88);
+      --glass-border: rgba(255, 90, 44, 0.16);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 6px 20px -3px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.55);
     }
   }
 
@@ -173,11 +174,11 @@
     --bg: #ffffff;
     --surface: #f8fafc;
     --surface-elevated: #ffffff;
-    --text: #0f172a;
-    --muted: #64748b;
+    --text: #0E1220;
+    --muted: #5A6578;
     --border: #e2e8f0;
     --border-subtle: #f1f5f9;
-    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-bg: rgba(255, 255, 255, 0.88);
     --glass-border: rgba(226, 232, 240, 0.75);
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 6px 20px -3px rgba(0, 0, 0, 0.07);
@@ -189,18 +190,18 @@
   body[data-theme="dark"],
   body.dark {
     color-scheme: dark;
-    --bg: #0a0e17;
-    --surface: #131b2e;
-    --surface-elevated: #1a233a;
-    --text: #f1f5f9;
-    --muted: #94a3b8;
-    --border: #1e293b;
-    --border-subtle: #151f33;
-    --glass-bg: rgba(10, 14, 23, 0.88);
-    --glass-border: rgba(30, 41, 59, 0.75);
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
-    --shadow-md: 0 6px 20px -3px rgba(0, 0, 0, 0.35);
-    --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.45);
+    --bg: #0E1220;
+    --surface: #141A2D;
+    --surface-elevated: #1B233C;
+    --text: #F5F7FA;
+    --muted: #9BA7BD;
+    --border: #202A44;
+    --border-subtle: #171E33;
+    --glass-bg: rgba(14, 18, 32, 0.88);
+    --glass-border: rgba(255, 90, 44, 0.16);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 6px 20px -3px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.55);
   }
 
   body {

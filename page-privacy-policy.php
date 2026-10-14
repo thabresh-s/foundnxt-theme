@@ -60,7 +60,7 @@ echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCA
     <!-- CONTENT CARD -->
     <article class="legal-doc-card fnx-reveal" style="background: var(--fnx-surface); border: 1px solid var(--fnx-border, rgba(0,0,0,0.08)); border-radius: 24px; padding: clamp(28px, 4vw, 48px); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
       
-      <div class="legal-intro-box" style="background: rgba(79,70,229,0.04); border-left: 4px solid #4f46e5; padding: 18px 22px; border-radius: 0 12px 12px 0; margin-bottom: 36px;">
+      <div class="legal-intro-box" style="background: rgba(255,90,44,0.04); border-left: 4px solid #FF5A2C; padding: 18px 22px; border-radius: 0 12px 12px 0; margin-bottom: 36px;">
         <p style="margin: 0; font-size: 0.96875rem; color: var(--fnx-ink); line-height: 1.6;">
           <?php _e('At FoundNXT, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, subscribe to our publications, or engage our advisory services.', 'foundnxt'); ?>
         </p>

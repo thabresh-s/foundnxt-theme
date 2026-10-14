@@ -81,7 +81,7 @@ echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCA
 
       <div class="about-pillars-grid">
         <div class="pillar-card fnx-reveal">
-          <span class="pillar-icon" style="color: var(--cat-business, #4F46E5);">💼</span>
+          <span class="pillar-icon" style="color: var(--cat-business, #FF5A2C);">💼</span>
           <h4><?php _e('Business & Strategy', 'foundnxt'); ?></h4>
           <p><?php _e('SaaS monetization, unit economics, margin structures, and scaling operations.', 'foundnxt'); ?></p>
         </div>

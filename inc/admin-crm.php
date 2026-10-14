@@ -161,12 +161,12 @@ function fnx_crm_initials($name) {
  */
 function fnx_crm_avatar_gradient($name) {
     $gradients = [
-        'linear-gradient(135deg, #6d5efc, #8b5cf6)',
+        'linear-gradient(135deg, #FF5A2C, #FF7A45)',
         'linear-gradient(135deg, #0ea5e9, #00d4aa)',
         'linear-gradient(135deg, #10b981, #059669)',
         'linear-gradient(135deg, #f59e0b, #ff7a45)',
         'linear-gradient(135deg, #ec4899, #f43f5e)',
-        'linear-gradient(135deg, #4f46e5, #06b6d4)',
+        'linear-gradient(135deg, #FF5A2C, #FFA834)',
     ];
     $idx = abs(crc32($name)) % count($gradients);
     return $gradients[$idx];
@@ -389,9 +389,9 @@ function fnx_crm_render_column($column, $post_id) {
 
         case 'fnx_crm_sync':
             $sheet = $lead['target_sheet'];
-            $pill_bg = ($sheet === 'contact') ? '#ecfdf5' : '#f5f3ff';
-            $pill_color = ($sheet === 'contact') ? '#059669' : '#6d5efc';
-            $pill_border = ($sheet === 'contact') ? '#a7f3d0' : '#ddd6fe';
+            $pill_bg = ($sheet === 'contact') ? '#ecfdf5' : '#fff2ee';
+            $pill_color = ($sheet === 'contact') ? '#059669' : '#FF5A2C';
+            $pill_border = ($sheet === 'contact') ? '#a7f3d0' : '#ffd5c8';
             ?>
             <span class="fnx-crm-pill" style="background: <?php echo $pill_bg; ?>; color: <?php echo $pill_color; ?>; border-color: <?php echo $pill_border; ?>;">
                 <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; margin-right: 4px;"></span>
@@ -1172,11 +1172,12 @@ function fnx_crm_render_quick_view_modal() {
 
     function fnxGetGradient(name) {
         var grads = [
-            'linear-gradient(135deg, #6d5efc, #8b5cf6)',
+            'linear-gradient(135deg, #FF5A2C, #FF7A45)',
             'linear-gradient(135deg, #0ea5e9, #00d4aa)',
             'linear-gradient(135deg, #10b981, #059669)',
             'linear-gradient(135deg, #f59e0b, #ff7a45)',
-            'linear-gradient(135deg, #ec4899, #f43f5e)'
+            'linear-gradient(135deg, #ec4899, #f43f5e)',
+            'linear-gradient(135deg, #FF5A2C, #FFA834)'
         ];
         var code = 0;
         for (var i = 0; i < name.length; i++) code += name.charCodeAt(i);
@@ -1379,7 +1380,7 @@ function fnx_crm_admin_styles() {
         color: #059669;
     }
     .fnx-crm-tab.is-active.is-newsletter .dashicons {
-        color: #6d5efc;
+        color: #FF5A2C;
     }
     .fnx-crm-tab.is-active.is-all .dashicons {
         color: #0284c7;
@@ -1392,7 +1393,8 @@ function fnx_crm_admin_styles() {
         line-height: 1.2;
     }
     .fnx-badge-emerald { background: #d1fae5; color: #065f46; }
-    .fnx-badge-purple  { background: #ede9fe; color: #5b21b6; }
+    .fnx-badge-purple,
+    .fnx-badge-orange  { background: #fff2ee; color: #D83B0F; }
     .fnx-badge-gray    { background: #e2e8f0; color: #334155; }
 
     /* KPI Cards */
@@ -1418,8 +1420,8 @@ function fnx_crm_admin_styles() {
         box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
     }
     .fnx-crm-kpi-card.is-highlighted {
-        border-color: #6d5efc;
-        box-shadow: 0 0 0 2px rgba(109, 94, 252, 0.15);
+        border-color: #FF5A2C;
+        box-shadow: 0 0 0 2px rgba(255, 90, 44, 0.15);
     }
     .fnx-crm-kpi-icon {
         width: 48px;
@@ -1435,7 +1437,7 @@ function fnx_crm_admin_styles() {
         width: 24px;
         height: 24px;
     }
-    .fnx-kpi-total .fnx-crm-kpi-icon { background: rgba(109, 94, 252, 0.12); color: #6d5efc; }
+    .fnx-kpi-total .fnx-crm-kpi-icon { background: rgba(255, 90, 44, 0.12); color: #FF5A2C; }
     .fnx-kpi-contact .fnx-crm-kpi-icon { background: rgba(16, 185, 129, 0.12); color: #10b981; }
     .fnx-kpi-newsletter .fnx-crm-kpi-icon { background: rgba(14, 165, 233, 0.12); color: #0284c7; }
     .fnx-kpi-velocity .fnx-crm-kpi-icon { background: rgba(245, 158, 11, 0.12); color: #d97706; }
@@ -1591,7 +1593,7 @@ function fnx_crm_admin_styles() {
         text-decoration: none;
     }
     .fnx-crm-name-link:hover {
-        color: #6d5efc !important;
+        color: #FF5A2C !important;
         text-decoration: underline;
     }
     .fnx-crm-email-row,
@@ -1616,7 +1618,7 @@ function fnx_crm_admin_styles() {
     }
     .fnx-crm-email-link:hover,
     .fnx-crm-phone-link:hover {
-        color: #6d5efc !important;
+        color: #FF5A2C !important;
     }
     .fnx-copy-btn {
         background: transparent;
@@ -1629,7 +1631,7 @@ function fnx_crm_admin_styles() {
         justify-content: center;
     }
     .fnx-copy-btn:hover {
-        color: #6d5efc;
+        color: #FF5A2C;
     }
 
     /* Badges & Pills */
@@ -1655,9 +1657,7 @@ function fnx_crm_admin_styles() {
         border-color: #a7f3d0;
     }
     .fnx-pill-purple {
-        background: #f5f3ff;
-        color: #6d5efc;
-        border-color: #ddd6fe;
+        background: #fff2ee; color: #FF5A2C; border-color: #ffd5c8;
     }
     .fnx-pill-amber {
         background: #fffbeb;
@@ -1701,7 +1701,7 @@ function fnx_crm_admin_styles() {
         text-decoration: none;
     }
     .fnx-crm-company-name:hover {
-        color: #6d5efc;
+        color: #FF5A2C;
     }
     .fnx-crm-subtag {
         font-size: 0.71875rem;
@@ -1732,7 +1732,7 @@ function fnx_crm_admin_styles() {
     .fnx-crm-quickview-btn {
         background: transparent;
         border: none;
-        color: #6d5efc;
+        color: #FF5A2C;
         font-size: 0.75rem;
         font-weight: 600;
         cursor: pointer;
@@ -1774,8 +1774,8 @@ function fnx_crm_admin_styles() {
         border-radius: 4px !important;
     }
     .fnx-action-btn:hover {
-        color: #6d5efc !important;
-        border-color: #6d5efc !important;
+        color: #FF5A2C !important;
+        border-color: #FF5A2C !important;
     }
     .fnx-action-btn .dashicons {
         font-size: 15px;
@@ -1856,8 +1856,8 @@ function fnx_crm_admin_styles() {
         flex-wrap: wrap;
     }
     .fnx-cta-email {
-        background: #6d5efc !important;
-        border-color: #6d5efc !important;
+        background: #FF5A2C !important;
+        border-color: #FF5A2C !important;
         color: #ffffff !important;
     }
     .fnx-drawer-section-title {

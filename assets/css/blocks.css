@@ -456,7 +456,7 @@ body[data-theme="dark"] .wp-block-group.fnx-callout-success { background: var(--
 
 /* ── Inline CTA ── */
 .fnx-inline-cta {
-  background: linear-gradient(135deg, var(--fnx-primary) 0%, #3730a3 100%);
+  background: linear-gradient(135deg, var(--fnx-primary) 0%, var(--fnx-primary-dark, #E84A1C) 100%);
   border-radius: 12px;
   padding: 32px 36px;
   margin: 36px 0;
@@ -720,7 +720,7 @@ body[data-theme="dark"] .wp-block-group.fnx-callout-success { background: var(--
 }
 .fnx-feat-card:hover {
   border-color: var(--fnx-primary-border);
-  box-shadow: 0 4px 16px rgba(79,70,229,.07);
+  box-shadow: 0 4px 16px rgba(255,90,44,.07);
 }
 .fnx-feat-icon {
   font-size: 28px;

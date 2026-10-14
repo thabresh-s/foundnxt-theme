@@ -123,7 +123,7 @@ $faqs = [
           <details class="faq-item" style="background: var(--fnx-surface); border: 1px solid var(--fnx-border, rgba(0,0,0,0.08)); border-radius: 14px; padding: 18px 22px; cursor: pointer;">
             <summary style="font-size: 1.0625rem; font-weight: 700; color: var(--fnx-ink); list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
               <span><?php echo esc_html($faq['q']); ?></span>
-              <span class="faq-arrow" style="color: #4f46e5; font-size: 1.2rem; transition: transform 0.2s;">+</span>
+              <span class="faq-arrow" style="color: #FF5A2C; font-size: 1.2rem; transition: transform 0.2s;">+</span>
             </summary>
             <div class="faq-answer" style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--fnx-border, rgba(0,0,0,0.06)); font-size: 0.9375rem; color: var(--fnx-muted); line-height: 1.6;">
               <?php echo esc_html($faq['a']); ?>
@@ -134,10 +134,10 @@ $faqs = [
     </section>
 
     <!-- CONTACT SUPPORT CTA -->
-    <div class="support-cta-box fnx-reveal" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border-radius: 24px; padding: 48px 40px; color: #ffffff; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(15,23,42,0.3);">
+    <div class="support-cta-box fnx-reveal" style="background: linear-gradient(135deg, #0E1220 0%, #141A2D 100%); border-radius: 24px; padding: 48px 40px; color: #ffffff; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(14,18,32,0.4);">
       <h2 style="font-size: 1.85rem; font-weight: 800; color: #ffffff; margin-bottom: 12px;"><?php _e('Still Need Assistance?', 'foundnxt'); ?></h2>
       <p style="color: #cbd5e1; font-size: 1.0625rem; max-width: 580px; margin: 0 auto 28px; line-height: 1.6;"><?php _e('Our advisory and support team is here to help. Send us a message and we will respond within 24–48 hours.', 'foundnxt'); ?></p>
-      <a href="<?php echo $contact_url; ?>" class="btn-primary" style="padding: 14px 32px; font-size: 1rem; font-weight: 700; border-radius: 12px; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">
+      <a href="<?php echo $contact_url; ?>" class="btn-primary" style="padding: 14px 32px; font-size: 1rem; font-weight: 700; border-radius: 12px; background: linear-gradient(135deg, #FF5A2C 0%, #FF7A45 100%);">
         <?php _e('Contact Support Team', 'foundnxt'); ?> →
       </a>
     </div>
