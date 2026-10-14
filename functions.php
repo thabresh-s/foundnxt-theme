@@ -546,6 +546,7 @@ add_action('pre_get_posts', function( $query ) {
    INCLUDE PARTIALS
    ============================================================ */
 require_once FNX_DIR . '/inc/nav-walker.php';
+require_once FNX_DIR . '/inc/admin-crm.php';
 
 /* ============================================================
    PERFORMANCE
@@ -900,6 +901,9 @@ function fnx_handle_lead_submission() {
         update_post_meta($post_id, 'lead_stage', $company_stage);
         update_post_meta($post_id, 'lead_help', $service_help);
         update_post_meta($post_id, 'lead_type', $lead_type);
+        update_post_meta($post_id, 'lead_message', $message);
+        update_post_meta($post_id, 'lead_source', $referer);
+        update_post_meta($post_id, 'lead_target_sheet', $target_sheet);
     }
 
     // 2. Email Admin Notification
