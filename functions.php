@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.3.2');
+define('FNX_VERSION', '1.3.3');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -106,7 +106,7 @@ function fnx_enqueue() {
         'fnx-modern-design-system',
         FNX_URI . '/assets/css/modern-design-system.css',
         ['foundnxt-style', 'fnx-components'],
-        '2.4.1'
+        FNX_VERSION
     );
 
     // Theme JS
@@ -117,7 +117,7 @@ function fnx_enqueue() {
         'fnx-modern-design-system',
         FNX_URI . '/assets/js/modern-design-system.js',
         [],
-        '2.4.1',
+        FNX_VERSION,
         true
     );
 

@@ -215,19 +215,25 @@ if (!$announcement_dismissed):
 </div>
 
 <!-- Off-Canvas Menu (< 900px Screens, 44px Minimum Tap Targets) -->
-<div class="fnx-mobile-nav" id="mobile-nav" aria-hidden="true">
+<div class="fnx-mobile-nav" id="mobile-nav" aria-hidden="true" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e('Mobile Navigation', 'foundnxt'); ?>">
   <div class="mobile-nav-inner">
     <div class="mobile-nav-header">
       <a href="<?php echo $site_url; ?>" class="brand-logo-wrap" aria-label="<?php echo $site_name; ?>">
-        <img src="<?php echo esc_url($light_logo_src); ?>" alt="<?php echo $site_name; ?>" class="fnx-logo-img fnx-logo-light" width="162" height="40" loading="eager">
-        <img src="<?php echo esc_url($dark_logo_src); ?>" alt="<?php echo $site_name; ?>" class="fnx-logo-img fnx-logo-dark" width="162" height="40" loading="eager">
+        <img src="<?php echo esc_url($light_logo_src); ?>" alt="<?php echo $site_name; ?>" class="fnx-logo-img fnx-logo-light" width="155" height="36" loading="eager">
+        <img src="<?php echo esc_url($dark_logo_src); ?>" alt="<?php echo $site_name; ?>" class="fnx-logo-img fnx-logo-dark" width="155" height="36" loading="eager">
       </a>
-      <button class="mobile-close" id="mobile-close" aria-label="<?php esc_attr_e('Close menu', 'foundnxt'); ?>">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      <button type="button" class="mobile-close" id="mobile-close" aria-label="<?php esc_attr_e('Close menu', 'foundnxt'); ?>">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
     </div>
 
     <div class="mobile-nav-body">
+      <!-- Mobile Quick Search Trigger -->
+      <button type="button" class="mobile-search-trigger" id="mobile-drawer-search-trigger" aria-label="<?php esc_attr_e('Open search', 'foundnxt'); ?>">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span><?php _e('Search articles, playbooks, tools…', 'foundnxt'); ?></span>
+      </button>
+
       <ul class="mobile-menu-list">
         <li><a href="<?php echo esc_url(home_url('/articles/')); ?>" class="mobile-menu-link"><?php _e('Articles', 'foundnxt'); ?></a></li>
         
@@ -261,6 +267,13 @@ if (!$announcement_dismissed):
       <a href="<?php echo esc_url(home_url('/services/')); ?>" class="btn-primary mobile-cta-btn">
         <?php _e('Work With Us', 'foundnxt'); ?> &rarr;
       </a>
+      <div class="mobile-footer-links">
+        <a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact', 'foundnxt'); ?></a>
+        <span class="mobile-footer-sep">&bull;</span>
+        <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php _e('Privacy', 'foundnxt'); ?></a>
+        <span class="mobile-footer-sep">&bull;</span>
+        <a href="<?php echo esc_url(home_url('/disclaimer/')); ?>"><?php _e('Disclaimer', 'foundnxt'); ?></a>
+      </div>
     </div>
   </div>
 </div>

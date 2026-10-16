@@ -69,6 +69,21 @@
       openSearch();
     });
 
+    const mobileSearchTrigger = document.getElementById('mobile-drawer-search-trigger');
+    if (mobileSearchTrigger) {
+      mobileSearchTrigger.addEventListener('click', function (e) {
+        e.preventDefault();
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        const mobileToggle = document.getElementById('mobile-toggle');
+        if (mobileNav) mobileNav.classList.remove('open', 'is-open');
+        if (mobileOverlay) mobileOverlay.classList.remove('open', 'is-active', 'active');
+        if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        setTimeout(() => openSearch(), 80);
+      });
+    }
+
     if (searchClose) {
       searchClose.addEventListener('click', function (e) {
         e.preventDefault();
