@@ -18,20 +18,6 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
 <!-- ══════════════════════════════════
      POST HERO — box style, no featured image
 ══════════════════════════════════ -->
-<?php
-  /* Meta description: RankMath → Yoast → manual excerpt → auto-excerpt */
-  $post_id      = get_the_ID();
-  $meta_desc    = '';
-  if ( defined('RANK_MATH_VERSION') ) {
-    $meta_desc = get_post_meta( $post_id, 'rank_math_description', true );
-  }
-  if ( ! $meta_desc && class_exists('WPSEO_Meta') ) {
-    $meta_desc = get_post_meta( $post_id, '_yoast_wpseo_metadesc', true );
-  }
-  if ( ! $meta_desc ) {
-    $meta_desc = has_excerpt() ? get_the_excerpt() : wp_trim_words( get_the_content(), 30, '…' );
-  }
-?>
 <div class="fnx-post-hero fnx-post-hero--simple">
   <!-- Decorative orbs -->
   <div class="phb-gradient-bg" aria-hidden="true">
@@ -53,11 +39,6 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
 
     <!-- Title -->
     <h1 class="phb-title"><?php the_title(); ?></h1>
-
-    <!-- Meta description -->
-    <?php if ($meta_desc): ?>
-      <p class="phb-desc"><?php echo esc_html($meta_desc); ?></p>
-    <?php endif; ?>
 
     <!-- Chips: Topic · Published · Read time -->
     <div class="phb-chips">
