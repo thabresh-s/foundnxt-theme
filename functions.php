@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.3.4');
+define('FNX_VERSION', '1.3.3');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -294,42 +294,19 @@ add_filter('the_content', 'fnx_toc');
 /* ============================================================
    RELATED POSTS
    ============================================================ */
-function fnx_related_posts($post_id = null, $limit = 4, $exclude = []) {
+function fnx_related_posts($post_id = null, $limit = 4) {
     $post_id = $post_id ?: get_the_ID();
     $cats    = wp_get_post_categories($post_id);
+    if (empty($cats)) return [];
 
-    $not_in = array_unique(array_filter(array_merge([$post_id], (array) $exclude)));
-
-    $posts = [];
-    if (!empty($cats)) {
-        $posts = get_posts([
-            'post__not_in'    => $not_in,
-            'category__in'    => $cats,
-            'posts_per_page'  => $limit,
-            'orderby'         => 'date',
-            'order'           => 'DESC',
-            'post_status'     => 'publish',
-            'suppress_filters'=> false,
-        ]);
-    }
-
-    // If not enough posts in same category, fill with unshown recent posts
-    if (count($posts) < $limit) {
-        $needed = $limit - count($posts);
-        $fill_not_in = array_unique(array_merge($not_in, wp_list_pluck($posts, 'ID')));
-        $fill = get_posts([
-            'post__not_in'    => $fill_not_in,
-            'posts_per_page'  => $needed,
-            'orderby'         => 'date',
-            'order'           => 'DESC',
-            'post_status'     => 'publish',
-        ]);
-        if (!empty($fill)) {
-            $posts = array_merge($posts, $fill);
-        }
-    }
-
-    return $posts;
+    return get_posts([
+        'post__not_in'    => [$post_id],
+        'category__in'    => $cats,
+        'posts_per_page'  => $limit,
+        'orderby'         => 'relevance',
+        'post_status'     => 'publish',
+        'suppress_filters'=> false,
+    ]);
 }
 
 /* ============================================================
@@ -955,18 +932,8 @@ function fnx_handle_lead_submission() {
         $parts = explode('@', $email);
         $name  = ucwords(str_replace(['.', '_', '-'], ' ', sanitize_text_field($parts[0])));
     }
-    if (empty($name) && ! empty($phone)) {
-        $clean_phone = preg_replace('/\D/', '', $phone);
-        $name  = 'Subscriber ' . substr($clean_phone, -4);
-    }
 
-    // Support phone/mobile subscribers: if email is not provided, generate a clean fallback email
-    if (empty($email) && ! empty($phone)) {
-        $clean_phone = preg_replace('/\D/', '', $phone);
-        $email = 'mobile.' . ($clean_phone ?: time()) . '@subscribers.foundnxt.com';
-    }
-
-    if (empty($name) || (empty($email) && empty($phone)) || (!empty($email) && ! is_email($email))) {
+    if (empty($name) || empty($email) || ! is_email($email)) {
         $referer = wp_get_referer() ?: home_url('/');
         wp_safe_redirect(add_query_arg('fnx_lead', 'error', $referer));
         exit;
