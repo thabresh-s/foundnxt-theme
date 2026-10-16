@@ -32,7 +32,7 @@
         </h1>
 
         <p class="hp-lead-v3">
-          <?php _e('Actionable frameworks on startups, valuation, AI architecture, and growth strategies built for founders and leaders who want to scale without fluff.', 'foundnxt'); ?>
+          <?php _e('Learn how to scale your startup with proven frameworks on AI, valuation, and growth. No jargon, just what works.', 'foundnxt'); ?>
         </p>
 
         <!-- Primary CTA: Inline Email Form with Subscribe Free Button -->
