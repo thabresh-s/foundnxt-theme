@@ -35,20 +35,7 @@
           <?php _e('Actionable frameworks on startups, valuation, AI architecture, and growth strategies built for founders and leaders who want to scale without fluff.', 'foundnxt'); ?>
         </p>
 
-        <!-- Primary CTA "Get the Weekly Brief" (#newsletter) + Secondary "Explore Articles" + Link "Work With Us" (#services) -->
-        <div class="hero-actions-row">
-          <a href="#newsletter" class="hero-btn-primary">
-            <?php _e('Get the Weekly Brief', 'foundnxt'); ?> &rarr;
-          </a>
-          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="hero-btn-secondary">
-            <?php _e('Explore Articles', 'foundnxt'); ?> &rarr;
-          </a>
-          <a href="#services" class="hero-link-sub">
-            <?php _e('Work With Us', 'foundnxt'); ?> &rarr;
-          </a>
-        </div>
-
-        <!-- Inline Email Subscription Directly Under Hero -->
+        <!-- Primary CTA: Inline Email Form with Subscribe Free Button -->
         <div class="hero-cta-bundle">
           <form class="hero-access-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden" name="action" value="fnx_lead_submit">
@@ -59,6 +46,17 @@
             <input type="email" name="lead_email" class="hero-access-input" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
             <button type="submit" class="hero-access-btn"><?php _e('Subscribe Free', 'foundnxt'); ?> &rarr;</button>
           </form>
+          <p class="hero-form-microcopy"><?php _e('Free weekly brief for founders. No spam, unsubscribe anytime.', 'foundnxt'); ?></p>
+        </div>
+
+        <!-- Secondary Actions: Outlined "Explore Articles" Button + Plain Text "Work With Us" Link -->
+        <div class="hero-sub-actions">
+          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="hero-btn-outlined">
+            <?php _e('Explore Articles', 'foundnxt'); ?> &rarr;
+          </a>
+          <a href="<?php echo esc_url(home_url('/services/')); ?>" class="hero-link-plain">
+            <?php _e('Work With Us', 'foundnxt'); ?> &rarr;
+          </a>
         </div>
       </div>
     </div>

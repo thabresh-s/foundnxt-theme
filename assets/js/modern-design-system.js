@@ -15,20 +15,25 @@
 (function () {
   'use strict';
 
-  // ── 1. WHAT'S NEW TOP BANNER DISMISSAL ──
+  // ── 1. WHAT'S NEW TOP BANNER DISMISSAL (SAVED IN COOKIE) ──
   function initTopBanner() {
     const banner = document.getElementById('fnx-top-banner');
     const closeBtn = document.getElementById('top-banner-close');
     if (!banner || !closeBtn) return;
 
-    if (localStorage.getItem('fnx_banner_dismissed_v2') === 'true') {
+    if (document.cookie.indexOf('fnx_announcement_dismissed=1') !== -1 || localStorage.getItem('fnx_banner_dismissed_v2') === 'true') {
+      banner.style.display = 'none';
       banner.classList.add('is-dismissed');
       return;
     }
 
     closeBtn.addEventListener('click', function () {
+      banner.style.display = 'none';
       banner.classList.add('is-dismissed');
       localStorage.setItem('fnx_banner_dismissed_v2', 'true');
+      const d = new Date();
+      d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
+      document.cookie = 'fnx_announcement_dismissed=1; path=/; expires=' + d.toUTCString() + '; SameSite=Lax';
     });
   }
 

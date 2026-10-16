@@ -47,31 +47,35 @@
      STICKY HEADER
   ══════════════════════════════════════ */
   const header = $('#fnx-header');
-  let lastY = 0;
 
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     if (header) {
       header.classList.toggle('scrolled', y > 10);
-      header.classList.toggle('header-hidden', y > lastY && y > 200);
     }
-    lastY = y;
   }, { passive: true });
 
   /* ══════════════════════════════════════
-     TOP BAR CLOSE & COOKIE CONSENT
+     TOP BANNER DISMISSAL (SAVED IN COOKIE)
   ══════════════════════════════════════ */
-  const topbar    = $('#fnx-topbar');
-  const topClose  = $('#topbar-close') || $('.topbar-close');
-  if (localStorage.getItem('fnx_topbar') === 'closed' && topbar) {
-    topbar.style.display = 'none';
+  const topBanner = $('#fnx-top-banner');
+  const topBannerClose = $('#top-banner-close');
+
+  if (document.cookie.indexOf('fnx_announcement_dismissed=1') !== -1 && topBanner) {
+    topBanner.style.display = 'none';
   }
-  on(topClose, 'click', () => {
-    if (topbar) {
-      topbar.style.display = 'none';
-      localStorage.setItem('fnx_topbar', 'closed');
-    }
-  });
+
+  if (topBannerClose) {
+    topBannerClose.addEventListener('click', () => {
+      if (topBanner) {
+        topBanner.style.display = 'none';
+        topBanner.classList.add('is-dismissed');
+      }
+      const d = new Date();
+      d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
+      document.cookie = 'fnx_announcement_dismissed=1; path=/; expires=' + d.toUTCString() + '; SameSite=Lax';
+    });
+  }
 
 
   /* ══════════════════════════════════════

@@ -138,6 +138,7 @@
         <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php _e('Privacy Policy', 'foundnxt'); ?></a>
         <a href="<?php echo esc_url(home_url('/disclaimer/')); ?>"><?php _e('Disclaimer', 'foundnxt'); ?></a>
         <a href="<?php echo esc_url(home_url('/support/')); ?>"><?php _e('Support', 'foundnxt'); ?></a>
+        <a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact', 'foundnxt'); ?></a>
       </nav>
     </div>
 
