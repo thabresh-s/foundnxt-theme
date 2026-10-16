@@ -1,0 +1,86 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/comparison-table",
+  "version": "1.0.0",
+  "title": "Comparison Matrix",
+  "category": "foundnxt",
+  "description": "Modern responsive comparison matrix with highlighted recommended options, badge tags, and mobile touch-scrolling",
+  "icon": "editor-table",
+  "keywords": [
+    "foundnxt",
+    "comparison-table",
+    "matrix",
+    "versus",
+    "compare",
+    "pricing"
+  ],
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Framework & Option Comparison"
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "Key technical, financial, and operational trade-offs compared."
+    },
+    "columns": {
+      "type": "array",
+      "default": [
+        {
+          "name": "Delaware C-Corp",
+          "badge": "Top Pick for VC",
+          "highlight": true
+        },
+        {
+          "name": "India Pvt Ltd",
+          "badge": "Domestic Markets",
+          "highlight": false
+        },
+        {
+          "name": "Singapore Pte Ltd",
+          "badge": "SE Asia Expansion",
+          "highlight": false
+        }
+      ],
+      "items": {
+        "type": "object"
+      }
+    },
+    "rows": {
+      "type": "array",
+      "default": [
+        {
+          "feature": "VC Investment Readiness",
+          "values": ["Universal standard for global VCs", "Requires foreign direct investment filings", "Widely accepted across Asia"]
+        },
+        {
+          "feature": "Setup & Annual Overhead",
+          "values": ["$500-$1,500 setup · Low", "₹15,000-₹30,000 · Low", "$2,000-$4,000 · Medium"]
+        },
+        {
+          "feature": "ESOP Pool Flexibility",
+          "values": ["High (US standard 83b election)", "Moderate (Complex taxation on exercise)", "High (Clean tax treaty structure)"]
+        },
+        {
+          "feature": "Cross-Border IP Transfer",
+          "values": ["Seamless international licensing", "Scrutinized by RBI / FEMA", "Tax-efficient regional hub"]
+        }
+      ],
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "render": "file:./render.php"
+}

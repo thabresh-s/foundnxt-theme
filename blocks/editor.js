@@ -1081,7 +1081,98 @@
     });
 
     /* ═══════════════════════════════════════════════════
-       17. DEPRECATED BLOCKS COMPATIBILITY REGISTRATION
+       17. COMPARISON MATRIX (foundnxt/comparison-table)
+       ═══════════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/comparison-table', {
+        edit: function(props) {
+            var a = props.attributes;
+            var columns = Array.isArray(a.columns) ? a.columns : [];
+            var rows = Array.isArray(a.rows) ? a.rows : [];
+
+            var bp = _useBlockProps({
+                style: {
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '16px',
+                    padding: '24px 28px',
+                    margin: '18px 0',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Comparison Matrix Settings', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Table Title',
+                            value: a.title || '',
+                            onChange: function(v) { props.setAttributes({ title: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Table Subtitle',
+                            value: a.subtitle || '',
+                            onChange: function(v) { props.setAttributes({ subtitle: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Quick Paste Rows (Feature | Option 1 | Option 2 | Option 3)',
+                            help: 'One feature per line, pipe-separated values.',
+                            rows: 6,
+                            value: rows.map(function(r) {
+                                return (r.feature || '') + ' | ' + (r.values || []).join(' | ');
+                            }).join('\n'),
+                            onChange: function(v) {
+                                var lines = v.split('\n').filter(function(l) { return l.trim().length > 0; });
+                                var parsedRows = lines.map(function(line) {
+                                    var parts = line.split('|');
+                                    var feature = parts[0] ? parts[0].trim() : '';
+                                    var vals = parts.slice(1).map(function(s) { return s.trim(); });
+                                    return { feature: feature, values: vals };
+                                });
+                                props.setAttributes({ rows: parsedRows });
+                            }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    _el('div', { style: { marginBottom: '16px' } },
+                        _el('span', { style: { fontFamily: "'Sora', sans-serif", fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', color: BRAND, letterSpacing: '1.5px' } }, 'Comparison Matrix'),
+                        _el('h3', { style: { fontFamily: "'Sora', sans-serif", fontSize: '20px', fontWeight: 700, color: '#0E1220', margin: '4px 0 0' } }, a.title || 'Framework & Option Comparison'),
+                        a.subtitle ? _el('p', { style: { fontSize: '13.5px', color: '#64748B', margin: '4px 0 0' } }, a.subtitle) : null
+                    ),
+                    _el('div', { style: { overflowX: 'auto', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '10px' } },
+                        _el('table', { style: { width: '100%', borderCollapse: 'collapse', fontSize: '13px' } },
+                            _el('thead', null,
+                                _el('tr', { style: { background: '#f8fafc', borderBottom: '2px solid #e2e8f0' } },
+                                    _el('th', { style: { padding: '12px 14px', textAlign: 'left', color: '#64748B', fontWeight: 700, textTransform: 'uppercase', fontSize: '11px' } }, 'Features'),
+                                    columns.map(function(col, i) {
+                                        return _el('th', { key: i, style: { padding: '12px 14px', textAlign: 'center', color: '#0E1220', fontWeight: 700, background: col.highlight ? 'rgba(255, 90, 44, 0.08)' : 'transparent' } },
+                                            col.badge ? _el('span', { style: { display: 'block', fontSize: '10px', color: BRAND, marginBottom: '2px' } }, col.badge) : null,
+                                            col.name || 'Option ' + (i + 1)
+                                        );
+                                    })
+                                )
+                            ),
+                            _el('tbody', null,
+                                rows.map(function(row, rIdx) {
+                                    return _el('tr', { key: rIdx, style: { borderBottom: '1px solid #f1f5f9' } },
+                                        _el('td', { style: { padding: '10px 14px', fontWeight: 600, color: '#0E1220' } }, row.feature),
+                                        columns.map(function(col, cIdx) {
+                                            var val = (row.values && row.values[cIdx]) || '—';
+                                            return _el('td', { key: cIdx, style: { padding: '10px 14px', textAlign: 'center', color: '#334155', background: col.highlight ? 'rgba(255, 90, 44, 0.04)' : 'transparent' } }, val);
+                                        })
+                                    );
+                                })
+                            )
+                        )
+                    )
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       18. DEPRECATED BLOCKS COMPATIBILITY REGISTRATION
        ═══════════════════════════════════════════════ */
     ['lead-paragraph', 'highlight', 'risk-banner', 'section-header', 'author-bio'].forEach(function(slug) {
         _blocks.registerBlockType('foundnxt/' + slug, {

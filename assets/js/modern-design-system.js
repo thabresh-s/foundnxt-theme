@@ -186,7 +186,11 @@
     const article = document.getElementById('post-content');
     if (!mobileList || !article) return;
 
-    const headings = article.querySelectorAll('.article-body-content h2, .article-body-content h3, .entry-content h2, .entry-content h3');
+    const contentBody = article.querySelector('.article-body-content, .entry-content, .post-content') || article;
+    const allHeadings = Array.from(contentBody.querySelectorAll('h2, h3'));
+    const headings = allHeadings.filter(h => {
+      return !h.closest('.fnx-faq, .fnx-feature-cards, .fnx-timeline, .fnx-comparison-wrap, .fnx-cta-box, .post-author-card, .post-suggested, .fnx-article-newsletter-box, .post-comments-wrap, .fnx-mobile-toc');
+    });
     if (!headings.length) {
       const mobileToc = document.getElementById('fnx-mobile-toc');
       if (mobileToc) mobileToc.style.display = 'none';
@@ -196,15 +200,23 @@
     mobileList.innerHTML = '';
     headings.forEach((h, idx) => {
       if (!h.id) {
-        h.id = 'fnx-heading-' + idx;
+        h.id = 'toc-' + h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').slice(0, 50) + '-' + idx;
       }
       const li = document.createElement('li');
+      li.className = 'toc-' + h.tagName.toLowerCase();
       const a = document.createElement('a');
       a.href = '#' + h.id;
       a.textContent = h.textContent.trim();
-      a.addEventListener('click', () => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
         const details = document.getElementById('fnx-mobile-toc');
         if (details) details.open = false;
+        const target = document.getElementById(h.id);
+        if (target) {
+          const offset = 88;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
       });
       li.appendChild(a);
       mobileList.appendChild(li);

@@ -39,6 +39,7 @@ add_action('init', function() {
         'checklist','verdict','timeline','feature-cards','definition',
         'lead-paragraph','highlight','risk-banner','section-header',
         'author-bio','big-number','related-reading','cta-box','resource-card',
+        'comparison-table',
     ];
     foreach ($blocks as $block) {
         $dir = FNX_DIR . '/blocks/src/' . $block;

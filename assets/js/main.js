@@ -342,8 +342,12 @@
 
     if (!tocList || !postContent) return;
 
-    // Collect all H2 and H3 headings from post content
-    const headings = $$('h2, h3', postContent);
+    // Collect all H2 and H3 headings from article body, excluding blocks and outside widgets
+    const contentBody = postContent.querySelector('.article-body-content, .entry-content, .post-content') || postContent;
+    const allHeadings = Array.from(contentBody.querySelectorAll('h2, h3'));
+    const headings = allHeadings.filter(h => {
+      return !h.closest('.fnx-faq, .fnx-feature-cards, .fnx-timeline, .fnx-comparison-wrap, .fnx-cta-box, .post-author-card, .post-suggested, .fnx-article-newsletter-box, .post-comments-wrap, .fnx-mobile-toc');
+    });
     if (!headings.length) {
       tocList.innerHTML = '<li><span class="toc-empty-msg">No sections found.</span></li>';
       return;
@@ -423,6 +427,48 @@
         tocToggle.textContent = collapsed ? '›' : '⌄';
       });
     }
+  })();
+
+  /* ══════════════════════════════════════
+     CODE BLOCKS — 1-CLICK COPY BUTTON
+  ══════════════════════════════════════ */
+  (function initCodeCopy() {
+    const codeBlocks = $$('.post-content pre, .entry-content pre, .article-body-content pre, pre.wp-block-code');
+    codeBlocks.forEach(pre => {
+      if (pre.querySelector('.fnx-code-header')) return;
+      const code = pre.querySelector('code');
+      const textToCopy = code ? code.innerText : pre.innerText;
+
+      const header = document.createElement('div');
+      header.className = 'fnx-code-header';
+
+      const langSpan = document.createElement('span');
+      langSpan.className = 'fnx-code-lang';
+      const langMatch = (code && code.className.match(/language-([a-z0-9_-]+)/i)) || (pre.className.match(/language-([a-z0-9_-]+)/i));
+      langSpan.textContent = langMatch ? langMatch[1].toUpperCase() : 'CODE';
+
+      const copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'fnx-copy-code-btn';
+      copyBtn.setAttribute('aria-label', 'Copy code to clipboard');
+      copyBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span>';
+
+      copyBtn.addEventListener('click', () => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(textToCopy.trim()).then(() => {
+            copyBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span style="color:#10b981">Copied!</span>';
+            setTimeout(() => {
+              copyBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span>';
+            }, 2000);
+          }).catch(() => {});
+        }
+      });
+
+      header.appendChild(langSpan);
+      header.appendChild(copyBtn);
+      pre.classList.add('fnx-code-enhanced');
+      pre.insertBefore(header, pre.firstChild);
+    });
   })();
 
   /* ══════════════════════════════════════

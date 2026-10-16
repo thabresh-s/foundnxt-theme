@@ -160,7 +160,7 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
 
         <!-- Author Bio Card -->
         <div class="post-author-card">
-          <?php echo get_avatar(get_the_author_meta('email'), 80, '', '', ['class' => 'author-card-avatar']); ?>
+          <?php echo get_avatar(get_the_author_meta('email'), 80, '', '', ['class' => 'author-card-avatar', 'loading' => 'lazy', 'decoding' => 'async']); ?>
           <div class="author-card-info">
             <div class="author-card-name"><?php the_author(); ?></div>
             <div class="author-card-role"><?php _e('Author, FoundNXT', 'foundnxt'); ?></div>

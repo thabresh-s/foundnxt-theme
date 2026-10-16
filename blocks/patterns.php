@@ -127,4 +127,16 @@ add_action('init', function () {
             'content'     => '<!-- wp:foundnxt/related-reading {"label":"Essential Startup Reading","links":[{"text":"How Top Founders Structure Their First Cap Table","url":"#"},{"text":"The 5 Financial Metrics Indian VCs Prioritize in 2026","url":"#"},{"text":"Bootstrapping vs Venture Capital: The Real Math","url":"#"}]} /-->',
         ]
     );
+
+    // 11. Comparison Matrix Pattern
+    register_block_pattern(
+        'foundnxt/comparison-matrix',
+        [
+            'title'       => __('Comparison Matrix Table', 'foundnxt'),
+            'description' => __('Side-by-side framework and capability comparison table with recommendation badges.', 'foundnxt'),
+            'categories'  => ['foundnxt'],
+            'content'     => '<!-- wp:foundnxt/comparison-table {"title":"Framework \u0026 Entity Comparison","subtitle":"Key technical, financial, and operational trade-offs compared.","columns":[{"name":"Delaware C-Corp","badge":"Top Pick for US VC","highlight":true},{"name":"India Pvt Ltd","badge":"Domestic Scale","highlight":false},{"name":"Singapore Pte Ltd","badge":"SE Asia Hub","highlight":false}],"rows":[{"feature":"Global VC Readiness","values":["Universal standard for global VCs","Requires foreign direct investment filings","Widely accepted across Asia"]},{"feature":"Annual Compliance Overhead","values":["$500-$1,500 \u00b7 Streamlined","\u20b915,000-\u20b930,000 \u00b7 Standard","\u20b92,000-\u20b94,000 \u00b7 Moderate"]},{"feature":"ESOP Pool Flexibility","values":["High (Standard 83b election)","Moderate (Taxation upon exercise)","High (Clean regional structure)"]},{"feature":"Cross-Border IP Holding","values":["Seamless global licensing","Scrutinized by RBI / FEMA regulations","Tax-efficient holding company"]}]} /-->',
+        ]
+    );
 });
+

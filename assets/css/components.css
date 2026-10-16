@@ -108,7 +108,7 @@
   text-decoration: none;
 }
 .logo-sub {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.625rem;
   font-weight: 400;
   color: var(--fnx-muted);
@@ -1068,7 +1068,7 @@ body.dark .fnx-post-hero--simple {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   font-size: .75rem;
   font-weight: 500;
   color: var(--fnx-muted);
@@ -1147,7 +1147,7 @@ body.dark .phb-chip--topic {
 
 /* ── Description ── */
 .phb-desc {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   font-size: clamp(.9375rem, 1.5vw, 1.0625rem);
   font-style: italic;
   line-height: 1.72;
@@ -1240,7 +1240,7 @@ body.dark .phb-desc {
   color: var(--fnx-ink);
   margin: 1.5em 0 .5em;
   line-height: 1.35;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-heading);
 }
 .post-content h5, .post-content h6 {
   font-size: 1rem;
@@ -1249,7 +1249,7 @@ body.dark .phb-desc {
   margin: 1.2em 0 .4em;
   text-transform: uppercase;
   letter-spacing: .06em;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-heading);
 }
 
 /* Paragraphs */
@@ -1335,7 +1335,7 @@ body.dark .phb-desc {
   color: #fff;
   font-size: .75rem;
   font-weight: 700;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1740,7 +1740,7 @@ body.dark .phb-desc {
   border: 1px solid rgba(255,255,255,.2);
   border-radius: 100px;
   color: #fff; font-size: 0.875rem;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   outline: none; transition: all .2s;
   box-sizing: border-box;
   letter-spacing: .2px;
@@ -2211,7 +2211,7 @@ body.dark .phb-desc {
   font-size: clamp(14px, 1.5vw, 16px);
   font-weight: 500; color: var(--fnx-muted);
   line-height: 1.6; margin: 0 0 0;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   opacity: 0;
   animation: fnx-fade-up .55s ease 1.0s forwards;
 }
@@ -5489,7 +5489,7 @@ body.dark .fnx-post-hero--simple {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   font-size: .75rem;
   font-weight: 500;
   color: var(--fnx-muted);
@@ -5568,7 +5568,7 @@ body.dark .phb-chip--topic {
 
 /* ── Description ── */
 .phb-desc {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   font-size: clamp(.9375rem, 1.5vw, 1.0625rem);
   font-style: italic;
   line-height: 1.72;
@@ -5661,7 +5661,7 @@ body.dark .phb-desc {
   color: var(--fnx-ink);
   margin: 1.5em 0 .5em;
   line-height: 1.35;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
 }
 .post-content h5, .post-content h6 {
   font-size: 1rem;
@@ -5670,7 +5670,7 @@ body.dark .phb-desc {
   margin: 1.2em 0 .4em;
   text-transform: uppercase;
   letter-spacing: .06em;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
 }
 
 /* Paragraphs */
@@ -5756,7 +5756,7 @@ body.dark .phb-desc {
   color: #fff;
   font-size: .75rem;
   font-weight: 700;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -6160,7 +6160,7 @@ body.dark .phb-desc {
   border: 1px solid rgba(255,255,255,.2);
   border-radius: 100px;
   color: #fff; font-size: 0.875rem;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   outline: none; transition: all .2s;
   box-sizing: border-box;
   letter-spacing: .2px;
@@ -6495,7 +6495,7 @@ body.dark .phb-desc {
   font-size: clamp(14px, 1.5vw, 16px);
   font-weight: 500; color: var(--fnx-muted);
   line-height: 1.6; margin: 0 0 0;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   opacity: 0;
   animation: fnx-fade-up .55s ease 1.0s forwards;
 }

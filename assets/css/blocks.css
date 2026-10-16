@@ -30,16 +30,108 @@
   color: var(--text, #0E1220) !important;
 }
 
-.wp-block-table table { border-color: var(--border, #e2e8f0) !important; }
-.wp-block-table th     { background: var(--surface, #f8fafc) !important; color: var(--text, #0E1220) !important; font-family: var(--font-heading, 'Sora', sans-serif); }
-.wp-block-table td     { color: var(--text, #334155) !important; }
-
-.wp-block-code {
+/* Tables */
+.wp-block-table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 2em 0 !important;
+  border-radius: var(--radius-md, 14px);
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface, #f8fafc);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+.wp-block-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 !important;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.9375rem;
+  border-color: var(--border, #e2e8f0) !important;
+}
+.wp-block-table th {
   background: var(--surface, #f8fafc) !important;
-  border: 1px solid var(--border, #e2e8f0) !important;
-  border-radius: var(--radius-sm, 8px) !important;
+  color: var(--text, #0E1220) !important;
+  font-family: var(--font-heading, 'Sora', sans-serif);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.8px;
+  padding: 14px 18px !important;
+  border-bottom: 2px solid var(--border, #e2e8f0) !important;
+}
+.wp-block-table td {
+  padding: 12px 18px !important;
+  border-bottom: 1px solid var(--border, #e2e8f0) !important;
   color: var(--text, #334155) !important;
+  line-height: 1.6;
+}
+.wp-block-table tr:last-child td { border-bottom: none !important; }
+.wp-block-table tr:nth-child(even) td { background: rgba(0, 0, 0, 0.02); }
+[data-theme="dark"] .wp-block-table tr:nth-child(even) td { background: rgba(255, 255, 255, 0.02); }
+
+/* Code Blocks & 1-Click Copy */
+.wp-block-code,
+.post-content pre {
+  background: var(--surface, #141A2D) !important;
+  border: 1px solid var(--border, #202A44) !important;
+  border-radius: var(--radius-md, 14px) !important;
+  color: var(--text, #F5F7FA) !important;
   font-family: var(--font-mono, 'JetBrains Mono', monospace) !important;
+  padding: 0 !important;
+  margin: 2em 0 !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 20px -2px rgba(14, 18, 32, 0.06);
+}
+.wp-block-code code,
+.post-content pre code {
+  display: block;
+  padding: 18px 22px !important;
+  overflow-x: auto;
+  font-family: inherit !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.65 !important;
+  background: transparent !important;
+  color: inherit !important;
+  border: none !important;
+}
+.fnx-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid var(--border, #202A44);
+}
+[data-theme="dark"] .fnx-code-header {
+  background: rgba(255, 255, 255, 0.04);
+}
+.fnx-code-lang {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted, #94A3B8);
+}
+.fnx-copy-code-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid var(--border, #202A44);
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted, #94A3B8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.fnx-copy-code-btn:hover {
+  background: var(--brand, #FF5A2C);
+  border-color: var(--brand, #FF5A2C);
+  color: #ffffff;
 }
 
 .wp-block-separator { border-color: var(--border, #e2e8f0) !important; }
@@ -176,3 +268,24 @@ body[data-theme="dark"] .wp-block-group.fnx-callout-success { background: rgba(2
 .page-numbers.current { background: var(--brand, #FF5A2C); border-color: var(--brand, #FF5A2C); color: #fff; }
 .page-numbers a:hover { border-color: var(--brand, #FF5A2C); color: var(--brand, #FF5A2C); }
 .page-numbers.dots { border: none; }
+
+/* ── Wide & Full Alignments ── */
+.alignwide {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+}
+.alignfull {
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+}
+@media (min-width: 1100px) {
+  .post-content > .alignwide,
+  .article-body-content > .alignwide,
+  .entry-content > .alignwide {
+    width: min(960px, calc(100% + 140px));
+    margin-left: max(-70px, calc((100% - 960px) / 2));
+    margin-right: max(-70px, calc((100% - 960px) / 2));
+  }
+}
