@@ -2422,6 +2422,25 @@
    ============================================================ */
 
 /* ── 1. Post Hero Title & Header Meta ── */
+.fnx-post-hero.fnx-post-hero--simple,
+.fnx-post-hero--simple {
+  min-height: auto !important;
+  display: block !important;
+  padding: 0 !important;
+}
+
+.phb-simple-outer {
+  position: relative !important;
+  padding-top: clamp(16px, 2.5vw, 26px) !important;
+  padding-bottom: clamp(24px, 3.5vw, 36px) !important;
+  max-width: 800px !important;
+  margin-inline: auto !important;
+}
+
+.phb-simple-outer .fnx-breadcrumbs {
+  margin-bottom: 12px !important;
+}
+
 .phb-title,
 .post-title,
 h1.entry-title {
@@ -2432,9 +2451,14 @@ h1.entry-title {
   line-height: 1.18 !important;
   color: var(--text) !important;
   text-wrap: balance !important;
-  margin: 0 0 1.25rem !important;
+  margin: 0 0 1rem !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
+}
+
+.phb-title + .phb-chips,
+.phb-badge-row + .phb-title + .phb-chips {
+  margin-top: 14px !important;
 }
 
 .phb-desc {

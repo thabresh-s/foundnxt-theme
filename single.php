@@ -19,13 +19,6 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
      POST HERO — box style, no featured image
 ══════════════════════════════════ -->
 <div class="fnx-post-hero fnx-post-hero--simple">
-  <!-- Decorative orbs -->
-  <div class="phb-gradient-bg" aria-hidden="true">
-    <div class="phb-gradient-orb phb-gradient-orb--1"></div>
-    <div class="phb-gradient-orb phb-gradient-orb--2"></div>
-    <div class="phb-gradient-orb phb-gradient-orb--3"></div>
-  </div>
-
   <div class="phb-simple-outer container">
     <?php fnx_breadcrumbs(); ?>
 
