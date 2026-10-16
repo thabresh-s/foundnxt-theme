@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.3.6');
+define('FNX_VERSION', '1.3.7');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 

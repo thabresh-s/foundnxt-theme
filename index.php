@@ -35,26 +35,12 @@
           <?php _e('Learn how to scale your startup with proven frameworks on AI, valuation, and growth. No jargon, just what works.', 'foundnxt'); ?>
         </p>
 
-        <!-- Primary CTA: Inline Email Form with Subscribe Free Button -->
-        <div class="hero-cta-bundle">
-          <form class="hero-access-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-            <input type="hidden" name="action" value="fnx_lead_submit">
-            <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-            <input type="hidden" name="lead_type" value="Hero Inline Newsletter">
-            <input type="hidden" name="target_sheet" value="newsletter">
-            <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
-            <input type="email" name="lead_email" class="hero-access-input" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
-            <button type="submit" class="hero-access-btn"><?php _e('Subscribe Free', 'foundnxt'); ?> &rarr;</button>
-          </form>
-          <p class="hero-form-microcopy"><?php _e('Free weekly brief for founders. No spam, unsubscribe anytime.', 'foundnxt'); ?></p>
-        </div>
-
-        <!-- Secondary Actions: Outlined "Explore Articles" Button + Plain Text "Work With Us" Link -->
+        <!-- Hero Actions: "Explore Articles" (Primary) + "Work With Us" (Outlined) -->
         <div class="hero-sub-actions">
-          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="hero-btn-outlined">
+          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="hero-btn-primary">
             <?php _e('Explore Articles', 'foundnxt'); ?> &rarr;
           </a>
-          <a href="<?php echo esc_url(home_url('/services/')); ?>" class="hero-link-plain">
+          <a href="<?php echo esc_url(home_url('/services/')); ?>" class="hero-btn-outlined">
             <?php _e('Work With Us', 'foundnxt'); ?> &rarr;
           </a>
         </div>
@@ -62,26 +48,26 @@
     </div>
   </section>
 
-  <!-- ── 2. FEATURED PLAYBOOKS (Container Queries & Dynamic Solo Layout) ── -->
-  <section class="hp-featured-section defer-render">
+  <!-- ── 2. RECENT ARTICLES (Container Queries & Dynamic Solo Layout) ── -->
+  <section class="hp-featured-section defer-render" id="recent-articles">
     <div class="container">
       <div class="section-headline-row">
         <div>
-          <span class="section-tag"><?php _e('Curated Intelligence', 'foundnxt'); ?></span>
-          <h2><?php _e('Featured', 'foundnxt'); ?> <span class="text-grad"><?php _e('Playbooks', 'foundnxt'); ?></span></h2>
+          <span class="section-tag"><?php _e('Fresh Insights', 'foundnxt'); ?></span>
+          <h2><?php _e('Recent', 'foundnxt'); ?> <span class="text-grad"><?php _e('Articles', 'foundnxt'); ?></span></h2>
         </div>
         <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="hero-btn-secondary">
-          <?php _e('View All', 'foundnxt'); ?> →
+          <?php _e('View All Articles', 'foundnxt'); ?> →
         </a>
       </div>
 
       <div class="playbooks-grid">
         <?php
-        $featured_posts = fnx_get_hp_posts(['posts_per_page' => 3]);
-        $is_solo = !empty($featured_posts) && count($featured_posts) < 3;
+        $recent_posts = fnx_get_hp_posts(['posts_per_page' => 6]);
+        $is_solo = !empty($recent_posts) && count($recent_posts) < 3;
 
-        if (!empty($featured_posts)):
-          foreach ($featured_posts as $f_idx => $fp):
+        if (!empty($recent_posts)):
+          foreach ($recent_posts as $f_idx => $fp):
             $f_cats  = wp_get_post_categories($fp->ID);
             $f_cname = $f_cats ? get_cat_name($f_cats[0]) : 'Strategy';
             $f_cslug = $f_cats ? get_category($f_cats[0])->slug : 'business-strategy';
@@ -246,35 +232,7 @@
     </div>
   </section>
 
-  <!-- ── 6. RECENT ARTICLES (HIDE SECTION WHEN NO POSTS EXIST) ── -->
-  <?php
-  $recent_posts = fnx_get_hp_posts(['posts_per_page' => 6, 'offset' => 3]);
-  if (!empty($recent_posts)):
-  ?>
-  <section class="hp-featured-section defer-render">
-    <div class="container">
-      <div class="section-headline-row">
-        <div>
-          <span class="section-tag"><?php _e('Fresh Insights', 'foundnxt'); ?></span>
-          <h2><?php _e('Recent', 'foundnxt'); ?> <span class="text-grad"><?php _e('Articles', 'foundnxt'); ?></span></h2>
-        </div>
-        <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="hero-btn-secondary">
-          <?php _e('View All Articles', 'foundnxt'); ?> →
-        </a>
-      </div>
 
-      <div class="playbooks-grid">
-        <?php
-        foreach ($recent_posts as $lp):
-          setup_postdata($GLOBALS['post'] =& $lp);
-          get_template_part('template-parts/post-card');
-        endforeach;
-        wp_reset_postdata();
-        ?>
-      </div>
-    </div>
-  </section>
-  <?php endif; ?>
 
   <!-- ── 7. TOOLS "COMING SOON" WITH DEDICATED WAITLIST FIELD ── -->
   <section class="hp-tools-waitlist-section defer-render">

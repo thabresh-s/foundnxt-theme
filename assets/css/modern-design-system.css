@@ -1294,19 +1294,42 @@
     line-height: 1.4;
   }
 
-  /* Secondary Actions: Outlined "Explore Articles" + Plain Text "Work With Us" */
+  /* Hero Action Buttons: Primary "Explore Articles" + Outlined "Work With Us" */
   .hero-sub-actions {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 22px;
+    gap: 18px;
     flex-wrap: wrap;
+  }
+  .hero-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border-radius: var(--radius-full);
+    background: var(--grad) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    font-weight: 700;
+    font-size: 0.96875rem;
+    text-decoration: none;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--brand) 35%, transparent);
+    transition: transform 0.15s, box-shadow 0.2s, filter 0.2s;
+  }
+  .hero-btn-primary:hover {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -2px color-mix(in srgb, var(--brand) 45%, transparent);
+    filter: brightness(1.05);
   }
   .hero-btn-outlined {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 10px 22px;
+    padding: 11px 24px;
     border-radius: var(--radius-full);
     background: transparent;
     border: 1.5px solid var(--border);
