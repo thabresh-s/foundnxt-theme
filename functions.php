@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.1.0');
+define('FNX_VERSION', '1.2.0');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -139,7 +139,11 @@ add_action('wp_enqueue_scripts', 'fnx_enqueue');
 
 // Block editor styles
 function fnx_editor_styles() {
-    add_editor_style(['https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&display=swap', 'style.css', 'assets/css/editor.css']);
+    add_editor_style([
+        'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
+        'style.css',
+        'assets/css/editor.css'
+    ]);
 }
 add_action('after_setup_theme', 'fnx_editor_styles');
 

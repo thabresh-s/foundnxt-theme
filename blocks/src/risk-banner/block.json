@@ -3,14 +3,15 @@
   "apiVersion": 3,
   "name": "foundnxt/risk-banner",
   "version": "1.0.0",
-  "title": "Risk / Disclaimer",
+  "title": "Risk / Disclaimer (Deprecated)",
   "category": "foundnxt",
-  "description": "Risk or disclaimer notice",
+  "description": "Legacy risk notice - use FoundNXT Callout Note (Warning/Danger) instead",
   "keywords": [
     "foundnxt",
     "risk-banner"
   ],
   "supports": {
+    "inserter": false,
     "html": false,
     "align": false,
     "color": {

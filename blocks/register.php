@@ -15,7 +15,7 @@ add_filter('block_categories_all', function($cats) {
     return $cats;
 });
 
-// Register editor script handle BEFORE blocks
+// Register editor script & styles handles BEFORE blocks
 add_action('init', function() {
     wp_register_script(
         'fnx-blocks-editor',
@@ -60,3 +60,6 @@ add_action('enqueue_block_editor_assets', function() {
         FNX_VERSION
     );
 });
+
+// Load Block Patterns
+require_once FNX_DIR . '/blocks/patterns.php';

@@ -3,14 +3,15 @@
   "apiVersion": 3,
   "name": "foundnxt/highlight",
   "version": "1.0.0",
-  "title": "Highlight Strip",
+  "title": "Highlight Strip (Deprecated)",
   "category": "foundnxt",
-  "description": "Full-width green highlight banner",
+  "description": "Legacy highlight strip - use FoundNXT Callout Note instead",
   "keywords": [
     "foundnxt",
     "highlight"
   ],
   "supports": {
+    "inserter": false,
     "html": false,
     "align": false,
     "color": {
@@ -23,7 +24,7 @@
   "attributes": {
     "content": {
       "type": "string",
-      "default": "\ud83d\udd11 Quick fact: Add a standout single-line stat or fact here."
+      "default": "🔑 Quick fact: Add a standout single-line stat or fact here."
     }
   },
   "render": "file:./render.php"

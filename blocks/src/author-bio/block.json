@@ -3,14 +3,15 @@
   "apiVersion": 3,
   "name": "foundnxt/author-bio",
   "version": "1.0.0",
-  "title": "Author Bio",
+  "title": "Author Bio (Deprecated)",
   "category": "foundnxt",
-  "description": "Inline author bio with initials",
+  "description": "Legacy inline author bio - post templates provide native author credit boxes",
   "keywords": [
     "foundnxt",
     "author-bio"
   ],
   "supports": {
+    "inserter": false,
     "html": false,
     "align": false,
     "color": {
@@ -27,7 +28,7 @@
     },
     "role": {
       "type": "string",
-      "default": "Author, FoundNXT \u00b7 Tech Freelancer"
+      "default": "Author, FoundNXT · Tech Freelancer"
     },
     "bio": {
       "type": "string",

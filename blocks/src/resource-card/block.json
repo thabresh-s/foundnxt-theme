@@ -2,40 +2,43 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "foundnxt/resource-card",
-  "version": "1.0.0",
-  "title": "Resource Card",
+  "version": "2.0.0",
+  "title": "Download & Resource Card",
   "category": "foundnxt",
-  "description": "Download or resource link card",
+  "description": "Download card for founder templates, financial models, PDF guides, and spreadsheets.",
   "keywords": [
     "foundnxt",
-    "resource-card"
+    "resource",
+    "download",
+    "template",
+    "pdf",
+    "excel"
   ],
   "supports": {
     "html": false,
-    "align": false,
-    "color": {
-      "background": false,
-      "text": false
-    },
-    "spacing": false,
-    "typography": false
+    "align": ["wide", "full"],
+    "inserter": true
   },
   "attributes": {
     "icon": {
       "type": "string",
-      "default": "\ud83d\udcc4"
+      "default": "📊"
     },
     "title": {
       "type": "string",
-      "default": "Resource or File Name"
+      "default": "SaaS Valuation & Unit Economics Financial Model"
     },
     "meta": {
       "type": "string",
-      "default": "PDF \u00b7 2.4 MB \u00b7 Free"
+      "default": "Excel Spreadsheet · Free Resource"
+    },
+    "desc": {
+      "type": "string",
+      "default": "Fully customizable 3-statement model including cohort retention curves and CAC payback tables."
     },
     "btnText": {
       "type": "string",
-      "default": "Download \u2192"
+      "default": "Download Template →"
     },
     "btnUrl": {
       "type": "string",

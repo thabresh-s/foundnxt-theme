@@ -2,44 +2,43 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "foundnxt/verdict",
-  "version": "1.0.0",
-  "title": "Verdict Box",
+  "version": "2.0.0",
+  "title": "Executive Verdict & Scorecard",
   "category": "foundnxt",
-  "description": "Final verdict with score and badge",
+  "description": "Product review summary with numerical rating score, status badge, and conclusion.",
   "keywords": [
     "foundnxt",
-    "verdict"
+    "verdict",
+    "score",
+    "review",
+    "rating",
+    "evaluation"
   ],
   "supports": {
     "html": false,
-    "align": false,
-    "color": {
-      "background": false,
-      "text": false
-    },
-    "spacing": false,
-    "typography": false
+    "align": ["wide", "full"],
+    "inserter": true
   },
   "attributes": {
     "label": {
       "type": "string",
-      "default": "Our Verdict"
+      "default": "Executive Verdict"
     },
     "text": {
       "type": "string",
-      "default": "Write your final recommendation here."
+      "default": "A standout solution for high-growth tech firms requiring automated multi-tier architecture, defensible margin expansion, and enterprise security compliance."
     },
     "score": {
       "type": "string",
-      "default": "8.5 / 10"
+      "default": "9.2 / 10"
     },
     "badge": {
       "type": "string",
-      "default": "Recommended"
+      "default": "Editor’s Choice"
     },
     "badgeColor": {
       "type": "string",
-      "default": "green"
+      "default": "brand"
     }
   },
   "render": "file:./render.php"

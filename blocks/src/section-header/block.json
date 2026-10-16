@@ -3,14 +3,15 @@
   "apiVersion": 3,
   "name": "foundnxt/section-header",
   "version": "1.0.0",
-  "title": "Section Header",
+  "title": "Section Header (Deprecated)",
   "category": "foundnxt",
-  "description": "Eyebrow + heading + subtitle",
+  "description": "Legacy section header - use standard H2/H3 headings instead",
   "keywords": [
     "foundnxt",
     "section-header"
   ],
   "supports": {
+    "inserter": false,
     "html": false,
     "align": false,
     "color": {

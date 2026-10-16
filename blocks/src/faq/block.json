@@ -2,23 +2,22 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "foundnxt/faq",
-  "version": "1.0.0",
-  "title": "FAQ Block",
+  "version": "2.0.0",
+  "title": "FAQ Accordion (SEO Schema)",
   "category": "foundnxt",
-  "description": "FAQ with Schema.org markup",
+  "description": "Interactive question & answer accordion with Google FAQPage Schema microdata.",
   "keywords": [
     "foundnxt",
-    "faq"
+    "faq",
+    "accordion",
+    "questions",
+    "answers",
+    "schema"
   ],
   "supports": {
     "html": false,
-    "align": false,
-    "color": {
-      "background": false,
-      "text": false
-    },
-    "spacing": false,
-    "typography": false
+    "align": ["wide", "full"],
+    "inserter": true
   },
   "attributes": {
     "heading": {
@@ -29,17 +28,14 @@
       "type": "array",
       "default": [
         {
-          "q": "Add your question here?",
-          "a": "Add your answer here."
+          "q": "What is the standard pre-money valuation benchmark for early-stage B2B startups?",
+          "a": "Valuations typically range between ₹15Cr to ₹40Cr depending on annual recurring revenue (ARR), founder pedigree, pilot contracts, and gross margin profile."
         },
         {
-          "q": "Second question?",
-          "a": "Second answer here."
+          "q": "How can founders prepare for due diligence before term sheet issuance?",
+          "a": "Ensure your data room includes clean cap tables, verified incorporation documents, audited P&L statements, IP assignment agreements, and customer cohort retention data."
         }
-      ],
-      "items": {
-        "type": "object"
-      }
+      ]
     }
   },
   "render": "file:./render.php"

@@ -2,23 +2,22 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "foundnxt/steps",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "title": "Step-by-Step Guide",
   "category": "foundnxt",
-  "description": "Numbered step-by-step guide",
+  "description": "Sequential process and implementation roadmap with numbered step markers.",
   "keywords": [
     "foundnxt",
-    "steps"
+    "steps",
+    "process",
+    "guide",
+    "how to",
+    "workflow"
   ],
   "supports": {
     "html": false,
-    "align": false,
-    "color": {
-      "background": false,
-      "text": false
-    },
-    "spacing": false,
-    "typography": false
+    "align": ["wide", "full"],
+    "inserter": true
   },
   "attributes": {
     "heading": {
@@ -28,25 +27,10 @@
     "steps": {
       "type": "array",
       "default": [
-        {
-          "num": "01",
-          "title": "First step",
-          "desc": "Describe what to do here."
-        },
-        {
-          "num": "02",
-          "title": "Second step",
-          "desc": "Describe what to do here."
-        },
-        {
-          "num": "03",
-          "title": "Third step",
-          "desc": "Describe what to do here."
-        }
-      ],
-      "items": {
-        "type": "object"
-      }
+        { "title": "Conduct Market Opportunity Sizing", "desc": "Calculate bottom-up addressable market using validated customer segment numbers." },
+        { "title": "Build a Defensible Financial Model", "desc": "Structure unit economics with realistic CAC payback periods and margin expansion curves." },
+        { "title": "Pitch Qualified Seed Investors", "desc": "Focus outreach on sector-aligned leads who write active thesis-driven checks." }
+      ]
     }
   },
   "render": "file:./render.php"

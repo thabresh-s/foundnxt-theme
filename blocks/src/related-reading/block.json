@@ -2,13 +2,17 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "foundnxt/related-reading",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "title": "Related Reading",
   "category": "foundnxt",
-  "description": "Internal links list mid-article",
+  "description": "Internal link showcase with copy-pastable multi-line link support and clean card layout",
+  "icon": "book-alt",
   "keywords": [
     "foundnxt",
-    "related-reading"
+    "related-reading",
+    "links",
+    "internal-links",
+    "seo"
   ],
   "supports": {
     "html": false,
@@ -23,27 +27,24 @@
   "attributes": {
     "label": {
       "type": "string",
-      "default": "\ud83d\udcda Related Reading"
+      "default": "Related Guides & Deep Dives"
     },
     "links": {
-      "type": "array",
+      "type": ["array", "string"],
       "default": [
         {
-          "text": "Article title one",
+          "text": "The Definitive Seed Round Fundraising Handbook",
           "url": "#"
         },
         {
-          "text": "Article title two",
+          "text": "How Indian SaaS Startups Calculate LTV:CAC Accurately",
           "url": "#"
         },
         {
-          "text": "Article title three",
+          "text": "ESOP Pool Allocation: Founder vs First 10 Employees",
           "url": "#"
         }
-      ],
-      "items": {
-        "type": "object"
-      }
+      ]
     }
   },
   "render": "file:./render.php"

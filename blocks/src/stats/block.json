@@ -2,49 +2,44 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "foundnxt/stats",
-  "version": "1.0.0",
-  "title": "Stats Row",
+  "version": "2.0.0",
+  "title": "Metrics & KPI Grid",
   "category": "foundnxt",
-  "description": "Three bold statistics side by side",
+  "description": "Showcase 2, 3, or 4 high-impact metrics with badges and source attribution.",
   "keywords": [
     "foundnxt",
-    "stats"
+    "stats",
+    "kpi",
+    "metrics",
+    "numbers",
+    "data"
   ],
   "supports": {
     "html": false,
-    "align": false,
-    "color": {
-      "background": false,
-      "text": false
-    },
-    "spacing": false,
-    "typography": false
+    "align": ["wide", "full"],
+    "inserter": true
   },
   "attributes": {
-    "stat1": {
+    "heading": {
       "type": "string",
-      "default": "90%"
+      "default": ""
     },
-    "label1": {
+    "source": {
       "type": "string",
-      "default": "Of startups fail in 5 years"
+      "default": ""
     },
-    "stat2": {
-      "type": "string",
-      "default": "3x"
-    },
-    "label2": {
-      "type": "string",
-      "default": "5-year revenue growth"
-    },
-    "stat3": {
-      "type": "string",
-      "default": "\u20b9500"
-    },
-    "label3": {
-      "type": "string",
-      "default": "Median seed round size"
-    }
+    "stat1": { "type": "string", "default": "90%" },
+    "label1": { "type": "string", "default": "Startup Failure Rate" },
+    "change1": { "type": "string", "default": "" },
+    "stat2": { "type": "string", "default": "3.4x" },
+    "label2": { "type": "string", "default": "Series A Multiple" },
+    "change2": { "type": "string", "default": "" },
+    "stat3": { "type": "string", "default": "₹50Cr" },
+    "label3": { "type": "string", "default": "Median Round Sizing" },
+    "change3": { "type": "string", "default": "" },
+    "stat4": { "type": "string", "default": "" },
+    "label4": { "type": "string", "default": "" },
+    "change4": { "type": "string", "default": "" }
   },
   "render": "file:./render.php"
 }

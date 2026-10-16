@@ -2,32 +2,34 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "foundnxt/pullquote",
-  "version": "1.0.0",
-  "title": "Pull Quote",
+  "version": "2.0.0",
+  "title": "Editorial Pull Quote",
   "category": "foundnxt",
-  "description": "Large impactful pull quote",
+  "description": "Bold typographic pull quote with author citation and role.",
   "keywords": [
     "foundnxt",
-    "pullquote"
+    "pullquote",
+    "quote",
+    "citation",
+    "interview"
   ],
   "supports": {
     "html": false,
-    "align": false,
-    "color": {
-      "background": false,
-      "text": false
-    },
-    "spacing": false,
-    "typography": false
+    "align": ["wide", "full"],
+    "inserter": true
   },
   "attributes": {
     "quote": {
       "type": "string",
-      "default": "Add your quote here. Make it impactful."
+      "default": "The companies that win this cycle aren’t building slightly faster workflows — they are re-architecting their entire cost and unit economics around autonomous execution."
     },
     "cite": {
       "type": "string",
-      "default": "\u2014 Source or Author"
+      "default": "FoundNXT Research & Venture Intelligence"
+    },
+    "role": {
+      "type": "string",
+      "default": ""
     }
   },
   "render": "file:./render.php"

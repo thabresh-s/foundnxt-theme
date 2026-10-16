@@ -2,28 +2,30 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "foundnxt/takeaway",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "title": "Key Takeaway",
   "category": "foundnxt",
-  "description": "Green summary box for key insights",
+  "description": "High-impact summary card for core editorial takeaways and key insights.",
   "keywords": [
     "foundnxt",
-    "takeaway"
+    "takeaway",
+    "insight",
+    "summary",
+    "highlight"
   ],
   "supports": {
     "html": false,
-    "align": false,
-    "color": {
-      "background": false,
-      "text": false
-    },
-    "spacing": false,
-    "typography": false
+    "align": ["wide", "full"],
+    "inserter": true
   },
   "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Key Takeaway"
+    },
     "content": {
       "type": "string",
-      "default": "Summarise the key insight from this section."
+      "default": "Summarise the core insight or actionable takeaway from this section."
     }
   },
   "render": "file:./render.php"

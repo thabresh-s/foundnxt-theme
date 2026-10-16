@@ -1,527 +1,1110 @@
 /**
- * FoundNXT Custom Blocks — Editor
- * Uses useBlockProps for proper delete/select/move support
+ * FoundNXT Custom Blocks — Editor Registration
+ * Complete Gutenberg editor implementation with RichText inline editing,
+ * live WYSIWYG preview, and Sidebar "Quick Paste" multi-line textareas.
+ *
+ * @package FoundNXT
  */
 (function() {
-'use strict';
+    'use strict';
 
-var _blocks    = wp.blocks;
-var _el        = wp.element.createElement;
-var _useEffect = wp.element.useEffect;
-var _useState  = wp.element.useState;
-var _Fragment  = wp.element.Fragment;
-var _RichText  = wp.blockEditor.RichText;
-var _useBlockProps = wp.blockEditor.useBlockProps;
-var _InspectorControls = wp.blockEditor.InspectorControls;
-var _PanelBody = wp.components.PanelBody;
-var _TextControl = wp.components.TextControl;
-var _TextareaControl = wp.components.TextareaControl;
-var _SelectControl = wp.components.SelectControl;
-var _Button    = wp.components.Button;
-var _Notice    = wp.components.Notice;
+    var _blocks = wp.blocks;
+    var _el = wp.element.createElement;
+    var _Fragment = wp.element.Fragment;
+    var _RichText = wp.blockEditor.RichText;
+    var _useBlockProps = wp.blockEditor.useBlockProps;
+    var _InspectorControls = wp.blockEditor.InspectorControls;
+    var _PanelBody = wp.components.PanelBody;
+    var _TextControl = wp.components.TextControl;
+    var _TextareaControl = wp.components.TextareaControl;
+    var _SelectControl = wp.components.SelectControl;
+    var _Button = wp.components.Button;
+    var _RangeControl = wp.components.RangeControl;
 
-/* ── shared helpers ── */
-function updateArr(arr, i, field, val) {
-    return arr.map(function(item, j) {
-        if (j !== i) return item;
-        var copy = Object.assign({}, item);
-        copy[field] = val;
-        return copy;
-    });
-}
-function addArrItem(arr, tpl) { return arr.concat([Object.assign({}, tpl)]); }
-function removeArrItem(arr, i) { return arr.filter(function(_, j) { return j !== i; }); }
+    var BRAND = '#FF5A2C';
+    var BRAND_SUBTLE = 'rgba(255, 90, 44, 0.08)';
+    var BRAND_BORDER = 'rgba(255, 90, 44, 0.28)';
 
-/* ── colors ── */
-var GREEN      = '#FF5A2C';
-var GREEN_LITE = 'rgba(255, 90, 44, 0.08)';
-var RED_LITE   = '#fef2f2';
-var RED        = '#dc2626';
-var BLUE_LITE  = '#eff6ff';
-var BLUE       = '#2563eb';
-var AMB_LITE   = '#fffbeb';
-var AMB        = '#d97706';
-var BORDER     = '#e5e7eb';
-var SURFACE    = '#f7f8fa';
-var INK        = '#1a1a2e';
-var MUTED      = '#6b7280';
+    function arrayToLines(arr, mapper) {
+        if (!Array.isArray(arr)) return typeof arr === 'string' ? arr : '';
+        return arr.map(mapper || function(item) {
+            return typeof item === 'string' ? item : JSON.stringify(item);
+        }).join('\n');
+    }
 
-/* ═══════════════════════════════════════════════════
-   1. NOTE / CALLOUT
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/note', {
-    edit: function(props) {
-        var a = props.attributes;
-        var type = a.type || 'info';
-        var map = {
-            info:    { icon:'📌', label:'Note',      bg:BLUE_LITE, border:BLUE,  text:'#1e3a5f' },
-            warning: { icon:'⚠️', label:'Warning',   bg:AMB_LITE,  border:AMB,   text:'#3d2a00' },
-            success: { icon:'✅', label:'Tip',        bg:GREEN_LITE,border:GREEN, text:'#14532d' },
-            danger:  { icon:'🚫', label:'Important', bg:RED_LITE,  border:RED,   text:'#450a0a' },
-        };
-        var t = map[type];
-        var bp = _useBlockProps({ style: { borderLeft:'4px solid '+t.border, background:t.bg, borderRadius:'10px', padding:'16px 20px', margin:'8px 0' } });
-        return _el(_Fragment, null,
-            _el(_InspectorControls, null,
-                _el(_PanelBody, { title:'Note Type', initialOpen:true },
-                    _el(_SelectControl, { label:'Type', value:type, options:[
-                        {label:'📌 Info (Blue)',    value:'info'},
-                        {label:'⚠️ Warning (Yellow)',value:'warning'},
-                        {label:'✅ Tip (Green)',     value:'success'},
-                        {label:'🚫 Important (Red)', value:'danger'},
-                    ], onChange:function(v){ props.setAttributes({type:v}); } })
-                )
-            ),
-            _el('div', bp,
-                _el('p', { style:{margin:0, color:t.text, fontSize:'15px', lineHeight:'1.7'} },
-                    _el('strong', null, t.icon+' '+t.label+': '),
-                    _el(_RichText, { tagName:'span', value:a.content||'', onChange:function(v){props.setAttributes({content:v});}, placeholder:'Add your note here...' })
-                )
-            )
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   2. KEY TAKEAWAY
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/takeaway', {
-    edit: function(props) {
-        var bp = _useBlockProps({ style:{background:GREEN_LITE, border:'1px solid #86efac', borderRadius:'12px', padding:'22px 26px', margin:'8px 0', position:'relative'} });
-        return _el('div', bp,
-            _el('div', { style:{fontSize:'12px', fontWeight:700, textTransform:'uppercase', letterSpacing:'1.5px', color:GREEN, marginBottom:'10px'} }, '💡 KEY TAKEAWAY'),
-            _el(_RichText, { tagName:'p', style:{fontSize:'15px', color:'#14532d', fontWeight:500, margin:0, lineHeight:'1.7'}, value:props.attributes.content||'', onChange:function(v){props.setAttributes({content:v});}, placeholder:'Summarise the key insight...' })
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   3. PROS & CONS
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/pros-cons', {
-    edit: function(props) {
-        var pros = props.attributes.prosItems || [];
-        var cons = props.attributes.consItems || [];
-        var bp = _useBlockProps({ style:{margin:'8px 0'} });
-        function listEditor(items, setProp, color, bgColor, addLabel) {
-            return _el('div', { style:{background:bgColor, border:'1px solid '+(color==='#16a34a'?'#86efac':'#fca5a5'), borderRadius:'10px', padding:'18px 20px', flex:1} },
-                _el('div', { style:{fontSize:'14px', fontWeight:700, color:color, marginBottom:'12px'} }, (color===GREEN?'👍 Pros':'👎 Cons')),
-                items.map(function(item, i) {
-                    return _el('div', { key:i, style:{display:'flex', gap:'6px', alignItems:'center', marginBottom:'6px'} },
-                        _el('span', { style:{color:color, fontWeight:700, fontSize:'13px', flexShrink:0} }, '•'),
-                        _el('input', { type:'text', value:item, onChange:function(e){ var n=[].concat(items); n[i]=e.target.value; props.setAttributes(setProp(n)); }, style:{flex:1, border:'1px solid '+BORDER, borderRadius:'4px', padding:'4px 8px', fontSize:'13px', background:'white'} }),
-                        _el('button', { onClick:function(){ props.setAttributes(setProp(items.filter(function(_,j){return j!==i;}))); }, style:{background:'none', border:'none', cursor:'pointer', color:RED, fontSize:'16px', lineHeight:1, padding:'2px 4px'} }, '×')
-                    );
-                }),
-                _el('button', { onClick:function(){ props.setAttributes(setProp(items.concat(['New item']))); }, style:{marginTop:'8px', background:'white', border:'1px dashed '+color, color:color, borderRadius:'6px', padding:'5px 12px', cursor:'pointer', fontSize:'12px', fontWeight:600, width:'100%'} }, addLabel)
-            );
-        }
-        return _el('div', bp,
-            _el('div', { style:{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'14px'} },
-                listEditor(pros, function(n){return {prosItems:n};}, GREEN, GREEN_LITE, '+ Add Pro'),
-                listEditor(cons, function(n){return {consItems:n};}, RED,   RED_LITE,   '+ Add Con')
-            )
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   4. STATS ROW
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/stats', {
-    edit: function(props) {
-        var a = props.attributes;
-        var bp = _useBlockProps({ style:{background:SURFACE, border:'1px solid '+BORDER, borderRadius:'12px', padding:'24px', margin:'8px 0'} });
-        return _el(_Fragment, null,
-            _el(_InspectorControls, null,
-                _el(_PanelBody, { title:'Edit Stats', initialOpen:true },
-                    ['1','2','3'].map(function(n) {
-                        return _el('div', { key:n, style:{marginBottom:'16px', padding:'12px', background:SURFACE, borderRadius:'8px', border:'1px solid '+BORDER} },
-                            _el('div', { style:{fontSize:'11px', fontWeight:700, textTransform:'uppercase', color:MUTED, marginBottom:'8px'} }, 'Stat '+n),
-                            _el(_TextControl, { label:'Number/Value', value:a['stat'+n]||'', onChange:function(v){var u={};u['stat'+n]=v;props.setAttributes(u);} }),
-                            _el(_TextControl, { label:'Label', value:a['label'+n]||'', onChange:function(v){var u={};u['label'+n]=v;props.setAttributes(u);} })
-                        );
-                    })
-                )
-            ),
-            _el('div', bp,
-                _el('div', { style:{display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'0'} },
-                    ['1','2','3'].map(function(n, idx) {
-                        return _el('div', { key:n, style:{textAlign:'center', padding:'16px 20px', borderRight: idx<2 ? '1px solid '+BORDER : 'none'} },
-                            _el('div', { style:{fontSize:'clamp(28px,4vw,40px)', fontWeight:900, color:GREEN, lineHeight:1, marginBottom:'6px', fontFamily:"'Source Serif 4',serif"} }, a['stat'+n]||'—'),
-                            _el('div', { style:{fontSize:'13px', color:MUTED, lineHeight:1.4} }, a['label'+n]||'Label')
-                        );
-                    })
-                )
-            )
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   5. STEPS
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/steps', {
-    edit: function(props) {
-        var steps = props.attributes.steps || [];
-        var heading = props.attributes.heading || 'Step-by-Step Guide';
-        var bp = _useBlockProps({ style:{margin:'8px 0'} });
-        return _el('div', bp,
-            _el('input', { type:'text', value:heading, onChange:function(e){props.setAttributes({heading:e.target.value});}, style:{width:'100%', fontSize:'20px', fontWeight:700, border:'none', borderBottom:'2px solid '+GREEN, padding:'4px 0', marginBottom:'20px', background:'transparent', color:INK, outline:'none'} }),
-            steps.map(function(step, i) {
-                return _el('div', { key:i, style:{display:'flex', gap:'16px', padding:'16px 0', borderBottom:'1px solid '+BORDER, alignItems:'flex-start'} },
-                    _el('div', { style:{fontSize:'22px', fontWeight:900, color:GREEN, fontFamily:"'Source Serif 4',serif", flexShrink:0, width:'36px', lineHeight:1.2} }, String(i+1).padStart(2,'0')),
-                    _el('div', { style:{flex:1, display:'flex', flexDirection:'column', gap:'6px'} },
-                        _el('input', { type:'text', value:step.title||'', placeholder:'Step title', onChange:function(e){props.setAttributes({steps:updateArr(steps,i,'title',e.target.value)});}, style:{fontSize:'15px', fontWeight:700, border:'none', borderBottom:'1px solid '+BORDER, padding:'4px 0', background:'transparent', color:INK, outline:'none', width:'100%'} }),
-                        _el('input', { type:'text', value:step.desc||'', placeholder:'Step description', onChange:function(e){props.setAttributes({steps:updateArr(steps,i,'desc',e.target.value)});}, style:{fontSize:'13px', border:'none', borderBottom:'1px dashed '+BORDER, padding:'4px 0', background:'transparent', color:MUTED, outline:'none', width:'100%'} })
-                    ),
-                    _el('button', { onClick:function(){props.setAttributes({steps:removeArrItem(steps,i)});}, style:{background:'none',border:'none',cursor:'pointer',color:RED,fontSize:'18px',lineHeight:1,padding:'2px 4px',marginTop:'2px'} }, '×')
-                );
-            }),
-            _el('button', { onClick:function(){props.setAttributes({steps:addArrItem(steps,{num:'0'+steps.length,title:'New step',desc:'Describe this step.'})});}, style:{marginTop:'12px', background:GREEN_LITE, border:'1px dashed '+GREEN, color:GREEN, borderRadius:'8px', padding:'8px 16px', cursor:'pointer', fontSize:'13px', fontWeight:600, width:'100%'} }, '+ Add Step')
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   6. FAQ
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/faq', {
-    edit: function(props) {
-        var items = props.attributes.items || [];
-        var heading = props.attributes.heading || 'Frequently Asked Questions';
-        var bp = _useBlockProps({ style:{margin:'8px 0'} });
-        return _el('div', bp,
-            _el('input', { type:'text', value:heading, onChange:function(e){props.setAttributes({heading:e.target.value});}, style:{width:'100%', fontSize:'20px', fontWeight:700, border:'none', borderBottom:'2px solid '+GREEN, padding:'4px 0', marginBottom:'16px', background:'transparent', color:INK, outline:'none'} }),
-            items.map(function(item, i) {
-                return _el('div', { key:i, style:{borderBottom:'1px solid '+BORDER, padding:'14px 0'} },
-                    _el('div', { style:{display:'flex', gap:'8px', alignItems:'flex-start', marginBottom:'6px'} },
-                        _el('div', { style:{background:GREEN, color:'white', fontSize:'10px', fontWeight:800, borderRadius:'4px', padding:'2px 6px', flexShrink:0, marginTop:'3px'} }, 'Q'),
-                        _el('input', { type:'text', value:item.q||'', placeholder:'Question', onChange:function(e){props.setAttributes({items:updateArr(items,i,'q',e.target.value)});}, style:{flex:1, fontSize:'15px', fontWeight:600, border:'none', background:'transparent', color:INK, outline:'none', padding:'0'} }),
-                        _el('button', { onClick:function(){props.setAttributes({items:removeArrItem(items,i)});}, style:{background:'none',border:'none',cursor:'pointer',color:RED,fontSize:'16px',padding:'0 4px'} }, '×')
-                    ),
-                    _el('input', { type:'text', value:item.a||'', placeholder:'Answer', onChange:function(e){props.setAttributes({items:updateArr(items,i,'a',e.target.value)});}, style:{width:'100%', fontSize:'14px', border:'none', borderBottom:'1px dashed '+BORDER, background:'transparent', color:MUTED, outline:'none', padding:'4px 0 4px 24px'} })
-                );
-            }),
-            _el('button', { onClick:function(){props.setAttributes({items:addArrItem(items,{q:'New question?',a:'Answer here.'})});}, style:{marginTop:'10px', background:GREEN_LITE, border:'1px dashed '+GREEN, color:GREEN, borderRadius:'8px', padding:'8px 16px', cursor:'pointer', fontSize:'13px', fontWeight:600, width:'100%'} }, '+ Add Question')
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   7. PULL QUOTE
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/pullquote', {
-    edit: function(props) {
-        var a = props.attributes;
-        var bp = _useBlockProps({ style:{background:SURFACE, borderRadius:'12px', padding:'28px 32px', margin:'8px 0', position:'relative', borderLeft:'none'} });
-        return _el('blockquote', bp,
-            _el('div', { style:{fontSize:'56px', lineHeight:1, color:GREEN, opacity:.2, fontFamily:"'Source Serif 4',serif", marginBottom:'4px', userSelect:'none'} }, '"'),
-            _el(_RichText, { tagName:'p', style:{fontSize:'clamp(17px,2vw,20px)', fontStyle:'italic', color:INK, lineHeight:'1.6', margin:'0 0 14px', fontFamily:"'Source Serif 4',serif"}, value:a.quote||'', onChange:function(v){props.setAttributes({quote:v});}, placeholder:'Add your quote here...' }),
-            _el('input', { type:'text', value:a.cite||'', placeholder:'— Attribution', onChange:function(e){props.setAttributes({cite:e.target.value});}, style:{fontSize:'13px', fontWeight:600, color:MUTED, border:'none', borderTop:'1px solid '+BORDER, paddingTop:'10px', background:'transparent', outline:'none', width:'100%'} })
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   8. CHECKLIST
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/checklist', {
-    edit: function(props) {
-        var items = props.attributes.items || [];
-        var title = props.attributes.title || 'Checklist';
-        var bp = _useBlockProps({ style:{background:'white', border:'1px solid '+BORDER, borderRadius:'12px', padding:'22px 26px', margin:'8px 0'} });
-        return _el('div', bp,
-            _el('input', { type:'text', value:title, onChange:function(e){props.setAttributes({title:e.target.value});}, style:{fontSize:'14px', fontWeight:700, border:'none', borderBottom:'2px solid '+GREEN, padding:'2px 0 6px', marginBottom:'14px', background:'transparent', color:INK, outline:'none', display:'block'} }),
-            items.map(function(item, i) {
-                return _el('div', { key:i, style:{display:'flex', gap:'10px', alignItems:'center', marginBottom:'8px'} },
-                    _el('div', { style:{width:'20px', height:'20px', borderRadius:'50%', background:GREEN, color:'white', fontSize:'11px', fontWeight:700, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0} }, '✓'),
-                    _el('input', { type:'text', value:item, onChange:function(e){ var n=[].concat(items); n[i]=e.target.value; props.setAttributes({items:n}); }, style:{flex:1, fontSize:'14px', border:'none', borderBottom:'1px dashed '+BORDER, background:'transparent', color:'#374151', outline:'none', padding:'2px 0'} }),
-                    _el('button', { onClick:function(){props.setAttributes({items:removeArrItem(items,i)});}, style:{background:'none',border:'none',cursor:'pointer',color:RED,fontSize:'16px',padding:'0 2px'} }, '×')
-                );
-            }),
-            _el('button', { onClick:function(){props.setAttributes({items:items.concat(['New item'])});}, style:{marginTop:'8px', background:GREEN_LITE, border:'1px dashed '+GREEN, color:GREEN, borderRadius:'8px', padding:'6px 14px', cursor:'pointer', fontSize:'12px', fontWeight:600, width:'100%'} }, '+ Add Item')
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   9. VERDICT BOX
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/verdict', {
-    edit: function(props) {
-        var a = props.attributes;
-        var badgeColors = { green:GREEN, blue:BLUE, amber:AMB, red:RED };
-        var bc = badgeColors[a.badgeColor||'green'];
-        var bp = _useBlockProps({ style:{background:SURFACE, border:'2px solid '+GREEN, borderRadius:'12px', padding:'24px 28px', margin:'8px 0'} });
-        return _el(_Fragment, null,
-            _el(_InspectorControls, null,
-                _el(_PanelBody, { title:'Verdict Settings', initialOpen:true },
-                    _el(_TextControl, { label:'Score (e.g. 8.5 / 10)', value:a.score||'', onChange:function(v){props.setAttributes({score:v});} }),
-                    _el(_TextControl, { label:'Badge Text', value:a.badge||'', onChange:function(v){props.setAttributes({badge:v});} }),
-                    _el(_SelectControl, { label:'Badge Color', value:a.badgeColor||'green', options:[{label:'Green',value:'green'},{label:'Blue',value:'blue'},{label:'Amber',value:'amber'},{label:'Red',value:'red'}], onChange:function(v){props.setAttributes({badgeColor:v});} })
-                )
-            ),
-            _el('div', bp,
-                _el('div', { style:{fontSize:'12px', fontWeight:700, textTransform:'uppercase', letterSpacing:'1.5px', color:GREEN, marginBottom:'12px'} }, '⚖️ '+( a.label||'Our Verdict')),
-                _el(_RichText, { tagName:'p', style:{fontSize:'15px', color:'#374151', lineHeight:'1.7', margin:'0 0 16px'}, value:a.text||'', onChange:function(v){props.setAttributes({text:v});}, placeholder:'Write your verdict...' }),
-                _el('div', { style:{display:'flex', alignItems:'center', gap:'12px', paddingTop:'14px', borderTop:'1px solid '+BORDER} },
-                    _el('span', { style:{fontSize:'22px', fontWeight:900, color:GREEN, fontFamily:"'Source Serif 4',serif"} }, a.score||'8.5 / 10'),
-                    _el('span', { style:{fontSize:'12px', fontWeight:700, background:bc, color:'white', padding:'3px 12px', borderRadius:'100px', textTransform:'uppercase', letterSpacing:'1px'} }, a.badge||'Recommended')
-                )
-            )
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   10. TIMELINE
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/timeline', {
-    edit: function(props) {
-        var items = props.attributes.items || [];
-        var heading = props.attributes.heading || 'Timeline';
-        var bp = _useBlockProps({ style:{margin:'8px 0'} });
-        return _el('div', bp,
-            _el('input', { type:'text', value:heading, onChange:function(e){props.setAttributes({heading:e.target.value});}, style:{width:'100%', fontSize:'20px', fontWeight:700, border:'none', borderBottom:'2px solid '+GREEN, padding:'4px 0', marginBottom:'20px', background:'transparent', color:INK, outline:'none'} }),
-            items.map(function(item, i) {
-                return _el('div', { key:i, style:{display:'flex', gap:'16px', paddingBottom:'18px', alignItems:'flex-start'} },
-                    _el('input', { type:'text', value:item.year||'', placeholder:'Year', onChange:function(e){props.setAttributes({items:updateArr(items,i,'year',e.target.value)});}, style:{fontSize:'12px', fontWeight:800, color:GREEN, background:GREEN_LITE, border:'1px solid #86efac', borderRadius:'6px', padding:'4px 6px', width:'64px', textAlign:'center', flexShrink:0, outline:'none'} }),
-                    _el('div', { style:{flex:1} },
-                        _el('input', { type:'text', value:item.title||'', placeholder:'Event title', onChange:function(e){props.setAttributes({items:updateArr(items,i,'title',e.target.value)});}, style:{width:'100%', fontSize:'15px', fontWeight:700, border:'none', borderBottom:'1px solid '+BORDER, background:'transparent', color:INK, outline:'none', padding:'2px 0', marginBottom:'4px'} }),
-                        _el('input', { type:'text', value:item.desc||'', placeholder:'Description', onChange:function(e){props.setAttributes({items:updateArr(items,i,'desc',e.target.value)});}, style:{width:'100%', fontSize:'13px', border:'none', borderBottom:'1px dashed '+BORDER, background:'transparent', color:MUTED, outline:'none', padding:'2px 0'} })
-                    ),
-                    _el('button', { onClick:function(){props.setAttributes({items:removeArrItem(items,i)});}, style:{background:'none',border:'none',cursor:'pointer',color:RED,fontSize:'18px',padding:'0 2px'} }, '×')
-                );
-            }),
-            _el('button', { onClick:function(){props.setAttributes({items:addArrItem(items,{year:'2025',title:'New event',desc:'Describe it.'})});}, style:{marginTop:'8px', background:GREEN_LITE, border:'1px dashed '+GREEN, color:GREEN, borderRadius:'8px', padding:'8px 16px', cursor:'pointer', fontSize:'13px', fontWeight:600, width:'100%'} }, '+ Add Event')
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   11. FEATURE CARDS
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/feature-cards', {
-    edit: function(props) {
-        var cards = props.attributes.cards || [];
-        var bp = _useBlockProps({ style:{margin:'8px 0'} });
-        return _el('div', bp,
-            _el('div', { style:{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))', gap:'14px'} },
-                cards.map(function(card, i) {
-                    return _el('div', { key:i, style:{background:'white', border:'1px solid '+BORDER, borderRadius:'12px', padding:'18px 16px'} },
-                        _el('input', { type:'text', value:card.icon||'', placeholder:'Icon', onChange:function(e){props.setAttributes({cards:updateArr(cards,i,'icon',e.target.value)});}, style:{fontSize:'24px', width:'44px', border:'none', background:'transparent', outline:'none', marginBottom:'10px', display:'block'} }),
-                        _el('input', { type:'text', value:card.title||'', placeholder:'Title', onChange:function(e){props.setAttributes({cards:updateArr(cards,i,'title',e.target.value)});}, style:{width:'100%', fontSize:'14px', fontWeight:700, border:'none', borderBottom:'1px solid '+BORDER, background:'transparent', color:INK, outline:'none', padding:'2px 0', marginBottom:'6px'} }),
-                        _el('input', { type:'text', value:card.desc||'', placeholder:'Description', onChange:function(e){props.setAttributes({cards:updateArr(cards,i,'desc',e.target.value)});}, style:{width:'100%', fontSize:'12px', border:'none', background:'transparent', color:MUTED, outline:'none', padding:'2px 0'} }),
-                        _el('button', { onClick:function(){props.setAttributes({cards:removeArrItem(cards,i)});}, style:{marginTop:'8px', background:'none', border:'none', cursor:'pointer', color:RED, fontSize:'12px', padding:0} }, '× Remove')
-                    );
-                }),
-                cards.length < 4 && _el('button', { key:'add', onClick:function(){props.setAttributes({cards:addArrItem(cards,{icon:'⭐',title:'New Feature',desc:'Describe it.'})});}, style:{background:GREEN_LITE, border:'1px dashed '+GREEN, color:GREEN, borderRadius:'12px', padding:'18px', cursor:'pointer', fontSize:'13px', fontWeight:600, minHeight:'100px'} }, '+ Add Card')
-            )
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   12. DEFINITION
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/definition', {
-    edit: function(props) {
-        var a = props.attributes;
-        var bp = _useBlockProps({ style:{background:SURFACE, borderLeft:'4px solid '+GREEN, borderRadius:'0 10px 10px 0', padding:'18px 22px', margin:'8px 0'} });
-        return _el('div', bp,
-            _el('div', { style:{display:'flex', gap:'8px', alignItems:'center', marginBottom:'8px'} },
-                _el('input', { type:'text', value:a.term||'', placeholder:'Term', onChange:function(e){props.setAttributes({term:e.target.value});}, style:{fontSize:'18px', fontWeight:800, border:'none', background:'transparent', color:INK, outline:'none', fontFamily:"'Source Serif 4',serif"} }),
-                _el('input', { type:'text', value:a.partOfSpeech||'', placeholder:'noun', onChange:function(e){props.setAttributes({partOfSpeech:e.target.value});}, style:{fontSize:'10px', fontWeight:600, color:GREEN, background:GREEN_LITE, border:'1px solid #86efac', borderRadius:'4px', padding:'2px 7px', textTransform:'uppercase', outline:'none', width:'60px'} })
-            ),
-            _el('input', { type:'text', value:a.definition||'', placeholder:'Write the definition...', onChange:function(e){props.setAttributes({definition:e.target.value});}, style:{width:'100%', fontSize:'14px', color:MUTED, border:'none', borderBottom:'1px dashed '+BORDER, background:'transparent', outline:'none', padding:'4px 0', lineHeight:'1.7'} })
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   13. LEAD PARAGRAPH
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/lead-paragraph', {
-    edit: function(props) {
-        var bp = _useBlockProps({ style:{fontSize:'clamp(18px,2.2vw,22px)', lineHeight:'1.7', color:INK, borderLeft:'4px solid '+GREEN, paddingLeft:'20px', margin:'8px 0'} });
-        return _el(_RichText, Object.assign({}, bp, { tagName:'p', value:props.attributes.content||'', onChange:function(v){props.setAttributes({content:v});}, placeholder:'Write your strong opening paragraph here...' }));
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   14. HIGHLIGHT STRIP
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/highlight', {
-    edit: function(props) {
-        var bp = _useBlockProps({ style:{background:GREEN, borderRadius:'8px', padding:'14px 20px', margin:'8px 0'} });
-        return _el('div', bp,
-            _el(_RichText, { tagName:'p', style:{color:'white', fontSize:'15px', fontWeight:500, margin:0, lineHeight:'1.5'}, value:props.attributes.content||'', onChange:function(v){props.setAttributes({content:v});}, placeholder:'🔑 Add a standout fact or stat here...' })
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   15. RISK BANNER
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/risk-banner', {
-    edit: function(props) {
-        var bp = _useBlockProps({ style:{background:AMB_LITE, border:'1px solid #fde68a', borderRadius:'10px', padding:'16px 20px', display:'flex', gap:'14px', alignItems:'flex-start', margin:'8px 0'} });
-        return _el('div', bp,
-            _el('div', { style:{fontSize:'20px', flexShrink:0} }, '⚠️'),
-            _el(_RichText, { tagName:'p', style:{fontSize:'13px', color:'#6b4c00', margin:0, lineHeight:'1.65'}, value:props.attributes.content||'', onChange:function(v){props.setAttributes({content:v});}, placeholder:'Add your disclaimer text...' })
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   16. SECTION HEADER
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/section-header', {
-    edit: function(props) {
-        var a = props.attributes;
-        var bp = _useBlockProps({ style:{margin:'8px 0 20px', paddingBottom:'20px', borderBottom:'1px solid '+BORDER} });
-        return _el('div', bp,
-            _el('input', { type:'text', value:a.eyebrow||'', placeholder:'Chapter 01', onChange:function(e){props.setAttributes({eyebrow:e.target.value});}, style:{fontSize:'10px', fontWeight:700, letterSpacing:'3px', textTransform:'uppercase', color:GREEN, background:GREEN_LITE, border:'1px solid #86efac', borderRadius:'100px', padding:'3px 12px', outline:'none', display:'inline-block', marginBottom:'12px'} }),
-            _el(_RichText, { tagName:'h2', style:{fontSize:'28px', fontWeight:800, color:INK, margin:'0 0 8px', lineHeight:'1.2'}, value:a.heading||'', onChange:function(v){props.setAttributes({heading:v});}, placeholder:'Section heading...' }),
-            _el(_RichText, { tagName:'p', style:{fontSize:'15px', color:MUTED, margin:0}, value:a.subtitle||'', onChange:function(v){props.setAttributes({subtitle:v});}, placeholder:'Optional subtitle...' })
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   17. AUTHOR BIO
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/author-bio', {
-    edit: function(props) {
-        var a = props.attributes;
-        var bp = _useBlockProps({ style:{display:'flex', gap:'18px', alignItems:'flex-start', background:SURFACE, border:'1px solid '+BORDER, borderRadius:'12px', padding:'20px 24px', margin:'8px 0'} });
-        return _el(_Fragment, null,
-            _el(_InspectorControls, null,
-                _el(_PanelBody, { title:'Author Details', initialOpen:true },
-                    _el(_TextControl, { label:'Name', value:a.name||'', onChange:function(v){props.setAttributes({name:v});} }),
-                    _el(_TextControl, { label:'Role', value:a.role||'', onChange:function(v){props.setAttributes({role:v});} }),
-                    _el(_TextControl, { label:'Initials (avatar)', value:a.initials||'', onChange:function(v){props.setAttributes({initials:v});} })
-                )
-            ),
-            _el('div', bp,
-                _el('div', { style:{width:'52px', height:'52px', borderRadius:'50%', background:GREEN, color:'white', fontSize:'16px', fontWeight:800, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0} }, a.initials||'TS'),
-                _el('div', { style:{flex:1} },
-                    _el('div', { style:{fontSize:'15px', fontWeight:700, color:INK, marginBottom:'2px'} }, a.name||'FoundNXT Editorial Team'),
-                    _el('div', { style:{fontSize:'11px', fontWeight:600, color:GREEN, textTransform:'uppercase', letterSpacing:'1px', marginBottom:'8px'} }, a.role||'Author, FoundNXT'),
-                    _el(_RichText, { tagName:'p', style:{fontSize:'13.5px', color:MUTED, lineHeight:'1.6', margin:0}, value:a.bio||'', onChange:function(v){props.setAttributes({bio:v});}, placeholder:'Short bio...' })
-                )
-            )
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   18. BIG NUMBER
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/big-number', {
-    edit: function(props) {
-        var a = props.attributes;
-        var bp = _useBlockProps({ style:{textAlign:'center', padding:'36px 20px', borderTop:'2px solid '+BORDER, borderBottom:'2px solid '+BORDER, margin:'8px 0'} });
-        return _el('div', bp,
-            _el('input', { type:'text', value:a.figure||'', placeholder:'₹8.4L Cr', onChange:function(e){props.setAttributes({figure:e.target.value});}, style:{fontSize:'clamp(40px,7vw,72px)', fontWeight:900, color:GREEN, fontFamily:"'Source Serif 4',serif", border:'none', background:'transparent', textAlign:'center', outline:'none', display:'block', width:'100%', lineHeight:'1', marginBottom:'12px'} }),
-            _el(_RichText, { tagName:'p', style:{fontSize:'14px', color:MUTED, maxWidth:'480px', margin:'0 auto', lineHeight:'1.6'}, value:a.context||'', onChange:function(v){props.setAttributes({context:v});}, placeholder:'Add context for this number...' })
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   19. RELATED READING
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/related-reading', {
-    edit: function(props) {
-        var links = props.attributes.links || [];
-        var label = props.attributes.label || '📚 Related Reading';
-        var bp = _useBlockProps({ style:{background:SURFACE, border:'1px solid '+BORDER, borderRadius:'10px', padding:'18px 22px', margin:'8px 0'} });
-        return _el('div', bp,
-            _el('input', { type:'text', value:label, onChange:function(e){props.setAttributes({label:e.target.value});}, style:{fontSize:'11px', fontWeight:700, textTransform:'uppercase', letterSpacing:'1.5px', color:GREEN, border:'none', background:'transparent', outline:'none', marginBottom:'12px', display:'block'} }),
-            links.map(function(link, i) {
-                return _el('div', { key:i, style:{display:'flex', gap:'8px', alignItems:'center', marginBottom:'6px'} },
-                    _el('span', { style:{color:GREEN, fontSize:'12px'} }, '→'),
-                    _el('input', { type:'text', value:link.text||'', placeholder:'Article title', onChange:function(e){props.setAttributes({links:updateArr(links,i,'text',e.target.value)});}, style:{flex:2, fontSize:'14px', color:INK, border:'none', borderBottom:'1px dashed '+BORDER, background:'transparent', outline:'none', padding:'2px 4px'} }),
-                    _el('input', { type:'text', value:link.url||'', placeholder:'URL', onChange:function(e){props.setAttributes({links:updateArr(links,i,'url',e.target.value)});}, style:{flex:1, fontSize:'12px', color:MUTED, border:'none', borderBottom:'1px dashed '+BORDER, background:'transparent', outline:'none', padding:'2px 4px'} }),
-                    _el('button', { onClick:function(){props.setAttributes({links:removeArrItem(links,i)});}, style:{background:'none',border:'none',cursor:'pointer',color:RED,fontSize:'14px'} }, '×')
-                );
-            }),
-            _el('button', { onClick:function(){props.setAttributes({links:addArrItem(links,{text:'Article title',url:'#'})});}, style:{marginTop:'8px', background:GREEN_LITE, border:'1px dashed '+GREEN, color:GREEN, borderRadius:'6px', padding:'5px 12px', cursor:'pointer', fontSize:'12px', fontWeight:600} }, '+ Add Link')
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   20. CTA BOX
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/cta-box', {
-    edit: function(props) {
-        var a = props.attributes;
-        var bp = _useBlockProps({ style:{background:'linear-gradient(135deg,#FF5A2C,#E84A1C)', borderRadius:'12px', padding:'32px 36px', textAlign:'center', margin:'8px 0'} });
-        return _el(_Fragment, null,
-            _el(_InspectorControls, null,
-                _el(_PanelBody, { title:'Button Settings', initialOpen:true },
-                    _el(_TextControl, { label:'Button Text', value:a.btnText||'', onChange:function(v){props.setAttributes({btnText:v});} }),
-                    _el(_TextControl, { label:'Button URL', value:a.btnUrl||'', onChange:function(v){props.setAttributes({btnUrl:v});} })
-                )
-            ),
-            _el('div', bp,
-                _el(_RichText, { tagName:'h4', style:{color:'white', fontSize:'20px', fontWeight:800, margin:'0 0 8px'}, value:a.heading||'', onChange:function(v){props.setAttributes({heading:v});}, placeholder:'CTA heading...' }),
-                _el(_RichText, { tagName:'p', style:{color:'rgba(255,255,255,0.85)', fontSize:'14px', margin:'0 0 20px', lineHeight:'1.6'}, value:a.text||'', onChange:function(v){props.setAttributes({text:v});}, placeholder:'Supporting text...' }),
-                _el('div', { style:{display:'inline-block', background:'white', color:GREEN, fontWeight:700, padding:'.6em 1.8em', borderRadius:'8px', fontSize:'14px'} }, a.btnText||'Subscribe →')
-            )
-        );
-    },
-    save: function() { return null; }
-});
-
-/* ═══════════════════════════════════════════════════
-   21. RESOURCE CARD
-═══════════════════════════════════════════════════ */
-_blocks.registerBlockType('foundnxt/resource-card', {
-    edit: function(props) {
-        var a = props.attributes;
-        var bp = _useBlockProps({ style:{display:'flex', gap:'16px', alignItems:'center', background:'white', border:'1px solid '+BORDER, borderRadius:'10px', padding:'18px 22px', flexWrap:'wrap', margin:'8px 0'} });
-        return _el(_Fragment, null,
-            _el(_InspectorControls, null,
-                _el(_PanelBody, { title:'Resource Details', initialOpen:true },
-                    _el(_TextControl, { label:'Icon (emoji)', value:a.icon||'', onChange:function(v){props.setAttributes({icon:v});} }),
-                    _el(_TextControl, { label:'Button Text', value:a.btnText||'', onChange:function(v){props.setAttributes({btnText:v});} }),
-                    _el(_TextControl, { label:'Download URL', value:a.btnUrl||'', onChange:function(v){props.setAttributes({btnUrl:v});} })
-                )
-            ),
-            _el('div', bp,
-                _el('div', { style:{fontSize:'32px', flexShrink:0, lineHeight:1} }, a.icon||'📄'),
-                _el('div', { style:{flex:1, minWidth:0} },
-                    _el('input', { type:'text', value:a.title||'', placeholder:'Resource title', onChange:function(e){props.setAttributes({title:e.target.value});}, style:{width:'100%', fontSize:'15px', fontWeight:700, border:'none', borderBottom:'1px solid '+BORDER, background:'transparent', color:INK, outline:'none', padding:'2px 0', marginBottom:'4px'} }),
-                    _el('input', { type:'text', value:a.meta||'', placeholder:'PDF · 2.4 MB · Free', onChange:function(e){props.setAttributes({meta:e.target.value});}, style:{width:'100%', fontSize:'12px', color:MUTED, border:'none', background:'transparent', outline:'none', padding:'2px 0'} })
+    /* ═══════════════════════════════════════════════════
+       1. KEY TAKEAWAYS (foundnxt/takeaway)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/takeaway', {
+        edit: function(props) {
+            var a = props.attributes;
+            var bp = _useBlockProps({
+                style: {
+                    background: BRAND_SUBTLE,
+                    border: '1px solid ' + BRAND_BORDER,
+                    borderLeft: '4px solid ' + BRAND,
+                    borderRadius: '14px',
+                    padding: '24px 28px',
+                    margin: '16px 0',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Takeaway Settings', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Header Label',
+                            value: a.title || '',
+                            onChange: function(v) { props.setAttributes({ title: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Quick Paste Content (Markdown / Multi-line)',
+                            help: 'Paste multi-line points or paragraphs directly.',
+                            rows: 6,
+                            value: a.content || '',
+                            onChange: function(v) { props.setAttributes({ content: v }); }
+                        })
+                    )
                 ),
-                _el('div', { style:{background:GREEN, color:'white', fontWeight:600, fontSize:'13px', padding:'.5em 1.4em', borderRadius:'8px', flexShrink:0} }, a.btnText||'Download →')
-            )
-        );
-    },
-    save: function() { return null; }
-});
+                _el('div', bp,
+                    _el('div', { style: { marginBottom: '12px' } },
+                        _el('span', {
+                            style: {
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                fontFamily: "'Sora', sans-serif",
+                                fontSize: '11px',
+                                fontWeight: 700,
+                                textTransform: 'uppercase',
+                                letterSpacing: '1.5px',
+                                color: BRAND,
+                                background: 'rgba(255, 90, 44, 0.12)',
+                                border: '1px solid ' + BRAND_BORDER,
+                                padding: '4px 12px',
+                                borderRadius: '9999px'
+                            }
+                        }, '💡 ' + (a.title || 'Key Takeaways'))
+                    ),
+                    _el(_RichText, {
+                        tagName: 'div',
+                        style: { fontSize: '15px', color: '#334155', lineHeight: 1.75, outline: 'none' },
+                        value: a.content || '',
+                        onChange: function(v) { props.setAttributes({ content: v }); },
+                        placeholder: 'Enter key takeaways or paste multi-line bullet points...'
+                    })
+                )
+            );
+        },
+        save: function() { return null; }
+    });
 
-}());
+    /* ═══════════════════════════════════════════════════
+       2. CALLOUT NOTE (foundnxt/note)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/note', {
+        edit: function(props) {
+            var a = props.attributes;
+            var type = a.type || 'tip';
+            var map = {
+                tip:     { icon: '💡', title: 'Founder Pro Tip', color: BRAND, bg: BRAND_SUBTLE, bdr: BRAND_BORDER },
+                info:    { icon: 'ℹ️', title: 'Important Note',   color: '#2563eb', bg: '#eff6ff', bdr: '#bfdbfe' },
+                warning: { icon: '⚠️', title: 'Caution / Warning',color: '#d97706', bg: '#fffbeb', bdr: '#fde68a' },
+                danger:  { icon: '🚫', title: 'Critical Risk',   color: '#dc2626', bg: '#fef2f2', bdr: '#fca5a5' }
+            };
+            var config = map[type] || map.tip;
+            var text = a.text || a.content || '';
+
+            var bp = _useBlockProps({
+                style: {
+                    background: config.bg,
+                    border: '1px solid ' + config.bdr,
+                    borderLeft: '4px solid ' + config.color,
+                    borderRadius: '12px',
+                    padding: '18px 22px',
+                    margin: '16px 0',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Callout Settings', initialOpen: true },
+                        _el(_SelectControl, {
+                            label: 'Callout Style',
+                            value: type,
+                            options: [
+                                { label: '💡 Pro Tip (Brand Orange)', value: 'tip' },
+                                { label: 'ℹ️ Information (Blue)',      value: 'info' },
+                                { label: '⚠️ Warning (Amber)',        value: 'warning' },
+                                { label: '🚫 Critical Risk (Red)',     value: 'danger' }
+                            ],
+                            onChange: function(v) { props.setAttributes({ type: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Callout Title',
+                            value: a.title !== undefined ? a.title : config.title,
+                            onChange: function(v) { props.setAttributes({ title: v }); }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    _el('div', { style: { display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' } },
+                        _el('span', { style: { fontSize: '18px' } }, config.icon),
+                        _el('strong', {
+                            style: { fontFamily: "'Sora', sans-serif", fontSize: '14.5px', color: config.color, fontWeight: 700 }
+                        }, a.title || config.title)
+                    ),
+                    _el(_RichText, {
+                        tagName: 'div',
+                        style: { fontSize: '14.5px', color: '#334155', lineHeight: 1.7 },
+                        value: text,
+                        onChange: function(v) { props.setAttributes({ text: v, content: v }); },
+                        placeholder: 'Write callout content here...'
+                    })
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       3. PROS & CONS (foundnxt/pros-cons)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/pros-cons', {
+        edit: function(props) {
+            var a = props.attributes;
+            var pros = Array.isArray(a.pros) ? a.pros : (typeof a.pros === 'string' ? a.pros.split('\n') : (a.prosItems || []));
+            var cons = Array.isArray(a.cons) ? a.cons : (typeof a.cons === 'string' ? a.cons.split('\n') : (a.consItems || []));
+
+            var bp = _useBlockProps({
+                style: { margin: '16px 0', fontFamily: "'Plus Jakarta Sans', sans-serif" }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Quick Paste Pros & Cons', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Pros Column Header',
+                            value: a.prosTitle || 'Advantages',
+                            onChange: function(v) { props.setAttributes({ prosTitle: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Quick Paste Pros (One per line)',
+                            rows: 5,
+                            value: pros.join('\n'),
+                            onChange: function(v) {
+                                var list = v.split('\n').filter(function(s) { return s.trim().length > 0; });
+                                props.setAttributes({ pros: list, prosItems: list });
+                            }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Cons Column Header',
+                            value: a.consTitle || 'Trade-offs & Risks',
+                            onChange: function(v) { props.setAttributes({ consTitle: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Quick Paste Cons (One per line)',
+                            rows: 5,
+                            value: cons.join('\n'),
+                            onChange: function(v) {
+                                var list = v.split('\n').filter(function(s) { return s.trim().length > 0; });
+                                props.setAttributes({ cons: list, consItems: list });
+                            }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    _el('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' } },
+                        _el('div', { style: { background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.25)', borderRadius: '12px', padding: '20px' } },
+                            _el('div', { style: { fontFamily: "'Sora', sans-serif", fontSize: '13px', fontWeight: 700, color: '#047857', marginBottom: '14px', textTransform: 'uppercase', letterSpacing: '1px' } }, '✓ ' + (a.prosTitle || 'Advantages')),
+                            _el('ul', { style: { margin: 0, paddingLeft: '18px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14px', color: '#334155' } },
+                                pros.map(function(item, i) { return _el('li', { key: i }, item); })
+                            )
+                        ),
+                        _el('div', { style: { background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.25)', borderRadius: '12px', padding: '20px' } },
+                            _el('div', { style: { fontFamily: "'Sora', sans-serif", fontSize: '13px', fontWeight: 700, color: '#b91c1c', marginBottom: '14px', textTransform: 'uppercase', letterSpacing: '1px' } }, '✕ ' + (a.consTitle || 'Trade-offs & Risks')),
+                            _el('ul', { style: { margin: 0, paddingLeft: '18px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14px', color: '#334155' } },
+                                cons.map(function(item, i) { return _el('li', { key: i }, item); })
+                            )
+                        )
+                    )
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       4. STATS GRID (foundnxt/stats)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/stats', {
+        edit: function(props) {
+            var a = props.attributes;
+            var stats = a.stats || [];
+            if (!stats.length && a.stat1) {
+                stats = [
+                    { val: a.stat1, label: a.label1 || '', trend: '', trendDirection: 'up' },
+                    { val: a.stat2 || '', label: a.label2 || '', trend: '', trendDirection: 'up' },
+                    { val: a.stat3 || '', label: a.label3 || '', trend: '', trendDirection: 'up' }
+                ];
+            }
+            var bp = _useBlockProps({
+                style: {
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '16px',
+                    padding: '24px',
+                    margin: '16px 0',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Stats Settings', initialOpen: true },
+                        _el(_RangeControl, {
+                            label: 'Columns',
+                            value: a.columns || 3,
+                            min: 2,
+                            max: 4,
+                            onChange: function(v) { props.setAttributes({ columns: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Source Citation',
+                            value: a.source || '',
+                            onChange: function(v) { props.setAttributes({ source: v }); }
+                        }),
+                        _el('div', { style: { marginTop: '14px', marginBottom: '8px', fontWeight: 600 } }, 'Stat Items:'),
+                        stats.map(function(stat, i) {
+                            return _el('div', { key: i, style: { padding: '10px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', marginBottom: '10px' } },
+                                _el(_TextControl, {
+                                    label: 'Value (e.g. $4.2B, 98%)',
+                                    value: stat.val || '',
+                                    onChange: function(v) {
+                                        var copy = stats.slice();
+                                        copy[i] = Object.assign({}, copy[i], { val: v });
+                                        props.setAttributes({ stats: copy });
+                                    }
+                                }),
+                                _el(_TextControl, {
+                                    label: 'Label',
+                                    value: stat.label || '',
+                                    onChange: function(v) {
+                                        var copy = stats.slice();
+                                        copy[i] = Object.assign({}, copy[i], { label: v });
+                                        props.setAttributes({ stats: copy });
+                                    }
+                                }),
+                                _el(_TextControl, {
+                                    label: 'Trend Badge (e.g. +28% YoY)',
+                                    value: stat.trend || '',
+                                    onChange: function(v) {
+                                        var copy = stats.slice();
+                                        copy[i] = Object.assign({}, copy[i], { trend: v });
+                                        props.setAttributes({ stats: copy });
+                                    }
+                                }),
+                                _el(_Button, {
+                                    isDestructive: true,
+                                    isSmall: true,
+                                    onClick: function() {
+                                        var copy = stats.filter(function(_, idx) { return idx !== i; });
+                                        props.setAttributes({ stats: copy });
+                                    }
+                                }, 'Remove Stat')
+                            );
+                        }),
+                        _el(_Button, {
+                            isPrimary: true,
+                            onClick: function() {
+                                var copy = stats.concat([{ val: '100+', label: 'New Metric', trend: '+15%', trendDirection: 'up' }]);
+                                props.setAttributes({ stats: copy });
+                            }
+                        }, '+ Add Stat Card')
+                    )
+                ),
+                _el('div', bp,
+                    _el('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(' + (a.columns || 3) + ', minmax(0, 1fr))', gap: '16px' } },
+                        stats.map(function(stat, i) {
+                            return _el('div', { key: i, style: { background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '18px', textAlign: 'center' } },
+                                _el('div', { style: { fontFamily: "'Sora', sans-serif", fontSize: '28px', fontWeight: 800, color: BRAND, lineHeight: 1.1, marginBottom: '6px' } }, stat.val || '—'),
+                                _el('div', { style: { fontSize: '13px', fontWeight: 600, color: '#0E1220', marginBottom: '6px' } }, stat.label || 'Label'),
+                                stat.trend ? _el('span', { style: { display: 'inline-block', fontSize: '11px', fontFamily: "'JetBrains Mono', monospace", color: '#047857', background: 'rgba(16, 185, 129, 0.1)', padding: '2px 8px', borderRadius: '9999px' } }, stat.trend) : null
+                            );
+                        })
+                    ),
+                    a.source ? _el('div', { style: { textAlign: 'right', fontSize: '12px', color: '#64748B', marginTop: '12px', fontStyle: 'italic' } }, 'Source: ' + a.source) : null
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       5. STEP-BY-STEP (foundnxt/steps)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/steps', {
+        edit: function(props) {
+            var a = props.attributes;
+            var steps = Array.isArray(a.steps) ? a.steps : [];
+
+            var bp = _useBlockProps({
+                style: { margin: '16px 0', fontFamily: "'Plus Jakarta Sans', sans-serif" }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Quick Paste Steps Framework', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Guide Heading',
+                            value: a.heading || '',
+                            onChange: function(v) { props.setAttributes({ heading: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Quick Paste Steps (Title | Description per line)',
+                            help: 'Format: "Validate Problem | Conduct 25 discovery calls." on each line.',
+                            rows: 6,
+                            value: steps.map(function(s) { return (s.title || '') + ' | ' + (s.desc || ''); }).join('\n'),
+                            onChange: function(v) {
+                                var lines = v.split('\n').filter(function(l) { return l.trim().length > 0; });
+                                var parsed = lines.map(function(line) {
+                                    var parts = line.split('|');
+                                    return {
+                                        title: parts[0] ? parts[0].trim() : '',
+                                        desc: parts[1] ? parts[1].trim() : ''
+                                    };
+                                });
+                                props.setAttributes({ steps: parsed });
+                            }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    a.heading ? _el('h3', { style: { fontFamily: "'Sora', sans-serif", fontSize: '20px', fontWeight: 700, color: '#0E1220', marginBottom: '18px' } }, a.heading) : null,
+                    _el('div', { style: { display: 'flex', flexDirection: 'column', gap: '16px' } },
+                        steps.map(function(step, i) {
+                            return _el('div', { key: i, style: { display: 'flex', gap: '16px', alignItems: 'flex-start' } },
+                                _el('div', {
+                                    style: {
+                                        width: '38px',
+                                        height: '38px',
+                                        borderRadius: '50%',
+                                        background: 'linear-gradient(135deg, #FF5A2C 0%, #FF7A45 100%)',
+                                        color: '#fff',
+                                        fontFamily: "'Sora', sans-serif",
+                                        fontWeight: 800,
+                                        fontSize: '14px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0
+                                    }
+                                }, String(i + 1).padStart(2, '0')),
+                                _el('div', { style: { flex: 1 } },
+                                    _el('div', { style: { fontFamily: "'Sora', sans-serif", fontSize: '16px', fontWeight: 700, color: '#0E1220', marginBottom: '4px' } }, step.title || 'Step ' + (i + 1)),
+                                    _el('div', { style: { fontSize: '14px', color: '#64748B', lineHeight: 1.6 } }, step.desc || 'Step description...')
+                                )
+                            );
+                        })
+                    )
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       6. FAQ (foundnxt/faq)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/faq', {
+        edit: function(props) {
+            var a = props.attributes;
+            var items = Array.isArray(a.items) ? a.items : [];
+
+            var bp = _useBlockProps({
+                style: { margin: '16px 0', fontFamily: "'Plus Jakarta Sans', sans-serif" }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'FAQ Settings & Quick Paste', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'FAQ Heading',
+                            value: a.title || a.heading || 'Frequently Asked Questions',
+                            onChange: function(v) { props.setAttributes({ title: v, heading: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Quick Paste FAQs (Question | Answer per line)',
+                            help: 'One FAQ per line: What is X? | X is...',
+                            rows: 7,
+                            value: items.map(function(it) { return (it.q || '') + ' | ' + (it.a || ''); }).join('\n'),
+                            onChange: function(v) {
+                                var lines = v.split('\n').filter(function(l) { return l.trim().length > 0; });
+                                var parsed = lines.map(function(line) {
+                                    var parts = line.split('|');
+                                    return {
+                                        q: parts[0] ? parts[0].trim() : '',
+                                        a: parts[1] ? parts[1].trim() : ''
+                                    };
+                                });
+                                props.setAttributes({ items: parsed });
+                            }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    _el('h3', { style: { fontFamily: "'Sora', sans-serif", fontSize: '20px', fontWeight: 700, color: '#0E1220', marginBottom: '16px' } }, a.title || a.heading || 'Frequently Asked Questions'),
+                    _el('div', { style: { display: 'flex', flexDirection: 'column', gap: '10px' } },
+                        items.map(function(item, i) {
+                            return _el('div', { key: i, style: { background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '14px 18px' } },
+                                _el('div', { style: { fontFamily: "'Sora', sans-serif", fontSize: '15px', fontWeight: 600, color: '#0E1220', marginBottom: '6px' } }, 'Q: ' + (item.q || 'Question...')),
+                                _el('div', { style: { fontSize: '14px', color: '#64748B', lineHeight: 1.6 } }, item.a || 'Answer...')
+                            );
+                        })
+                    )
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       7. PULLQUOTE (foundnxt/pullquote)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/pullquote', {
+        edit: function(props) {
+            var a = props.attributes;
+            var bp = _useBlockProps({
+                style: {
+                    background: '#f8fafc',
+                    borderLeft: '4px solid ' + BRAND,
+                    borderRadius: '16px',
+                    padding: '28px 32px',
+                    margin: '18px 0',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Quote Details', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Author Name',
+                            value: a.author || a.citation || '',
+                            onChange: function(v) { props.setAttributes({ author: v, citation: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Author Role / Company',
+                            value: a.role || '',
+                            onChange: function(v) { props.setAttributes({ role: v }); }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    _el('div', { style: { fontSize: '32px', color: BRAND, lineHeight: 1, marginBottom: '8px', opacity: 0.3 } }, '“'),
+                    _el(_RichText, {
+                        tagName: 'p',
+                        style: { fontFamily: "'Sora', sans-serif", fontSize: '18px', fontWeight: 600, fontStyle: 'italic', color: '#0E1220', margin: '0 0 14px', lineHeight: 1.55 },
+                        value: a.quote || a.content || '',
+                        onChange: function(v) { props.setAttributes({ quote: v, content: v }); },
+                        placeholder: 'Enter quote text...'
+                    }),
+                    _el('div', { style: { display: 'flex', gap: '8px', fontSize: '13px', borderTop: '1px solid #e2e8f0', paddingTop: '10px' } },
+                        _el('strong', { style: { color: '#0E1220' } }, a.author || a.citation || 'Author Name'),
+                        a.role ? _el('span', { style: { color: '#64748B' } }, '· ' + a.role) : null
+                    )
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       8. CHECKLIST (foundnxt/checklist)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/checklist', {
+        edit: function(props) {
+            var a = props.attributes;
+            var items = Array.isArray(a.items) ? a.items : (typeof a.items === 'string' ? a.items.split('\n') : []);
+
+            var bp = _useBlockProps({
+                style: {
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '14px',
+                    padding: '22px 26px',
+                    margin: '16px 0',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Quick Paste Checklist', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Checklist Title',
+                            value: a.title || '',
+                            onChange: function(v) { props.setAttributes({ title: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Quick Paste Items (One item per line)',
+                            rows: 6,
+                            value: items.join('\n'),
+                            onChange: function(v) {
+                                var list = v.split('\n').filter(function(s) { return s.trim().length > 0; });
+                                props.setAttributes({ items: list });
+                            }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    _el('div', { style: { marginBottom: '14px' } },
+                        _el('span', {
+                            style: {
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                fontFamily: "'Sora', sans-serif",
+                                fontSize: '11px',
+                                fontWeight: 700,
+                                textTransform: 'uppercase',
+                                letterSpacing: '1.5px',
+                                color: BRAND,
+                                background: BRAND_SUBTLE,
+                                border: '1px solid ' + BRAND_BORDER,
+                                padding: '4px 12px',
+                                borderRadius: '9999px'
+                            }
+                        }, '✓ ' + (a.title || 'Checklist'))
+                    ),
+                    _el('ul', { style: { margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' } },
+                        items.map(function(item, i) {
+                            return _el('li', { key: i, style: { display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14.5px', color: '#334155' } },
+                                _el('span', {
+                                    style: {
+                                        width: '20px',
+                                        height: '20px',
+                                        borderRadius: '50%',
+                                        background: BRAND,
+                                        color: '#fff',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '11px',
+                                        fontWeight: 700,
+                                        flexShrink: 0
+                                    }
+                                }, '✓'),
+                                _el('span', null, item)
+                            );
+                        })
+                    )
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       9. VERDICT (foundnxt/verdict)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/verdict', {
+        edit: function(props) {
+            var a = props.attributes;
+            var bp = _useBlockProps({
+                style: {
+                    background: '#f8fafc',
+                    border: '2px solid ' + BRAND,
+                    borderRadius: '16px',
+                    padding: '24px 28px',
+                    margin: '18px 0',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Verdict Details', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Product / Subject Title',
+                            value: a.product || '',
+                            onChange: function(v) { props.setAttributes({ product: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Score (e.g. 9.4)',
+                            value: a.score || a.rating || '9.0',
+                            onChange: function(v) { props.setAttributes({ score: v, rating: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Recommendation Badge',
+                            value: a.badge || 'Highly Recommended',
+                            onChange: function(v) { props.setAttributes({ badge: v }); }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    _el('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' } },
+                        _el('div', null,
+                            _el('div', { style: { fontSize: '11px', fontFamily: "'Sora', sans-serif", fontWeight: 700, textTransform: 'uppercase', color: BRAND, letterSpacing: '1.5px' } }, 'FoundNXT Verdict'),
+                            _el('h4', { style: { fontFamily: "'Sora', sans-serif", fontSize: '20px', fontWeight: 700, color: '#0E1220', margin: '4px 0 0' } }, a.product || 'Enterprise Product Review')
+                        ),
+                        _el('div', { style: { background: BRAND_SUBTLE, border: '1px solid ' + BRAND_BORDER, padding: '6px 14px', borderRadius: '10px', textAlign: 'center' } },
+                            _el('span', { style: { fontFamily: "'Sora', sans-serif", fontSize: '26px', fontWeight: 800, color: BRAND } }, a.score || a.rating || '9.0'),
+                            _el('span', { style: { fontSize: '13px', color: '#64748B' } }, '/10')
+                        )
+                    ),
+                    _el('div', { style: { marginBottom: '14px' } },
+                        _el('span', { style: { background: BRAND, color: '#fff', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 10px', borderRadius: '9999px' } }, a.badge || 'Highly Recommended')
+                    ),
+                    _el(_RichText, {
+                        tagName: 'p',
+                        style: { fontSize: '15px', color: '#334155', lineHeight: 1.7, margin: 0 },
+                        value: a.take || a.text || '',
+                        onChange: function(v) { props.setAttributes({ take: v, text: v }); },
+                        placeholder: 'Summarize the final verdict...'
+                    })
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       10. TIMELINE (foundnxt/timeline)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/timeline', {
+        edit: function(props) {
+            var a = props.attributes;
+            var events = Array.isArray(a.events) ? a.events : [];
+
+            var bp = _useBlockProps({
+                style: { margin: '16px 0', fontFamily: "'Plus Jakarta Sans', sans-serif" }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Quick Paste Timeline', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Timeline Heading',
+                            value: a.heading || '',
+                            onChange: function(v) { props.setAttributes({ heading: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Quick Paste Milestones (Year | Title | Description)',
+                            rows: 6,
+                            value: events.map(function(e) { return (e.year || '') + ' | ' + (e.title || '') + ' | ' + (e.desc || ''); }).join('\n'),
+                            onChange: function(v) {
+                                var lines = v.split('\n').filter(function(l) { return l.trim().length > 0; });
+                                var parsed = lines.map(function(line) {
+                                    var parts = line.split('|');
+                                    return {
+                                        year: parts[0] ? parts[0].trim() : '',
+                                        title: parts[1] ? parts[1].trim() : '',
+                                        desc: parts[2] ? parts[2].trim() : ''
+                                    };
+                                });
+                                props.setAttributes({ events: parsed });
+                            }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    a.heading ? _el('h3', { style: { fontFamily: "'Sora', sans-serif", fontSize: '20px', fontWeight: 700, color: '#0E1220', marginBottom: '18px' } }, a.heading) : null,
+                    _el('div', { style: { display: 'flex', flexDirection: 'column', gap: '14px' } },
+                        events.map(function(ev, i) {
+                            return _el('div', { key: i, style: { background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '14px 18px' } },
+                                _el('span', { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', fontWeight: 700, color: BRAND, background: BRAND_SUBTLE, border: '1px solid ' + BRAND_BORDER, padding: '2px 8px', borderRadius: '4px' } }, ev.year || '2026'),
+                                _el('div', { style: { fontFamily: "'Sora', sans-serif", fontSize: '15px', fontWeight: 700, color: '#0E1220', margin: '6px 0 4px' } }, ev.title || 'Milestone Title'),
+                                _el('div', { style: { fontSize: '13.5px', color: '#64748B' } }, ev.desc || 'Milestone description...')
+                            );
+                        })
+                    )
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       11. DEFINITION (foundnxt/definition)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/definition', {
+        edit: function(props) {
+            var a = props.attributes;
+            var bp = _useBlockProps({
+                style: {
+                    background: '#f8fafc',
+                    borderLeft: '4px solid ' + BRAND,
+                    borderRadius: '0 12px 12px 0',
+                    padding: '20px 24px',
+                    margin: '16px 0',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Definition Details', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Term',
+                            value: a.term || '',
+                            onChange: function(v) { props.setAttributes({ term: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Part of Speech / Category',
+                            value: a.partOfSpeech || a.tag || 'Noun / Metric',
+                            onChange: function(v) { props.setAttributes({ partOfSpeech: v, tag: v }); }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    _el('div', { style: { display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' } },
+                        _el('strong', { style: { fontFamily: "'Sora', sans-serif", fontSize: '18px', fontWeight: 800, color: '#0E1220' } }, a.term || 'Term Name'),
+                        _el('span', { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', fontWeight: 600, color: BRAND, background: BRAND_SUBTLE, border: '1px solid ' + BRAND_BORDER, padding: '2px 8px', borderRadius: '4px' } }, a.partOfSpeech || a.tag || 'Noun')
+                    ),
+                    _el(_RichText, {
+                        tagName: 'p',
+                        style: { fontSize: '14.5px', color: '#334155', lineHeight: 1.7, margin: 0 },
+                        value: a.definition || a.text || '',
+                        onChange: function(v) { props.setAttributes({ definition: v, text: v }); },
+                        placeholder: 'Enter comprehensive definition...'
+                    })
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       12. CTA BOX (foundnxt/cta-box)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/cta-box', {
+        edit: function(props) {
+            var a = props.attributes;
+            var bp = _useBlockProps({
+                style: {
+                    background: '#0E1220',
+                    color: '#ffffff',
+                    borderRadius: '16px',
+                    padding: '36px 32px',
+                    margin: '20px 0',
+                    textAlign: 'center',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'CTA Box Settings', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Eyebrow Tag',
+                            value: a.tag || '',
+                            onChange: function(v) { props.setAttributes({ tag: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Title',
+                            value: a.title || '',
+                            onChange: function(v) { props.setAttributes({ title: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Description',
+                            rows: 3,
+                            value: a.desc || '',
+                            onChange: function(v) { props.setAttributes({ desc: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Button Text',
+                            value: a.btnText || '',
+                            onChange: function(v) { props.setAttributes({ btnText: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Button URL',
+                            value: a.btnUrl || '',
+                            onChange: function(v) { props.setAttributes({ btnUrl: v }); }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    a.tag ? _el('span', { style: { display: 'inline-block', fontSize: '11px', fontFamily: "'Sora', sans-serif", fontWeight: 700, textTransform: 'uppercase', letterSpacing: '2px', color: BRAND, background: 'rgba(255, 90, 44, 0.12)', border: '1px solid ' + BRAND_BORDER, padding: '4px 12px', borderRadius: '9999px', marginBottom: '14px' } }, a.tag) : null,
+                    _el('h3', { style: { fontFamily: "'Sora', sans-serif", fontSize: '24px', fontWeight: 800, color: '#ffffff', margin: '0 0 10px', lineHeight: 1.3 } }, a.title || 'Call to Action Title'),
+                    _el('p', { style: { fontSize: '14.5px', color: '#94A3B8', maxWidth: '520px', margin: '0 auto 20px', lineHeight: 1.6 } }, a.desc || 'Persuasive lead generation description...'),
+                    _el('span', { style: { display: 'inline-block', background: BRAND, color: '#ffffff', fontFamily: "'Sora', sans-serif", fontSize: '14px', fontWeight: 700, padding: '10px 24px', borderRadius: '8px' } }, a.btnText || 'Subscribe Free →')
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       13. RESOURCE CARD (foundnxt/resource-card)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/resource-card', {
+        edit: function(props) {
+            var a = props.attributes;
+            var bp = _useBlockProps({
+                style: {
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '12px',
+                    padding: '18px 22px',
+                    margin: '16px 0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '16px',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Resource Settings', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Icon Emoji',
+                            value: a.icon || '📄',
+                            onChange: function(v) { props.setAttributes({ icon: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Title',
+                            value: a.title || '',
+                            onChange: function(v) { props.setAttributes({ title: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Metadata (Format, Size, Pages)',
+                            value: a.meta || '',
+                            onChange: function(v) { props.setAttributes({ meta: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Button Text',
+                            value: a.btnText || 'Download Free',
+                            onChange: function(v) { props.setAttributes({ btnText: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Button URL',
+                            value: a.btnUrl || '#',
+                            onChange: function(v) { props.setAttributes({ btnUrl: v }); }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    _el('div', { style: { width: '44px', height: '44px', borderRadius: '8px', background: BRAND_SUBTLE, border: '1px solid ' + BRAND_BORDER, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 } }, a.icon || '📄'),
+                    _el('div', { style: { flex: 1 } },
+                        _el('div', { style: { fontFamily: "'Sora', sans-serif", fontSize: '15px', fontWeight: 700, color: '#0E1220' } }, a.title || 'Resource Title'),
+                        _el('div', { style: { fontSize: '12.5px', color: '#64748B' } }, a.meta || 'PDF · 4.2 MB')
+                    ),
+                    _el('span', { style: { background: BRAND, color: '#fff', fontSize: '13px', fontWeight: 600, padding: '7px 16px', borderRadius: '6px', whiteSpace: 'nowrap' } }, a.btnText || 'Download Free')
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       14. FEATURE CARDS (foundnxt/feature-cards)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/feature-cards', {
+        edit: function(props) {
+            var a = props.attributes;
+            var cards = a.cards || [];
+
+            var bp = _useBlockProps({
+                style: { margin: '16px 0', fontFamily: "'Plus Jakarta Sans', sans-serif" }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Feature Cards Settings', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Grid Headline',
+                            value: a.headline || '',
+                            onChange: function(v) { props.setAttributes({ headline: v }); }
+                        }),
+                        _el(_RangeControl, {
+                            label: 'Columns',
+                            value: a.columns || 3,
+                            min: 2,
+                            max: 4,
+                            onChange: function(v) { props.setAttributes({ columns: v }); }
+                        }),
+                        _el(_Button, {
+                            isPrimary: true,
+                            onClick: function() {
+                                var copy = cards.concat([{ icon: '🚀', title: 'New Feature', desc: 'Feature description.', tag: 'Highlight' }]);
+                                props.setAttributes({ cards: copy });
+                            }
+                        }, '+ Add Feature Card')
+                    )
+                ),
+                _el('div', bp,
+                    a.headline ? _el('h3', { style: { fontFamily: "'Sora', sans-serif", fontSize: '20px', fontWeight: 700, color: '#0E1220', marginBottom: '16px' } }, a.headline) : null,
+                    _el('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(' + (a.columns || 3) + ', minmax(0, 1fr))', gap: '14px' } },
+                        cards.map(function(card, i) {
+                            return _el('div', { key: i, style: { background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '18px' } },
+                                _el('div', { style: { display: 'flex', justifyContent: 'space-between', marginBottom: '8px' } },
+                                    _el('span', { style: { fontSize: '22px' } }, card.icon || '⭐'),
+                                    card.tag ? _el('span', { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', color: BRAND, background: BRAND_SUBTLE, padding: '2px 6px', borderRadius: '4px' } }, card.tag) : null
+                                ),
+                                _el('div', { style: { fontFamily: "'Sora', sans-serif", fontSize: '15px', fontWeight: 700, color: '#0E1220', marginBottom: '4px' } }, card.title || 'Feature Title'),
+                                _el('div', { style: { fontSize: '13px', color: '#64748B', lineHeight: 1.6 } }, card.desc || 'Feature description...')
+                            );
+                        })
+                    )
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       15. BIG NUMBER (foundnxt/big-number)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/big-number', {
+        edit: function(props) {
+            var a = props.attributes;
+            var bp = _useBlockProps({
+                style: {
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '16px',
+                    padding: '36px 24px',
+                    margin: '18px 0',
+                    textAlign: 'center',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Big Number Settings', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Eyebrow Label',
+                            value: a.label || '',
+                            onChange: function(v) { props.setAttributes({ label: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Badge (e.g. +145% YoY)',
+                            value: a.badge || '',
+                            onChange: function(v) { props.setAttributes({ badge: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Big Number Figure (e.g. ₹8.4L Cr)',
+                            value: a.figure || '',
+                            onChange: function(v) { props.setAttributes({ figure: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Context Narrative',
+                            rows: 3,
+                            value: a.context || '',
+                            onChange: function(v) { props.setAttributes({ context: v }); }
+                        }),
+                        _el(_TextControl, {
+                            label: 'Source Citation',
+                            value: a.source || '',
+                            onChange: function(v) { props.setAttributes({ source: v }); }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    (a.label || a.badge) ? _el('div', { style: { display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '10px' } },
+                        a.label ? _el('span', { style: { fontFamily: "'Sora', sans-serif", fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#64748B' } }, a.label) : null,
+                        a.badge ? _el('span', { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: BRAND, background: BRAND_SUBTLE, padding: '2px 8px', borderRadius: '9999px' } }, a.badge) : null
+                    ) : null,
+                    _el('div', { style: { fontFamily: "'Sora', sans-serif", fontSize: '48px', fontWeight: 900, color: BRAND, lineHeight: 1.1, marginBottom: '8px' } }, a.figure || '₹1Cr'),
+                    _el('p', { style: { fontSize: '15px', color: '#334155', maxWidth: '480px', margin: '0 auto', lineHeight: 1.6 } }, a.context || 'Context narrative explaining this metric.'),
+                    a.source ? _el('div', { style: { fontSize: '12px', color: '#64748B', marginTop: '12px', fontStyle: 'italic' } }, 'Source: ' + a.source) : null
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       16. RELATED READING (foundnxt/related-reading)
+       ═══════════════════════════════════════════════ */
+    _blocks.registerBlockType('foundnxt/related-reading', {
+        edit: function(props) {
+            var a = props.attributes;
+            var links = Array.isArray(a.links) ? a.links : [];
+
+            var bp = _useBlockProps({
+                style: {
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderLeft: '4px solid ' + BRAND,
+                    borderRadius: '12px',
+                    padding: '20px 24px',
+                    margin: '16px 0',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif"
+                }
+            });
+
+            return _el(_Fragment, null,
+                _el(_InspectorControls, null,
+                    _el(_PanelBody, { title: 'Quick Paste Related Reading', initialOpen: true },
+                        _el(_TextControl, {
+                            label: 'Label',
+                            value: a.label || '',
+                            onChange: function(v) { props.setAttributes({ label: v }); }
+                        }),
+                        _el(_TextareaControl, {
+                            label: 'Quick Paste Links (Title | URL per line)',
+                            rows: 6,
+                            value: links.map(function(l) { return (l.text || '') + ' | ' + (l.url || '#'); }).join('\n'),
+                            onChange: function(v) {
+                                var lines = v.split('\n').filter(function(s) { return s.trim().length > 0; });
+                                var parsed = lines.map(function(line) {
+                                    var parts = line.split('|');
+                                    return {
+                                        text: parts[0] ? parts[0].trim() : '',
+                                        url: parts[1] ? parts[1].trim() : '#'
+                                    };
+                                });
+                                props.setAttributes({ links: parsed });
+                            }
+                        })
+                    )
+                ),
+                _el('div', bp,
+                    _el('div', { style: { fontFamily: "'Sora', sans-serif", fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: BRAND, marginBottom: '12px' } }, '📚 ' + (a.label || 'Related Reading')),
+                    _el('ul', { style: { margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' } },
+                        links.map(function(link, i) {
+                            return _el('li', { key: i, style: { fontSize: '14px', color: '#0E1220', fontWeight: 600, display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px' } },
+                                _el('span', null, link.text || 'Article Title'),
+                                _el('span', { style: { color: BRAND } }, '→')
+                            );
+                        })
+                    )
+                )
+            );
+        },
+        save: function() { return null; }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       17. DEPRECATED BLOCKS COMPATIBILITY REGISTRATION
+       ═══════════════════════════════════════════════ */
+    ['lead-paragraph', 'highlight', 'risk-banner', 'section-header', 'author-bio'].forEach(function(slug) {
+        _blocks.registerBlockType('foundnxt/' + slug, {
+            edit: function(props) {
+                var a = props.attributes;
+                var bp = _useBlockProps({
+                    style: {
+                        background: '#f1f5f9',
+                        border: '1px dashed #94a3b8',
+                        borderRadius: '8px',
+                        padding: '16px',
+                        margin: '12px 0',
+                        fontSize: '13px',
+                        color: '#64748B'
+                    }
+                });
+                return _el('div', bp,
+                    _el('div', { style: { fontWeight: 700, color: '#0E1220', marginBottom: '4px' } }, 'FoundNXT ' + slug + ' (Legacy Block)'),
+                    _el('div', null, a.content || a.heading || a.name || 'Legacy content preserved for existing posts.')
+                );
+            },
+            save: function() { return null; }
+        });
+    });
+
+})();

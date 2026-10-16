@@ -2,17 +2,21 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "foundnxt/big-number",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "title": "Big Number",
   "category": "foundnxt",
-  "description": "Giant centred statistic",
+  "description": "Giant hero stat spotlight with badge, narrative context, and source",
+  "icon": "calculator",
   "keywords": [
     "foundnxt",
-    "big-number"
+    "big-number",
+    "stat",
+    "metric",
+    "kpi"
   ],
   "supports": {
     "html": false,
-    "align": false,
+    "align": ["wide", "full"],
     "color": {
       "background": false,
       "text": false
@@ -23,11 +27,23 @@
   "attributes": {
     "figure": {
       "type": "string",
-      "default": "\u20b98.4L Cr"
+      "default": "₹8.4L Cr"
     },
     "context": {
       "type": "string",
-      "default": "Total VC funding raised by startups \u2014 a 3x jump from 2020."
+      "default": "Total venture funding raised by high-growth startups — representing a 3x leap over historical baselines."
+    },
+    "label": {
+      "type": "string",
+      "default": "Market Benchmark"
+    },
+    "badge": {
+      "type": "string",
+      "default": "+145% YoY"
+    },
+    "source": {
+      "type": "string",
+      "default": "FoundNXT Research & Ecosystem Index"
     }
   },
   "render": "file:./render.php"

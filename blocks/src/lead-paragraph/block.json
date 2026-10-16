@@ -3,14 +3,15 @@
   "apiVersion": 3,
   "name": "foundnxt/lead-paragraph",
   "version": "1.0.0",
-  "title": "Lead Paragraph",
+  "title": "Lead Paragraph (Deprecated)",
   "category": "foundnxt",
-  "description": "Large bold intro paragraph",
+  "description": "Legacy lead paragraph - use core paragraph with large typography instead",
   "keywords": [
     "foundnxt",
     "lead-paragraph"
   ],
   "supports": {
+    "inserter": false,
     "html": false,
     "align": false,
     "color": {

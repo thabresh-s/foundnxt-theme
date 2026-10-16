@@ -2,36 +2,35 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "foundnxt/definition",
-  "version": "1.0.0",
-  "title": "Definition / Term",
+  "version": "2.0.0",
+  "title": "Term Definition & Glossary",
   "category": "foundnxt",
-  "description": "Styled glossary definition block",
+  "description": "Explains technical terms, valuation metrics, and strategic concepts with a dedicated glossary box.",
   "keywords": [
     "foundnxt",
-    "definition"
+    "definition",
+    "term",
+    "glossary",
+    "dictionary",
+    "meaning"
   ],
   "supports": {
     "html": false,
-    "align": false,
-    "color": {
-      "background": false,
-      "text": false
-    },
-    "spacing": false,
-    "typography": false
+    "align": ["wide", "full"],
+    "inserter": true
   },
   "attributes": {
     "term": {
       "type": "string",
-      "default": "Valuation"
+      "default": "Net Revenue Retention (NRR)"
     },
     "partOfSpeech": {
       "type": "string",
-      "default": "noun"
+      "default": "B2B Metric"
     },
     "definition": {
       "type": "string",
-      "default": "The process of determining the current worth of a company or asset."
+      "default": "The percentage of recurring revenue retained from existing customers over a given time period, factoring in contract expansion, upsells, downgrades, and churn."
     }
   },
   "render": "file:./render.php"
