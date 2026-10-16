@@ -4,9 +4,9 @@
  * @package FoundNXT
  */
 $heading = $attributes['heading'] ?? __('Get Actionable Startup & Valuation Insights', 'foundnxt');
-$text    = $attributes['text']    ?? __('Join 10,000+ founders and venture operators receiving our weekly breakdown on unit economics, pitch checklists, and market intelligence.', 'foundnxt');
+$text    = $attributes['text']    ?? __('Get the Weekly Founder Brief — our weekly breakdown on unit economics, pitch checklists, and market intelligence.', 'foundnxt');
 $btnText = $attributes['btnText'] ?? __('Subscribe Free →', 'foundnxt');
-$btnUrl  = $attributes['btnUrl']  ?? '#newsletter-section';
+$btnUrl  = $attributes['btnUrl']  ?? '#newsletter';
 $tag     = $attributes['tag']     ?? __('Executive Intelligence', 'foundnxt');
 ?>
 <section class="fnx-block fnx-cta-box-card">

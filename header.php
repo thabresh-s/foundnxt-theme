@@ -143,10 +143,10 @@
         
         <!-- Categories Dropdown (7 Unified Categories) -->
         <li class="menu-item-has-children has-dropdown">
-          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="nav-parent-link" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="nav-parent-link nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">
             <?php _e('Categories', 'foundnxt'); ?>
             <svg class="nav-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+          </button>
           <ul class="sub-menu" role="menu">
             <?php foreach (fnx_get_primary_categories() as $pcat): ?>
               <li role="none">
@@ -159,7 +159,7 @@
           </ul>
         </li>
 
-        <li><a href="<?php echo esc_url(home_url('/tools/')); ?>"><?php _e('Tools', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/tools/')); ?>" class="nav-link-tools"><?php _e('Tools', 'foundnxt'); ?> <span class="nav-badge-soon"><?php _e('Soon', 'foundnxt'); ?></span></a></li>
         <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Services', 'foundnxt'); ?></a></li>
         <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About', 'foundnxt'); ?></a></li>
         <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact', 'foundnxt'); ?></a></li>
@@ -250,7 +250,7 @@
           </details>
         </li>
 
-        <li><a href="<?php echo esc_url(home_url('/tools/')); ?>" class="mobile-menu-link"><?php _e('Tools', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/tools/')); ?>" class="mobile-menu-link"><span><?php _e('Tools', 'foundnxt'); ?></span><span class="nav-badge-soon"><?php _e('Soon', 'foundnxt'); ?></span></a></li>
         <li><a href="<?php echo esc_url(home_url('/services/')); ?>" class="mobile-menu-link"><?php _e('Services', 'foundnxt'); ?></a></li>
         <li><a href="<?php echo esc_url(home_url('/about/')); ?>" class="mobile-menu-link"><?php _e('About', 'foundnxt'); ?></a></li>
         <li><a href="<?php echo esc_url(home_url('/contact/')); ?>" class="mobile-menu-link"><?php _e('Contact', 'foundnxt'); ?></a></li>

@@ -14,7 +14,7 @@ get_header();
 $site_name   = get_bloginfo('name');
 $site_url    = esc_url(home_url('/'));
 $contact_url = esc_url(get_permalink());
-$pre_help    = isset($_GET['help']) ? sanitize_text_field(wp_unslash($_GET['help'])) : 'Market Research Request';
+$pre_help    = isset($_GET['help']) ? sanitize_text_field(wp_unslash($_GET['help'])) : 'Tech & AI Strategy';
 
 /* ── JSON-LD SCHEMA ── */
 $schema = [
@@ -24,8 +24,8 @@ $schema = [
       '@type'       => 'ContactPage',
       '@id'         => $contact_url . '#contactpage',
       'url'         => $contact_url,
-      'name'        => 'Contact FoundNXT — Business & Advisory Enquiries',
-      'description' => 'Get in touch with the FoundNXT team for Market Research Requests, Valuation Guidance, Tech & AI Strategy, Marketing Help, or Partnerships.',
+      'name'        => 'Contact FoundNXT — Business & Consulting Enquiries',
+      'description' => 'Get in touch with the FoundNXT team for Tech & AI Strategy or Business Consulting.',
       'inLanguage'  => 'en',
       'isPartOf'    => ['@id' => $site_url . '#website'],
       'publisher'   => [
@@ -61,7 +61,7 @@ echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCA
             <?php _e('Get in Touch with', 'foundnxt'); ?> <span class="text-gradient"><?php _e('FoundNXT', 'foundnxt'); ?></span>
           </h1>
           <p class="hp-contact-v2-lead">
-            <?php _e('Have a custom market research request, valuation inquiry, tech & AI strategy audit, or partnership proposal? Fill out the form — our advisory team responds within 24–48 hours.', 'foundnxt'); ?>
+            <?php _e('Hands-on consulting for founders and teams scaling with technology and AI. Fill out the form — our advisory team responds within 24–48 hours.', 'foundnxt'); ?>
           </p>
 
           <div class="hp-contact-v2-features">
@@ -143,12 +143,8 @@ echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCA
               <div class="form-group-v2">
                 <label for="lead_help"><?php _e('What do you need help with?', 'foundnxt'); ?></label>
                 <select id="lead_help" name="lead_help">
-                  <option value="Market Research Request" <?php selected($pre_help, 'Market Research Request'); ?>><?php _e('Market Research Request', 'foundnxt'); ?></option>
-                  <option value="Valuation Guidance" <?php selected($pre_help, 'Valuation Guidance'); ?>><?php _e('Valuation Guidance', 'foundnxt'); ?></option>
                   <option value="Tech & AI Strategy" <?php selected($pre_help, 'Tech & AI Strategy'); ?>><?php _e('Tech & AI Strategy', 'foundnxt'); ?></option>
-                  <option value="Marketing Help" <?php selected($pre_help, 'Marketing Help'); ?>><?php _e('Marketing & Growth Help', 'foundnxt'); ?></option>
-                  <option value="Partnerships" <?php selected($pre_help, 'Partnerships'); ?>><?php _e('Partnerships & Sponsored Content', 'foundnxt'); ?></option>
-                  <option value="Other" <?php selected($pre_help, 'Other'); ?>><?php _e('Other Inquiry', 'foundnxt'); ?></option>
+                  <option value="Business Consulting" <?php selected($pre_help, 'Business Consulting'); ?>><?php _e('Business Consulting', 'foundnxt'); ?></option>
                 </select>
               </div>
             </div>

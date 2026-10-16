@@ -24,7 +24,7 @@
       <div class="hp-hero-v3-inner">
         <div class="hero-pill-badge">
           <span class="hero-pill-dot" aria-hidden="true"></span>
-          <span><?php _e('How to scale company in AI era', 'foundnxt'); ?></span>
+          <span><?php _e('How to Scale Your Company in the AI Era', 'foundnxt'); ?></span>
         </div>
 
         <h1 class="hp-h1-v3">
@@ -35,26 +35,30 @@
           <?php _e('Actionable frameworks on startups, valuation, AI architecture, and growth strategies built for founders and leaders who want to scale without fluff.', 'foundnxt'); ?>
         </p>
 
-        <!-- ONE Primary CTA (Newsletter "Get Access") + ONE Secondary ("Explore Articles") + Text Link ("Founder Services") -->
+        <!-- Primary CTA "Get the Weekly Brief" (#newsletter) + Secondary "Explore Articles" + Link "Work With Us" (#services) -->
+        <div class="hero-actions-row">
+          <a href="#newsletter" class="hero-btn-primary">
+            <?php _e('Get the Weekly Brief', 'foundnxt'); ?> &rarr;
+          </a>
+          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="hero-btn-secondary">
+            <?php _e('Explore Articles', 'foundnxt'); ?> &rarr;
+          </a>
+          <a href="#services" class="hero-link-sub">
+            <?php _e('Work With Us', 'foundnxt'); ?> &rarr;
+          </a>
+        </div>
+
+        <!-- Inline Email Subscription Directly Under Hero -->
         <div class="hero-cta-bundle">
           <form class="hero-access-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden" name="action" value="fnx_lead_submit">
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-            <input type="hidden" name="lead_type" value="Hero Newsletter Access">
+            <input type="hidden" name="lead_type" value="Hero Inline Newsletter">
             <input type="hidden" name="target_sheet" value="newsletter">
             <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
             <input type="email" name="lead_email" class="hero-access-input" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
-            <button type="submit" class="hero-access-btn"><?php _e('Get Access', 'foundnxt'); ?> →</button>
+            <button type="submit" class="hero-access-btn"><?php _e('Subscribe Free', 'foundnxt'); ?> &rarr;</button>
           </form>
-
-          <div class="hero-sub-row">
-            <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="hero-btn-secondary">
-              <?php _e('Explore Articles', 'foundnxt'); ?> →
-            </a>
-            <a href="#services" class="hero-link-sub">
-              <?php _e('Looking for advisory? Founder Services', 'foundnxt'); ?> →
-            </a>
-          </div>
         </div>
       </div>
     </div>
@@ -161,44 +165,20 @@
     </div>
   </section>
 
-  <!-- ── 4. SERVICES ("WORK WITH US" — 3 EQUAL CARDS WITH SVG ICONS & GRADIENT BORDERS) ── -->
+  <!-- ── 4. SERVICES ("WORK WITH US" — 2 CONSULTING CARDS + DRAFT PRESERVATION) ── -->
   <section class="hp-services-section defer-render" id="services">
     <div class="container">
       <div class="section-headline-row text-center" style="justify-content: center; text-align: center; margin-bottom: 36px;">
         <div>
-          <span class="section-tag"><?php _e('Advisory & Intelligence', 'foundnxt'); ?></span>
+          <span class="section-tag"><?php _e('Consulting & Strategy', 'foundnxt'); ?></span>
           <h2><?php _e('Work With', 'foundnxt'); ?> <span class="text-grad"><?php _e('Us', 'foundnxt'); ?></span></h2>
-          <p style="color: var(--muted); margin-top: 8px;"><?php _e('Specialized founder advisory, bespoke intelligence requests, and growth partnerships.', 'foundnxt'); ?></p>
+          <p style="color: var(--muted); margin-top: 8px;"><?php _e('Hands-on consulting for founders and teams scaling with technology and AI.', 'foundnxt'); ?></p>
         </div>
       </div>
 
-      <div class="services-3-grid">
-        <!-- Service Card 1 -->
+      <div class="services-3-grid services-2-grid">
+        <!-- Service Card 1: Tech & AI Strategy -->
         <div class="service-grad-card" style="--card-accent: var(--brand);">
-          <div class="service-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          </div>
-          <h3 class="service-card-title"><?php _e('Market Research Request', 'foundnxt'); ?></h3>
-          <p class="service-card-desc"><?php _e('Bespoke market intelligence, competitive landscape analysis, and industry trend reports built for founders and investment committees.', 'foundnxt'); ?></p>
-          <a href="<?php echo esc_url(add_query_arg('help', urlencode('Market Research Request'), home_url('/contact/'))); ?>" class="service-card-btn">
-            <?php _e('Enquire Now', 'foundnxt'); ?> →
-          </a>
-        </div>
-
-        <!-- Service Card 2 -->
-        <div class="service-grad-card" style="--card-accent: var(--accent);">
-          <div class="service-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
-          </div>
-          <h3 class="service-card-title"><?php _e('Valuation Guidance', 'foundnxt'); ?></h3>
-          <p class="service-card-desc"><?php _e('Independent financial modeling, cap table health audits, and seed-to-growth valuation benchmarking to scale with confidence.', 'foundnxt'); ?></p>
-          <a href="<?php echo esc_url(add_query_arg('help', urlencode('Valuation Guidance'), home_url('/contact/'))); ?>" class="service-card-btn">
-            <?php _e('Enquire Now', 'foundnxt'); ?> →
-          </a>
-        </div>
-
-        <!-- Service Card 3 -->
-        <div class="service-grad-card" style="--card-accent: var(--warm);">
           <div class="service-card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           </div>
@@ -208,7 +188,31 @@
             <?php _e('Enquire Now', 'foundnxt'); ?> →
           </a>
         </div>
+
+        <!-- Service Card 2: Business Consulting -->
+        <div class="service-grad-card" style="--card-accent: var(--accent);">
+          <div class="service-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="service-card-title"><?php _e('Business Consulting', 'foundnxt'); ?></h3>
+          <p class="service-card-desc"><?php _e('One-to-one consulting for founders and leaders on scaling, operations, and growth decisions.', 'foundnxt'); ?></p>
+          <a href="<?php echo esc_url(add_query_arg('help', urlencode('Business Consulting'), home_url('/contact/'))); ?>" class="service-card-btn">
+            <?php _e('Enquire Now', 'foundnxt'); ?> →
+          </a>
+        </div>
       </div>
+
+      <p class="services-coming-soon"><?php _e('More services coming soon.', 'foundnxt'); ?></p>
+
+      <!--
+        DRAFT SERVICES — Preserved for future republishing:
+        1) Market Research Request:
+           Bespoke market intelligence, competitive landscape analysis, and industry trend reports built for founders and investment committees.
+           Link: /contact/?help=Market+Research+Request
+        2) Valuation Guidance:
+           Independent financial modeling, cap table health audits, and seed-to-growth valuation benchmarking to scale with confidence.
+           Link: /contact/?help=Valuation+Guidance
+      -->
     </div>
   </section>
 
@@ -236,7 +240,7 @@
             <?php _e('Where founders discover what is next in venture, strategy, and technological transformation.', 'foundnxt'); ?>
           </p>
           <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <span class="hero-pill-badge" style="margin-bottom: 0;">✓ 100% Free Intelligence</span>
+            <span class="hero-pill-badge" style="margin-bottom: 0;">✓ <?php _e('Free articles & frameworks. Consulting on request.', 'foundnxt'); ?></span>
             <span class="hero-pill-badge" style="margin-bottom: 0;">✓ Zero Fluff</span>
           </div>
         </div>
@@ -298,11 +302,11 @@
   </section>
 
   <!-- ── 8. NEWSLETTER (FULL-WIDTH GRADIENT BAND) ── -->
-  <section class="fnx-newsletter-fullwidth defer-render" id="newsletter-section">
+  <section class="fnx-newsletter-fullwidth defer-render" id="newsletter">
     <div class="container">
       <div class="newsletter-fw-inner">
         <div class="newsletter-fw-text">
-          <h2 class="newsletter-fw-title"><?php _e('Join 10,000+ Founders & Leaders', 'foundnxt'); ?></h2>
+          <h2 class="newsletter-fw-title"><?php _e('Get the Weekly Founder Brief', 'foundnxt'); ?></h2>
           <p class="newsletter-fw-sub"><?php _e('Receive our weekly briefing on startup valuation, enterprise AI shifts, and scaling frameworks. No spam, ever.', 'foundnxt'); ?></p>
         </div>
         <div class="newsletter-fw-form-wrap">

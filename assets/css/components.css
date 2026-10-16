@@ -12947,7 +12947,8 @@ body.dark .fnx-header.scrolled {
   padding: 0;
   margin: 0;
 }
-.header-nav .nav-menu > li > a {
+.header-nav .nav-menu > li > a,
+.header-nav .nav-menu > li > button.nav-parent-link {
   padding: 8px 14px;
   border-radius: 10px;
   font-size: 0.9375rem;
@@ -12958,21 +12959,40 @@ body.dark .fnx-header.scrolled {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: inherit;
 }
-.header-nav .nav-menu > li > a:hover {
+.header-nav .nav-menu > li > a:hover,
+.header-nav .nav-menu > li > button.nav-parent-link:hover,
+.header-nav .nav-menu > li:hover > button.nav-parent-link {
   color: var(--fnx-primary, #FF5A2C);
   background: rgba(255, 90, 44, 0.06);
 }
 body.dark-mode .header-nav .nav-menu > li > a,
 body[data-theme="dark"] .header-nav .nav-menu > li > a,
 body[data-mode="dark"] .header-nav .nav-menu > li > a,
-body.dark .header-nav .nav-menu > li > a {
+body.dark .header-nav .nav-menu > li > a,
+body.dark-mode .header-nav .nav-menu > li > button.nav-parent-link,
+body[data-theme="dark"] .header-nav .nav-menu > li > button.nav-parent-link,
+body[data-mode="dark"] .header-nav .nav-menu > li > button.nav-parent-link,
+body.dark .header-nav .nav-menu > li > button.nav-parent-link {
   color: #cbd5e1;
 }
 body.dark-mode .header-nav .nav-menu > li > a:hover,
 body[data-theme="dark"] .header-nav .nav-menu > li > a:hover,
 body[data-mode="dark"] .header-nav .nav-menu > li > a:hover,
-body.dark .header-nav .nav-menu > li > a:hover {
+body.dark .header-nav .nav-menu > li > a:hover,
+body.dark-mode .header-nav .nav-menu > li > button.nav-parent-link:hover,
+body[data-theme="dark"] .header-nav .nav-menu > li > button.nav-parent-link:hover,
+body[data-mode="dark"] .header-nav .nav-menu > li > button.nav-parent-link:hover,
+body.dark .header-nav .nav-menu > li > button.nav-parent-link:hover,
+body.dark-mode .header-nav .nav-menu > li:hover > button.nav-parent-link,
+body[data-theme="dark"] .header-nav .nav-menu > li:hover > button.nav-parent-link,
+body[data-mode="dark"] .header-nav .nav-menu > li:hover > button.nav-parent-link,
+body.dark .header-nav .nav-menu > li:hover > button.nav-parent-link {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.08);
 }

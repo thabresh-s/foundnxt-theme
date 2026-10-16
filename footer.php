@@ -18,7 +18,7 @@
         <p class="newsletter-note">✓ <?php _e('Free weekly executive brief. No spam, ever.', 'foundnxt'); ?></p>
       </div>
       <div class="newsletter-form">
-        <div class="newsletter-form-title"><?php _e('Join 10,000+ Founders & Leaders', 'foundnxt'); ?></div>
+        <div class="newsletter-form-title"><?php _e('Get the Weekly Founder Brief', 'foundnxt'); ?></div>
         <div class="fnx-fluent-form-wrap">
           <form class="fnx-newsletter-fallback-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden" name="action" value="fnx_lead_submit">
@@ -62,7 +62,7 @@
           <img class="fnx-footer-logo fnx-logo-light" src="<?php echo esc_url($footer_light); ?>" alt="<?php echo $site_name; ?>" width="160" height="38" loading="lazy">
           <img class="fnx-footer-logo fnx-logo-dark" src="<?php echo esc_url($footer_dark); ?>" alt="<?php echo $site_name; ?>" width="160" height="38" loading="lazy">
         </a>
-        <p class="footer-tagline"><?php echo esc_html(get_theme_mod('fnx_footer_tagline', __('Business, Markets & Technology: Explained for Founders and Leaders.', 'foundnxt'))); ?></p>
+        <p class="footer-tagline"><?php echo esc_html(get_theme_mod('fnx_footer_tagline', __('How to Scale Your Company in the AI Era', 'foundnxt'))); ?></p>
         <p class="footer-tagline-sub"><?php echo esc_html(get_theme_mod('fnx_footer_tagline_sub', __('Business. Markets. Technology. Growth.', 'foundnxt'))); ?></p>
 
         <!-- Social Links (rel="noopener noreferrer" for security) -->
@@ -102,7 +102,7 @@
               <?php wp_nav_menu(['theme_location' => 'footer-2', 'container' => false, 'items_wrap' => '%3$s', 'fallback_cb' => false]); ?>
               <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Articles & Guides', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/tools/')); ?>"><?php _e('Tools Stack', 'foundnxt'); ?></a></li>
-              <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Advisory Services', 'foundnxt'); ?></a></li>
+              <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Consulting Services', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About FoundNXT', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact Us', 'foundnxt'); ?></a></li>
             </ul>

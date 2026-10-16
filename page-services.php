@@ -21,29 +21,63 @@ $schema = [
   '@graph'   => [
     [
       '@type'       => 'Service',
-      'serviceType' => 'Founder Advisory & Business Intelligence',
+      'serviceType' => 'Consulting Services',
       'provider'    => [
         '@type' => 'Organization',
         'name'  => 'FoundNXT',
         'url'   => $site_url,
       ],
       'areaServed'  => 'Global',
-      'description' => 'Advisory services for business leaders: Market Research Requests, Valuation Guidance, Tech & AI Strategy, Marketing Help, and Partnerships.',
+      'description' => 'Hands-on consulting for founders and teams scaling with technology and AI: Tech & AI Strategy, and Business Consulting.',
       'url'         => $services_url,
     ],
     [
       '@type'           => 'BreadcrumbList',
       'itemListElement' => [
         ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',     'item' => $site_url],
-        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Services', 'item' => $services_url],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Consulting Services', 'item' => $services_url],
       ],
     ],
   ],
 ];
 echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES) . '</script>' . "\n";
 
-/* ── 5 SPECIFIED SERVICES ── */
+/* ── ACTIVE SERVICES (2 SPECIFIED) ── */
 $services = [
+  [
+    'id'       => 'tech-ai-strategy',
+    'icon'     => '⚡',
+    'label'    => __('Tech & AI Strategy', 'foundnxt'),
+    'title'    => __('Tech & AI Strategy', 'foundnxt'),
+    'desc'     => __('Architecture reviews, enterprise AI workflow integration, and build vs. buy audits for scaling software infrastructure.', 'foundnxt'),
+    'tag'      => __('Tech & AI', 'foundnxt'),
+    'accent'   => '#7C3AED',
+    'help_val' => 'Tech & AI Strategy',
+    'perks'    => [
+      __('Architecture reviews', 'foundnxt'),
+      __('Enterprise AI workflow integration', 'foundnxt'),
+      __('Build vs. buy audits for scaling infrastructure', 'foundnxt'),
+    ],
+  ],
+  [
+    'id'       => 'business-consulting',
+    'icon'     => '📈',
+    'label'    => __('Business Consulting', 'foundnxt'),
+    'title'    => __('Business Consulting', 'foundnxt'),
+    'desc'     => __('One-to-one consulting for founders and leaders on scaling, operations, and growth decisions.', 'foundnxt'),
+    'tag'      => __('Operations & Scaling', 'foundnxt'),
+    'accent'   => '#FF5A2C',
+    'help_val' => 'Business Consulting',
+    'perks'    => [
+      __('One-to-one consulting for founders & leaders', 'foundnxt'),
+      __('Scaling & operational systems', 'foundnxt'),
+      __('Strategic growth & organizational decisions', 'foundnxt'),
+    ],
+  ],
+];
+
+/* ── DRAFT SERVICES (Preserved for future republishing) ── */
+$draft_services = [
   [
     'id'       => 'market-research',
     'icon'     => '🔍',
@@ -65,17 +99,6 @@ $services = [
     'accent'   => '#14B8A6',
     'help_val' => 'Valuation Guidance',
     'perks'    => ['DCF & Multiples Valuation', 'Cap Table Health Check', 'Investor Deck Prep'],
-  ],
-  [
-    'id'       => 'tech-ai-strategy',
-    'icon'     => '⚡',
-    'label'    => __('Tech & AI Strategy', 'foundnxt'),
-    'title'    => __('Enterprise AI Workflows & Software Architecture Audits', 'foundnxt'),
-    'desc'     => __('Technical stack reviews, AI workflow automation roadmaps, infrastructure cost reduction, and build vs. buy software decision frameworks.', 'foundnxt'),
-    'tag'      => __('Tech & AI', 'foundnxt'),
-    'accent'   => '#7C3AED',
-    'help_val' => 'Tech & AI Strategy',
-    'perks'    => ['Architecture Audits', 'AI Workflow Automation', 'Build vs Buy Analysis'],
   ],
   [
     'id'       => 'marketing-growth',
@@ -110,12 +133,12 @@ $services = [
     <!-- HERO HEADER V2 -->
     <header class="services-hero-v2 text-center fnx-reveal">
       <div class="services-hero-card">
-        <span class="hp-sec-tag-pill hp-sec-tag-pill--indigo">⚡ <?php _e('Founder Advisory & Research', 'foundnxt'); ?></span>
+        <span class="hp-sec-tag-pill hp-sec-tag-pill--indigo">⚡ <?php _e('Consulting & Strategy', 'foundnxt'); ?></span>
         <h1 class="services-hero-title">
-          <?php _e('Founder Services &', 'foundnxt'); ?> <span class="text-gradient"><?php _e('Business Advisory', 'foundnxt'); ?></span>
+          <?php _e('Consulting Services', 'foundnxt'); ?>
         </h1>
         <p class="services-hero-lead">
-          <?php _e('Practical market research, financial guidance, software architecture audits, and growth playbooks built specifically for startup founders and business leaders.', 'foundnxt'); ?>
+          <?php _e('Hands-on consulting for founders and teams scaling with technology and AI.', 'foundnxt'); ?>
         </p>
 
         <!-- QUICK JUMP PILLS -->
@@ -129,10 +152,10 @@ $services = [
 
         <div class="services-hero-actions">
           <a href="<?php echo $contact_url; ?>" class="btn-primary services-hero-btn">
-            <?php _e('Book an Advisory Session', 'foundnxt'); ?> →
+            <?php _e('Work With Us', 'foundnxt'); ?> →
           </a>
           <a href="#services-list" class="btn-outline services-hero-btn-alt">
-            <?php _e('Explore All Services', 'foundnxt'); ?> ↓
+            <?php _e('Explore Services', 'foundnxt'); ?> ↓
           </a>
         </div>
       </div>
@@ -140,7 +163,7 @@ $services = [
 
     <!-- SERVICES CARDS GRID V2 -->
     <section class="hp-block services-grid-section" id="services-list" style="padding: 40px 0 60px;">
-      <div class="hp-services-grid-v2">
+      <div class="hp-services-grid-v2 hp-services-grid--2col">
         <?php foreach ($services as $s): ?>
           <article class="hp-service-card-v2 fnx-reveal" id="<?php echo esc_attr($s['id']); ?>" style="--serv-accent: <?php echo esc_attr($s['accent']); ?>;">
             <div class="service-card-header-v2">
@@ -170,6 +193,7 @@ $services = [
           </article>
         <?php endforeach; ?>
       </div>
+      <p class="services-coming-soon"><?php _e('More services coming soon.', 'foundnxt'); ?></p>
     </section>
 
     <!-- PROCESS SECTION V2 -->

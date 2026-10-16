@@ -192,7 +192,7 @@
     function closeAll() { topItems.forEach(closeDropdown); }
 
     topItems.forEach((li, idx) => {
-      const parentLink = li.querySelector(':scope > a');
+      const parentLink = li.querySelector(':scope > a, :scope > button, :scope > .nav-parent-link');
       const subs = getSubLinks(li);
       if (!parentLink) return;
 
@@ -203,11 +203,11 @@
         } else if (e.key === 'ArrowRight') {
           e.preventDefault();
           const next = topItems[idx + 1];
-          if (next) next.querySelector(':scope > a')?.focus();
+          if (next) next.querySelector(':scope > a, :scope > button, :scope > .nav-parent-link')?.focus();
         } else if (e.key === 'ArrowLeft') {
           e.preventDefault();
           const prev = topItems[idx - 1];
-          if (prev) prev.querySelector(':scope > a')?.focus();
+          if (prev) prev.querySelector(':scope > a, :scope > button, :scope > .nav-parent-link')?.focus();
         } else if (e.key === 'Escape') {
           closeAll();
         }
@@ -236,7 +236,7 @@
     // Clicking the same parent again (when open) navigates to its URL.
     // Clicking outside closes all.
     topItems.forEach(li => {
-      const parentLink = li.querySelector(':scope > a');
+      const parentLink = li.querySelector(':scope > a, :scope > button, :scope > .nav-parent-link');
       const hasSub = !!li.querySelector(':scope > .sub-menu');
       if (!parentLink || !hasSub) return;
 
@@ -246,10 +246,17 @@
         const isOpen = li.classList.contains('click-open');
 
         if (isOpen) {
-          // Already open — second click navigates to the parent page
+          // If button, toggle closed
+          if (parentLink.tagName === 'BUTTON' || parentLink.getAttribute('role') === 'button' || !parentLink.getAttribute('href') || parentLink.getAttribute('href') === '#') {
+            e.preventDefault();
+            li.classList.remove('click-open');
+            closeDropdown(li);
+            parentLink.setAttribute('aria-expanded', 'false');
+            return;
+          }
+          // Already open & has href — second click navigates to the parent page
           li.classList.remove('click-open');
           closeDropdown(li);
-          // allow default navigation
           return;
         }
 

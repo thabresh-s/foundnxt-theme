@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.3.0');
+define('FNX_VERSION', '1.3.1');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -340,7 +340,7 @@ function fnx_customizer($wp_customize) {
         'title' => __('Footer Settings', 'foundnxt'),
         'panel' => 'fnx_panel',
     ]);
-    $wp_customize->add_setting('fnx_footer_tagline', ['default' => 'FoundNXT: Startups, Funding & a Smarter Future', 'sanitize_callback' => 'sanitize_text_field']);
+    $wp_customize->add_setting('fnx_footer_tagline', ['default' => 'How to Scale Your Company in the AI Era', 'sanitize_callback' => 'sanitize_text_field']);
     $wp_customize->add_control('fnx_footer_tagline', ['label' => __('Footer Tagline', 'foundnxt'), 'section' => 'fnx_footer', 'type' => 'text']);
     $wp_customize->add_setting('fnx_footer_copyright', ['default' => '© ' . date('Y') . ' — FoundNXT. All Rights Reserved.', 'sanitize_callback' => 'wp_kses_post']);
     $wp_customize->add_control('fnx_footer_copyright', ['label' => __('Copyright Text', 'foundnxt'), 'section' => 'fnx_footer', 'type' => 'text']);
@@ -442,7 +442,7 @@ function fnx_open_graph() {
     $type  = is_single() ? 'article' : 'website';
     if (is_front_page() || is_home()) {
         $title = 'FoundNXT | How to Scale Your Company in the AI Era';
-        $desc  = 'How to scale company in AI era. Insights, playbooks, tech recommendations, and business frameworks for founders.';
+        $desc  = 'How to Scale Your Company in the AI Era. Actionable frameworks, tech recommendations, and business strategies built for founders and leaders.';
     } else {
         $title = is_singular() ? get_the_title() : get_bloginfo('name');
         $desc  = is_singular() ? get_the_excerpt() : get_bloginfo('description');
@@ -1760,7 +1760,7 @@ add_action('admin_init',        'fnx_auto_setup_v2', 99);
 
 /**
  * Primary categories source of truth:
- * Startups & Funding, Tech & AI, Scaling, Valuation, Markets, News, Careers & Growth
+ * Startups & Funding, Tech & AI, Scaling, Valuation, Markets, News, Marketing & Growth
  */
 function fnx_get_primary_categories() {
     return [
@@ -1813,7 +1813,7 @@ function fnx_get_primary_categories() {
             'desc'  => __('Curated executive briefings distilling market signals, funding rounds, and scaling updates.', 'foundnxt'),
         ],
         [
-            'name'  => __('Careers & Growth', 'foundnxt'),
+            'name'  => __('Marketing & Growth', 'foundnxt'),
             'slug'  => 'marketing-growth',
             'url'   => home_url('/category/marketing-growth/'),
             'color' => '#f59e0b',
