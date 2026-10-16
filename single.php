@@ -13,6 +13,9 @@ $badge     = get_post_meta(get_the_ID(), 'fnx_post_badge', true);
 $takeaway  = get_post_meta(get_the_ID(), 'fnx_key_takeaway', true);
 $featured  = get_post_meta(get_the_ID(), 'fnx_featured', true);
 $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-gradient(135deg, var(--fnx-primary) 0%, var(--fnx-primary-dark) 100%)';
+
+// Track displayed posts across the entire page to guarantee zero duplicate articles
+$shown_post_ids = [ get_the_ID() ];
 ?>
 
 <!-- ══════════════════════════════════
@@ -174,19 +177,22 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
           </div>
         </div>
 
-        <!-- Suggested Reading (same category) -->
+        <!-- Suggested Reading (same category, deduplicated) -->
         <?php
         $suggest_cats = get_the_category();
         if ($suggest_cats):
           $suggested = get_posts([
             'cat'            => $suggest_cats[0]->term_id,
             'posts_per_page' => 3,
-            'post__not_in'   => [get_the_ID()],
+            'post__not_in'   => $shown_post_ids,
             'post_status'    => 'publish',
             'orderby'        => 'date',
             'order'          => 'DESC',
           ]);
           if ($suggested):
+            foreach ($suggested as $sg) {
+              $shown_post_ids[] = $sg->ID;
+            }
         ?>
         <div class="post-suggested">
           <div class="post-suggested-header">
@@ -214,22 +220,53 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
         </div>
         <?php endif; endif; ?>
 
-        <!-- Article End Newsletter CTA -->
-        <div class="fnx-article-newsletter-box">
-          <div class="article-nl-badge">📬 <?php _e('Weekly Executive Briefing', 'foundnxt'); ?></div>
+        <!-- Article End Newsletter CTA — Redesigned Responsive Modern Name & Mobile Form -->
+        <div class="fnx-article-newsletter-box" id="article-subscribe">
+          <div class="article-nl-badge">✨ <?php _e('Founder Intelligence Brief', 'foundnxt'); ?></div>
           <h3 class="article-nl-title"><?php _e('Scale Smarter in the AI Era', 'foundnxt'); ?></h3>
-          <p class="article-nl-sub"><?php _e('Actionable venture teardowns, market intelligence, and curated founder tools sent straight to your inbox.', 'foundnxt'); ?></p>
-          <form class="article-nl-form newsletter-fw-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+          <p class="article-nl-sub"><?php _e('Join founders and operators getting actionable frameworks on AI, valuation, and scaling. Delivered directly to your inbox and mobile.', 'foundnxt'); ?></p>
+          
+          <form class="article-nl-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden" name="action" value="fnx_lead_submit">
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-            <input type="hidden" name="lead_type" value="Single Article End Newsletter CTA">
+            <input type="hidden" name="lead_type" value="Single Article Subscribe Form">
             <input type="hidden" name="target_sheet" value="newsletter">
             <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
-            <div class="newsletter-fw-fields">
-              <input type="text" name="lead_name" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Your full name…', 'foundnxt'); ?>" required>
-              <input type="email" name="lead_email" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
+            
+            <div class="article-nl-fields">
+              <div class="article-nl-input-wrap">
+                <span class="article-nl-input-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+                <input type="text" name="lead_name" class="article-nl-input" placeholder="<?php esc_attr_e('Your full name…', 'foundnxt'); ?>" required>
+              </div>
+
+              <div class="article-nl-input-wrap">
+                <span class="article-nl-input-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </span>
+                <input type="tel" name="lead_phone" class="article-nl-input" placeholder="<?php esc_attr_e('Mobile / WhatsApp number…', 'foundnxt'); ?>" required>
+              </div>
+
+              <div class="article-nl-input-wrap">
+                <span class="article-nl-input-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </span>
+                <input type="email" name="lead_email" class="article-nl-input" placeholder="<?php esc_attr_e('Work email (optional)…', 'foundnxt'); ?>">
+              </div>
+
+              <div class="article-nl-btn-wrap">
+                <button type="submit" class="article-nl-submit-btn">
+                  <span><?php _e('Subscribe Free', 'foundnxt'); ?></span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
             </div>
-            <button type="submit" class="newsletter-fw-btn"><?php _e('Get Free Access', 'foundnxt'); ?> →</button>
+
+            <p class="article-nl-privacy">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span><?php _e('Free forever. No spam or sales calls. Unsubscribe anytime.', 'foundnxt'); ?></span>
+            </p>
           </form>
         </div>
 
@@ -293,15 +330,20 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
             <?php endif; ?>
           </div>
 
-          <!-- ── 3. MORE IN THIS CATEGORY (posts from same category) ── -->
+          <!-- ── 3. MORE IN THIS CATEGORY (posts from same category, deduplicated) ── -->
           <?php if ($cats):
             $cat_posts = get_posts([
               'cat'            => $cats[0]->term_id,
-              'posts_per_page' => 5,
-              'post__not_in'   => [get_the_ID()],
+              'posts_per_page' => 4,
+              'post__not_in'   => $shown_post_ids,
               'post_status'    => 'publish',
+              'orderby'        => 'date',
+              'order'          => 'DESC',
             ]);
             if ($cat_posts):
+              foreach ($cat_posts as $cp) {
+                $shown_post_ids[] = $cp->ID;
+              }
           ?>
           <div class="sidebar-card">
             <div class="sidebar-card-title"><?php printf(__('More in %s', 'foundnxt'), esc_html($cats[0]->name)); ?></div>
@@ -314,14 +356,19 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
           </div>
           <?php endif; endif; ?>
 
-          <!-- ── 4. RECENT POSTS (with thumbnails) ── -->
+          <!-- ── 4. RECENT POSTS (with thumbnails, deduplicated) ── -->
           <?php
           $sidebar_recent = get_posts([
-            'posts_per_page' => 5,
-            'post__not_in'   => [get_the_ID()],
+            'posts_per_page' => 4,
+            'post__not_in'   => $shown_post_ids,
             'post_status'    => 'publish',
+            'orderby'        => 'date',
+            'order'          => 'DESC',
           ]);
           if ($sidebar_recent):
+            foreach ($sidebar_recent as $rp) {
+              $shown_post_ids[] = $rp->ID;
+            }
           ?>
           <div class="sidebar-card">
             <div class="sidebar-card-title">📰 <?php _e('Recent Posts', 'foundnxt'); ?></div>
@@ -383,9 +430,15 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
 </div><!-- /.fnx-post-body -->
 
 <!-- ══════════════════════════════════
-     RELATED POSTS
+     RELATED POSTS (DEDUPLICATED)
 ══════════════════════════════════ -->
-<?php $related = fnx_related_posts(); if ($related): ?>
+<?php
+$related = fnx_related_posts(get_the_ID(), 4, $shown_post_ids);
+if ($related):
+  foreach ($related as $rp) {
+    $shown_post_ids[] = $rp->ID;
+  }
+?>
 <section class="fnx-related-posts">
   <div class="container">
     <div class="section-header">

@@ -7,7 +7,7 @@
 <section class="fnx-before-footer">
   <div class="container"><?php dynamic_sidebar('fnx-before-footer'); ?></div>
 </section>
-<?php elseif (!is_front_page() && !is_home()): ?>
+<?php elseif (!is_front_page() && !is_home() && !is_singular('post')): ?>
 <section class="fnx-newsletter-banner" id="newsletter-section">
   <div class="container">
     <div class="newsletter-inner">
