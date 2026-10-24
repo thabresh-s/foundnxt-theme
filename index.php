@@ -326,6 +326,10 @@
             currentCategory = btn.getAttribute('data-filter') || 'all';
             currentPage = 1;
             updateDisplay(false);
+
+            if (typeof btn.scrollIntoView === 'function') {
+              btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
           });
         });
 
