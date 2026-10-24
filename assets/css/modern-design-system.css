@@ -4051,3 +4051,307 @@ body[data-mode="dark"] .fnx-incontent-related {
     justify-content: center;
   }
 }
+
+
+/* ============================================================
+   CATEGORY PAGE HERO BANNER (Modern Light/Dark Theme Match)
+   ============================================================ */
+.cat-banner {
+  background: var(--surface) !important;
+  background: linear-gradient(
+    135deg,
+    var(--surface) 0%,
+    color-mix(in srgb, var(--cat-accent, var(--brand)) 5%, var(--surface)) 45%,
+    color-mix(in srgb, var(--cat-accent, var(--brand)) 14%, var(--surface)) 100%
+  ) !important;
+  border: 1px solid var(--border) !important;
+  border-left: 5px solid var(--cat-accent, var(--brand)) !important;
+  border-top: none !important;
+  border-radius: var(--radius-lg, 20px) !important;
+  padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 40px) !important;
+  margin-bottom: clamp(28px, 4vw, 40px) !important;
+  color: var(--text) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 30px -4px rgba(14, 18, 32, 0.06), 0 1px 3px rgba(14, 18, 32, 0.04) !important;
+}
+
+/* Decorative Blobs (Subtle ambient color matching category accent) */
+.cat-banner-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cat-banner-blob--1 {
+  width: 320px !important;
+  height: 320px !important;
+  background: radial-gradient(circle, color-mix(in srgb, var(--cat-accent, var(--brand)) 30%, transparent) 0%, transparent 70%) !important;
+  top: -80px !important;
+  right: -60px !important;
+  opacity: 0.7 !important;
+}
+
+.cat-banner-blob--2 {
+  width: 220px !important;
+  height: 220px !important;
+  background: radial-gradient(circle, color-mix(in srgb, var(--brand) 25%, transparent) 0%, transparent 70%) !important;
+  bottom: -60px !important;
+  left: 35% !important;
+  opacity: 0.5 !important;
+}
+
+/* Category Breadcrumb */
+.cat-breadcrumb {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  color: var(--muted) !important;
+  margin-bottom: 18px !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.cat-breadcrumb a {
+  color: var(--muted) !important;
+  text-decoration: none !important;
+  transition: color 0.18s ease !important;
+}
+
+.cat-breadcrumb a:hover {
+  color: var(--cat-accent, var(--brand)) !important;
+}
+
+.cat-breadcrumb span {
+  color: var(--text) !important;
+  font-weight: 600 !important;
+}
+
+.cat-breadcrumb svg {
+  opacity: 0.55 !important;
+  flex-shrink: 0 !important;
+  color: var(--muted) !important;
+}
+
+/* Title Row with Icon */
+.cat-banner-title-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  margin-bottom: 14px !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.cat-banner-icon {
+  font-size: 2.25rem !important;
+  line-height: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 58px !important;
+  height: 58px !important;
+  background: color-mix(in srgb, var(--cat-accent, var(--brand)) 12%, var(--surface-elevated)) !important;
+  border: 1px solid color-mix(in srgb, var(--cat-accent, var(--brand)) 25%, var(--border)) !important;
+  border-radius: var(--radius-md, 14px) !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 4px 14px -2px color-mix(in srgb, var(--cat-accent, var(--brand)) 18%, transparent) !important;
+}
+
+.cat-banner-title {
+  font-family: var(--font-heading) !important;
+  font-size: clamp(1.85rem, 4.5vw, 2.75rem) !important;
+  font-weight: 800 !important;
+  color: var(--text) !important;
+  margin: 0 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.028em !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Category Description */
+.cat-banner-desc,
+.cat-banner-desc p {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(0.96875rem, 1.2vw, 1.0625rem) !important;
+  font-weight: 450 !important;
+  color: var(--muted) !important;
+  line-height: 1.65 !important;
+  margin: 0 0 20px 0 !important;
+  max-width: 680px !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Category Stat Pills */
+.cat-banner-stats {
+  display: flex !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.cat-stat-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  font-family: var(--font-heading) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  color: var(--text) !important;
+  background: var(--surface-elevated) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-full, 9999px) !important;
+  padding: 6px 14px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  backdrop-filter: none !important;
+}
+
+.cat-stat-pill svg {
+  opacity: 1 !important;
+  flex-shrink: 0 !important;
+  color: var(--cat-accent, var(--brand)) !important;
+}
+
+/* Dark Mode Overrides */
+:root[data-theme="dark"] .cat-banner,
+body.dark-mode .cat-banner,
+body.dark .cat-banner,
+body[data-theme="dark"] .cat-banner,
+body[data-mode="dark"] .cat-banner {
+  background: linear-gradient(
+    135deg,
+    #141A2D 0%,
+    color-mix(in srgb, var(--cat-accent, var(--brand)) 12%, #141A2D) 50%,
+    color-mix(in srgb, var(--cat-accent, var(--brand)) 22%, #141A2D) 100%
+  ) !important;
+  border-color: #202A44 !important;
+  border-left-color: var(--cat-accent, var(--brand)) !important;
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.45) !important;
+}
+
+:root[data-theme="dark"] .cat-banner-title,
+body.dark-mode .cat-banner-title,
+body.dark .cat-banner-title,
+body[data-theme="dark"] .cat-banner-title,
+body[data-mode="dark"] .cat-banner-title {
+  color: #F5F7FA !important;
+}
+
+:root[data-theme="dark"] .cat-banner-desc,
+:root[data-theme="dark"] .cat-banner-desc p,
+body.dark-mode .cat-banner-desc,
+body.dark-mode .cat-banner-desc p,
+body.dark .cat-banner-desc,
+body.dark .cat-banner-desc p,
+body[data-theme="dark"] .cat-banner-desc,
+body[data-theme="dark"] .cat-banner-desc p,
+body[data-mode="dark"] .cat-banner-desc,
+body[data-mode="dark"] .cat-banner-desc p {
+  color: #9BA7BD !important;
+}
+
+:root[data-theme="dark"] .cat-breadcrumb,
+:root[data-theme="dark"] .cat-breadcrumb a,
+body.dark-mode .cat-breadcrumb,
+body.dark-mode .cat-breadcrumb a,
+body.dark .cat-breadcrumb,
+body.dark .cat-breadcrumb a,
+body[data-theme="dark"] .cat-breadcrumb,
+body[data-theme="dark"] .cat-breadcrumb a,
+body[data-mode="dark"] .cat-breadcrumb,
+body[data-mode="dark"] .cat-breadcrumb a {
+  color: #9BA7BD !important;
+}
+
+:root[data-theme="dark"] .cat-breadcrumb span,
+body.dark-mode .cat-breadcrumb span,
+body.dark .cat-breadcrumb span,
+body[data-theme="dark"] .cat-breadcrumb span,
+body[data-mode="dark"] .cat-breadcrumb span {
+  color: #F5F7FA !important;
+}
+
+:root[data-theme="dark"] .cat-stat-pill,
+body.dark-mode .cat-stat-pill,
+body.dark .cat-stat-pill,
+body[data-theme="dark"] .cat-stat-pill,
+body[data-mode="dark"] .cat-stat-pill {
+  background: #1B233C !important;
+  border-color: #202A44 !important;
+  color: #F5F7FA !important;
+}
+
+/* System Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .cat-banner,
+  body:not(.light-mode):not([data-theme="light"]) .cat-banner {
+    background: linear-gradient(
+      135deg,
+      #141A2D 0%,
+      color-mix(in srgb, var(--cat-accent, var(--brand)) 12%, #141A2D) 50%,
+      color-mix(in srgb, var(--cat-accent, var(--brand)) 22%, #141A2D) 100%
+    ) !important;
+    border-color: #202A44 !important;
+    border-left-color: var(--cat-accent, var(--brand)) !important;
+    box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.45) !important;
+  }
+  :root:not([data-theme="light"]) .cat-banner-title,
+  body:not(.light-mode):not([data-theme="light"]) .cat-banner-title {
+    color: #F5F7FA !important;
+  }
+  :root:not([data-theme="light"]) .cat-banner-desc,
+  :root:not([data-theme="light"]) .cat-banner-desc p,
+  body:not(.light-mode):not([data-theme="light"]) .cat-banner-desc,
+  body:not(.light-mode):not([data-theme="light"]) .cat-banner-desc p {
+    color: #9BA7BD !important;
+  }
+  :root:not([data-theme="light"]) .cat-breadcrumb,
+  :root:not([data-theme="light"]) .cat-breadcrumb a,
+  body:not(.light-mode):not([data-theme="light"]) .cat-breadcrumb,
+  body:not(.light-mode):not([data-theme="light"]) .cat-breadcrumb a {
+    color: #9BA7BD !important;
+  }
+  :root:not([data-theme="light"]) .cat-breadcrumb span,
+  body:not(.light-mode):not([data-theme="light"]) .cat-breadcrumb span {
+    color: #F5F7FA !important;
+  }
+  :root:not([data-theme="light"]) .cat-stat-pill,
+  body:not(.light-mode):not([data-theme="light"]) .cat-stat-pill {
+    background: #1B233C !important;
+    border-color: #202A44 !important;
+    color: #F5F7FA !important;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 680px) {
+  .cat-banner {
+    padding: 24px 18px 22px !important;
+    border-radius: 16px !important;
+    margin-bottom: 24px !important;
+  }
+  .cat-banner-icon {
+    width: 46px !important;
+    height: 46px !important;
+    font-size: 1.65rem !important;
+    border-radius: 12px !important;
+  }
+  .cat-banner-title {
+    font-size: clamp(1.4rem, 6vw, 1.85rem) !important;
+  }
+  .cat-banner-desc,
+  .cat-banner-desc p {
+    font-size: 0.9375rem !important;
+    margin-bottom: 16px !important;
+  }
+  .cat-stat-pill {
+    font-size: 0.75rem !important;
+    padding: 5px 11px !important;
+  }
+}

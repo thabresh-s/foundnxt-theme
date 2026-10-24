@@ -120,7 +120,7 @@ endif;
     ?>
 
     <!-- CATEGORY HERO BANNER — Styled with category color -->
-    <div class="archive-banner cat-banner" role="banner" style="--cat-accent: <?php echo esc_attr($cat_color); ?>; border-top: 4px solid <?php echo esc_attr($cat_color); ?>;">
+    <div class="archive-banner cat-banner" role="banner" style="--cat-accent: <?php echo esc_attr($cat_color); ?>;">
       <!-- Decorative blobs -->
       <span class="cat-banner-blob cat-banner-blob--1" aria-hidden="true" style="background: <?php echo esc_attr($cat_color); ?>22;"></span>
       <span class="cat-banner-blob cat-banner-blob--2" aria-hidden="true"></span>
@@ -142,7 +142,7 @@ endif;
         </div>
 
         <?php if (category_description()): ?>
-          <p class="cat-banner-desc" itemprop="description"><?php echo category_description(); ?></p>
+          <div class="cat-banner-desc" itemprop="description"><?php echo category_description(); ?></div>
         <?php endif; ?>
 
         <!-- Stats row -->
