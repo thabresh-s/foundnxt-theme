@@ -3439,3 +3439,239 @@ body[data-mode="dark"] .fnx-logo-dark {
 }
 
 
+
+
+/* ============================================================
+   IN-CONTENT RELATED READING BOX (Single Post In-Between Content)
+   ============================================================ */
+.fnx-incontent-related {
+  margin: clamp(2rem, 3.5vw, 2.75rem) 0;
+  padding: clamp(1.25rem, 2.5vw, 1.625rem);
+  background: var(--surface);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--brand) 4%, var(--surface)) 0%, var(--surface) 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--brand);
+  border-radius: var(--radius-md, 14px);
+  box-shadow: 0 4px 20px -3px rgba(14, 18, 32, 0.05);
+  position: relative;
+  overflow: hidden;
+  clear: both;
+}
+
+:root[data-theme="dark"] .fnx-incontent-related,
+body.dark-mode .fnx-incontent-related,
+body.dark .fnx-incontent-related,
+body[data-theme="dark"] .fnx-incontent-related,
+body[data-mode="dark"] .fnx-incontent-related {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--brand) 8%, var(--surface)) 0%, var(--surface) 100%);
+  border-color: var(--border);
+  box-shadow: 0 6px 24px -4px rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .fnx-incontent-related,
+  body:not(.light-mode):not([data-theme="light"]) .fnx-incontent-related {
+    background: linear-gradient(145deg, color-mix(in srgb, var(--brand) 8%, var(--surface)) 0%, var(--surface) 100%);
+    box-shadow: 0 6px 24px -4px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.fnx-incontent-related-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-subtle, var(--border));
+}
+
+.fnx-incontent-related-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full, 9999px);
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+  color: var(--brand);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.fnx-incontent-related-badge svg {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.fnx-incontent-related-hint {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.fnx-incontent-related-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/* Reset .post-content anchor overrides */
+.post-content .fnx-incontent-related a,
+.article-body-content .fnx-incontent-related a,
+.entry-content .fnx-incontent-related a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.post-content .fnx-incontent-related a:hover,
+.article-body-content .fnx-incontent-related a:hover,
+.entry-content .fnx-incontent-related a:hover {
+  text-decoration: none !important;
+}
+
+.fnx-incontent-related-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  text-decoration: none !important;
+  color: var(--text) !important;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.18s ease,
+              background-color 0.18s ease,
+              box-shadow 0.18s ease;
+}
+
+.fnx-incontent-related-item:hover,
+.fnx-incontent-related-item:focus-visible {
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
+  background-color: var(--surface-elevated);
+  transform: translateX(4px);
+  box-shadow: 0 4px 14px -2px color-mix(in srgb, var(--brand) 12%, transparent);
+}
+
+.fnx-incontent-related-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+  flex-shrink: 0;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.fnx-incontent-related-item:hover .fnx-incontent-related-num {
+  background: var(--brand);
+  color: #ffffff;
+}
+
+.fnx-incontent-related-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.fnx-incontent-related-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+  font-size: 0.6875rem;
+  line-height: 1.2;
+}
+
+.fnx-incontent-related-cat {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--brand);
+}
+
+.fnx-incontent-related-sep {
+  color: var(--muted);
+  opacity: 0.7;
+  font-size: 0.6rem;
+}
+
+.fnx-incontent-related-time {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.fnx-incontent-related-title {
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.18s ease;
+}
+
+.fnx-incontent-related-item:hover .fnx-incontent-related-title {
+  color: var(--brand);
+}
+
+.fnx-incontent-related-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+
+.fnx-incontent-related-item:hover .fnx-incontent-related-arrow {
+  color: var(--brand);
+  transform: translateX(3px);
+}
+
+@media (max-width: 640px) {
+  .fnx-incontent-related {
+    margin: 1.75rem 0;
+    padding: 14px;
+    border-radius: 12px;
+  }
+  .fnx-incontent-related-header {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+  }
+  .fnx-incontent-related-badge {
+    font-size: 0.6875rem;
+    padding: 3px 8px;
+  }
+  .fnx-incontent-related-item {
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .fnx-incontent-related-title {
+    font-size: 0.875rem;
+    line-height: 1.3;
+  }
+  .fnx-incontent-related-num {
+    width: 24px;
+    height: 24px;
+    font-size: 0.6875rem;
+  }
+}
