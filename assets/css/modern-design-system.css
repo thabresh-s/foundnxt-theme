@@ -2791,10 +2791,28 @@
    LAYER: UTILITIES & PERFORMANCE
    ============================================================ */
 @layer utilities {
-  /* Below-the-fold content-visibility */
-  .defer-render {
+  /* Modern Web Guidance: Below-the-fold content-visibility & layout containment */
+  .defer-render,
+  .site-footer,
+  .fnx-fullwidth-newsletter,
+  .post-suggested,
+  #comments,
+  .related-posts-section,
+  .hp-recent-section {
     content-visibility: auto;
-    contain-intrinsic-size: auto none auto 450px;
+    contain-intrinsic-size: auto 400px;
+  }
+  .site-footer {
+    contain-intrinsic-size: auto 350px;
+  }
+  .post-suggested {
+    contain-intrinsic-size: auto 320px;
+  }
+  #comments {
+    contain-intrinsic-size: auto 450px;
+  }
+  .fnx-fullwidth-newsletter {
+    contain-intrinsic-size: auto 380px;
   }
 
   /* Touch optimization */

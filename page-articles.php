@@ -29,6 +29,17 @@ $articles_query = new WP_Query($args);
 
 $all_cats = get_categories(['hide_empty' => false, 'exclude' => [1], 'orderby' => 'name', 'order' => 'ASC', 'number' => 8]);
 
+$trending_posts = get_posts(['posts_per_page' => 5, 'post_status' => 'publish', 'meta_key' => 'fnx_featured', 'meta_value' => '1', 'orderby' => 'date', 'order' => 'DESC', 'no_found_rows' => true]);
+if (empty($trending_posts)) {
+    $trending_posts = get_posts(['posts_per_page' => 5, 'post_status' => 'publish', 'orderby' => 'date', 'order' => 'DESC', 'no_found_rows' => true]);
+}
+
+$cat_sections = [
+    ['slug' => 'business-strategy', 'label' => 'Business Strategy',  'icon' => '💼', 'color' => 'blue',   'count' => 4],
+    ['slug' => 'startups-funding',  'label' => 'Startups & Funding', 'icon' => '🚀', 'color' => 'orange', 'count' => 4],
+    ['slug' => 'technology-ai',     'label' => 'Technology & AI',    'icon' => '🤖', 'color' => 'purple', 'count' => 4],
+];
+
 $cat_icons = [
     'business-strategy' => '💼',
     'startups-funding'  => '🚀',

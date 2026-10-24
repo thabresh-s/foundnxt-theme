@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.4.3');
+define('FNX_VERSION', '1.4.4');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -110,7 +110,10 @@ function fnx_enqueue() {
     );
 
     // Theme JS
-    wp_enqueue_script('fnx-main', FNX_URI . '/assets/js/main.js', [], FNX_VERSION, true);
+    wp_enqueue_script('fnx-main', FNX_URI . '/assets/js/main.js', [], FNX_VERSION, [
+        'strategy'  => 'defer',
+        'in_footer' => true,
+    ]);
 
     // Modern Design System JS (Search overlay focus trap, banner dismissal)
     wp_enqueue_script(
@@ -118,7 +121,10 @@ function fnx_enqueue() {
         FNX_URI . '/assets/js/modern-design-system.js',
         [],
         FNX_VERSION,
-        true
+        [
+            'strategy'  => 'defer',
+            'in_footer' => true,
+        ]
     );
 
     // Pass data to JS
@@ -607,15 +613,12 @@ require_once FNX_DIR . '/inc/admin-crm.php';
 require_once FNX_DIR . '/inc/resend-service.php';
 require_once FNX_DIR . '/inc/related-posts.php';
 require_once FNX_DIR . '/inc/featured-posts.php';
+require_once FNX_DIR . '/inc/performance.php';
 
 /* ============================================================
    PERFORMANCE
    ============================================================ */
-// Remove emoji scripts for performance
-remove_action('wp_head',             'print_emoji_detection_script', 7);
-remove_action('admin_print_scripts', 'print_emoji_detection_script');
-remove_action('wp_print_styles',     'print_emoji_styles');
-remove_action('admin_print_styles',  'print_emoji_styles');
+// Emoji scripts handled in inc/performance.php
 
 // Remove jQuery Migrate from front-end to reduce script weight & INP
 add_action('wp_default_scripts', function ($scripts) {
@@ -639,14 +642,7 @@ function fnx_wrap_responsive_tables($content) {
 }
 add_filter('the_content', 'fnx_wrap_responsive_tables', 20);
 
-// Preconnect hints & font preload
-function fnx_preconnect() {
-    echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
-    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
-    // Preload primary heading & body font weights to prevent layout shift & FOUT
-    echo '<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Sora:wght@600;700;800&display=swap">' . "\n";
-}
-add_action('wp_head', 'fnx_preconnect', 1);
+// Preconnect & resource hints handled in inc/performance.php
 
 
 /* ============================================================
