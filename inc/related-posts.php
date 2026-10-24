@@ -249,3 +249,4 @@ add_shortcode('fnx_related_box', function($atts) {
     $atts = shortcode_atts(['limit' => 3], $atts, 'fnx_related_box');
     return fnx_render_incontent_related_box(null, (int) $atts['limit']);
 });
+

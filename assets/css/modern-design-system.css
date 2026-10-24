@@ -3675,3 +3675,379 @@ body[data-mode="dark"] .fnx-incontent-related {
     font-size: 0.6875rem;
   }
 }
+
+
+/* ============================================================
+   HOMEPAGE FEATURED ARTICLES SPOTLIGHT SECTION
+   ============================================================ */
+.hp-spotlight-section {
+  padding-block: clamp(2.5rem, 5vw, 4.25rem);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.hp-spotlight-counter {
+  display: flex;
+  align-items: center;
+}
+
+.hp-spotlight-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full, 9999px);
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+  color: var(--brand);
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+/* ── Dual Featured Grid (2 Posts) ── */
+.hp-spotlight-grid--dual {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+  margin-top: 1.5rem;
+}
+
+.hp-spotlight-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg, 20px);
+  overflow: hidden;
+  box-shadow: 0 10px 30px -5px rgba(14, 18, 32, 0.05);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
+  position: relative;
+}
+
+.hp-spotlight-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--card-accent, var(--brand)) 50%, var(--border));
+  box-shadow: 0 18px 40px -8px color-mix(in srgb, var(--card-accent, var(--brand)) 14%, rgba(0, 0, 0, 0.12));
+}
+
+.hp-spotlight-card-thumb,
+.hp-spotlight-single-thumb {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0E1220;
+  overflow: hidden;
+}
+
+.hp-spotlight-card-thumb img,
+.hp-spotlight-single-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hp-spotlight-card:hover .hp-spotlight-card-thumb img,
+.hp-spotlight-single:hover .hp-spotlight-single-thumb img {
+  transform: scale(1.03);
+}
+
+/* Fallback Poster Banner */
+.hp-spotlight-thumb-poster {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.hp-spotlight-poster-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hp-spotlight-poster-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--brand, #FF5A2C);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 17px;
+  font-family: var(--font-heading);
+}
+
+.hp-spotlight-poster-name {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+.hp-spotlight-poster-name strong {
+  color: #ffffff;
+}
+
+.hp-spotlight-poster-inner {
+  margin-top: auto;
+}
+
+.hp-spotlight-poster-cat {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.hp-spotlight-poster-title {
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+  font-weight: 800;
+  line-height: 1.28;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hp-spotlight-poster-title--dual {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+}
+
+.hp-spotlight-badge-floating {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  padding: 5px 12px;
+  border-radius: var(--radius-full, 9999px);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.hp-spotlight-card-body {
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.hp-spotlight-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.hp-spotlight-meta-dot {
+  opacity: 0.5;
+}
+
+.hp-spotlight-meta-item {
+  font-weight: 500;
+}
+
+.hp-spotlight-card-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.hp-spotlight-card-title a,
+.hp-spotlight-single-title a {
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: color 0.18s ease;
+}
+
+.hp-spotlight-card:hover .hp-spotlight-card-title a,
+.hp-spotlight-single:hover .hp-spotlight-single-title a {
+  color: var(--card-accent, var(--brand));
+}
+
+.hp-spotlight-card-excerpt {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hp-spotlight-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle, var(--border));
+}
+
+.hp-spotlight-author-lockup {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.hp-spotlight-avatar {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+.hp-spotlight-author-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hp-spotlight-read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--card-accent, var(--brand));
+  text-decoration: none !important;
+  transition: gap 0.2s ease, transform 0.2s ease;
+}
+
+.hp-spotlight-card:hover .hp-spotlight-read-link {
+  gap: 9px;
+}
+
+/* ── Single Widescreen Spotlight (1 Post) ── */
+.hp-spotlight-single {
+  display: grid;
+  grid-template-columns: 1.12fr 1fr;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl, 24px);
+  overflow: hidden;
+  box-shadow: 0 12px 36px -6px rgba(14, 18, 32, 0.06);
+  margin-top: 1.5rem;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
+}
+
+.hp-spotlight-single:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--card-accent, var(--brand)) 50%, var(--border));
+  box-shadow: 0 20px 48px -10px color-mix(in srgb, var(--card-accent, var(--brand)) 16%, rgba(0, 0, 0, 0.15));
+}
+
+.hp-spotlight-single-thumb {
+  height: 100%;
+  min-height: 320px;
+}
+
+.hp-spotlight-single-body {
+  padding: clamp(1.75rem, 3.5vw, 2.75rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hp-spotlight-single-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.hp-spotlight-single-excerpt {
+  color: var(--muted);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.hp-spotlight-single-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle, var(--border));
+}
+
+.hp-spotlight-author-title {
+  display: block;
+  font-size: 0.6875rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hp-spotlight-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-size: 0.875rem;
+  border-radius: 10px;
+  text-decoration: none !important;
+}
+
+/* ── Mobile Responsive Breakpoints ── */
+@media (max-width: 900px) {
+  .hp-spotlight-grid--dual {
+    grid-template-columns: 1fr;
+  }
+  .hp-spotlight-single {
+    grid-template-columns: 1fr;
+  }
+  .hp-spotlight-single-thumb {
+    min-height: auto;
+  }
+  .hp-spotlight-single-body {
+    padding: 20px;
+  }
+  .hp-spotlight-card-body {
+    padding: 18px;
+  }
+  .hp-spotlight-single-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .hp-spotlight-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

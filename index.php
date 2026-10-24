@@ -48,7 +48,206 @@
     </div>
   </section>
 
-  <!-- ── 2. RECENT ARTICLES (Modern Responsive Grid, Category Filter & Interactive Pagination) ── -->
+
+  <?php
+  // Check if Featured Articles section is enabled in Customizer
+  $featured_enabled = get_theme_mod('fnx_featured_enabled', true);
+  $featured_posts   = $featured_enabled && function_exists('fnx_get_featured_homepage_posts') 
+                      ? fnx_get_featured_homepage_posts() 
+                      : [];
+  $featured_count   = count($featured_posts);
+
+  if ($featured_enabled && $featured_count > 0):
+    $featured_tag           = get_theme_mod('fnx_featured_tag', __('Editor’s Picks', 'foundnxt'));
+    $featured_title_prefix  = get_theme_mod('fnx_featured_title_prefix', __('Featured', 'foundnxt'));
+    $featured_title_accent  = get_theme_mod('fnx_featured_title_accent', __('Articles', 'foundnxt'));
+  ?>
+  <!-- ── 2. FEATURED ARTICLES SPOTLIGHT (1 or 2 Selected Posts) ── -->
+  <section class="hp-spotlight-section defer-render" id="featured-articles">
+    <div class="container">
+      <div class="section-headline-row">
+        <div>
+          <span class="section-tag"><?php echo esc_html($featured_tag); ?></span>
+          <h2><?php echo esc_html($featured_title_prefix); ?> <span class="text-grad"><?php echo esc_html($featured_title_accent); ?></span></h2>
+        </div>
+        <div class="hp-spotlight-counter">
+          <span class="hp-spotlight-count-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <?php printf(_n('%d Featured Story', '%d Featured Stories', $featured_count, 'foundnxt'), $featured_count); ?>
+          </span>
+        </div>
+      </div>
+
+      <?php if ($featured_count === 1):
+        $p = $featured_posts[0];
+        $post_cats   = wp_get_post_categories($p->ID, ['fields' => 'all']);
+        $primary_cat = null;
+        foreach ($post_cats as $c) {
+          if ($c->slug !== 'uncategorized') {
+            $primary_cat = $c;
+            break;
+          }
+        }
+        $cname  = $primary_cat ? $primary_cat->name : 'Business & Strategy';
+        $cslug  = $primary_cat ? $primary_cat->slug : 'business-strategy';
+        $color  = fnx_get_category_color($cslug);
+        $badge  = get_post_meta($p->ID, 'fnx_post_badge', true) ?: __('Featured Story', 'foundnxt');
+        $read_t = fnx_read_time($p->ID);
+        $date   = fnx_fmt_date($p->post_date);
+      ?>
+        <!-- Single Post Widescreen Hero Card -->
+        <article class="hp-spotlight-single" style="--card-accent: <?php echo esc_attr($color); ?>;">
+          <a href="<?php echo esc_url(get_permalink($p->ID)); ?>" class="hp-spotlight-single-thumb" tabindex="-1" aria-hidden="true">
+            <?php if (has_post_thumbnail($p->ID)): ?>
+              <?php echo get_the_post_thumbnail($p->ID, 'fnx-hero', [
+                'alt'           => esc_attr(get_the_title($p->ID)),
+                'loading'       => 'eager',
+                'fetchpriority' => 'high',
+                'decoding'      => 'async'
+              ]); ?>
+            <?php else: ?>
+              <div class="hp-spotlight-thumb-poster" style="background: linear-gradient(135deg, #0E1220 0%, #1B233C 100%);">
+                <div class="hp-spotlight-poster-brand">
+                  <span class="hp-spotlight-poster-mark">f</span>
+                  <span class="hp-spotlight-poster-name">found<strong>NXT</strong></span>
+                </div>
+                <div class="hp-spotlight-poster-inner">
+                  <span class="hp-spotlight-poster-cat" style="color: <?php echo esc_attr($color); ?>;"><?php echo esc_html($cname); ?></span>
+                  <div class="hp-spotlight-poster-title"><?php echo esc_html(get_the_title($p->ID)); ?></div>
+                </div>
+              </div>
+            <?php endif; ?>
+            <span class="hp-spotlight-badge-floating" style="background: <?php echo esc_attr($color); ?>;">
+              ⭐ <?php echo esc_html($badge); ?>
+            </span>
+          </a>
+
+          <div class="hp-spotlight-single-body">
+            <div class="hp-spotlight-meta-top">
+              <span class="playbook-badge" style="background: <?php echo esc_attr($color); ?>18; color: <?php echo esc_attr($color); ?>; border-color: <?php echo esc_attr($color); ?>40;">
+                <span class="playbook-badge-dot" style="background: <?php echo esc_attr($color); ?>;"></span>
+                <?php echo esc_html($cname); ?>
+              </span>
+              <span class="hp-spotlight-meta-dot">•</span>
+              <span class="hp-spotlight-meta-item"><?php echo esc_html($read_t); ?></span>
+              <span class="hp-spotlight-meta-dot">•</span>
+              <span class="hp-spotlight-meta-item"><?php echo esc_html($date); ?></span>
+            </div>
+
+            <h3 class="hp-spotlight-single-title">
+              <a href="<?php echo esc_url(get_permalink($p->ID)); ?>">
+                <?php echo esc_html(get_the_title($p->ID)); ?>
+              </a>
+            </h3>
+
+            <p class="hp-spotlight-single-excerpt">
+              <?php echo esc_html(wp_trim_words(get_the_excerpt($p->ID), 36)); ?>
+            </p>
+
+            <div class="hp-spotlight-single-footer">
+              <div class="hp-spotlight-author-lockup">
+                <?php echo get_avatar(get_the_author_meta('email', $p->post_author), 38, '', '', ['class' => 'hp-spotlight-avatar', 'loading' => 'lazy']); ?>
+                <div class="hp-spotlight-author-info">
+                  <span class="hp-spotlight-author-name"><?php the_author_meta('display_name', $p->post_author); ?></span>
+                  <span class="hp-spotlight-author-title"><?php _e('Venture Research', 'foundnxt'); ?></span>
+                </div>
+              </div>
+
+              <a href="<?php echo esc_url(get_permalink($p->ID)); ?>" class="hero-btn-primary hp-spotlight-btn">
+                <span><?php _e('Read Full Story', 'foundnxt'); ?></span> &rarr;
+              </a>
+            </div>
+          </div>
+        </article>
+
+      <?php else: ?>
+        <!-- Dual Featured 2-Column Grid -->
+        <div class="hp-spotlight-grid hp-spotlight-grid--dual">
+          <?php foreach ($featured_posts as $f_idx => $p):
+            $post_cats   = wp_get_post_categories($p->ID, ['fields' => 'all']);
+            $primary_cat = null;
+            foreach ($post_cats as $c) {
+              if ($c->slug !== 'uncategorized') {
+                $primary_cat = $c;
+                break;
+              }
+            }
+            $cname  = $primary_cat ? $primary_cat->name : 'Business & Strategy';
+            $cslug  = $primary_cat ? $primary_cat->slug : 'business-strategy';
+            $color  = fnx_get_category_color($cslug);
+            $badge  = get_post_meta($p->ID, 'fnx_post_badge', true) ?: ($f_idx === 0 ? __('Top Story', 'foundnxt') : __('Deep Dive', 'foundnxt'));
+            $read_t = fnx_read_time($p->ID);
+            $date   = fnx_fmt_date($p->post_date);
+          ?>
+            <article class="hp-spotlight-card" style="--card-accent: <?php echo esc_attr($color); ?>;">
+              <a href="<?php echo esc_url(get_permalink($p->ID)); ?>" class="hp-spotlight-card-thumb" tabindex="-1" aria-hidden="true">
+                <?php if (has_post_thumbnail($p->ID)): ?>
+                  <?php echo get_the_post_thumbnail($p->ID, 'fnx-card', [
+                    'alt'           => esc_attr(get_the_title($p->ID)),
+                    'loading'       => 'eager',
+                    'fetchpriority' => 'high',
+                    'decoding'      => 'async'
+                  ]); ?>
+                <?php else: ?>
+                  <div class="hp-spotlight-thumb-poster" style="background: linear-gradient(135deg, #0E1220 0%, #1B233C 100%);">
+                    <div class="hp-spotlight-poster-brand">
+                      <span class="hp-spotlight-poster-mark">f</span>
+                      <span class="hp-spotlight-poster-name">found<strong>NXT</strong></span>
+                    </div>
+                    <div class="hp-spotlight-poster-inner">
+                      <span class="hp-spotlight-poster-cat" style="color: <?php echo esc_attr($color); ?>;"><?php echo esc_html($cname); ?></span>
+                      <div class="hp-spotlight-poster-title hp-spotlight-poster-title--dual"><?php echo esc_html(get_the_title($p->ID)); ?></div>
+                    </div>
+                  </div>
+                <?php endif; ?>
+                <span class="hp-spotlight-badge-floating" style="background: <?php echo esc_attr($color); ?>;">
+                  ⭐ <?php echo esc_html($badge); ?>
+                </span>
+              </a>
+
+              <div class="hp-spotlight-card-body">
+                <div class="hp-spotlight-meta-top">
+                  <span class="playbook-badge" style="background: <?php echo esc_attr($color); ?>18; color: <?php echo esc_attr($color); ?>; border-color: <?php echo esc_attr($color); ?>40;">
+                    <span class="playbook-badge-dot" style="background: <?php echo esc_attr($color); ?>;"></span>
+                    <?php echo esc_html($cname); ?>
+                  </span>
+                  <span class="hp-spotlight-meta-dot">•</span>
+                  <span class="hp-spotlight-meta-item"><?php echo esc_html($read_t); ?></span>
+                  <span class="hp-spotlight-meta-dot">•</span>
+                  <span class="hp-spotlight-meta-item"><?php echo esc_html($date); ?></span>
+                </div>
+
+                <h3 class="hp-spotlight-card-title">
+                  <a href="<?php echo esc_url(get_permalink($p->ID)); ?>">
+                    <?php echo esc_html(get_the_title($p->ID)); ?>
+                  </a>
+                </h3>
+
+                <p class="hp-spotlight-card-excerpt">
+                  <?php echo esc_html(wp_trim_words(get_the_excerpt($p->ID), 24)); ?>
+                </p>
+
+                <div class="hp-spotlight-card-footer">
+                  <div class="hp-spotlight-author-lockup">
+                    <?php echo get_avatar(get_the_author_meta('email', $p->post_author), 30, '', '', ['class' => 'hp-spotlight-avatar', 'loading' => 'lazy']); ?>
+                    <span class="hp-spotlight-author-name"><?php the_author_meta('display_name', $p->post_author); ?></span>
+                  </div>
+
+                  <a href="<?php echo esc_url(get_permalink($p->ID)); ?>" class="hp-spotlight-read-link">
+                    <span><?php _e('Read Article', 'foundnxt'); ?></span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+    </div>
+  </section>
+  <?php endif; ?>
+
+  <!-- ── 3. RECENT ARTICLES (Modern Responsive Grid, Category Filter & Interactive Pagination) ── -->
   <section class="hp-featured-section defer-render" id="recent-articles">
     <div class="container">
       <div class="section-headline-row">
@@ -63,13 +262,20 @@
 
       <?php
       // Query recent published posts
-      $all_posts = get_posts([
+      $recent_args = [
           'post_type'      => 'post',
           'post_status'    => 'publish',
           'posts_per_page' => 30,
           'orderby'        => 'date',
           'order'          => 'DESC',
-      ]);
+      ];
+      // Exclude featured IDs from Recent section only if there are at least 5 posts total
+      $featured_ids = !empty($featured_posts) ? wp_list_pluck($featured_posts, 'ID') : [];
+      $all_posts_count = wp_count_posts('post')->publish ?? 0;
+      if ($all_posts_count >= 5 && !empty($featured_ids)) {
+          $recent_args['post__not_in'] = $featured_ids;
+      }
+      $all_posts = get_posts($recent_args);
 
       // Calculate post counts per category
       $cat_counts = [];

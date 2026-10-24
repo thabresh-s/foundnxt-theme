@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.4.1');
+define('FNX_VERSION', '1.4.2');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -606,6 +606,7 @@ require_once FNX_DIR . '/inc/nav-walker.php';
 require_once FNX_DIR . '/inc/admin-crm.php';
 require_once FNX_DIR . '/inc/resend-service.php';
 require_once FNX_DIR . '/inc/related-posts.php';
+require_once FNX_DIR . '/inc/featured-posts.php';
 
 /* ============================================================
    PERFORMANCE
