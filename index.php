@@ -48,7 +48,7 @@
     </div>
   </section>
 
-  <!-- ── 2. RECENT ARTICLES (Container Queries & Dynamic Solo Layout) ── -->
+  <!-- ── 2. RECENT ARTICLES (Modern Responsive Grid, Category Filter & Interactive Pagination) ── -->
   <section class="hp-featured-section defer-render" id="recent-articles">
     <div class="container">
       <div class="section-headline-row">
@@ -61,47 +61,300 @@
         </a>
       </div>
 
-      <div class="playbooks-grid">
-        <?php
-        $recent_posts = fnx_get_hp_posts(['posts_per_page' => 6]);
-        $is_solo = !empty($recent_posts) && count($recent_posts) < 3;
+      <?php
+      // Query recent published posts
+      $all_posts = get_posts([
+          'post_type'      => 'post',
+          'post_status'    => 'publish',
+          'posts_per_page' => 30,
+          'orderby'        => 'date',
+          'order'          => 'DESC',
+      ]);
 
-        if (!empty($recent_posts)):
-          foreach ($recent_posts as $f_idx => $fp):
-            $f_cats  = wp_get_post_categories($fp->ID);
-            $f_cname = $f_cats ? get_cat_name($f_cats[0]) : 'Strategy';
-            $f_cslug = $f_cats ? get_category($f_cats[0])->slug : 'business-strategy';
-            $f_color = fnx_get_category_color($f_cslug);
-            $card_class = $is_solo ? 'playbook-card playbook-card--featured-solo' : 'playbook-card';
+      // Calculate post counts per category
+      $cat_counts = [];
+      foreach ($all_posts as $p) {
+          $p_cats = wp_get_post_categories($p->ID, ['fields' => 'slugs']);
+          foreach ($p_cats as $s) {
+              $cat_counts[$s] = ($cat_counts[$s] ?? 0) + 1;
+          }
+      }
+
+      // Filter categories from primary categories
+      $primary_cats = fnx_get_primary_categories();
+      $filter_cats  = [];
+      foreach ($primary_cats as $pcat) {
+          $count = $cat_counts[$pcat['slug']] ?? 0;
+          $filter_cats[] = [
+              'name'  => $pcat['name'],
+              'slug'  => $pcat['slug'],
+              'color' => $pcat['color'],
+              'count' => $count,
+          ];
+      }
+
+      // Pagination size: 2 per page if <= 4 total posts so pagination is immediately active & testable; 6 if larger
+      $per_page    = (count($all_posts) <= 4) ? 2 : 6;
+      $total_pages = max(1, (int) ceil(count($all_posts) / $per_page));
+      ?>
+
+      <!-- ── Category Filter Rail ── -->
+      <div class="hp-articles-filter-wrap">
+        <div class="hp-filter-rail" role="tablist" aria-label="<?php esc_attr_e('Filter articles by category', 'foundnxt'); ?>">
+          <button type="button" class="hp-filter-btn is-active" data-filter="all" role="tab" aria-selected="true">
+            <span class="hp-filter-dot hp-filter-dot--all"></span>
+            <span><?php _e('All Articles', 'foundnxt'); ?></span>
+            <span class="hp-filter-count"><?php echo count($all_posts); ?></span>
+          </button>
+          <?php foreach ($filter_cats as $fcat): ?>
+            <button type="button" class="hp-filter-btn" data-filter="<?php echo esc_attr($fcat['slug']); ?>" style="--filter-color: <?php echo esc_attr($fcat['color']); ?>;" role="tab" aria-selected="false">
+              <span class="hp-filter-dot" style="background: <?php echo esc_attr($fcat['color']); ?>;"></span>
+              <span><?php echo esc_html($fcat['name']); ?></span>
+              <?php if (! empty($fcat['count'])): ?>
+                <span class="hp-filter-count"><?php echo (int) $fcat['count']; ?></span>
+              <?php endif; ?>
+            </button>
+          <?php endforeach; ?>
+        </div>
+      </div>
+
+      <!-- ── Articles Grid ── -->
+      <div class="playbooks-grid" id="hp-playbooks-grid">
+        <?php
+        if (! empty($all_posts)):
+          foreach ($all_posts as $f_idx => $fp):
+            $post_cats    = wp_get_post_categories($fp->ID, ['fields' => 'all']);
+            $cat_slugs    = [];
+            $primary_cat  = null;
+            foreach ($post_cats as $c) {
+                $cat_slugs[] = $c->slug;
+                if (! $primary_cat && $c->slug !== 'uncategorized') {
+                    $primary_cat = $c;
+                }
+            }
+            $cat_slug_attr = implode(' ', $cat_slugs);
+            $f_cname       = $primary_cat ? $primary_cat->name : 'Business & Strategy';
+            $f_cslug       = $primary_cat ? $primary_cat->slug : 'business-strategy';
+            $f_color       = fnx_get_category_color($f_cslug);
+            $init_visible  = ($f_idx < $per_page);
         ?>
-            <article class="<?php echo esc_attr($card_class); ?>" style="--card-accent: <?php echo esc_attr($f_color); ?>;">
-              <?php if (has_post_thumbnail($fp->ID)): ?>
-                <a href="<?php echo esc_url(get_permalink($fp->ID)); ?>" class="playbook-card-thumb-wrap">
+            <article class="playbook-card" 
+                     data-index="<?php echo $f_idx; ?>" 
+                     data-categories="<?php echo esc_attr($cat_slug_attr); ?>" 
+                     style="--card-accent: <?php echo esc_attr($f_color); ?>; <?php echo ! $init_visible ? 'display: none;' : ''; ?>">
+              
+              <!-- Featured Image Position (Top of card, full-width 16:9) -->
+              <a href="<?php echo esc_url(get_permalink($fp->ID)); ?>" class="playbook-card-thumb-wrap" tabindex="-1" aria-hidden="true">
+                <?php if (has_post_thumbnail($fp->ID)): ?>
                   <?php echo get_the_post_thumbnail($fp->ID, 'fnx-card', [
                     'alt'           => esc_attr(get_the_title($fp->ID)),
                     'loading'       => ($f_idx === 0) ? 'eager' : 'lazy',
                     'fetchpriority' => ($f_idx === 0) ? 'high' : 'auto',
                     'decoding'      => 'async'
                   ]); ?>
-                </a>
-              <?php endif; ?>
+                <?php else: ?>
+                  <div class="playbook-card-thumb-placeholder">
+                    <span style="font-weight: 800; color: #fff; background: var(--brand, #f97316); width: 44px; height: 44px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 24px;">f</span>
+                  </div>
+                <?php endif; ?>
+              </a>
+
               <div class="playbook-card-body">
-                <span class="playbook-badge" style="background: <?php echo esc_attr($f_color); ?>18; color: <?php echo esc_attr($f_color); ?>;">
+                <span class="playbook-badge" style="background: <?php echo esc_attr($f_color); ?>18; color: <?php echo esc_attr($f_color); ?>; border-color: <?php echo esc_attr($f_color); ?>40;">
+                  <span class="playbook-badge-dot" style="background: <?php echo esc_attr($f_color); ?>;"></span>
                   <?php echo esc_html($f_cname); ?>
                 </span>
+
                 <h3 class="playbook-title">
-                  <a href="<?php echo esc_url(get_permalink($fp->ID)); ?>"><?php echo esc_html(get_the_title($fp->ID)); ?></a>
+                  <a href="<?php echo esc_url(get_permalink($fp->ID)); ?>" title="<?php echo esc_attr(get_the_title($fp->ID)); ?>">
+                    <?php echo esc_html(get_the_title($fp->ID)); ?>
+                  </a>
                 </h3>
-                <p class="playbook-excerpt"><?php echo esc_html(wp_trim_words(get_the_excerpt($fp->ID), 20)); ?></p>
+
+                <p class="playbook-excerpt">
+                  <?php echo esc_html(wp_trim_words(get_the_excerpt($fp->ID), 20)); ?>
+                </p>
+
                 <div class="playbook-meta">
-                  <span><?php echo fnx_fmt_date($fp->post_date); ?></span>
-                  <span>•</span>
-                  <span><?php echo fnx_read_time($fp->ID); ?></span>
+                  <div class="playbook-meta-info">
+                    <span><?php echo fnx_fmt_date($fp->post_date); ?></span>
+                    <span>•</span>
+                    <span><?php echo fnx_read_time($fp->ID); ?></span>
+                  </div>
+                  <span class="playbook-meta-arrow">
+                    <?php _e('Read', 'foundnxt'); ?>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </span>
                 </div>
               </div>
             </article>
         <?php endforeach; endif; ?>
+
+        <!-- Empty state when category has no matches -->
+        <div class="hp-no-articles-card" id="hp-no-articles" style="display: none;">
+          <div class="hp-no-articles-icon">📂</div>
+          <div class="hp-no-articles-title"><?php _e('No articles found in this category', 'foundnxt'); ?></div>
+          <p class="hp-no-articles-desc"><?php _e('We regularly publish fresh frameworks. Check back soon or browse all articles.', 'foundnxt'); ?></p>
+          <button type="button" class="hp-no-articles-btn" onclick="fnxResetArticleFilter();">
+            <?php _e('View All Articles', 'foundnxt'); ?> &rarr;
+          </button>
+        </div>
       </div>
+
+      <!-- ── Pagination Bar ── -->
+      <?php if ($total_pages > 1): ?>
+      <nav class="hp-articles-pagination" id="hp-articles-pagination" aria-label="<?php esc_attr_e('Recent articles pagination', 'foundnxt'); ?>">
+        <button type="button" class="hp-pag-btn hp-pag-nav" id="hp-pag-prev" disabled aria-label="<?php esc_attr_e('Previous page', 'foundnxt'); ?>">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span><?php _e('Prev', 'foundnxt'); ?></span>
+        </button>
+        <div class="hp-pag-numbers" id="hp-pag-numbers">
+          <?php for ($p = 1; $p <= $total_pages; $p++): ?>
+            <button type="button" class="hp-pag-btn <?php echo ($p === 1) ? 'is-active' : ''; ?>" data-page="<?php echo $p; ?>" aria-label="<?php printf(esc_attr__('Page %d', 'foundnxt'), $p); ?>">
+              <?php echo $p; ?>
+            </button>
+          <?php endfor; ?>
+        </div>
+        <button type="button" class="hp-pag-btn hp-pag-nav" id="hp-pag-next" aria-label="<?php esc_attr_e('Next page', 'foundnxt'); ?>">
+          <span><?php _e('Next', 'foundnxt'); ?></span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </nav>
+      <?php endif; ?>
+
+      <script>
+      (function() {
+        var perPage = <?php echo (int) $per_page; ?>;
+        var currentPage = 1;
+        var currentCategory = 'all';
+        var grid = document.getElementById('hp-playbooks-grid');
+        if (!grid) return;
+
+        var allCards = Array.from(grid.querySelectorAll('.playbook-card'));
+        var noArticlesCard = document.getElementById('hp-no-articles');
+        var prevBtn = document.getElementById('hp-pag-prev');
+        var nextBtn = document.getElementById('hp-pag-next');
+        var numbersContainer = document.getElementById('hp-pag-numbers');
+        var filterBtns = Array.from(document.querySelectorAll('.hp-filter-btn'));
+
+        function getMatchingCards() {
+          if (currentCategory === 'all') {
+            return allCards;
+          }
+          return allCards.filter(function(card) {
+            var cats = card.getAttribute('data-categories') || '';
+            var list = cats.split(' ');
+            return list.indexOf(currentCategory) !== -1;
+          });
+        }
+
+        function updateDisplay(scrollToTop) {
+          var matching = getMatchingCards();
+          var totalMatching = matching.length;
+          var totalPages = Math.ceil(totalMatching / perPage);
+
+          if (currentPage > totalPages) currentPage = 1;
+          if (currentPage < 1) currentPage = 1;
+
+          if (noArticlesCard) {
+            noArticlesCard.style.display = (totalMatching === 0) ? 'block' : 'none';
+          }
+
+          var start = (currentPage - 1) * perPage;
+          var end = start + perPage;
+
+          allCards.forEach(function(card) {
+            card.style.display = 'none';
+          });
+
+          matching.forEach(function(card, idx) {
+            if (idx >= start && idx < end) {
+              card.style.display = 'flex';
+            }
+          });
+
+          if (numbersContainer) {
+            numbersContainer.innerHTML = '';
+            if (totalPages > 1) {
+              for (var p = 1; p <= totalPages; p++) {
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'hp-pag-btn' + (p === currentPage ? ' is-active' : '');
+                btn.setAttribute('data-page', p);
+                btn.textContent = p;
+                btn.addEventListener('click', (function(pageNumber) {
+                  return function() {
+                    currentPage = pageNumber;
+                    updateDisplay(true);
+                  };
+                })(p));
+                numbersContainer.appendChild(btn);
+              }
+            }
+          }
+
+          var pagNav = document.getElementById('hp-articles-pagination');
+          if (pagNav) {
+            pagNav.style.display = (totalPages > 1) ? 'flex' : 'none';
+          }
+          if (prevBtn) {
+            prevBtn.disabled = (currentPage <= 1);
+            prevBtn.classList.toggle('is-disabled', currentPage <= 1);
+          }
+          if (nextBtn) {
+            nextBtn.disabled = (currentPage >= totalPages);
+            nextBtn.classList.toggle('is-disabled', currentPage >= totalPages);
+          }
+
+          if (scrollToTop) {
+            var section = document.getElementById('recent-articles');
+            if (section) {
+              var topPos = section.getBoundingClientRect().top + window.pageYOffset - 80;
+              window.scrollTo({ top: topPos, behavior: 'smooth' });
+            }
+          }
+        }
+
+        filterBtns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            filterBtns.forEach(function(b) {
+              b.classList.remove('is-active');
+              b.setAttribute('aria-selected', 'false');
+            });
+            btn.classList.add('is-active');
+            btn.setAttribute('aria-selected', 'true');
+            currentCategory = btn.getAttribute('data-filter') || 'all';
+            currentPage = 1;
+            updateDisplay(false);
+          });
+        });
+
+        if (prevBtn) {
+          prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+              currentPage--;
+              updateDisplay(true);
+            }
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener('click', function() {
+            var totalPages = Math.ceil(getMatchingCards().length / perPage);
+            if (currentPage < totalPages) {
+              currentPage++;
+              updateDisplay(true);
+            }
+          });
+        }
+
+        window.fnxResetArticleFilter = function() {
+          var allBtn = document.querySelector('.hp-filter-btn[data-filter="all"]');
+          if (allBtn) allBtn.click();
+        };
+
+        updateDisplay(false);
+      })();
+      </script>
     </div>
   </section>
 

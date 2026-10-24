@@ -1416,74 +1416,203 @@
     color: var(--brand);
     margin-bottom: 6px;
   }
-  .playbooks-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
-    gap: var(--space-md);
-    container-type: inline-size;
+  /* ── Recent Articles Filter Bar ── */
+  .hp-articles-filter-wrap {
+    margin: 18px 0 28px 0;
+  }
+  .hp-filter-rail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 2px 10px 2px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .hp-filter-rail::-webkit-scrollbar {
+    display: none;
+  }
+  .hp-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 15px;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text, #334155);
+    background: var(--surface-elevated, #ffffff);
+    border: 1px solid var(--border, #e2e8f0);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    font-family: inherit;
+    line-height: 1.2;
+  }
+  .hp-filter-btn:hover {
+    border-color: var(--filter-color, #f97316);
+    color: var(--filter-color, #f97316);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+  .hp-filter-btn.is-active {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+  }
+  :root[data-theme="dark"] .hp-filter-btn.is-active,
+  body[data-theme="dark"] .hp-filter-btn.is-active {
+    background: #f97316;
+    border-color: #f97316;
+    color: #ffffff;
+  }
+  .hp-filter-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--filter-color, #f97316);
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+  .hp-filter-dot--all {
+    background: #f97316;
+  }
+  .hp-filter-btn.is-active .hp-filter-dot {
+    transform: scale(1.15);
+  }
+  .hp-filter-btn.is-active .hp-filter-dot--all {
+    background: #ffffff;
+  }
+  .hp-filter-count {
+    font-size: 0.6875rem;
+    padding: 2px 6px;
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--border, #e2e8f0) 60%, transparent);
+    color: var(--muted, #64748b);
+    font-weight: 700;
+    line-height: 1;
+    margin-left: 2px;
+  }
+  .hp-filter-btn.is-active .hp-filter-count {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
   }
 
-  /* Playbook Card */
+  /* ── Recent Articles Grid ── */
+  .playbooks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 28px;
+    container-type: inline-size;
+  }
+  @media (max-width: 768px) {
+    .playbooks-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  /* Playbook Card — Modern Top-Image Vertical Layout */
   .playbook-card {
-    background: var(--surface-elevated);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
+    background: var(--surface-elevated, #ffffff);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 16px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    height: 100%;
   }
   .playbook-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-brand);
-    border-color: color-mix(in srgb, var(--brand) 40%, var(--border));
+    transform: translateY(-5px);
+    box-shadow: 0 20px 35px -10px rgba(15, 23, 42, 0.12);
+    border-color: rgba(249, 115, 22, 0.4);
   }
   .playbook-card-thumb-wrap {
     aspect-ratio: 16 / 9;
     width: 100%;
     overflow: hidden;
-    background: var(--border);
+    background: #0f172a;
     position: relative;
+    display: block;
   }
   .playbook-card-thumb-wrap img {
     aspect-ratio: 16 / 9;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.35s ease;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .playbook-card:hover .playbook-card-thumb-wrap img {
-    transform: scale(1.04);
+    transform: scale(1.05);
+  }
+  .playbook-card-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0b1120 0%, #1e293b 100%);
   }
   .playbook-card-body {
-    padding: var(--space-sm);
+    padding: 24px 22px 20px;
     display: flex;
     flex-direction: column;
     flex: 1;
   }
   .playbook-badge {
     align-self: flex-start;
-    padding: 4px 10px;
-    border-radius: var(--radius-full);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 9999px;
     font-size: 0.6875rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+    margin-bottom: 14px;
+    line-height: 1;
+    border: 1px solid currentColor;
+  }
+  .playbook-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    display: inline-block;
   }
   .playbook-title {
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     line-height: 1.35;
-    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px 0;
+  }
+  .playbook-title a {
+    color: var(--text, #0f172a);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .playbook-card:hover .playbook-title a,
+  .playbook-title a:hover {
+    color: var(--brand, #f97316);
   }
   .playbook-excerpt {
     font-size: 0.875rem;
-    color: var(--muted);
-    line-height: 1.55;
-    margin-bottom: 16px;
+    color: var(--muted, #64748b);
+    line-height: 1.6;
+    margin: 0 0 18px 0;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     flex: 1;
@@ -1491,26 +1620,133 @@
   .playbook-meta {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: space-between;
     font-size: 0.75rem;
-    color: var(--muted);
+    color: var(--muted, #94a3b8);
     margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid color-mix(in srgb, var(--border, #e2e8f0) 60%, transparent);
+  }
+  .playbook-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted, #64748b);
+  }
+  .playbook-meta-arrow {
+    color: var(--brand, #f97316);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: transform 0.2s ease;
+  }
+  .playbook-card:hover .playbook-meta-arrow {
+    transform: translateX(3px);
   }
 
-  /* Container Query: Switch to horizontal layout when container is wide */
-  @container (min-width: 580px) {
-    .playbook-card--featured-solo {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      align-items: center;
-    }
-    .playbook-card--featured-solo .playbook-card-thumb-wrap {
-      aspect-ratio: 16 / 10;
-      height: 100%;
-    }
-    .playbook-card--featured-solo .playbook-card-body {
-      padding: var(--space-md);
-    }
+  /* ── Recent Articles Empty State ── */
+  .hp-no-articles-card {
+    grid-column: 1 / -1;
+    background: var(--surface-elevated, #ffffff);
+    border: 1px dashed var(--border, #cbd5e1);
+    border-radius: 16px;
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--muted, #64748b);
+  }
+  .hp-no-articles-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+  .hp-no-articles-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text, #0f172a);
+    margin-bottom: 6px;
+  }
+  .hp-no-articles-desc {
+    font-size: 0.875rem;
+    max-width: 420px;
+    margin: 0 auto 18px auto;
+  }
+  .hp-no-articles-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    background: #f97316;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  .hp-no-articles-btn:hover {
+    background: #ea580c;
+  }
+
+  /* ── Recent Articles Pagination ── */
+  .hp-articles-pagination {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .hp-pag-numbers {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hp-pag-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text, #334155);
+    background: var(--surface-elevated, #ffffff);
+    border: 1px solid var(--border, #e2e8f0);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-family: inherit;
+    user-select: none;
+  }
+  .hp-pag-btn:hover:not(:disabled):not(.is-disabled) {
+    border-color: #f97316;
+    color: #f97316;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(249, 115, 22, 0.12);
+  }
+  .hp-pag-btn.is-active {
+    background: #f97316;
+    border-color: #f97316;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+  }
+  .hp-pag-btn:disabled,
+  .hp-pag-btn.is-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    border-color: var(--border, #e2e8f0);
+    color: var(--muted, #94a3b8);
+    transform: none;
+    box-shadow: none;
+  }
+  .hp-pag-nav {
+    padding: 0 16px;
   }
 
   /* ── 6. "WHAT YOU'LL FIND HERE" (BENTO GRID) ── */
