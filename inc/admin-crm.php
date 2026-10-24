@@ -300,6 +300,11 @@ function fnx_crm_render_column($column, $post_id) {
                 <?php echo esc_html($type); ?>
             </span>
             <?php
+            if (get_post_meta($post_id, 'lead_unsubscribed', true) === '1' || (function_exists('fnx_resend_is_unsubscribed') && ! empty($lead['email']) && fnx_resend_is_unsubscribed($lead['email']))) {
+                echo ' <span class="fnx-crm-pill fnx-pill-rose" style="margin-top:4px; display:inline-flex;" title="' . esc_attr__('Unsubscribed from newsletter', 'foundnxt') . '"><span class="dashicons dashicons-dismiss"></span> ' . esc_html__('Unsubscribed', 'foundnxt') . '</span>';
+            }
+            ?>
+            <?php
             break;
 
         case 'fnx_crm_source_url':
@@ -1684,6 +1689,11 @@ function fnx_crm_admin_styles() {
         background: #f8fafc;
         color: #475569;
         border-color: #e2e8f0;
+    }
+    .fnx-pill-rose {
+        background: #fff1f2;
+        color: #e11d48;
+        border-color: #fecdd3;
     }
 
     /* Company Cell */

@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.3.7');
+define('FNX_VERSION', '1.3.8');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -604,6 +604,7 @@ add_action('pre_get_posts', function( $query ) {
    ============================================================ */
 require_once FNX_DIR . '/inc/nav-walker.php';
 require_once FNX_DIR . '/inc/admin-crm.php';
+require_once FNX_DIR . '/inc/resend-service.php';
 
 /* ============================================================
    PERFORMANCE
@@ -963,25 +964,13 @@ function fnx_handle_lead_submission() {
         update_post_meta($post_id, 'lead_target_sheet', $target_sheet);
     }
 
-    // 2. Email Admin Notification
-    $admin_email = get_option('admin_email');
-    $subject     = sprintf('[%s Lead] New %s from %s', get_bloginfo('name'), $lead_type, $name);
-    $body        = "New Lead Received on FoundNXT!\n\n"
-                 . "Name: {$name}\n"
-                 . "Email: {$email}\n"
-                 . "Mobile / Phone: {$phone}\n"
-                 . "Company / Website: {$company_site}\n"
-                 . "Company Stage: {$company_stage}\n"
-                 . "Need Help With: {$service_help}\n"
-                 . "Lead Type: {$lead_type}\n\n"
-                 . "Message:\n{$message}\n\n"
-                 . "View in WP Dashboard: " . admin_url('post.php?post=' . $post_id . '&action=edit');
-    $headers     = ['Content-Type: text/plain; charset=UTF-8', 'Reply-To: ' . $name . ' <' . $email . '>'];
+    // 2. Classify Destination & Dispatch Resend Email Communications
+    $is_contact = ($target_sheet === 'contact') || (stripos($lead_type, 'Contact') !== false) || ! empty($message) || ! empty($company_site) || ! empty($phone);
+    if (empty($target_sheet)) {
+        $target_sheet = $is_contact ? 'contact' : 'newsletter';
+    }
 
-    @wp_mail($admin_email, $subject, $body, $headers);
-
-    // 3. Sync to Google Sheets if Webhook URL is configured
-    fnx_sync_lead_to_gsheets([
+    $lead_data = [
         'target_sheet' => $target_sheet,
         'name'         => $name,
         'email'        => $email,
@@ -992,10 +981,46 @@ function fnx_handle_lead_submission() {
         'help'         => $service_help,
         'message'      => $message,
         'source'       => $referer,
-    ]);
+    ];
+
+    if (function_exists('fnx_resend_send_email')) {
+        if ($is_contact) {
+            // Contact submission: Admin notification & User confirmation auto-reply
+            if (fnx_resend_feature_enabled('contact_admin_alert')) {
+                fnx_resend_send_contact_admin_alert($lead_data, $post_id);
+            }
+            if (fnx_resend_feature_enabled('contact_reply')) {
+                fnx_resend_send_contact_autoresponder($lead_data);
+            }
+        } else {
+            // Newsletter submission:
+            // If they had previously unsubscribed, restore their subscription
+            if (function_exists('fnx_resend_is_unsubscribed') && fnx_resend_is_unsubscribed($email)) {
+                fnx_resend_mark_resubscribed($email);
+            }
+            // Send Welcome Email with compliant Unsubscribe footer & RFC 8058 headers
+            if (fnx_resend_feature_enabled('welcome_email')) {
+                fnx_resend_send_newsletter_welcome($email, $name);
+            }
+            // Optional admin notification for newsletter signup
+            if (fnx_resend_feature_enabled('newsletter_alert')) {
+                fnx_resend_send_contact_admin_alert($lead_data, $post_id);
+            }
+        }
+    } else {
+        // Fallback plain text admin mail if Resend module is unavailable
+        $admin_email = get_option('admin_email');
+        $subject     = sprintf('[%s Lead] New %s from %s', get_bloginfo('name'), $lead_type, $name);
+        $body        = "New Lead Received on FoundNXT!\n\nName: {$name}\nEmail: {$email}\nType: {$lead_type}";
+        @wp_mail($admin_email, $subject, $body);
+    }
+
+    // 3. Sync to Google Sheets if Webhook URL is configured
+    fnx_sync_lead_to_gsheets($lead_data);
 
     $referer = wp_get_referer() ?: home_url('/');
-    wp_safe_redirect(add_query_arg('fnx_lead', 'success', $referer) . '#contact');
+    $hash    = $is_contact ? '#contact' : '#newsletter';
+    wp_safe_redirect(add_query_arg('fnx_lead', 'success', $referer) . $hash);
     exit;
 }
 add_action('admin_post_fnx_lead_submit',        'fnx_handle_lead_submission');
