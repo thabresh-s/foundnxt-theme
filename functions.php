@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.4.5');
+define('FNX_VERSION', '1.4.6');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -435,6 +435,51 @@ function fnx_customizer($wp_customize) {
         'section' => 'fnx_brand',
     ]));
 
+    // Top Categories Blog Sections
+    $wp_customize->add_section('fnx_top_categories_section', [
+        'title'       => __('📑 Top Category Blog Sections', 'foundnxt'),
+        'description' => __('Configure the top 5 category-wise blog showcases on the homepage.', 'foundnxt'),
+        'panel'       => 'fnx_panel',
+        'priority'    => 26,
+    ]);
+
+    $wp_customize->add_setting('fnx_top_cats_enabled', [
+        'default'           => true,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ]);
+    $wp_customize->add_control('fnx_top_cats_enabled', [
+        'label'    => __('Enable Category Blog Sections', 'foundnxt'),
+        'section'  => 'fnx_top_categories_section',
+        'type'     => 'checkbox',
+        'priority' => 10,
+    ]);
+
+    $wp_customize->add_setting('fnx_top_cats_count', [
+        'default'           => 5,
+        'sanitize_callback' => 'absint',
+    ]);
+    $wp_customize->add_control('fnx_top_cats_count', [
+        'label'       => __('Number of Categories to Showcase', 'foundnxt'),
+        'description' => __('Default is 5 top categories, displayed one by one.', 'foundnxt'),
+        'section'     => 'fnx_top_categories_section',
+        'type'        => 'number',
+        'input_attrs' => ['min' => 1, 'max' => 8, 'step' => 1],
+        'priority'    => 20,
+    ]);
+
+    $wp_customize->add_setting('fnx_top_cats_posts_per_cat', [
+        'default'           => 3,
+        'sanitize_callback' => 'absint',
+    ]);
+    $wp_customize->add_control('fnx_top_cats_posts_per_cat', [
+        'label'       => __('Articles Per Category Section', 'foundnxt'),
+        'description' => __('Number of articles to display per category (default: 3).', 'foundnxt'),
+        'section'     => 'fnx_top_categories_section',
+        'type'        => 'number',
+        'input_attrs' => ['min' => 2, 'max' => 6, 'step' => 1],
+        'priority'    => 30,
+    ]);
+
     // Newsletter Section
     $wp_customize->add_section('fnx_newsletter', [
         'title'    => __('Newsletter Banner', 'foundnxt'),
@@ -783,18 +828,26 @@ add_action('admin_post_nopriv_fnx_homepage_contact', 'fnx_handle_lead_submission
 
 
 /* ============================================================
-   FOUNDNXT V2 — CATEGORY COLOR HELPER
+   FOUNDNXT V2 — CATEGORY COLOR & ICON HELPERS
    ============================================================ */
 function fnx_get_category_color($category_slug_or_id = 'news-insights') {
     $colors = [
-        'business-strategy' => '#FF5A2C', // FoundNXT Brand Orange
-        'startups-funding'  => '#FF6B6B', // Coral
-        'valuation-finance' => '#14B8A6', // Teal
-        'markets-economy'   => '#F59E0B', // Amber
-        'technology-ai'     => '#7C3AED', // Violet
-        'marketing-growth'  => '#EC4899', // Pink
-        'global-business'   => '#0EA5E9', // Sky Blue
-        'news-insights'     => '#10B981', // Emerald
+        'business-strategy'      => '#FF5A2C', // FoundNXT Brand Orange
+        'startups-funding'       => '#FF6B6B', // Coral
+        'founder-playbook'       => '#3B82F6', // Blue
+        'ai'                     => '#00D4AA', // Mint Teal
+        'case-studies-teardowns' => '#EC4899', // Pink
+        'funding-venture'        => '#10B981', // Emerald
+        'india-specific'         => '#F59E0B', // Amber
+        'deeptech'               => '#6366F1', // Indigo
+        'valuation-finance'      => '#14B8A6', // Teal
+        'markets-economy'        => '#F59E0B', // Amber
+        'technology-ai'          => '#7C3AED', // Violet
+        'marketing-growth'       => '#EC4899', // Pink
+        'global-business'        => '#0EA5E9', // Sky Blue
+        'news-insights'          => '#10B981', // Emerald
+        'ipo-markets'            => '#0284C7', // Sky Blue
+        'whats-next'             => '#8B5CF6', // Purple
     ];
     if (is_numeric($category_slug_or_id)) {
         $term = get_term($category_slug_or_id, 'category');
@@ -804,6 +857,33 @@ function fnx_get_category_color($category_slug_or_id = 'news-insights') {
         }
     }
     return isset($colors[$category_slug_or_id]) ? $colors[$category_slug_or_id] : '#FF5A2C';
+}
+
+function fnx_get_category_icon($slug_or_id = '') {
+    $icons = [
+        'startups-funding'       => '🚀',
+        'founder-playbook'       => '📘',
+        'business-strategy'      => '💼',
+        'ai'                     => '🤖',
+        'technology-ai'          => '🤖',
+        'case-studies-teardowns' => '🔍',
+        'funding-venture'        => '💰',
+        'india-specific'         => '🇮🇳',
+        'deeptech'               => '🔬',
+        'news-insights'          => '📰',
+        'valuation-finance'      => '📈',
+        'markets-economy'        => '🌐',
+        'marketing-growth'       => '🎯',
+        'ipo-markets'            => '🏛️',
+        'whats-next'             => '✨',
+    ];
+    if (is_numeric($slug_or_id)) {
+        $term = get_term($slug_or_id, 'category');
+        if ($term && !is_wp_error($term)) {
+            $slug_or_id = $term->slug;
+        }
+    }
+    return $icons[$slug_or_id] ?? '📌';
 }
 
 

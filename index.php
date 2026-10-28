@@ -568,7 +568,146 @@
     </div>
   </section>
 
-  <!-- ── 3. "WHAT YOU'LL FIND HERE" (BENTO GRID WITH GRID-TEMPLATE-AREAS) ── -->
+  <!-- ══════════════════════════════════════════════════════════════
+       4. TOP CATEGORY WISE BLOG SECTIONS (Top 5 Categories, One by One)
+       ══════════════════════════════════════════════════════════════ -->
+  <?php
+  $top_cats_enabled = (bool) get_theme_mod('fnx_top_cats_enabled', true);
+  if ($top_cats_enabled):
+    $num_top_cats  = (int) get_theme_mod('fnx_top_cats_count', 5);
+    $posts_per_cat = (int) get_theme_mod('fnx_top_cats_posts_per_cat', 3);
+    if ($num_top_cats < 1)  $num_top_cats = 5;
+    if ($posts_per_cat < 1) $posts_per_cat = 3;
+
+    $top_categories = get_categories([
+      'orderby'    => 'count',
+      'order'      => 'DESC',
+      'hide_empty' => true,
+      'number'     => $num_top_cats,
+      'exclude'    => [1], // exclude uncategorized
+    ]);
+
+    if (!empty($top_categories)):
+      foreach ($top_categories as $c_idx => $tcat):
+        $c_posts = get_posts([
+          'cat'                 => $tcat->term_id,
+          'posts_per_page'      => $posts_per_cat,
+          'post_status'         => 'publish',
+          'orderby'             => 'date',
+          'order'               => 'DESC',
+          'no_found_rows'       => true,
+          'ignore_sticky_posts' => true,
+        ]);
+        if (empty($c_posts)) continue;
+
+        $t_color = fnx_get_category_color($tcat->slug);
+        $t_icon  = fnx_get_category_icon($tcat->slug);
+        $t_url   = get_category_link($tcat->term_id);
+        $ord_num = str_pad($c_idx + 1, 2, '0', STR_PAD_LEFT);
+  ?>
+  <section class="hp-cat-showcase-section defer-render" id="cat-showcase-<?php echo esc_attr($tcat->slug); ?>" style="--sec-accent: <?php echo esc_attr($t_color); ?>;">
+    <div class="container">
+      
+      <!-- Section Header -->
+      <div class="hp-cat-showcase-header">
+        <div class="hp-cat-showcase-header-left">
+          <div class="hp-cat-badge-wrap">
+            <span class="hp-cat-order-pill"><?php echo esc_html($ord_num); ?></span>
+            <span class="hp-cat-pill" style="--pill-color: <?php echo esc_attr($t_color); ?>;">
+              <span class="hp-cat-pill-icon"><?php echo esc_html($t_icon); ?></span>
+              <span class="hp-cat-pill-name"><?php echo esc_html($tcat->name); ?></span>
+            </span>
+            <span class="hp-cat-total-count"><?php printf(_n('%d Article', '%d Articles', $tcat->count, 'foundnxt'), $tcat->count); ?></span>
+          </div>
+
+          <h2 class="hp-cat-showcase-title">
+            <?php _e('Latest in', 'foundnxt'); ?> <span class="hp-cat-title-accent" style="color: <?php echo esc_attr($t_color); ?>;"><?php echo esc_html($tcat->name); ?></span>
+          </h2>
+          <?php if (!empty($tcat->description)): ?>
+            <p class="hp-cat-showcase-desc"><?php echo esc_html($tcat->description); ?></p>
+          <?php endif; ?>
+        </div>
+
+        <div class="hp-cat-showcase-header-right">
+          <a href="<?php echo esc_url($t_url); ?>" class="hp-cat-viewall-btn" style="--btn-accent: <?php echo esc_attr($t_color); ?>;">
+            <span><?php printf(__('Explore all %s', 'foundnxt'), esc_html($tcat->name)); ?></span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div><!-- /.hp-cat-showcase-header -->
+
+      <!-- Articles Grid (3 Cards) -->
+      <div class="hp-cat-cards-grid">
+        <?php foreach ($c_posts as $cp_idx => $cp):
+          $cp_id      = $cp->ID;
+          $cp_title   = get_the_title($cp_id);
+          $cp_url     = get_permalink($cp_id);
+          $cp_date    = fnx_fmt_date($cp->post_date);
+          $cp_read    = fnx_read_time($cp_id);
+          $cp_badge   = get_post_meta($cp_id, 'fnx_post_badge', true) ?: $tcat->name;
+          $cp_excerpt = wp_trim_words(get_the_excerpt($cp_id), 18, '…');
+        ?>
+          <article class="hp-cat-card" style="--card-accent: <?php echo esc_attr($t_color); ?>;">
+            <!-- Thumbnail Link -->
+            <a href="<?php echo esc_url($cp_url); ?>" class="hp-cat-card-thumb-link" tabindex="-1" aria-hidden="true">
+              <?php if (has_post_thumbnail($cp_id)): ?>
+                <?php echo get_the_post_thumbnail($cp_id, 'fnx-card', [
+                  'alt'      => esc_attr($cp_title),
+                  'loading'  => 'lazy',
+                  'decoding' => 'async',
+                  'class'    => 'hp-cat-card-img',
+                ]); ?>
+              <?php else: ?>
+                <div class="hp-cat-card-placeholder" style="background: linear-gradient(135deg, color-mix(in srgb, <?php echo esc_attr($t_color); ?> 25%, #0E1220), #0E1220);">
+                  <span class="hp-cat-card-placeholder-icon"><?php echo esc_html($t_icon); ?></span>
+                  <span class="hp-cat-card-placeholder-text"><?php echo esc_html($tcat->name); ?></span>
+                </div>
+              <?php endif; ?>
+            </a>
+
+            <!-- Card Body -->
+            <div class="hp-cat-card-body">
+              <div class="hp-cat-card-top-meta">
+                <span class="hp-cat-card-tag" style="color: <?php echo esc_attr($t_color); ?>; background: color-mix(in srgb, <?php echo esc_attr($t_color); ?> 12%, transparent); border-color: color-mix(in srgb, <?php echo esc_attr($t_color); ?> 30%, transparent);">
+                  <span class="hp-cat-card-tag-dot" style="background: <?php echo esc_attr($t_color); ?>;"></span>
+                  <?php echo esc_html($cp_badge); ?>
+                </span>
+                <span class="hp-cat-card-readtime"><?php echo esc_html($cp_read); ?></span>
+              </div>
+
+              <h3 class="hp-cat-card-title">
+                <a href="<?php echo esc_url($cp_url); ?>" title="<?php echo esc_attr($cp_title); ?>">
+                  <?php echo esc_html($cp_title); ?>
+                </a>
+              </h3>
+
+              <?php if (!empty($cp_excerpt)): ?>
+                <p class="hp-cat-card-excerpt">
+                  <?php echo esc_html($cp_excerpt); ?>
+                </p>
+              <?php endif; ?>
+
+              <div class="hp-cat-card-footer">
+                <span class="hp-cat-card-date"><?php echo esc_html($cp_date); ?></span>
+                <a href="<?php echo esc_url($cp_url); ?>" class="hp-cat-card-read-link" aria-label="<?php echo esc_attr(sprintf(__('Read article: %s', 'foundnxt'), $cp_title)); ?>">
+                  <span><?php _e('Read Story', 'foundnxt'); ?></span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+            </div><!-- /.hp-cat-card-body -->
+          </article>
+        <?php endforeach; ?>
+      </div><!-- /.hp-cat-cards-grid -->
+
+    </div><!-- /.container -->
+  </section><!-- /.hp-cat-showcase-section -->
+  <?php
+      endforeach;
+    endif;
+  endif;
+  ?>
+
+  <!-- ── 5. "WHAT YOU'LL FIND HERE" (BENTO GRID WITH GRID-TEMPLATE-AREAS) ── -->
   <section class="hp-bento-section defer-render">
     <div class="container">
       <div class="section-headline-row">
