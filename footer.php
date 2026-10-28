@@ -19,8 +19,8 @@
       </div>
       <div class="newsletter-form">
         <div class="newsletter-form-title"><?php _e('Get the Weekly Founder Brief', 'foundnxt'); ?></div>
-        <div class="fnx-fluent-form-wrap">
-          <form class="fnx-newsletter-fallback-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+        <div class="fnx-newsletter-form-wrap fnx-fluent-form-wrap">
+          <form class="fnx-newsletter-form fnx-newsletter-fallback-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden" name="action" value="fnx_lead_submit">
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
             <input type="hidden" name="lead_type" value="Footer Newsletter Signup">

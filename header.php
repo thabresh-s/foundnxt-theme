@@ -102,16 +102,25 @@
 
 <!-- ── TOP ANNOUNCEMENT BANNER (Centered Text, Pinned Close Button, Cookie Dismissal) ── -->
 <?php
+$announcement_enabled   = (bool) get_theme_mod('fnx_announcement_enabled', true);
 $announcement_dismissed = isset($_COOKIE['fnx_announcement_dismissed']) && $_COOKIE['fnx_announcement_dismissed'] === '1';
-if (!$announcement_dismissed):
+if ($announcement_enabled && !$announcement_dismissed):
+  $banner_badge     = get_theme_mod('fnx_announcement_badge', "✨ " . __("What's New", 'foundnxt'));
+  $banner_text      = get_theme_mod('fnx_announcement_text', __('The 2026 Founder AI Valuation & Scaling Framework is live.', 'foundnxt'));
+  $banner_link_text = get_theme_mod('fnx_announcement_link_text', __('Get the Framework', 'foundnxt'));
+  $banner_link_url  = get_theme_mod('fnx_announcement_link_url', home_url('/#newsletter'));
 ?>
 <aside class="fnx-top-banner" id="fnx-top-banner" aria-label="<?php esc_attr_e('Announcement', 'foundnxt'); ?>">
   <div class="top-banner-inner container">
     <div class="top-banner-content">
-      <span class="top-banner-badge">✨ <?php _e("What's New", 'foundnxt'); ?></span>
+      <?php if (!empty($banner_badge)): ?>
+        <span class="top-banner-badge"><?php echo esc_html($banner_badge); ?></span>
+      <?php endif; ?>
       <span class="top-banner-text">
-        <?php _e('The 2026 Founder AI Valuation & Scaling Framework is live.', 'foundnxt'); ?>
-        <a href="<?php echo esc_url(home_url('/#newsletter')); ?>" class="top-banner-link"><?php _e('Get the Framework', 'foundnxt'); ?> &rarr;</a>
+        <?php echo esc_html($banner_text); ?>
+        <?php if (!empty($banner_link_text) && !empty($banner_link_url)): ?>
+          <a href="<?php echo esc_url($banner_link_url); ?>" class="top-banner-link"><?php echo esc_html($banner_link_text); ?> &rarr;</a>
+        <?php endif; ?>
       </span>
     </div>
     <button type="button" class="top-banner-close" id="top-banner-close" aria-label="<?php esc_attr_e('Dismiss announcement', 'foundnxt'); ?>">&times;</button>

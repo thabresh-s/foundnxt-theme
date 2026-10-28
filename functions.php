@@ -8,7 +8,7 @@
 
 defined('ABSPATH') || exit;
 
-define('FNX_VERSION', '1.4.4');
+define('FNX_VERSION', '1.4.5');
 define('FNX_DIR', get_template_directory());
 define('FNX_URI', get_template_directory_uri());
 
@@ -326,59 +326,140 @@ function fnx_customizer($wp_customize) {
         'priority' => 30,
     ]);
 
-    // Header Section
+    // Header Announcement Banner Section
     $wp_customize->add_section('fnx_header', [
-        'title' => __('Header Settings', 'foundnxt'),
-        'panel' => 'fnx_panel',
+        'title'    => __('Header Announcement Banner', 'foundnxt'),
+        'panel'    => 'fnx_panel',
+        'priority' => 10,
     ]);
-    $wp_customize->add_setting('fnx_topbar_text', ['default' => '📰 What\'s New? Latest funding news, startups & growth stories', 'sanitize_callback' => 'sanitize_text_field']);
-    $wp_customize->add_control('fnx_topbar_text', ['label' => __('Top Bar Text', 'foundnxt'), 'section' => 'fnx_header', 'type' => 'text']);
-    $wp_customize->add_setting('fnx_topbar_enabled', ['default' => true, 'sanitize_callback' => 'wp_validate_boolean']);
-    $wp_customize->add_control('fnx_topbar_enabled', ['label' => __('Show Scrolling Top Bar', 'foundnxt'), 'section' => 'fnx_header', 'type' => 'checkbox']);
-
-
-    // Homepage Section removed — hero H1, subtitle, and post count are
-    // hardcoded in index.php and not read via get_theme_mod(), so these
-    // settings had no effect and created a misleading customizer UI.
+    $wp_customize->add_setting('fnx_announcement_enabled', [
+        'default'           => true,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ]);
+    $wp_customize->add_control('fnx_announcement_enabled', [
+        'label'    => __('Enable Announcement Banner', 'foundnxt'),
+        'section'  => 'fnx_header',
+        'type'     => 'checkbox',
+        'priority' => 10,
+    ]);
+    $wp_customize->add_setting('fnx_announcement_badge', [
+        'default'           => "✨ What's New",
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('fnx_announcement_badge', [
+        'label'    => __('Badge Text', 'foundnxt'),
+        'section'  => 'fnx_header',
+        'type'     => 'text',
+        'priority' => 20,
+    ]);
+    $wp_customize->add_setting('fnx_announcement_text', [
+        'default'           => 'The 2026 Founder AI Valuation & Scaling Framework is live.',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('fnx_announcement_text', [
+        'label'    => __('Announcement Message', 'foundnxt'),
+        'section'  => 'fnx_header',
+        'type'     => 'text',
+        'priority' => 30,
+    ]);
+    $wp_customize->add_setting('fnx_announcement_link_text', [
+        'default'           => 'Get the Framework',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('fnx_announcement_link_text', [
+        'label'    => __('Link Text', 'foundnxt'),
+        'section'  => 'fnx_header',
+        'type'     => 'text',
+        'priority' => 40,
+    ]);
+    $wp_customize->add_setting('fnx_announcement_link_url', [
+        'default'           => home_url('/#newsletter'),
+        'sanitize_callback' => 'esc_url_raw',
+    ]);
+    $wp_customize->add_control('fnx_announcement_link_url', [
+        'label'    => __('Link URL', 'foundnxt'),
+        'section'  => 'fnx_header',
+        'type'     => 'url',
+        'priority' => 50,
+    ]);
 
     // Footer Section
     $wp_customize->add_section('fnx_footer', [
-        'title' => __('Footer Settings', 'foundnxt'),
-        'panel' => 'fnx_panel',
+        'title'    => __('Footer Settings', 'foundnxt'),
+        'panel'    => 'fnx_panel',
+        'priority' => 20,
     ]);
-    $wp_customize->add_setting('fnx_footer_tagline', ['default' => 'How to Scale Your Company in the AI Era', 'sanitize_callback' => 'sanitize_text_field']);
-    $wp_customize->add_control('fnx_footer_tagline', ['label' => __('Footer Tagline', 'foundnxt'), 'section' => 'fnx_footer', 'type' => 'text']);
-    $wp_customize->add_setting('fnx_footer_copyright', ['default' => '© ' . date('Y') . ' — FoundNXT. All Rights Reserved.', 'sanitize_callback' => 'wp_kses_post']);
-    $wp_customize->add_control('fnx_footer_copyright', ['label' => __('Copyright Text', 'foundnxt'), 'section' => 'fnx_footer', 'type' => 'text']);
+    $wp_customize->add_setting('fnx_footer_tagline', [
+        'default'           => 'How to Scale Your Company in the AI Era',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('fnx_footer_tagline', [
+        'label'    => __('Footer Primary Tagline', 'foundnxt'),
+        'section'  => 'fnx_footer',
+        'type'     => 'text',
+        'priority' => 10,
+    ]);
+    $wp_customize->add_setting('fnx_footer_tagline_sub', [
+        'default'           => 'Business. Markets. Technology. Growth.',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('fnx_footer_tagline_sub', [
+        'label'    => __('Footer Sub-Tagline', 'foundnxt'),
+        'section'  => 'fnx_footer',
+        'type'     => 'text',
+        'priority' => 20,
+    ]);
+    $wp_customize->add_setting('fnx_footer_copyright', [
+        'default'           => '© ' . date('Y') . ' — FoundNXT. All Rights Reserved.',
+        'sanitize_callback' => 'wp_kses_post',
+    ]);
+    $wp_customize->add_control('fnx_footer_copyright', [
+        'label'    => __('Copyright Text', 'foundnxt'),
+        'section'  => 'fnx_footer',
+        'type'     => 'text',
+        'priority' => 30,
+    ]);
 
     // Brand Section
     $wp_customize->add_section('fnx_brand', [
-        'title' => __('Brand & Colours', 'foundnxt'),
-        'panel' => 'fnx_panel',
+        'title'    => __('Brand & Colours', 'foundnxt'),
+        'panel'    => 'fnx_panel',
+        'priority' => 30,
     ]);
-    $wp_customize->add_setting('fnx_primary_color', ['default' => '#FF5A2C', 'sanitize_callback' => 'sanitize_hex_color']);
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'fnx_primary_color', ['label' => __('Primary Accent', 'foundnxt'), 'section' => 'fnx_brand']));
+    $wp_customize->add_setting('fnx_primary_color', [
+        'default'           => '#FF5A2C',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'fnx_primary_color', [
+        'label'   => __('Primary Accent Color', 'foundnxt'),
+        'section' => 'fnx_brand',
+    ]));
 
-    // Newsletter
+    // Newsletter Section
     $wp_customize->add_section('fnx_newsletter', [
-        'title' => __('Newsletter Banner', 'foundnxt'),
-        'panel' => 'fnx_panel',
+        'title'    => __('Newsletter Banner', 'foundnxt'),
+        'panel'    => 'fnx_panel',
+        'priority' => 40,
     ]);
-    $wp_customize->add_setting('fnx_newsletter_heading', ['default' => 'Subscribe to FoundNXT', 'sanitize_callback' => 'sanitize_text_field']);
-    $wp_customize->add_control('fnx_newsletter_heading', ['label' => __('Newsletter Heading', 'foundnxt'), 'section' => 'fnx_newsletter', 'type' => 'text']);
-    $wp_customize->add_setting('fnx_newsletter_sub', ['default' => 'Get actionable insights on startup funding, valuation and business growth — straight to your inbox.', 'sanitize_callback' => 'sanitize_text_field']);
-    $wp_customize->add_control('fnx_newsletter_sub', ['label' => __('Newsletter Subtext', 'foundnxt'), 'section' => 'fnx_newsletter', 'type' => 'textarea']);
-    // Hero Fluent Form ID
-    $wp_customize->add_setting('fnx_hero_ff_id', ['default' => '1', 'sanitize_callback' => 'absint']);
-    $wp_customize->add_control('fnx_hero_ff_id', ['label' => __('Hero Section: Fluent Form ID', 'foundnxt'), 'description' => __('Enter the Fluent Forms form ID to embed in the homepage hero newsletter section.', 'foundnxt'), 'section' => 'fnx_newsletter', 'type' => 'number']);
-
-    // Google Sheets Webhook URL
-    $wp_customize->add_setting('fnx_gsheet_webhook_url', ['default' => '', 'sanitize_callback' => 'esc_url_raw']);
-    $wp_customize->add_control('fnx_gsheet_webhook_url', [
-        'label'       => __('Google Sheets Webhook URL', 'foundnxt'),
-        'description' => __('Paste your Google Apps Script Web App URL to automatically sync newsletter signups and leads directly into Google Sheets.', 'foundnxt'),
-        'section'     => 'fnx_newsletter',
-        'type'        => 'url',
+    $wp_customize->add_setting('fnx_newsletter_heading', [
+        'default'           => 'Subscribe to FoundNXT',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('fnx_newsletter_heading', [
+        'label'    => __('Newsletter Heading', 'foundnxt'),
+        'section'  => 'fnx_newsletter',
+        'type'     => 'text',
+        'priority' => 10,
+    ]);
+    $wp_customize->add_setting('fnx_newsletter_sub', [
+        'default'           => 'Get actionable insights on startup funding, valuation and business growth — straight to your inbox.',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('fnx_newsletter_sub', [
+        'label'    => __('Newsletter Subtext', 'foundnxt'),
+        'section'  => 'fnx_newsletter',
+        'type'     => 'textarea',
+        'priority' => 20,
     ]);
 }
 add_action('customize_register', 'fnx_customizer');
@@ -691,157 +772,7 @@ function fnx_contact_seo_head() {
 }
 add_action('wp_head', 'fnx_contact_seo_head', 1);
 
-// Force Fluent Forms webhooks to fire synchronously (no pending delay)
-add_filter('fluentform/webhooks_send_async', '__return_false');
-
-// ─── Google Translate Widget (Custom — No Google Logo/Banner) ─────────────────
-function fnx_google_translate_script() { ?>
-<!-- Hidden Google Translate element (we drive it manually) -->
-<div id="google_translate_element" style="display:none;visibility:hidden;position:absolute;"></div>
-<script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'en',
-    includedLanguages: 'en,ta,hi,te,ml,kn,ur',
-    autoDisplay: false
-  }, 'google_translate_element');
-}
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<style>
-/* Aggressively hide ALL Google Translate UI chrome */
-.goog-te-banner-frame,
-.goog-te-balloon-frame,
-#goog-gt-tt,
-.goog-tooltip,
-.goog-tooltip:hover,
-.goog-te-balloon-frame,
-.VIpgJd-ZVi9od-aZ2wEe-wOHMyf { display: none !important; }
-.goog-te-gadget { display: none !important; }
-body { top: 0 !important; }
-</style>
-<?php }
-add_action('wp_footer', 'fnx_google_translate_script', 5);
-
-// Custom translate dropdown JS
-function fnx_translate_toggle_script() { ?>
-<script>
-(function(){
-  var btn      = document.getElementById('translate-toggle');
-  var dropdown = document.getElementById('fnx-translate-dropdown');
-  var wrap     = document.getElementById('fnx-translate-wrap');
-  if (!btn || !dropdown) return;
-
-  // Language list: code, flag emoji, native name
-  var langs = [
-    { code: 'en', flag: '🇬🇧', name: 'English' },
-    { code: 'ta', flag: '🇮🇳', name: 'தமிழ்' },
-    { code: 'hi', flag: '🇮🇳', name: 'हिन्दी' },
-    { code: 'te', flag: '🇮🇳', name: 'తెలుగు' },
-    { code: 'ml', flag: '🇮🇳', name: 'മലയാളം' },
-    { code: 'kn', flag: '🇮🇳', name: 'ಕನ್ನಡ' },
-    { code: 'ur', flag: '🇵🇰', name: 'اردو' }
-  ];
-
-  var activeLang = localStorage.getItem('fnx_lang') || 'en';
-
-  // Build dropdown items
-  var list = document.createElement('ul');
-  list.className = 'fnx-lang-list';
-  langs.forEach(function(l) {
-    var li = document.createElement('li');
-    li.className = 'fnx-lang-item' + (l.code === activeLang ? ' is-active' : '');
-    li.setAttribute('data-lang', l.code);
-    li.innerHTML = '<span class="fnx-lang-flag">' + l.flag + '</span>'
-                 + '<span class="fnx-lang-name">' + l.name + '</span>'
-                 + (l.code === activeLang ? '<span class="fnx-lang-check">✓</span>' : '');
-    li.addEventListener('click', function() {
-      var code = this.getAttribute('data-lang');
-      switchLang(code);
-      closeDropdown();
-    });
-    list.appendChild(li);
-  });
-  dropdown.appendChild(list);
-
-  // Open / close
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    var open = dropdown.classList.contains('is-open');
-    open ? closeDropdown() : openDropdown();
-  });
-  document.addEventListener('click', function(e) {
-    if (!wrap.contains(e.target)) closeDropdown();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeDropdown();
-  });
-
-  function openDropdown() {
-    dropdown.classList.add('is-open');
-    btn.setAttribute('aria-expanded', 'true');
-  }
-  function closeDropdown() {
-    dropdown.classList.remove('is-open');
-    btn.setAttribute('aria-expanded', 'false');
-  }
-
-  // Drive Google Translate's hidden <select> to switch language
-  function switchLang(code) {
-    if (code === 'en') {
-      // Restore to original
-      var restore = document.querySelector('.goog-te-menu-value');
-      if (restore) restore.click();
-      // Fallback: reload without translation cookie
-      var ck = document.cookie.match(/googtrans=([^;]+)/);
-      if (ck) {
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + location.hostname + ';';
-        location.reload();
-      }
-    } else {
-      // Set cookie then trigger Google Translate's select
-      var val = '/en/' + code;
-      document.cookie = 'googtrans=' + val + '; path=/;';
-      document.cookie = 'googtrans=' + val + '; path=/; domain=.' + location.hostname + ';';
-      var sel = document.querySelector('select.goog-te-combo');
-      if (sel) {
-        sel.value = code;
-        sel.dispatchEvent(new Event('change'));
-      } else {
-        location.reload();
-      }
-    }
-    // Update active state
-    localStorage.setItem('fnx_lang', code);
-    activeLang = code;
-    document.querySelectorAll('.fnx-lang-item').forEach(function(el) {
-      var isActive = el.getAttribute('data-lang') === code;
-      el.classList.toggle('is-active', isActive);
-      var check = el.querySelector('.fnx-lang-check');
-      if (isActive && !check) {
-        var sp = document.createElement('span');
-        sp.className = 'fnx-lang-check';
-        sp.textContent = '✓';
-        el.appendChild(sp);
-      } else if (!isActive && check) {
-        check.remove();
-      }
-    });
-  }
-
-  // Suppress Google's top banner aggressively
-  var observer = new MutationObserver(function() {
-    var iframe = document.querySelector('.goog-te-banner-frame');
-    if (iframe) { iframe.style.cssText = 'display:none!important'; document.body.style.top = '0'; }
-    var tt = document.getElementById('goog-gt-tt');
-    if (tt) tt.style.cssText = 'display:none!important';
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
-})();
-</script>
-<?php }
-add_action('wp_footer', 'fnx_translate_toggle_script', 99);
+// Fluent Forms and legacy Google Translate widget removed for cleanliness and performance.
 
 /* ============================================================
    HOMEPAGE HERO — CONTACT FORM SUBMISSION HANDLER
