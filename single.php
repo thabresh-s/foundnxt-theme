@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<!-- Reading Progress Bar -->
+<!-- Reading Progress Bar (Scroll-Driven CSS + JS fallback) -->
 <div class="fnx-reading-progress-track fnx-progress-bar" id="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
   <div class="fnx-reading-progress-bar progress-fill" id="progress-fill"></div>
 </div>
@@ -8,104 +8,97 @@
 <?php while (have_posts()): the_post(); ?>
 
 <?php
-$cats       = get_the_category();
-$primary_c  = !empty($cats) ? $cats[0] : null;
-$cat_slug   = $primary_c ? $primary_c->slug : 'startups-funding';
-$cat_name   = $primary_c ? $primary_c->name : __('Insights', 'foundnxt');
-$cat_color  = fnx_get_category_color($cat_slug);
-$badge      = get_post_meta(get_the_ID(), 'fnx_post_badge', true);
-$takeaway   = get_post_meta(get_the_ID(), 'fnx_key_takeaway', true);
-$read_time  = function_exists('fnx_read_time') ? fnx_read_time() : '5 min read';
-$author_id  = get_the_author_meta('ID');
-$author_name = get_the_author();
-$author_bio = get_the_author_meta('description') ?: __('Writes about startups, technology, valuation, and market shifts for founders and operators.', 'foundnxt');
-
-// Topic-awareness for inline CTA
-$tech_slugs = ['ai-tech', 'technology-ai', 'ai', 'deeptech'];
-$finance_slugs = ['markets-valuation', 'valuation-finance', 'markets-economy', 'startups-funding', 'ipo-markets'];
-
-$is_tech_topic = in_array($cat_slug, $tech_slugs, true);
-$is_finance_topic = in_array($cat_slug, $finance_slugs, true);
+$cats      = get_the_category();
+$badge     = get_post_meta(get_the_ID(), 'fnx_post_badge', true);
+$takeaway  = get_post_meta(get_the_ID(), 'fnx_key_takeaway', true);
+$featured  = get_post_meta(get_the_ID(), 'fnx_featured', true);
+$gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-gradient(135deg, var(--fnx-primary) 0%, var(--fnx-primary-dark) 100%)';
 ?>
 
-<!-- ══════════════════════════════════════════════════
-     POST HERO — Hook Headline, Category Tag, Author, Date, Read Time
-══════════════════════════════════════════════════ -->
-<header class="fnx-post-hero fnx-post-hero--simple" style="padding: 44px 0 24px;">
+<!-- ══════════════════════════════════
+     POST HERO — box style, no featured image
+══════════════════════════════════ -->
+<div class="fnx-post-hero fnx-post-hero--simple">
   <div class="phb-simple-outer container">
-    <?php if (function_exists('fnx_breadcrumbs')) { fnx_breadcrumbs(); } ?>
+    <?php fnx_breadcrumbs(); ?>
 
-    <!-- Category Tag with Vibrant Accent Color -->
-    <div style="margin-bottom: 16px;">
-      <a href="<?php echo esc_url(get_category_link($primary_c->term_id)); ?>" class="phb-chip phb-chip--topic" style="background: <?php echo esc_attr($cat_color); ?>18; color: <?php echo esc_attr($cat_color); ?>; border: 1px solid <?php echo esc_attr($cat_color); ?>35; font-weight: 700;">
-        <?php echo esc_html($cat_name); ?>
-      </a>
-      <?php if ($badge): ?>
-        <span class="phb-chip" style="background: rgba(255, 255, 255, 0.08);"><?php echo esc_html($badge); ?></span>
-      <?php endif; ?>
+    <!-- Badge row (optional) -->
+    <?php if ($badge || $featured): ?>
+    <div class="phb-badge-row">
+      <?php if ($badge): ?><span class="phb-badge"><?php echo esc_html($badge); ?></span><?php endif; ?>
+      <?php if ($featured): ?><span class="phb-badge phb-badge--star">⭐ <?php _e('Featured', 'foundnxt'); ?></span><?php endif; ?>
     </div>
+    <?php endif; ?>
 
-    <!-- Hook Headline -->
-    <h1 class="phb-title" style="font-size: clamp(2.1rem, 4.5vw, 3.4rem); font-weight: 800; line-height: 1.15; margin-bottom: 24px; color: var(--text);">
-      <?php the_title(); ?>
-    </h1>
+    <!-- Title -->
+    <h1 class="phb-title"><?php the_title(); ?></h1>
 
-    <!-- Meta row: Author Avatar + Name, Date, Read Time -->
-    <div class="phb-meta-row" style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding-bottom: 24px; border-bottom: 1px solid var(--border);">
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <?php echo get_avatar($author_id, 36, '', '', ['class' => 'author-mini-avatar', 'style' => 'border-radius: 50%;']); ?>
-        <span style="font-weight: 600; font-size: 0.9375rem; color: var(--text);"><?php echo esc_html($author_name); ?></span>
-      </div>
-      <span style="color: var(--muted);">&bull;</span>
-      <span style="font-size: 0.875rem; color: var(--muted);">
-        <?php printf(__('Published %s', 'foundnxt'), get_the_date('M j, Y')); ?>
+    <!-- Chips: Topic · Published · Read time -->
+    <div class="phb-chips">
+      <?php if ($cats): ?>
+      <a href="<?php echo esc_url(get_category_link($cats[0]->term_id)); ?>" class="phb-chip phb-chip--topic">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        <?php echo esc_html($cats[0]->name); ?>
+      </a>
+      <?php endif; ?>
+      <span class="phb-chip" title="<?php esc_attr_e('Published date', 'foundnxt'); ?>">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <?php printf(__('Published: %s', 'foundnxt'), get_the_date('M j, Y')); ?>
       </span>
       <?php if (get_the_modified_date('U') > get_the_date('U')): ?>
-        <span style="color: var(--muted);">&bull;</span>
-        <span style="font-size: 0.875rem; color: var(--muted);">
-          <?php printf(__('Updated %s', 'foundnxt'), get_the_modified_date('M j, Y')); ?>
-        </span>
-      <?php endif; ?>
-      <span style="color: var(--muted);">&bull;</span>
-      <span style="font-size: 0.875rem; color: var(--muted);">
-        ⏱️ <?php echo esc_html($read_time); ?>
+      <span class="phb-chip phb-chip--updated" title="<?php esc_attr_e('Last updated date', 'foundnxt'); ?>">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <?php printf(__('Updated: %s', 'foundnxt'), get_the_modified_date('M j, Y')); ?>
       </span>
-    </div>
+      <?php endif; ?>
+      <span class="phb-chip">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <?php echo fnx_read_time(); ?>
+      </span>
+      <?php 
+      $ig_url = get_post_meta(get_the_ID(), 'fnx_instagram_url', true);
+      if ($ig_url): ?>
+      <a href="<?php echo esc_url($ig_url); ?>" target="_blank" rel="noopener noreferrer" class="phb-chip phb-chip--ig" style="color: #E1306C; border-color: rgba(225,48,108,0.3); background: rgba(225,48,108,0.08);">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        <?php _e('View Carousel on Instagram', 'foundnxt'); ?> &rarr;
+      </a>
+      <?php endif; ?>
+    </div><!-- /.phb-chips -->
 
   </div><!-- /.phb-simple-outer -->
-</header>
+</div><!-- /.fnx-post-hero--simple -->
 
-<!-- ══════════════════════════════════════════════════
-     POST BODY LAYOUT
-══════════════════════════════════════════════════ -->
-<div class="fnx-post-body" style="padding-top: 20px;">
+<!-- ══════════════════════════════════
+     POST BODY
+══════════════════════════════════ -->
+<div class="fnx-post-body">
   <div class="container">
-    <div class="post-layout" style="display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 48px; align-items: start;">
+    <div class="post-layout">
 
-      <!-- Main Article Column -->
+      <!-- Article Content -->
+      <!-- Article Content (Single Column 65-72ch) -->
       <article class="post-content-wrap single-article-container" id="post-content" itemscope itemtype="https://schema.org/Article">
-        <meta itemprop="headline"      content="<?php echo esc_attr(get_the_title()); ?>">
-        <meta itemprop="datePublished" content="<?php echo get_the_date('c'); ?>">
-        <meta itemprop="dateModified"  content="<?php echo get_the_modified_date('c'); ?>">
-        <meta itemprop="author"        content="<?php echo esc_attr($author_name); ?>">
+        <meta itemprop="headline"       content="<?php echo esc_attr(get_the_title()); ?>">
+        <meta itemprop="datePublished"  content="<?php echo get_the_date('c'); ?>">
+        <meta itemprop="dateModified"   content="<?php echo get_the_modified_date('c'); ?>">
+        <meta itemprop="author"         content="<?php echo esc_attr(get_the_author()); ?>">
 
-        <!-- ── TL;DR BOX WITH 3 BULLETS ── -->
-        <div class="post-tldr-box" style="background: color-mix(in srgb, <?php echo esc_attr($cat_color); ?> 10%, var(--surface)); border-left: 4px solid <?php echo esc_attr($cat_color); ?>;">
-          <div class="post-tldr-label" style="color: <?php echo esc_attr($cat_color); ?>;">
-            <span>⚡ <?php _e('TL;DR — Executive Summary', 'foundnxt'); ?></span>
+        <!-- Key Takeaway Callout -->
+        <?php if ($takeaway): ?>
+        <div class="fnx-callout callout-takeaway">
+          <div class="callout-icon">💡</div>
+          <div>
+            <div class="callout-label"><?php _e('Key Takeaway', 'foundnxt'); ?></div>
+            <p class="callout-text"><?php echo esc_html($takeaway); ?></p>
           </div>
-          <ul class="post-tldr-bullets">
-            <li><strong><?php _e('Core Thesis:', 'foundnxt'); ?></strong> <?php echo esc_html(wp_trim_words(get_the_excerpt() ?: get_the_title(), 22)); ?></li>
-            <li><strong><?php _e('Operator Insight:', 'foundnxt'); ?></strong> <?php _e('Strategic implementation blueprints, defensible economics, and execution benchmarks analyzed below.', 'foundnxt'); ?></li>
-            <li><strong><?php _e('Key Risk & Action:', 'foundnxt'); ?></strong> <?php _e('Avoid common scaling traps by validating unit margins and tech architecture before capital deployment.', 'foundnxt'); ?></li>
-          </ul>
         </div>
+        <?php endif; ?>
 
-        <!-- Mobile Table of Contents -->
-        <details class="fnx-mobile-toc" id="fnx-mobile-toc" style="margin: 24px 0;">
+        <!-- Mobile-first collapsible Table of Contents -->
+        <details class="fnx-mobile-toc" id="fnx-mobile-toc">
           <summary class="fnx-mobile-toc-summary">
             <span>📑 <?php _e('Table of Contents', 'foundnxt'); ?></span>
-            <span class="toc-arrow" aria-hidden="true">&darr;</span>
+            <span class="toc-arrow" aria-hidden="true">▾</span>
           </summary>
           <div class="fnx-mobile-toc-content">
             <ul class="toc-mobile-list" id="toc-mobile-list">
@@ -114,204 +107,317 @@ $is_finance_topic = in_array($cat_slug, $finance_slugs, true);
           </div>
         </details>
 
-        <!-- Article Content -->
         <div class="post-content entry-content article-body-content" itemprop="articleBody">
           <?php the_content(); ?>
         </div>
 
-        <!-- ── KEY TAKEAWAYS BOX ── -->
-        <div class="fnx-callout callout-takeaway" style="margin: 40px 0; padding: 24px 28px; border-radius: 16px; background: color-mix(in srgb, #14B8A6 10%, var(--surface)); border-left: 4px solid #14B8A6;">
-          <div style="font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #14B8A6; font-size: 0.8125rem; margin-bottom: 8px;">
-            💡 <?php _e('Key Takeaways for Leaders', 'foundnxt'); ?>
-          </div>
-          <p style="font-size: 1rem; color: var(--text); line-height: 1.6; margin: 0;">
-            <?php echo esc_html($takeaway ?: __('Evaluate systems from first principles. Maintain disciplined burn, build defensible data feedback loops, and prioritize sustainable unit economics over vanity metrics.', 'foundnxt')); ?>
-          </p>
-        </div>
-
-        <!-- ── TOPIC-AWARE INLINE CONSULTING CTA BOX ── -->
-        <?php if ($is_tech_topic): ?>
-          <div class="post-consulting-cta-box" style="--cta-accent: #7C3AED;">
-            <div class="post-consulting-icon">⚡</div>
-            <div>
-              <h3 class="post-consulting-title"><?php _e('Accelerate Your Tech & AI Architecture', 'foundnxt'); ?></h3>
-              <p class="post-consulting-desc">
-                <?php _e('Evaluating AI integrations, LLM workflows, or cloud infrastructure constraints? Our technical practice helps teams design scalable, defensible systems.', 'foundnxt'); ?>
-              </p>
-              <a href="<?php echo esc_url(home_url('/services/')); ?>" class="btn-post-consulting">
-                <span><?php _e('Explore Tech Consulting', 'foundnxt'); ?></span> &rarr;
-              </a>
-            </div>
-          </div>
-        <?php elseif ($is_finance_topic): ?>
-          <div class="post-consulting-cta-box" style="--cta-accent: #F59E0B;">
-            <div class="post-consulting-icon">📈</div>
-            <div>
-              <h3 class="post-consulting-title"><?php _e('Refine Your Unit Economics & Valuation', 'foundnxt'); ?></h3>
-              <p class="post-consulting-desc">
-                <?php _e('Preparing for fundraising or scaling growth? Book a confidential 1:1 advisory sprint on cap table modeling, margins, and market positioning.', 'foundnxt'); ?>
-              </p>
-              <a href="<?php echo esc_url(home_url('/services/')); ?>" class="btn-post-consulting" style="background: #F59E0B; color: #0B1020;">
-                <span><?php _e('Explore Business Consulting', 'foundnxt'); ?></span> &rarr;
-              </a>
-            </div>
-          </div>
-        <?php else: ?>
-          <div class="post-consulting-cta-box" style="--cta-accent: #FF6B6B;">
-            <div class="post-consulting-icon">🎯</div>
-            <div>
-              <h3 class="post-consulting-title"><?php _e('Scaling Your Venture in the AI Era?', 'foundnxt'); ?></h3>
-              <p class="post-consulting-desc">
-                <?php _e('Speak directly with our strategy practice about growth bottlenecks, organizational systems, and execution playbooks.', 'foundnxt'); ?>
-              </p>
-              <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-post-consulting" style="background: #FF6B6B;">
-                <span><?php _e('Book a Free 20-Min Call', 'foundnxt'); ?></span> &rarr;
-              </a>
-            </div>
-          </div>
-        <?php endif; ?>
-
-        <!-- Disclaimer for finance/markets posts -->
-        <?php if ($is_finance_topic): ?>
-          <div style="margin: 28px 0; padding: 18px 22px; border-radius: 12px; background: rgba(245, 158, 11, 0.08); border-left: 3px solid #F59E0B; font-size: 0.8125rem; color: var(--muted); line-height: 1.55;">
-            <strong style="color: #D97706;"><?php _e('Editorial Disclaimer:', 'foundnxt'); ?></strong>
-            <?php _e('FoundNXT publishes independent business intelligence and teardowns. Content does not constitute financial, investment, accounting, or legal advice. Consult certified professionals before executing financial transactions.', 'foundnxt'); ?>
-          </div>
-        <?php endif; ?>
-
-        <!-- Social Share Bar -->
-        <div class="post-share" style="margin: 32px 0; padding: 20px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
-          <span style="font-weight: 700; font-size: 0.9375rem; color: var(--text);"><?php _e('Share this breakdown:', 'foundnxt'); ?></span>
-          <div style="display: flex; gap: 10px;">
-            <a href="https://x.com/intent/post?url=<?php echo urlencode(get_permalink()); ?>&text=<?php echo urlencode(get_the_title()); ?>" target="_blank" rel="noopener noreferrer" class="btn-hero-secondary" style="padding: 8px 14px; font-size: 0.8125rem;">X / Twitter</a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode(get_permalink()); ?>" target="_blank" rel="noopener noreferrer" class="btn-hero-secondary" style="padding: 8px 14px; font-size: 0.8125rem;">LinkedIn</a>
-            <a href="https://api.whatsapp.com/send?text=<?php echo urlencode(get_the_title() . ' ' . get_permalink()); ?>" target="_blank" rel="noopener noreferrer" class="btn-hero-secondary" style="padding: 8px 14px; font-size: 0.8125rem;">WhatsApp</a>
+        <?php
+        // Financial & Legal Editorial Disclaimer for finance/valuation/markets/funding articles
+        $finance_cats = ['valuation-finance', 'markets-economy', 'startups-funding', 'ipo-markets'];
+        $is_finance_post = false;
+        if ($cats) {
+            foreach ($cats as $c) {
+                if (in_array($c->slug, $finance_cats, true)) {
+                    $is_finance_post = true;
+                    break;
+                }
+            }
+        }
+        if ($is_finance_post):
+        ?>
+        <div class="fnx-callout callout-disclaimer" style="margin: 36px 0; padding: 22px 24px; border-radius: 14px; background: rgba(245, 158, 11, 0.08); border-left: 4px solid #F59E0B; display: flex; gap: 16px; align-items: flex-start;">
+          <div style="font-size: 1.5rem; line-height: 1;">⚠️</div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.9375rem; color: #D97706; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;"><?php _e('Editorial & Financial Disclaimer', 'foundnxt'); ?></div>
+            <p style="font-size: 0.875rem; color: var(--text-secondary, #64748B); line-height: 1.6; margin: 0;"><?php _e('FoundNXT publishes independent business intelligence, valuation frameworks, and startup teardowns. Nothing in this article constitutes financial, investment, legal, or tax advice. Company figures, market projections, and valuation metrics represent editorial estimates and regulatory filings. Always consult qualified legal counsel and certified financial advisors before executing investment rounds or financial agreements.', 'foundnxt'); ?></p>
           </div>
         </div>
+        <?php endif; ?>
 
-        <!-- ── AUTHOR BOX ── -->
-        <div class="post-author-card" style="display: flex; gap: 20px; align-items: center; padding: 28px; border-radius: 18px; background: var(--surface); border: 1px solid var(--border); margin: 40px 0;">
-          <?php echo get_avatar($author_id, 72, '', '', ['class' => 'author-card-avatar', 'style' => 'border-radius: 50%;']); ?>
-          <div class="author-card-info">
-            <h4 style="font-size: 1.125rem; font-weight: 700; margin: 0 0 4px; color: var(--text);"><?php echo esc_html($author_name); ?></h4>
-            <span style="font-size: 0.8125rem; font-weight: 600; color: var(--accent-violet); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;"><?php _e('Editorial Practice, FoundNXT', 'foundnxt'); ?></span>
-            <p style="font-size: 0.875rem; color: var(--muted); margin: 0 0 10px; line-height: 1.5;"><?php echo esc_html($author_bio); ?></p>
-            <a href="<?php echo esc_url(get_author_posts_url($author_id)); ?>" style="font-size: 0.8125rem; font-weight: 700; color: var(--accent-coral);">
-              <?php _e('View all articles by this author', 'foundnxt'); ?> &rarr;
+        <!-- Tags -->
+        <?php $tags = get_the_tags(); if ($tags): ?>
+        <div class="post-tags">
+          <span class="tags-label"><?php _e('Topics:', 'foundnxt'); ?></span>
+          <?php foreach ($tags as $tag): ?>
+            <a href="<?php echo esc_url(get_tag_link($tag->term_id)); ?>" class="tag-chip">#<?php echo esc_html($tag->name); ?></a>
+          <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+
+        <!-- Share Buttons -->
+        <div class="post-share">
+          <span class="share-label"><?php _e('Share this article:', 'foundnxt'); ?></span>
+          <div class="share-buttons">
+            <a href="https://x.com/intent/post?url=<?php echo urlencode(get_permalink()); ?>&text=<?php echo urlencode(get_the_title()); ?>" target="_blank" rel="noopener" class="share-btn share-twitter" aria-label="Share on X (Twitter)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
             </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(get_permalink()); ?>" target="_blank" rel="noopener" class="share-btn share-facebook" aria-label="Share on Facebook">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode(get_permalink()); ?>&title=<?php echo urlencode(get_the_title()); ?>" target="_blank" rel="noopener" class="share-btn share-linkedin" aria-label="Share on LinkedIn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="https://api.whatsapp.com/send?text=<?php echo urlencode(get_the_title() . ' — ' . get_permalink()); ?>" target="_blank" rel="noopener" class="share-btn share-whatsapp" aria-label="Share on WhatsApp">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+            <a href="https://t.me/share/url?url=<?php echo urlencode(get_permalink()); ?>&text=<?php echo urlencode(get_the_title()); ?>" target="_blank" rel="noopener" class="share-btn share-telegram" aria-label="Share on Telegram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </a>
+            <button class="share-btn share-copy" data-url="<?php echo esc_url(get_permalink()); ?>" aria-label="Copy link">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            </button>
           </div>
         </div>
 
-        <!-- ── NEWSLETTER BOX AT END OF POST ── -->
-        <div style="background: linear-gradient(135deg, var(--navy-surface) 0%, #1E293B 100%); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; padding: 36px 32px; text-align: center; margin: 48px 0; color: #FFFFFF;">
-          <span style="display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 800; background: rgba(124, 58, 237, 0.25); color: #C4B5FD; margin-bottom: 12px; text-transform: uppercase;">
-            ✉️ <?php _e('Weekly Executive Brief', 'foundnxt'); ?>
-          </span>
-          <h3 style="font-size: 1.45rem; font-weight: 800; margin-bottom: 10px; color: #FFFFFF;">
-            <?php _e('One sharp business breakdown every week. No fluff.', 'foundnxt'); ?>
-          </h3>
-          <p style="font-size: 0.9375rem; color: #94A3B8; max-width: 500px; margin: 0 auto 20px;">
-            <?php _e('Join thousands of founders and operators getting practical playbooks on scaling in the AI era.', 'foundnxt'); ?>
-          </p>
-          <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display: flex; gap: 10px; max-width: 440px; margin: 0 auto; flex-wrap: wrap;">
+        <!-- Author Bio Card -->
+        <div class="post-author-card">
+          <?php echo get_avatar(get_the_author_meta('email'), 80, '', '', ['class' => 'author-card-avatar', 'loading' => 'lazy', 'decoding' => 'async']); ?>
+          <div class="author-card-info">
+            <div class="author-card-name"><?php the_author(); ?></div>
+            <div class="author-card-role"><?php _e('Author, FoundNXT', 'foundnxt'); ?></div>
+            <?php $bio = get_the_author_meta('description');
+            if ($bio): ?>
+            <p class="author-card-bio"><?php echo esc_html($bio); ?></p>
+            <?php else: ?>
+            <p class="author-card-bio"><?php _e('Computer science background, MBA in product management. Writes about startups, funding, and valuation for founders and investors.', 'foundnxt'); ?></p>
+            <?php endif; ?>
+            <a href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID'))); ?>" class="author-card-link"><?php _e('More articles →', 'foundnxt'); ?></a>
+          </div>
+        </div>
+
+        <!-- Suggested Reading (same category) -->
+        <?php
+        $suggest_cats = get_the_category();
+        if ($suggest_cats):
+          $suggested = get_posts([
+            'cat'            => $suggest_cats[0]->term_id,
+            'posts_per_page' => 3,
+            'post__not_in'   => [get_the_ID()],
+            'post_status'    => 'publish',
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+          ]);
+          if ($suggested):
+        ?>
+        <div class="post-suggested">
+          <div class="post-suggested-header">
+            <span class="post-suggested-label"><?php printf(__('More in %s', 'foundnxt'), esc_html($suggest_cats[0]->name)); ?></span>
+            <a href="<?php echo esc_url(get_category_link($suggest_cats[0]->term_id)); ?>" class="post-suggested-viewall"><?php _e('View all →', 'foundnxt'); ?></a>
+          </div>
+          <div class="post-suggested-list">
+            <?php foreach ($suggested as $i => $sg):
+              $sg_cat = get_the_category($sg->ID);
+              $sg_cn  = $sg_cat ? $sg_cat[0]->name : $suggest_cats[0]->name;
+            ?>
+            <a href="<?php echo esc_url(get_permalink($sg->ID)); ?>" class="post-suggested-item">
+              <div class="post-suggested-num"><?php echo str_pad($i+1, 2, '0', STR_PAD_LEFT); ?></div>
+              <div class="post-suggested-body">
+                <div class="post-suggested-cat"><?php echo esc_html($sg_cn); ?></div>
+                <div class="post-suggested-title"><?php echo esc_html(get_the_title($sg->ID)); ?></div>
+                <div class="post-suggested-date"><?php echo get_the_date('M j, Y', $sg->ID); ?> · <?php echo fnx_read_time($sg->ID); ?></div>
+              </div>
+              <?php if (has_post_thumbnail($sg->ID)): ?>
+              <div class="post-suggested-thumb"><?php echo get_the_post_thumbnail($sg->ID, 'fnx-thumb', ['loading' => 'lazy', 'alt' => esc_attr(get_the_title($sg->ID))]); ?></div>
+              <?php endif; ?>
+            </a>
+            <?php endforeach; wp_reset_postdata(); ?>
+          </div>
+        </div>
+        <?php endif; endif; ?>
+
+        <!-- Article End Newsletter CTA -->
+        <div class="fnx-article-newsletter-box">
+          <div class="article-nl-badge">📬 <?php _e('Weekly Executive Briefing', 'foundnxt'); ?></div>
+          <h3 class="article-nl-title"><?php _e('Scale Smarter in the AI Era', 'foundnxt'); ?></h3>
+          <p class="article-nl-sub"><?php _e('Actionable venture teardowns, market intelligence, and curated founder tools sent straight to your inbox.', 'foundnxt'); ?></p>
+          <form class="article-nl-form newsletter-fw-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden" name="action" value="fnx_lead_submit">
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-            <input type="hidden" name="lead_type" value="Single Post Footer Newsletter">
+            <input type="hidden" name="lead_type" value="Single Article End Newsletter CTA">
             <input type="hidden" name="target_sheet" value="newsletter">
-            <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter work email…', 'foundnxt'); ?>" required style="flex: 1 1 220px; padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.08); color: #FFF; font-size: 0.9375rem;">
-            <button type="submit" class="btn-hero-primary" style="padding: 12px 22px; font-size: 0.9375rem; cursor: pointer; border: none;">
-              <?php _e('Subscribe', 'foundnxt'); ?> &rarr;
-            </button>
+            <input type="text" name="lead_hp_field" style="display:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
+            <div class="newsletter-fw-fields">
+              <input type="text" name="lead_name" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Your full name…', 'foundnxt'); ?>" required>
+              <input type="email" name="lead_email" class="newsletter-fw-input" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
+            </div>
+            <button type="submit" class="newsletter-fw-btn"><?php _e('Get Free Access', 'foundnxt'); ?> →</button>
           </form>
         </div>
 
-      </article>
-
-      <!-- ── SIDEBAR (Sticky TOC + Post Info + Related) ── -->
-      <aside class="post-sidebar" style="position: sticky; top: 90px;">
-        
-        <!-- Table of Contents Widget -->
-        <div class="sidebar-card fnx-sidebar-toc" id="sidebar-toc" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 24px;">
-          <h4 style="font-size: 0.9375rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; color: var(--text);">
-            📑 <?php _e('Table of Contents', 'foundnxt'); ?>
-          </h4>
-          <ul class="toc-sidebar-list" id="toc-sidebar-list" style="list-style: none; padding: 0; margin: 0; font-size: 0.875rem; display: flex; flex-direction: column; gap: 8px;">
-            <li><span class="toc-empty-msg" style="color: var(--muted);"><?php _e('Loading headings…', 'foundnxt'); ?></span></li>
-          </ul>
+        <!-- Comments -->
+        <?php if (comments_open() || get_comments_number()): ?>
+        <div class="post-comments-wrap">
+          <?php comments_template(); ?>
         </div>
+        <?php endif; ?>
 
-        <!-- Post Quick Info Card -->
-        <div class="sidebar-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 24px;">
-          <h4 style="font-size: 0.9375rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; color: var(--text);">
-            ℹ️ <?php _e('Article Information', 'foundnxt'); ?>
-          </h4>
-          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.875rem; color: var(--muted);">
-            <div><strong><?php _e('Published:', 'foundnxt'); ?></strong> <?php echo get_the_date('M j, Y'); ?></div>
-            <div><strong><?php _e('Est. Read Time:', 'foundnxt'); ?></strong> <?php echo esc_html($read_time); ?></div>
-            <div><strong><?php _e('Category:', 'foundnxt'); ?></strong> <a href="<?php echo esc_url(get_category_link($primary_c->term_id)); ?>" style="color: <?php echo esc_attr($cat_color); ?>; font-weight: 600;"><?php echo esc_html($cat_name); ?></a></div>
+      </article><!-- /.post-content-wrap -->
+
+      <!-- Article Sidebar -->
+      <!-- SIDEBAR: sticky column — only the article content scrolls past it -->
+      <aside class="post-sidebar" id="post-sidebar" role="complementary" aria-label="<?php esc_attr_e('Article sidebar', 'foundnxt'); ?>">
+        <div class="sidebar-sticky" id="sidebar-sticky">
+
+          <!-- ── 1. TABLE OF CONTENTS (auto-built by JS) ── -->
+          <div class="fnx-sidebar-toc" id="sidebar-toc">
+            <div class="toc-sidebar-header" id="toc-sidebar-header">
+              <span class="toc-sidebar-label"><?php _e('Table of Contents', 'foundnxt'); ?></span>
+              <button class="toc-sidebar-toggle" id="toc-sidebar-toggle" aria-label="<?php esc_attr_e('Toggle table of contents', 'foundnxt'); ?>">&#8964;</button>
+            </div>
+            <div class="toc-sidebar-body" id="toc-sidebar-body">
+              <div class="toc-sidebar-progress">
+                <div class="toc-sidebar-progress-fill" id="toc-progress-fill"></div>
+              </div>
+              <ul class="toc-sidebar-list" id="toc-sidebar-list">
+                <li><span class="toc-empty-msg"><?php _e('Loading headings…', 'foundnxt'); ?></span></li>
+              </ul>
+            </div>
           </div>
-        </div>
 
+          <!-- ── 2. POST INFO CARD ── -->
+          <div class="sidebar-card post-info-card">
+            <div class="info-item">
+              <div class="info-item-icon">
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div class="info-item-body"><small><?php _e('Published', 'foundnxt'); ?></small><strong><?php echo get_the_date('M j, Y'); ?></strong></div>
+            </div>
+            <div class="info-item">
+              <div class="info-item-icon">
+                <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </div>
+              <div class="info-item-body"><small><?php _e('Updated', 'foundnxt'); ?></small><strong><?php echo get_the_modified_date('M j, Y'); ?></strong></div>
+            </div>
+            <div class="info-item">
+              <div class="info-item-icon">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="info-item-body"><small><?php _e('Read time', 'foundnxt'); ?></small><strong><?php echo fnx_read_time(); ?></strong></div>
+            </div>
+            <?php if ($cats): ?>
+            <div class="info-item">
+              <div class="info-item-icon">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="info-item-body"><small><?php _e('Category', 'foundnxt'); ?></small><a href="<?php echo esc_url(get_category_link($cats[0]->term_id)); ?>"><strong><?php echo esc_html($cats[0]->name); ?></strong></a></div>
+            </div>
+            <?php endif; ?>
+          </div>
+
+          <!-- ── 3. MORE IN THIS CATEGORY (posts from same category) ── -->
+          <?php if ($cats):
+            $cat_posts = get_posts([
+              'cat'            => $cats[0]->term_id,
+              'posts_per_page' => 5,
+              'post__not_in'   => [get_the_ID()],
+              'post_status'    => 'publish',
+            ]);
+            if ($cat_posts):
+          ?>
+          <div class="sidebar-card">
+            <div class="sidebar-card-title"><?php printf(__('More in %s', 'foundnxt'), esc_html($cats[0]->name)); ?></div>
+            <?php foreach ($cat_posts as $cp): ?>
+              <a href="<?php echo esc_url(get_permalink($cp->ID)); ?>" class="sidebar-post-link">
+                <div class="sidebar-post-title"><?php echo esc_html(get_the_title($cp->ID)); ?></div>
+                <div class="sidebar-post-date"><?php echo get_the_date('M j, Y', $cp->ID); ?></div>
+              </a>
+            <?php endforeach; wp_reset_postdata(); ?>
+          </div>
+          <?php endif; endif; ?>
+
+          <!-- ── 4. RECENT POSTS (with thumbnails) ── -->
+          <?php
+          $sidebar_recent = get_posts([
+            'posts_per_page' => 5,
+            'post__not_in'   => [get_the_ID()],
+            'post_status'    => 'publish',
+          ]);
+          if ($sidebar_recent):
+          ?>
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">📰 <?php _e('Recent Posts', 'foundnxt'); ?></div>
+            <ul class="sidebar-recent-posts">
+              <?php foreach ($sidebar_recent as $rp): ?>
+              <li>
+                <a href="<?php echo esc_url(get_permalink($rp->ID)); ?>" class="sidebar-recent-item">
+                  <div class="sidebar-recent-thumb">
+                    <?php if (has_post_thumbnail($rp->ID)): ?>
+                      <?php echo get_the_post_thumbnail($rp->ID, 'fnx-thumb', ['loading' => 'lazy']); ?>
+                    <?php else: ?>
+                      <div class="sidebar-recent-thumb-ph">📰</div>
+                    <?php endif; ?>
+                  </div>
+                  <div class="sidebar-recent-text">
+                    <div class="sidebar-recent-title"><?php echo esc_html(get_the_title($rp->ID)); ?></div>
+                    <div class="sidebar-recent-meta"><?php echo get_the_date('M j, Y', $rp->ID); ?> · <?php echo fnx_read_time($rp->ID); ?></div>
+                  </div>
+                </a>
+              </li>
+              <?php endforeach; wp_reset_postdata(); ?>
+            </ul>
+          </div>
+          <?php endif; ?>
+
+          <!-- ── 5. CATEGORY CLOUD ── -->
+          <?php
+          $sidebar_cats = get_categories([
+            'orderby'    => 'count',
+            'order'      => 'DESC',
+            'hide_empty' => true,
+            'number'     => 12,
+          ]);
+          if ($sidebar_cats):
+          ?>
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">🏷️ <?php _e('Browse Categories', 'foundnxt'); ?></div>
+            <div class="sidebar-cat-cloud">
+              <?php foreach ($sidebar_cats as $sc): ?>
+                <a href="<?php echo esc_url(get_category_link($sc->term_id)); ?>" class="sidebar-cat-chip">
+                  <?php echo esc_html($sc->name); ?>
+                  <span class="sidebar-cat-count"><?php echo $sc->count; ?></span>
+                </a>
+              <?php endforeach; ?>
+            </div>
+          </div>
+          <?php endif; ?>
+
+          <!-- ── 6. REGISTERED SIDEBAR WIDGETS (from WP admin) ── -->
+          <?php if (is_active_sidebar('fnx-article-sidebar')): ?>
+            <?php dynamic_sidebar('fnx-article-sidebar'); ?>
+          <?php endif; ?>
+
+        </div><!-- /.sidebar-sticky -->
       </aside>
 
     </div><!-- /.post-layout -->
   </div><!-- /.container -->
 </div><!-- /.fnx-post-body -->
 
-<!-- ══════════════════════════════════════════════════
-     RELATED POSTS (3 Articles from same category)
-══════════════════════════════════════════════════ -->
-<?php
-$related_posts = get_posts([
-    'category'       => $primary_c->term_id,
-    'posts_per_page' => 3,
-    'post__not_in'   => [get_the_ID()],
-    'post_status'    => 'publish',
-]);
-if (!empty($related_posts)):
-?>
-<section class="hp-insights-section" style="border-top: 1px solid var(--border); padding: 60px 0;">
+<!-- ══════════════════════════════════
+     RELATED POSTS
+══════════════════════════════════ -->
+<?php $related = fnx_related_posts(); if ($related): ?>
+<section class="fnx-related-posts">
   <div class="container">
-    <div class="hp-section-header">
-      <div>
-        <span class="hp-sec-eyebrow" style="color: <?php echo esc_attr($cat_color); ?>;"><?php _e('Recommended Reading', 'foundnxt'); ?></span>
-        <h2 class="hp-sec-title"><?php printf(__('More in %s', 'foundnxt'), esc_html($cat_name)); ?></h2>
-      </div>
-      <div>
-        <a href="<?php echo esc_url(get_category_link($primary_c->term_id)); ?>" class="btn-hero-secondary" style="padding: 8px 18px; font-size: 0.875rem;">
-          <?php _e('View Category Archive', 'foundnxt'); ?> &rarr;
-        </a>
-      </div>
+    <div class="section-header">
+      <h2 class="section-title"><?php _e('You May Also Like', 'foundnxt'); ?></h2>
+      <hr class="section-rule">
     </div>
-
-    <div class="hp-insights-grid">
-      <?php foreach ($related_posts as $rp):
-        $rcats  = get_the_category($rp->ID);
-        $rcat   = !empty($rcats) ? $rcats[0] : $primary_c;
-        $rcolor = fnx_get_category_color($rcat->slug);
-      ?>
-        <article class="insight-card" style="--card-accent: <?php echo esc_attr($rcolor); ?>;">
+    <div class="related-grid">
+      <?php foreach ($related as $rp): ?>
+        <a href="<?php echo esc_url(get_permalink($rp->ID)); ?>" class="related-card">
           <?php if (has_post_thumbnail($rp->ID)): ?>
-            <a href="<?php echo esc_url(get_permalink($rp->ID)); ?>" class="insight-card-thumb">
-              <?php echo get_the_post_thumbnail($rp->ID, 'fnx-card', ['loading' => 'lazy']); ?>
-            </a>
+            <div class="related-thumb"><?php echo get_the_post_thumbnail($rp->ID, 'fnx-card', ['loading' => 'lazy', 'decoding' => 'async']); ?></div>
           <?php endif; ?>
-          <div class="insight-card-body">
-            <span class="insight-card-tag" style="background: <?php echo esc_attr($rcolor); ?>18; color: <?php echo esc_attr($rcolor); ?>;">
-              <?php echo esc_html($rcat->name); ?>
-            </span>
-            <h3 class="insight-card-title">
-              <a href="<?php echo esc_url(get_permalink($rp->ID)); ?>">
-                <?php echo esc_html(get_the_title($rp->ID)); ?>
-              </a>
-            </h3>
-            <div class="insight-card-meta">
-              <span><?php echo get_the_date('M j, Y', $rp->ID); ?></span>
-              <span><?php echo fnx_read_time($rp->ID); ?></span>
-            </div>
+          <div class="related-body">
+            <?php $rcats = get_the_category($rp->ID); if ($rcats): ?>
+              <span class="related-cat"><?php echo esc_html($rcats[0]->name); ?></span>
+            <?php endif; ?>
+            <h3 class="related-title"><?php echo esc_html(get_the_title($rp->ID)); ?></h3>
+            <span class="related-date"><?php echo get_the_date('M j, Y', $rp->ID); ?></span>
           </div>
-        </article>
-      <?php endforeach; ?>
+        </a>
+      <?php endforeach; wp_reset_postdata(); ?>
     </div>
   </div>
 </section>
