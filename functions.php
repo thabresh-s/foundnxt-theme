@@ -1878,4 +1878,110 @@ function fnx_strategic_realignment_v2() {
 }
 add_action('init', 'fnx_strategic_realignment_v2', 99);
 
+/* ============================================================
+   SEO ENGINE: ROBOTS.TXT & SITEMAP HYGIENE
+   ============================================================ */
 
+/**
+ * 1. Enhanced, Search-Engine Compliant robots.txt
+ * - Allows Googlebot/Bingbot to crawl CSS, JS, and uploads (vital for mobile-friendly checks).
+ * - Disallows search queries (/?s=, /search/) to eliminate duplicate content & crawl bloat.
+ * - Disallows technical & sensitive files.
+ * - Explicitly lists the canonical XML sitemaps.
+ */
+function fnx_seo_robots_txt($output, $public) {
+    if (!$public) {
+        return $output;
+    }
+
+    $site_url = home_url();
+
+    $robots  = "User-agent: *\n";
+    $robots .= "Disallow: /wp-admin/\n";
+    $robots .= "Allow: /wp-admin/admin-ajax.php\n";
+    $robots .= "Allow: /wp-content/uploads/\n";
+    $robots .= "Allow: /wp-content/themes/\n";
+    $robots .= "Allow: /wp-content/plugins/\n";
+    $robots .= "Disallow: /?s=\n";
+    $robots .= "Disallow: /search/\n";
+    $robots .= "Disallow: /trackback/\n";
+    $robots .= "Disallow: /xmlrpc.php\n";
+    $robots .= "Disallow: /readme.html\n";
+    $robots .= "Disallow: /license.txt\n\n";
+
+    // Fast-crawl rules for major search engines
+    $robots .= "User-agent: Googlebot\n";
+    $robots .= "Allow: /*.js$\n";
+    $robots .= "Allow: /*.css$\n";
+    $robots .= "Allow: /wp-content/uploads/\n\n";
+
+    $robots .= "User-agent: Bingbot\n";
+    $robots .= "Allow: /*.js$\n";
+    $robots .= "Allow: /*.css$\n";
+    $robots .= "Allow: /wp-content/uploads/\n\n";
+
+    // Canonical XML Sitemaps
+    $robots .= "Sitemap: " . esc_url($site_url . '/sitemaps.xml') . "\n";
+    $robots .= "Sitemap: " . esc_url($site_url . '/sitemap.xml') . "\n";
+
+    return $robots;
+}
+add_filter('robots_txt', 'fnx_seo_robots_txt', 999, 2);
+
+/**
+ * 2. XML Sitemap Hygiene: Exclude empty terms & uncategorized from sitemaps
+ */
+add_filter('wp_sitemaps_taxonomies_query_args', function($args, $taxonomy) {
+    $args['hide_empty'] = true;
+    return $args;
+}, 10, 2);
+
+// SiteSEO / SEOPress taxonomy query filter
+add_filter('siteseo_sitemaps_terms_query', function($args) {
+    $args['hide_empty'] = true;
+    return $args;
+});
+add_filter('seopress_sitemaps_terms_query', function($args) {
+    $args['hide_empty'] = true;
+    return $args;
+});
+
+// Exclude single empty or uncategorized terms from SiteSEO sitemaps
+function fnx_filter_sitemap_terms($url, $term) {
+    if (!$url) return false;
+    if (isset($term->count) && (int) $term->count === 0) {
+        return false;
+    }
+    if (isset($term->slug) && in_array($term->slug, ['uncategorized', 'global-business'], true)) {
+        return false;
+    }
+    return $url;
+}
+add_filter('siteseo_sitemaps_single_term', 'fnx_filter_sitemap_terms', 10, 2);
+add_filter('seopress_sitemaps_single_term', 'fnx_filter_sitemap_terms', 10, 2);
+
+/**
+ * 3. Search Engine Indexing Directives (wp_robots)
+ * Automatically sets noindex on empty category archives & internal search
+ */
+add_filter('wp_robots', function($robots) {
+    if (is_search() || is_404()) {
+        $robots['noindex'] = true;
+        $robots['nofollow'] = true;
+    } elseif (is_category()) {
+        $cat = get_queried_object();
+        if ($cat && isset($cat->count) && (int) $cat->count === 0) {
+            $robots['noindex'] = true;
+            $robots['follow'] = true;
+        }
+    }
+    return $robots;
+});
+
+// 4. Clean up legacy empty term 'global-business'
+add_action('init', function() {
+    $gb = get_term_by('slug', 'global-business', 'category');
+    if ($gb && !is_wp_error($gb) && (int) $gb->count === 0) {
+        wp_delete_term($gb->term_id, 'category');
+    }
+}, 99);
