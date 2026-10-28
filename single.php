@@ -134,27 +134,6 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
         </div>
         <?php endif; ?>
 
-        <!-- Verified Sources & Research References -->
-        <div class="fnx-sources-section" style="margin: 36px 0 24px; padding-top: 24px; border-top: 1px solid var(--border, rgba(0,0,0,0.08));">
-          <h4 style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary, #64748B); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-            <?php _e('Sources & Research Benchmarks', 'foundnxt'); ?>
-          </h4>
-          <ul style="font-size: 0.875rem; color: var(--text-secondary, #64748B); line-height: 1.7; padding-left: 20px; margin: 0;">
-            <?php
-            $sources_meta = get_post_meta(get_the_ID(), 'fnx_sources', true);
-            if (!empty($sources_meta) && is_array($sources_meta)):
-              foreach ($sources_meta as $src): ?>
-                <li><a href="<?php echo esc_url($src['url']); ?>" target="_blank" rel="noopener noreferrer" style="color: var(--brand, #FF5A2C); text-decoration: underline;"><?php echo esc_html($src['title']); ?></a> <?php if (!empty($src['publisher'])): ?>(<?php echo esc_html($src['publisher']); ?>)<?php endif; ?></li>
-              <?php endforeach;
-            else: ?>
-              <li><?php _e('Ministry of Corporate Affairs (MCA) filings & audited financial statements.', 'foundnxt'); ?></li>
-              <li><?php _e('Tracxn, Venture Intelligence & IVCA Indian venture capital transaction data.', 'foundnxt'); ?></li>
-              <li><?php _e('IAMAI-Kantar Internet in India Report & Reserve Bank of India macroeconomic indicators.', 'foundnxt'); ?></li>
-            <?php endif; ?>
-          </ul>
-        </div>
-
         <!-- Tags -->
         <?php $tags = get_the_tags(); if ($tags): ?>
         <div class="post-tags">
