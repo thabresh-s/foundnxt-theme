@@ -134,30 +134,6 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
         </div>
         <?php endif; ?>
 
-        <!-- In-Content Lead Magnet Capture Box -->
-        <div class="fnx-article-lead-magnet" style="margin: 40px 0; padding: clamp(24px, 4vw, 36px); background: linear-gradient(135deg, rgba(255, 90, 44, 0.06) 0%, rgba(59, 130, 246, 0.06) 100%); border: 1px solid rgba(255, 90, 44, 0.25); border-radius: 18px; position: relative;">
-          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;">
-            <div style="flex: 1 1 320px;">
-              <span style="display: inline-block; padding: 4px 10px; border-radius: 999px; background: #FF5A2C; color: #FFF; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;">🎁 <?php _e('Free Founder Resource', 'foundnxt'); ?></span>
-              <h3 style="font-size: 1.25rem; font-weight: 800; margin: 0 0 8px; color: var(--text);"><?php _e('Download the 2026 Founder AI & Valuation Framework', 'foundnxt'); ?></h3>
-              <p style="font-size: 0.875rem; color: var(--text-secondary, #64748B); margin: 0; line-height: 1.55;"><?php _e('Get the complete 28-page PDF playbook: Cap table models, AI scaling blueprints, and Indian startup valuation benchmarks.', 'foundnxt'); ?></p>
-            </div>
-            <div style="flex: 1 1 280px; min-width: 260px;">
-              <form class="fnx-newsletter-form fnx-newsletter-fallback-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-                <input type="hidden" name="action" value="fnx_lead_submit">
-                <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
-                <input type="hidden" name="lead_type" value="Article Inline Lead Magnet">
-                <input type="hidden" name="target_sheet" value="leads">
-                <div style="display: flex; gap: 8px;">
-                  <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required style="flex: 1; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); font-size: 0.875rem; background: var(--surface);">
-                  <button type="submit" class="btn-primary" style="padding: 12px 18px; border-radius: 10px; font-size: 0.875rem; white-space: nowrap;"><?php _e('Get PDF', 'foundnxt'); ?> &rarr;</button>
-                </div>
-                <small style="display: block; margin-top: 6px; font-size: 0.75rem; color: var(--muted);"><?php _e('Instant PDF download. No spam, ever.', 'foundnxt'); ?></small>
-              </form>
-            </div>
-          </div>
-        </div>
-
         <!-- Verified Sources & Research References -->
         <div class="fnx-sources-section" style="margin: 36px 0 24px; padding-top: 24px; border-top: 1px solid var(--border, rgba(0,0,0,0.08));">
           <h4 style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary, #64748B); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
@@ -177,15 +153,6 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
               <li><?php _e('IAMAI-Kantar Internet in India Report & Reserve Bank of India macroeconomic indicators.', 'foundnxt'); ?></li>
             <?php endif; ?>
           </ul>
-        </div>
-
-        <!-- 1:1 Advisory Booking CTA Box -->
-        <div class="fnx-advisory-booking-cta" style="margin: 32px 0; padding: 24px; border-radius: 16px; background: var(--surface-2, #141A2D); border: 1px solid var(--border, rgba(255,255,255,0.08)); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
-          <div>
-            <div style="font-weight: 700; font-size: 1.0625rem; color: var(--text, #FFF); margin-bottom: 4px;">🤝 <?php _e('Need Help Scaling or Valuing Your Startup?', 'foundnxt'); ?></div>
-            <p style="font-size: 0.875rem; color: var(--text-secondary, #9BA7BD); margin: 0;"><?php _e('Book a private 1:1 advisory consultation with our venture and growth practice.', 'foundnxt'); ?></p>
-          </div>
-          <a href="<?php echo esc_url(home_url('/services/')); ?>" class="btn-primary" style="white-space: nowrap;"><?php _e('Book 1:1 Advisory Session', 'foundnxt'); ?> &rarr;</a>
         </div>
 
         <!-- Tags -->
