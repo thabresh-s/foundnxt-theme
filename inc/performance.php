@@ -109,7 +109,7 @@ function fnx_remove_wp_bloat() {
     remove_action('wp_head', 'wp_generator');
     remove_action('wp_head', 'wp_shortlink_wp_head');
     remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10);
-    remove_action('wp_head', 'feed_links', 2);
+    // Preserved for RSS autodiscovery: feed_links
     remove_action('wp_head', 'feed_links_extra', 3);
 
     // Disable XML-RPC pingback
@@ -169,3 +169,14 @@ function fnx_send_performance_headers() {
     header('X-Content-Type-Options: nosniff');
 }
 add_action('send_headers', 'fnx_send_performance_headers');
+
+/**
+ * 8. Host Author Avatars Locally (Eliminate external Gravatar requests)
+ */
+function fnx_local_author_avatar($args, $id_or_email) {
+    $args['url'] = get_theme_file_uri('assets/images/author-avatar.svg');
+    $args['found_avatar'] = true;
+    return $args;
+}
+add_filter('pre_get_avatar_data', 'fnx_local_author_avatar', 10, 2);
+

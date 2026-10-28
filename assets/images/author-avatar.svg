@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" fill="none">
+  <defs>
+    <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF5A2C" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+    <linearGradient id="innerGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <!-- Background Circle with Gradient -->
+  <circle cx="60" cy="60" r="58" fill="#141A2D" stroke="url(#avatarGrad)" stroke-width="4" />
+  <circle cx="60" cy="60" r="54" fill="url(#avatarGrad)" fill-opacity="0.15" />
+  
+  <!-- Subtle Head & Shoulders Silhouette -->
+  <g fill="#FFFFFF" opacity="0.92">
+    <!-- Head -->
+    <circle cx="60" cy="46" r="18" fill="url(#avatarGrad)" />
+    <!-- Shoulders -->
+    <path d="M28 96 C28 78 42 72 60 72 C78 72 92 78 92 96 Z" fill="url(#avatarGrad)" />
+    <!-- Editorial Pen / Star Badge -->
+    <circle cx="60" cy="46" r="16" fill="#1B233C" />
+    <path d="M53 47 L60 38 L67 47 Z" fill="#FF5A2C" />
+    <path d="M53 47 L60 55 L67 47 Z" fill="#3B82F6" />
+  </g>
+</svg>

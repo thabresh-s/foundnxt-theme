@@ -41,14 +41,28 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
         <?php echo esc_html($cats[0]->name); ?>
       </a>
       <?php endif; ?>
-      <span class="phb-chip">
+      <span class="phb-chip" title="<?php esc_attr_e('Published date', 'foundnxt'); ?>">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <?php echo get_the_date('M j, Y'); ?>
+        <?php printf(__('Published: %s', 'foundnxt'), get_the_date('M j, Y')); ?>
       </span>
+      <?php if (get_the_modified_date('U') > get_the_date('U')): ?>
+      <span class="phb-chip phb-chip--updated" title="<?php esc_attr_e('Last updated date', 'foundnxt'); ?>">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <?php printf(__('Updated: %s', 'foundnxt'), get_the_modified_date('M j, Y')); ?>
+      </span>
+      <?php endif; ?>
       <span class="phb-chip">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <?php echo fnx_read_time(); ?>
       </span>
+      <?php 
+      $ig_url = get_post_meta(get_the_ID(), 'fnx_instagram_url', true);
+      if ($ig_url): ?>
+      <a href="<?php echo esc_url($ig_url); ?>" target="_blank" rel="noopener noreferrer" class="phb-chip phb-chip--ig" style="color: #E1306C; border-color: rgba(225,48,108,0.3); background: rgba(225,48,108,0.08);">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        <?php _e('View Carousel on Instagram', 'foundnxt'); ?> &rarr;
+      </a>
+      <?php endif; ?>
     </div><!-- /.phb-chips -->
 
   </div><!-- /.phb-simple-outer -->
@@ -97,6 +111,83 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
           <?php the_content(); ?>
         </div>
 
+        <?php
+        // Financial & Legal Editorial Disclaimer for finance/valuation/markets/funding articles
+        $finance_cats = ['valuation-finance', 'markets-economy', 'startups-funding', 'ipo-markets'];
+        $is_finance_post = false;
+        if ($cats) {
+            foreach ($cats as $c) {
+                if (in_array($c->slug, $finance_cats, true)) {
+                    $is_finance_post = true;
+                    break;
+                }
+            }
+        }
+        if ($is_finance_post):
+        ?>
+        <div class="fnx-callout callout-disclaimer" style="margin: 36px 0; padding: 22px 24px; border-radius: 14px; background: rgba(245, 158, 11, 0.08); border-left: 4px solid #F59E0B; display: flex; gap: 16px; align-items: flex-start;">
+          <div style="font-size: 1.5rem; line-height: 1;">⚠️</div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.9375rem; color: #D97706; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;"><?php _e('Editorial & Financial Disclaimer', 'foundnxt'); ?></div>
+            <p style="font-size: 0.875rem; color: var(--text-secondary, #64748B); line-height: 1.6; margin: 0;"><?php _e('FoundNXT publishes independent business intelligence, valuation frameworks, and startup teardowns. Nothing in this article constitutes financial, investment, legal, or tax advice. Company figures, market projections, and valuation metrics represent editorial estimates and regulatory filings. Always consult qualified legal counsel and certified financial advisors before executing investment rounds or financial agreements.', 'foundnxt'); ?></p>
+          </div>
+        </div>
+        <?php endif; ?>
+
+        <!-- In-Content Lead Magnet Capture Box -->
+        <div class="fnx-article-lead-magnet" style="margin: 40px 0; padding: clamp(24px, 4vw, 36px); background: linear-gradient(135deg, rgba(255, 90, 44, 0.06) 0%, rgba(59, 130, 246, 0.06) 100%); border: 1px solid rgba(255, 90, 44, 0.25); border-radius: 18px; position: relative;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;">
+            <div style="flex: 1 1 320px;">
+              <span style="display: inline-block; padding: 4px 10px; border-radius: 999px; background: #FF5A2C; color: #FFF; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;">🎁 <?php _e('Free Founder Resource', 'foundnxt'); ?></span>
+              <h3 style="font-size: 1.25rem; font-weight: 800; margin: 0 0 8px; color: var(--text);"><?php _e('Download the 2026 Founder AI & Valuation Framework', 'foundnxt'); ?></h3>
+              <p style="font-size: 0.875rem; color: var(--text-secondary, #64748B); margin: 0; line-height: 1.55;"><?php _e('Get the complete 28-page PDF playbook: Cap table models, AI scaling blueprints, and Indian startup valuation benchmarks.', 'foundnxt'); ?></p>
+            </div>
+            <div style="flex: 1 1 280px; min-width: 260px;">
+              <form class="fnx-newsletter-form fnx-newsletter-fallback-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+                <input type="hidden" name="action" value="fnx_lead_submit">
+                <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
+                <input type="hidden" name="lead_type" value="Article Inline Lead Magnet">
+                <input type="hidden" name="target_sheet" value="leads">
+                <div style="display: flex; gap: 8px;">
+                  <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required style="flex: 1; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); font-size: 0.875rem; background: var(--surface);">
+                  <button type="submit" class="btn-primary" style="padding: 12px 18px; border-radius: 10px; font-size: 0.875rem; white-space: nowrap;"><?php _e('Get PDF', 'foundnxt'); ?> &rarr;</button>
+                </div>
+                <small style="display: block; margin-top: 6px; font-size: 0.75rem; color: var(--muted);"><?php _e('Instant PDF download. No spam, ever.', 'foundnxt'); ?></small>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verified Sources & Research References -->
+        <div class="fnx-sources-section" style="margin: 36px 0 24px; padding-top: 24px; border-top: 1px solid var(--border, rgba(0,0,0,0.08));">
+          <h4 style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary, #64748B); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <?php _e('Sources & Research Benchmarks', 'foundnxt'); ?>
+          </h4>
+          <ul style="font-size: 0.875rem; color: var(--text-secondary, #64748B); line-height: 1.7; padding-left: 20px; margin: 0;">
+            <?php
+            $sources_meta = get_post_meta(get_the_ID(), 'fnx_sources', true);
+            if (!empty($sources_meta) && is_array($sources_meta)):
+              foreach ($sources_meta as $src): ?>
+                <li><a href="<?php echo esc_url($src['url']); ?>" target="_blank" rel="noopener noreferrer" style="color: var(--brand, #FF5A2C); text-decoration: underline;"><?php echo esc_html($src['title']); ?></a> <?php if (!empty($src['publisher'])): ?>(<?php echo esc_html($src['publisher']); ?>)<?php endif; ?></li>
+              <?php endforeach;
+            else: ?>
+              <li><?php _e('Ministry of Corporate Affairs (MCA) filings & audited financial statements.', 'foundnxt'); ?></li>
+              <li><?php _e('Tracxn, Venture Intelligence & IVCA Indian venture capital transaction data.', 'foundnxt'); ?></li>
+              <li><?php _e('IAMAI-Kantar Internet in India Report & Reserve Bank of India macroeconomic indicators.', 'foundnxt'); ?></li>
+            <?php endif; ?>
+          </ul>
+        </div>
+
+        <!-- 1:1 Advisory Booking CTA Box -->
+        <div class="fnx-advisory-booking-cta" style="margin: 32px 0; padding: 24px; border-radius: 16px; background: var(--surface-2, #141A2D); border: 1px solid var(--border, rgba(255,255,255,0.08)); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+          <div>
+            <div style="font-weight: 700; font-size: 1.0625rem; color: var(--text, #FFF); margin-bottom: 4px;">🤝 <?php _e('Need Help Scaling or Valuing Your Startup?', 'foundnxt'); ?></div>
+            <p style="font-size: 0.875rem; color: var(--text-secondary, #9BA7BD); margin: 0;"><?php _e('Book a private 1:1 advisory consultation with our venture and growth practice.', 'foundnxt'); ?></p>
+          </div>
+          <a href="<?php echo esc_url(home_url('/services/')); ?>" class="btn-primary" style="white-space: nowrap;"><?php _e('Book 1:1 Advisory Session', 'foundnxt'); ?> &rarr;</a>
+        </div>
+
         <!-- Tags -->
         <?php $tags = get_the_tags(); if ($tags): ?>
         <div class="post-tags">
@@ -111,7 +202,7 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
         <div class="post-share">
           <span class="share-label"><?php _e('Share this article:', 'foundnxt'); ?></span>
           <div class="share-buttons">
-            <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode(get_permalink()); ?>&text=<?php echo urlencode(get_the_title()); ?>" target="_blank" rel="noopener" class="share-btn share-twitter" aria-label="Share on X (Twitter)">
+            <a href="https://x.com/intent/post?url=<?php echo urlencode(get_permalink()); ?>&text=<?php echo urlencode(get_the_title()); ?>" target="_blank" rel="noopener" class="share-btn share-twitter" aria-label="Share on X (Twitter)">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
             </a>
             <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(get_permalink()); ?>" target="_blank" rel="noopener" class="share-btn share-facebook" aria-label="Share on Facebook">

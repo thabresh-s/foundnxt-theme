@@ -105,18 +105,16 @@ endif;
       $cat        = get_queried_object();
       $slug       = $cat->slug;
       $cat_color  = fnx_get_category_color($slug);
-      $icon_map   = [
-        'business-strategy' => '💼',
-        'startups-funding'  => '🚀',
-        'valuation-finance' => '📈',
-        'markets-economy'   => '🌐',
-        'technology-ai'     => '🤖',
-        'marketing-growth'  => '🎯',
-        'global-business'   => '🗺️',
-        'news-insights'     => '📰',
-      ];
-      $cat_icon   = $icon_map[$slug] ?? '📰';
-      $post_count = $cat->count;
+      $cat_icon   = fnx_get_category_icon($slug);
+      $post_count = (int) $cat->count;
+      if ($post_count <= 0) {
+          $post_count = count(get_posts([
+              'category'       => $cat->term_id,
+              'posts_per_page' => -1,
+              'post_status'    => 'publish',
+              'fields'         => 'ids',
+          ]));
+      }
     ?>
 
     <!-- CATEGORY HERO BANNER — Styled with category color -->

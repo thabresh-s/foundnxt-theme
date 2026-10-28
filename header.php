@@ -34,6 +34,29 @@
     } catch(e) {}
   })();
 </script>
+<?php
+$fnx_og_title = is_single() ? get_the_title() : (get_bloginfo('name') . ' — ' . (get_bloginfo('description') ?: 'Where Founders Find What’s Next'));
+$fnx_og_desc  = is_single() ? wp_strip_all_tags(get_the_excerpt() ?: get_the_title()) : get_theme_mod('fnx_seo_description', 'Actionable frameworks, funding teardowns, valuation models, and AI scaling playbooks for Indian founders.');
+$fnx_og_url   = is_single() ? get_permalink() : home_url('/');
+$fnx_og_img   = (is_single() && has_post_thumbnail()) ? wp_get_attachment_image_url(get_post_thumbnail_id(), 'fnx-hero') : get_theme_file_uri('assets/images/logo.png');
+?>
+<meta property="og:title" content="<?php echo esc_attr($fnx_og_title); ?>">
+<meta property="og:description" content="<?php echo esc_attr($fnx_og_desc); ?>">
+<meta property="og:url" content="<?php echo esc_url($fnx_og_url); ?>">
+<meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')); ?>">
+<meta property="og:type" content="<?php echo is_single() ? 'article' : 'website'; ?>">
+<meta property="og:image" content="<?php echo esc_url($fnx_og_img); ?>">
+<?php if (is_single()): ?>
+<meta property="article:published_time" content="<?php echo get_the_date('c'); ?>">
+<meta property="article:modified_time" content="<?php echo get_the_modified_date('c'); ?>">
+<?php endif; ?>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@foundnxt">
+<meta name="twitter:title" content="<?php echo esc_attr($fnx_og_title); ?>">
+<meta name="twitter:description" content="<?php echo esc_attr($fnx_og_desc); ?>">
+<meta name="twitter:image" content="<?php echo esc_url($fnx_og_img); ?>">
+<link rel="alternate" type="application/rss+xml" title="<?php echo esc_attr(get_bloginfo('name')); ?> RSS Feed" href="<?php echo esc_url(get_bloginfo('rss2_url')); ?>">
+
 <?php wp_head(); ?>
 
 <!-- Schema.org JSON-LD Structured Data -->
@@ -48,7 +71,7 @@
       "url": "<?php echo esc_url(home_url('/')); ?>",
       "logo": "<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/logo.svg'); ?>",
       "sameAs": [
-        "https://twitter.com/foundnxt",
+        "https://x.com/foundnxt",
         "https://linkedin.com/company/foundnxt"
       ]
     },
@@ -172,7 +195,7 @@ if ($announcement_enabled && !$announcement_dismissed):
           </ul>
         </li>
 
-        <li><a href="<?php echo esc_url(home_url('/tools/')); ?>" class="nav-link-tools"><?php _e('Tools', 'foundnxt'); ?> <span class="nav-badge-soon"><?php _e('Soon', 'foundnxt'); ?></span></a></li>
+
         <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Services', 'foundnxt'); ?></a></li>
         <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About', 'foundnxt'); ?></a></li>
       </ul>

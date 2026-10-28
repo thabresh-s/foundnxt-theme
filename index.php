@@ -7,6 +7,9 @@
 ══════════════════════════════════ -->
 
   <?php
+  // Global deduplication array to ensure no article repeats across the homepage
+  $rendered_post_ids = [];
+
   function fnx_get_hp_posts($args = []) {
     $defaults = ['post_status' => 'publish', 'posts_per_page' => 6, 'suppress_filters' => false];
     return get_posts(array_merge($defaults, $args));
@@ -24,15 +27,15 @@
       <div class="hp-hero-v3-inner">
         <div class="hero-pill-badge">
           <span class="hero-pill-dot" aria-hidden="true"></span>
-          <span><?php _e('How to Scale Your Company in the AI Era', 'foundnxt'); ?></span>
+          <span><?php _e('The India Startup & Scaleup Intelligence Platform', 'foundnxt'); ?></span>
         </div>
 
         <h1 class="hp-h1-v3">
-          Think Smarter. Build Bigger. <span class="text-grad"><?php _e('Grow Faster.', 'foundnxt'); ?></span>
+          The Playbook for India’s Next Wave of <span class="text-grad"><?php _e('Breakout Startups.', 'foundnxt'); ?></span>
         </h1>
 
         <p class="hp-lead-v3">
-          <?php _e('Learn how to scale your startup with proven frameworks on AI, valuation, and growth. No jargon, just what works.', 'foundnxt'); ?>
+          <?php _e('Actionable frameworks, funding teardowns, valuation models, and AI scaling playbooks—built specifically for Indian founders and operators building global companies.', 'foundnxt'); ?>
         </p>
 
         <!-- Hero Actions: "Explore Articles" (Primary) + "Work With Us" (Outlined) -->
@@ -55,7 +58,12 @@
   $featured_posts   = $featured_enabled && function_exists('fnx_get_featured_homepage_posts') 
                       ? fnx_get_featured_homepage_posts() 
                       : [];
-  $featured_count   = count($featured_posts);
+    $featured_count   = count($featured_posts);
+  if (!empty($featured_posts)) {
+    foreach ($featured_posts as $fp_item) {
+      $rendered_post_ids[] = $fp_item->ID;
+    }
+  }
 
   if ($featured_enabled && $featured_count > 0):
     $featured_tag           = get_theme_mod('fnx_featured_tag', __('Editor’s Picks', 'foundnxt'));
@@ -261,21 +269,23 @@
       </div>
 
       <?php
-      // Query recent published posts
+      // Query all recent published posts (no arbitrary 30-limit cutoff to prevent 30 vs 39 mismatch)
       $recent_args = [
           'post_type'      => 'post',
           'post_status'    => 'publish',
-          'posts_per_page' => 30,
+          'posts_per_page' => 100,
           'orderby'        => 'date',
           'order'          => 'DESC',
       ];
-      // Exclude featured IDs from Recent section only if there are at least 5 posts total
-      $featured_ids = !empty($featured_posts) ? wp_list_pluck($featured_posts, 'ID') : [];
-      $all_posts_count = wp_count_posts('post')->publish ?? 0;
-      if ($all_posts_count >= 5 && !empty($featured_ids)) {
-          $recent_args['post__not_in'] = $featured_ids;
+      // Exclude already rendered spotlight post IDs
+      if (!empty($rendered_post_ids)) {
+          $recent_args['post__not_in'] = $rendered_post_ids;
       }
       $all_posts = get_posts($recent_args);
+      // Track all rendered posts to deduplicate category sections below
+      foreach ($all_posts as $p_item) {
+          $rendered_post_ids[] = $p_item->ID;
+      }
 
       // Calculate post counts per category
       $cat_counts = [];

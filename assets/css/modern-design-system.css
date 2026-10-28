@@ -4661,3 +4661,226 @@ body[data-mode="dark"] .cat-stat-pill {
     padding: 5px 11px !important;
   }
 }
+
+
+/* ============================================================
+   START HERE STRIP — Cornerstone Founder Guides
+   ============================================================ */
+.hp-start-here-section {
+  padding: clamp(32px, 5vw, 56px) 0 clamp(20px, 3vw, 36px);
+}
+.start-here-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg, 20px);
+  padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 40px);
+  box-shadow: 0 4px 20px -2px rgba(14, 18, 32, 0.04);
+}
+.start-here-header-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: clamp(24px, 3vw, 36px);
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.start-here-heading {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 8px 0 0;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.start-here-intro {
+  font-size: 0.9375rem;
+  color: var(--text-secondary, #64748B);
+  max-width: 480px;
+  margin: 0;
+  line-height: 1.55;
+}
+.start-here-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(16px, 2.5vw, 24px);
+}
+.start-here-card {
+  background: var(--surface-2, #F8FAFC);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md, 16px);
+  padding: clamp(20px, 3vw, 28px);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+  position: relative;
+}
+.start-here-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -6px rgba(0, 0, 0, 0.08);
+  border-color: var(--sh-accent, var(--brand));
+}
+.start-here-badge {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+.start-here-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+  margin: 0 0 10px;
+}
+.start-here-card-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #64748B);
+  line-height: 1.55;
+  margin: 0 0 20px;
+  flex-grow: 1;
+}
+.start-here-link {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--sh-accent, var(--brand));
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap 0.2s ease;
+}
+.start-here-card:hover .start-here-link {
+  gap: 10px;
+}
+
+/* Dark mode for Start Here */
+:root[data-theme="dark"] .start-here-wrapper,
+body.dark-mode .start-here-wrapper {
+  background: #141A2D;
+  border-color: #202A44;
+}
+:root[data-theme="dark"] .start-here-card,
+body.dark-mode .start-here-card {
+  background: #1B233C;
+  border-color: #202A44;
+}
+:root[data-theme="dark"] .start-here-intro,
+body.dark-mode .start-here-intro,
+:root[data-theme="dark"] .start-here-card-desc,
+body.dark-mode .start-here-card-desc {
+  color: #9BA7BD;
+}
+
+/* ============================================================
+   SOCIAL PROOF & TESTIMONIALS STRIP
+   ============================================================ */
+.hp-proof-strip {
+  padding: 0 0 clamp(32px, 5vw, 56px);
+}
+.proof-strip-card {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2, #F8FAFC) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg, 20px);
+  padding: clamp(24px, 3.5vw, 36px);
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+}
+@media (max-width: 960px) {
+  .proof-strip-card {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.proof-stats-col {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 24px;
+}
+.proof-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+.proof-stat-number {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--brand, #FF5A2C);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.proof-stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary, #64748B);
+}
+.proof-stat-divider {
+  width: 1px;
+  height: 36px;
+  background: var(--border);
+}
+.proof-quotes-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 640px) {
+  .proof-quotes-col {
+    grid-template-columns: 1fr;
+  }
+}
+.proof-quote-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+.proof-quote-stars {
+  color: #F59E0B;
+  font-size: 0.875rem;
+  letter-spacing: 2px;
+}
+.proof-quote-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text);
+  font-style: italic;
+  margin: 0;
+}
+.proof-quote-author {
+  font-size: 0.78125rem;
+  color: var(--text-secondary, #64748B);
+}
+
+:root[data-theme="dark"] .proof-strip-card {
+  background: #141A2D;
+  border-color: #202A44;
+}
+:root[data-theme="dark"] .proof-stats-col,
+:root[data-theme="dark"] .proof-quote-card {
+  background: #1B233C;
+  border-color: #202A44;
+}
+:root[data-theme="dark"] .proof-stat-label,
+:root[data-theme="dark"] .proof-quote-author {
+  color: #9BA7BD;
+}
