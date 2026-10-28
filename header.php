@@ -3,6 +3,7 @@
 <head>
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <?php if (!has_action('wp_head', 'rel_canonical')): ?>
 <link rel="canonical" href="<?php echo esc_url(get_permalink()); ?>">
@@ -129,9 +130,9 @@ $announcement_enabled   = (bool) get_theme_mod('fnx_announcement_enabled', true)
 $announcement_dismissed = isset($_COOKIE['fnx_announcement_dismissed']) && $_COOKIE['fnx_announcement_dismissed'] === '1';
 if ($announcement_enabled && !$announcement_dismissed):
   $banner_badge     = get_theme_mod('fnx_announcement_badge', "✨ " . __("What's New", 'foundnxt'));
-  $banner_text      = get_theme_mod('fnx_announcement_text', __('The 2026 Founder AI Valuation & Scaling Framework is live.', 'foundnxt'));
-  $banner_link_text = get_theme_mod('fnx_announcement_link_text', __('Get the Framework', 'foundnxt'));
-  $banner_link_url  = get_theme_mod('fnx_announcement_link_url', home_url('/#newsletter'));
+  $banner_text      = get_theme_mod('fnx_announcement_text', __('How to scale your company in the AI era.', 'foundnxt'));
+  $banner_link_text = get_theme_mod('fnx_announcement_link_text', __('Explore Insights', 'foundnxt'));
+  $banner_link_url  = get_theme_mod('fnx_announcement_link_url', home_url('/articles/'));
 ?>
 <aside class="fnx-top-banner" id="fnx-top-banner" aria-label="<?php esc_attr_e('Announcement', 'foundnxt'); ?>">
   <div class="top-banner-inner container">
@@ -175,27 +176,10 @@ if ($announcement_enabled && !$announcement_dismissed):
     <!-- Column 2: Centered Links with Categories Dropdown (Articles, Categories ▾, Tools, Services, About) -->
     <nav class="header-nav" id="primary-nav" role="navigation" aria-label="<?php esc_attr_e('Primary Navigation', 'foundnxt'); ?>">
       <ul class="nav-menu">
-        <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Articles', 'foundnxt'); ?></a></li>
-        
-        <!-- Categories Dropdown (7 Unified Categories) -->
-        <li class="menu-item-has-children has-dropdown">
-          <button type="button" class="nav-parent-link nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">
-            <?php _e('Categories', 'foundnxt'); ?>
-            <svg class="nav-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <ul class="sub-menu" role="menu">
-            <?php foreach (fnx_get_primary_categories() as $pcat): ?>
-              <li role="none">
-                <a href="<?php echo esc_url($pcat['url']); ?>" role="menuitem">
-                  <span class="cat-menu-dot" style="background:<?php echo esc_attr($pcat['color']); ?>"></span>
-                  <span><?php echo esc_html($pcat['name']); ?></span>
-                </a>
-              </li>
-            <?php endforeach; ?>
-          </ul>
-        </li>
-
-
+        <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Insights', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/category/startup-stories/')); ?>"><?php _e('Startup Stories', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/category/markets-valuation/')); ?>"><?php _e('Markets & Valuation', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/category/ai-tech/')); ?>"><?php _e('AI & Tech', 'foundnxt'); ?></a></li>
         <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Services', 'foundnxt'); ?></a></li>
         <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About', 'foundnxt'); ?></a></li>
       </ul>
@@ -267,29 +251,10 @@ if ($announcement_enabled && !$announcement_dismissed):
       </button>
 
       <ul class="mobile-menu-list">
-        <li><a href="<?php echo esc_url(home_url('/articles/')); ?>" class="mobile-menu-link"><?php _e('Articles', 'foundnxt'); ?></a></li>
-        
-        <!-- Categories Collapsible Accordion (7 Unified Categories) -->
-        <li class="mobile-menu-group">
-          <details class="mobile-categories-accordion" id="mobile-categories-accordion">
-            <summary class="mobile-menu-link mobile-categories-summary">
-              <span><?php _e('Categories', 'foundnxt'); ?></span>
-              <svg class="mobile-chevron" width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </summary>
-            <ul class="mobile-submenu-list">
-              <?php foreach (fnx_get_primary_categories() as $pcat): ?>
-                <li>
-                  <a href="<?php echo esc_url($pcat['url']); ?>" class="mobile-sublink">
-                    <span class="cat-menu-dot" style="background:<?php echo esc_attr($pcat['color']); ?>"></span>
-                    <span><?php echo esc_html($pcat['name']); ?></span>
-                  </a>
-                </li>
-              <?php endforeach; ?>
-            </ul>
-          </details>
-        </li>
-
-        <li><a href="<?php echo esc_url(home_url('/tools/')); ?>" class="mobile-menu-link"><span><?php _e('Tools', 'foundnxt'); ?></span><span class="nav-badge-soon"><?php _e('Soon', 'foundnxt'); ?></span></a></li>
+        <li><a href="<?php echo esc_url(home_url('/articles/')); ?>" class="mobile-menu-link"><?php _e('Insights', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/category/startup-stories/')); ?>" class="mobile-menu-link"><?php _e('Startup Stories', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/category/markets-valuation/')); ?>" class="mobile-menu-link"><?php _e('Markets & Valuation', 'foundnxt'); ?></a></li>
+        <li><a href="<?php echo esc_url(home_url('/category/ai-tech/')); ?>" class="mobile-menu-link"><?php _e('AI & Tech', 'foundnxt'); ?></a></li>
         <li><a href="<?php echo esc_url(home_url('/services/')); ?>" class="mobile-menu-link"><?php _e('Services', 'foundnxt'); ?></a></li>
         <li><a href="<?php echo esc_url(home_url('/about/')); ?>" class="mobile-menu-link"><?php _e('About', 'foundnxt'); ?></a></li>
       </ul>

@@ -140,7 +140,7 @@ endif;
         </div>
 
         <?php if (category_description()): ?>
-          <div class="cat-banner-desc" itemprop="description"><?php echo category_description(); ?></div>
+          <div class="cat-banner-desc" itemprop="description" style="color: rgba(255, 255, 255, 0.92) !important; font-size: 1.0625rem; line-height: 1.6; margin: 10px 0 18px 0;"><?php echo category_description(); ?></div>
         <?php endif; ?>
 
         <!-- Stats row -->

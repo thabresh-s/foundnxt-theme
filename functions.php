@@ -89,7 +89,7 @@ function fnx_enqueue() {
     // Google Fonts
     wp_enqueue_style(
         'fnx-fonts',
-        'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
+        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
         [],
         null
     );
@@ -146,7 +146,7 @@ add_action('wp_enqueue_scripts', 'fnx_enqueue');
 // Block editor styles
 function fnx_editor_styles() {
     add_editor_style([
-        'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
+        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
         'style.css',
         'assets/css/editor.css'
     ]);
@@ -832,22 +832,29 @@ add_action('admin_post_nopriv_fnx_homepage_contact', 'fnx_handle_lead_submission
    ============================================================ */
 function fnx_get_category_color($category_slug_or_id = 'news-insights') {
     $colors = [
-        'business-strategy'      => '#FF5A2C', // FoundNXT Brand Orange
-        'startups-funding'       => '#FF6B6B', // Coral
-        'founder-playbook'       => '#3B82F6', // Blue
-        'ai'                     => '#00D4AA', // Mint Teal
-        'case-studies-teardowns' => '#EC4899', // Pink
-        'funding-venture'        => '#10B981', // Emerald
-        'india-specific'         => '#F59E0B', // Amber
-        'deeptech'               => '#6366F1', // Indigo
-        'valuation-finance'      => '#14B8A6', // Teal
-        'markets-economy'        => '#F59E0B', // Amber
-        'technology-ai'          => '#00D4AA', // Mint Teal
-        'marketing-growth'       => '#EC4899', // Pink
-        'global-business'        => '#0EA5E9', // Sky Blue
-        'news-insights'          => '#10B981', // Emerald
-        'ipo-markets'            => '#0284C7', // Sky Blue
-        'whats-next'             => '#8B5CF6', // Purple
+        'startups-funding'        => '#FF6B6B', // Coral
+        'startups'                => '#FF6B6B', // Coral
+        'startup-stories'         => '#7C3AED', // Electric Violet
+        'case-studies-teardowns'  => '#7C3AED', // Electric Violet
+        'markets-valuation'       => '#F59E0B', // Amber
+        'valuation-finance'       => '#F59E0B', // Amber
+        'markets-economy'         => '#F59E0B', // Amber
+        'ai-tech'                 => '#14B8A6', // Teal
+        'technology-ai'           => '#14B8A6', // Teal
+        'ai'                      => '#14B8A6', // Teal
+        'marketing-growth'        => '#F43F5E', // Rose / Magenta
+        'global-business'         => '#0EA5E9', // Sky Blue
+        'cost-cutting-operations' => '#10B981', // Mint / Emerald
+        'market-research'         => '#6366F1', // Indigo
+        'news-updates'            => '#FB923C', // Tangerine / Orange
+        'news-insights'           => '#FB923C', // Tangerine / Orange
+        'business-strategy'       => '#FF6B6B', // Coral
+        'founder-playbook'        => '#3B82F6', // Blue
+        'funding-venture'         => '#10B981', // Emerald
+        'india-specific'          => '#F59E0B', // Amber
+        'deeptech'                => '#6366F1', // Indigo
+        'ipo-markets'             => '#0284C7', // Sky Blue
+        'whats-next'              => '#8B5CF6', // Purple
     ];
     if (is_numeric($category_slug_or_id)) {
         $term = get_term($category_slug_or_id, 'category');
@@ -861,21 +868,29 @@ function fnx_get_category_color($category_slug_or_id = 'news-insights') {
 
 function fnx_get_category_icon($slug_or_id = '') {
     $icons = [
-        'startups-funding'       => '🚀',
-        'founder-playbook'       => '📘',
-        'business-strategy'      => '💼',
-        'ai'                     => '🤖',
-        'technology-ai'          => '🤖',
-        'case-studies-teardowns' => '🔍',
-        'funding-venture'        => '💰',
-        'india-specific'         => '🇮🇳',
-        'deeptech'               => '🔬',
-        'news-insights'          => '📰',
-        'valuation-finance'      => '📈',
-        'markets-economy'        => '🌐',
-        'marketing-growth'       => '🎯',
-        'ipo-markets'            => '🏛️',
-        'whats-next'             => '✨',
+        'startups-funding'        => '🚀',
+        'startups'                => '🚀',
+        'startup-stories'         => '🔥',
+        'case-studies-teardowns'  => '🔥',
+        'markets-valuation'       => '📊',
+        'valuation-finance'       => '📊',
+        'markets-economy'         => '📊',
+        'ai-tech'                 => '🤖',
+        'technology-ai'           => '🤖',
+        'ai'                      => '🤖',
+        'marketing-growth'        => '🎯',
+        'global-business'         => '🌍',
+        'cost-cutting-operations' => '⚡',
+        'market-research'         => '🔍',
+        'news-updates'            => '📰',
+        'news-insights'           => '📰',
+        'founder-playbook'        => '📘',
+        'business-strategy'       => '💼',
+        'funding-venture'         => '💰',
+        'india-specific'          => '🇮🇳',
+        'deeptech'                => '🔬',
+        'ipo-markets'             => '🏛️',
+        'whats-next'              => '✨',
     ];
     if (is_numeric($slug_or_id)) {
         $term = get_term($slug_or_id, 'category');
@@ -1684,71 +1699,104 @@ add_action('admin_init',        'fnx_auto_setup_v2', 99);
  * Unified 7-Pillar Primary Categories Source of Truth
  */
 function fnx_get_primary_categories() {
-    return [
+    $pillars = [
         [
-            'name'  => __('Startups & Funding', 'foundnxt'),
+            'name'  => __('Startups', 'foundnxt'),
             'slug'  => 'startups-funding',
             'url'   => home_url('/category/startups-funding/'),
             'color' => '#FF6B6B',
-            'badge' => '01 / PILLAR',
+            'badge' => '01 / TOPIC',
             'icon'  => '🚀',
-            'desc'  => __('Fundraising mechanics, VC term sheets, cap table models, and early-stage startup growth playbooks.', 'foundnxt'),
+            'desc'  => __('Fundraising tactics, pitch decks, venture capital, angel investing, and early-stage startup growth playbooks.', 'foundnxt'),
         ],
         [
-            'name'  => __('Tech & AI', 'foundnxt'),
-            'slug'  => 'technology-ai',
-            'url'   => home_url('/category/technology-ai/'),
-            'color' => '#00D4AA',
-            'badge' => '02 / PILLAR',
-            'icon'  => '🤖',
-            'desc'  => __('Enterprise AI workflows, LLM agents, deep tech architectures, and practical engineering decisions.', 'foundnxt'),
+            'name'  => __('Startup Stories', 'foundnxt'),
+            'slug'  => 'startup-stories',
+            'url'   => home_url('/category/startup-stories/'),
+            'color' => '#7C3AED',
+            'badge' => '02 / TOPIC',
+            'icon'  => '🔥',
+            'desc'  => __('Inside stories, pivot teardowns, and deep profiles of high-momentum Indian and global startups.', 'foundnxt'),
         ],
         [
-            'name'  => __('Scaling & Strategy', 'foundnxt'),
-            'slug'  => 'business-strategy',
-            'url'   => home_url('/category/business-strategy/'),
-            'color' => '#FF5A2C',
-            'badge' => '03 / PILLAR',
-            'icon'  => '💼',
-            'desc'  => __('Operational metrics, unit economics, organizational design, and expansion frameworks for growing companies.', 'foundnxt'),
-        ],
-        [
-            'name'  => __('Valuation & Finance', 'foundnxt'),
-            'slug'  => 'valuation-finance',
-            'url'   => home_url('/category/valuation-finance/'),
-            'color' => '#14B8A6',
-            'badge' => '04 / PILLAR',
-            'icon'  => '📈',
-            'desc'  => __('Discounted cash flows, revenue multiples, 409A benchmarks, and equity structuring for founders.', 'foundnxt'),
-        ],
-        [
-            'name'  => __('Markets & Economy', 'foundnxt'),
-            'slug'  => 'markets-economy',
-            'url'   => home_url('/category/markets-economy/'),
+            'name'  => __('Markets & Valuation', 'foundnxt'),
+            'slug'  => 'markets-valuation',
+            'url'   => home_url('/category/markets-valuation/'),
             'color' => '#F59E0B',
-            'badge' => '05 / PILLAR',
-            'icon'  => '🌐',
-            'desc'  => __('Interest rate cycles, public market liquidity, macroeconomic indicators, and IPO readiness.', 'foundnxt'),
+            'badge' => '03 / TOPIC',
+            'icon'  => '📊',
+            'desc'  => __('Public market shifts, macroeconomic indicators, 409A multiples, and defensible company valuation models.', 'foundnxt'),
+        ],
+        [
+            'name'  => __('AI & Tech', 'foundnxt'),
+            'slug'  => 'ai-tech',
+            'url'   => home_url('/category/ai-tech/'),
+            'color' => '#14B8A6',
+            'badge' => '04 / TOPIC',
+            'icon'  => '🤖',
+            'desc'  => __('Enterprise AI adoption, LLM agent workflows, developer infrastructure, and software stack evolution.', 'foundnxt'),
         ],
         [
             'name'  => __('Marketing & Growth', 'foundnxt'),
             'slug'  => 'marketing-growth',
             'url'   => home_url('/category/marketing-growth/'),
-            'color' => '#EC4899',
-            'badge' => '06 / PILLAR',
+            'color' => '#F43F5E',
+            'badge' => '05 / TOPIC',
             'icon'  => '🎯',
-            'desc'  => __('0-to-1 customer acquisition, product-led growth, vernacular expansion, and retention loops.', 'foundnxt'),
+            'desc'  => __('0-to-1 customer acquisition playbooks, topical SEO strategies, brand positioning, and retention loops.', 'foundnxt'),
         ],
         [
-            'name'  => __('Founder Playbooks', 'foundnxt'),
-            'slug'  => 'founder-playbook',
-            'url'   => home_url('/category/founder-playbook/'),
-            'color' => '#3B82F6',
-            'badge' => '07 / PILLAR',
-            'icon'  => '📘',
-            'desc'  => __('Actionable field guides, step-by-step startup frameworks, and mental models for first-time founders.', 'foundnxt'),
+            'name'  => __('Global Business', 'foundnxt'),
+            'slug'  => 'global-business',
+            'url'   => home_url('/category/global-business/'),
+            'color' => '#0EA5E9',
+            'badge' => '06 / TOPIC',
+            'icon'  => '🌍',
+            'desc'  => __('Cross-border scaling, international trade dynamics, supply chain optimization, and global market expansion.', 'foundnxt'),
+        ],
+        [
+            'name'  => __('Cost Cutting & Operations', 'foundnxt'),
+            'slug'  => 'cost-cutting-operations',
+            'url'   => home_url('/category/cost-cutting-operations/'),
+            'color' => '#10B981',
+            'badge' => '07 / TOPIC',
+            'icon'  => '⚡',
+            'desc'  => __('Lean operational systems, cloud infrastructure cost reduction, unit economics, and burn rate management.', 'foundnxt'),
+        ],
+        [
+            'name'  => __('Market Research', 'foundnxt'),
+            'slug'  => 'market-research',
+            'url'   => home_url('/category/market-research/'),
+            'color' => '#6366F1',
+            'badge' => '08 / TOPIC',
+            'icon'  => '🔍',
+            'desc'  => __('Proprietary industry datasets, competitor benchmarking, addressable market sizing, and sector trends.', 'foundnxt'),
+        ],
+        [
+            'name'  => __('News Updates', 'foundnxt'),
+            'slug'  => 'news-updates',
+            'url'   => home_url('/category/news-updates/'),
+            'color' => '#FB923C',
+            'badge' => '09 / TOPIC',
+            'icon'  => '📰',
+            'desc'  => __('Fast-moving venture rounds, regulatory shifts, tech announcements, and macroeconomic headlines.', 'foundnxt'),
         ],
     ];
+
+    // Dynamically attach live counts
+    foreach ($pillars as &$p) {
+        $term = get_term_by('slug', $p['slug'], 'category');
+        if ($term && !is_wp_error($term)) {
+            $p['count'] = (int) $term->count;
+            $p['term_id'] = (int) $term->term_id;
+        } else {
+            $p['count'] = 0;
+            $p['term_id'] = 0;
+        }
+    }
+    unset($p);
+
+    return $pillars;
 }
 
 /**
@@ -1985,3 +2033,102 @@ add_action('init', function() {
         wp_delete_term($gb->term_id, 'category');
     }
 }, 99);
+
+
+/**
+ * Auto-populate V2 Categories with articles & setup Waitlist handler
+ */
+add_action('init', function() {
+    if (!get_option('fnx_v2_categories_populated')) {
+        $mappings = [
+            'startup-stories'         => ['case-studies-teardowns', 'startups-funding'],
+            'markets-valuation'       => ['valuation-finance', 'markets-economy'],
+            'ai-tech'                 => ['technology-ai', 'ai', 'deeptech'],
+            'news-updates'            => ['news-insights'],
+        ];
+
+        foreach ($mappings as $target_slug => $source_slugs) {
+            $target_term = get_term_by('slug', $target_slug, 'category');
+            if ($target_term && !is_wp_error($target_term)) {
+                $target_id = $target_term->term_id;
+                foreach ($source_slugs as $src) {
+                    $src_term = get_term_by('slug', $src, 'category');
+                    if ($src_term && !is_wp_error($src_term)) {
+                        $posts = get_posts([
+                            'category'    => $src_term->term_id,
+                            'numberposts' => -1,
+                            'fields'      => 'ids',
+                        ]);
+                        foreach ($posts as $pid) {
+                            wp_set_post_categories($pid, [$target_id], true);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Assign sample posts to global-business, cost-cutting-operations, market-research
+        $extra_slugs = ['global-business', 'cost-cutting-operations', 'market-research'];
+        $recent = get_posts(['numberposts' => 18, 'fields' => 'ids']);
+        if (!empty($recent)) {
+            $chunks = array_chunk($recent, 6);
+            foreach ($extra_slugs as $idx => $eslug) {
+                if (isset($chunks[$idx])) {
+                    $t = get_term_by('slug', $eslug, 'category');
+                    if ($t && !is_wp_error($t)) {
+                        foreach ($chunks[$idx] as $pid) {
+                            wp_set_post_categories($pid, [$t->term_id], true);
+                        }
+                    }
+                }
+            }
+        }
+
+        update_option('fnx_v2_categories_populated', 1);
+    }
+});
+
+/**
+ * Handle Waitlist Submission (Market Research & Valuation Services)
+ */
+function fnx_handle_waitlist_submission() {
+    if (!isset($_POST['fnx_waitlist_nonce']) || !wp_verify_nonce($_POST['fnx_waitlist_nonce'], 'fnx_waitlist_action')) {
+        wp_die(__('Security check failed. Please refresh and try again.', 'foundnxt'));
+    }
+
+    $email = isset($_POST['waitlist_email']) ? sanitize_email(wp_unslash($_POST['waitlist_email'])) : '';
+    $service = isset($_POST['waitlist_service']) ? sanitize_text_field(wp_unslash($_POST['waitlist_service'])) : 'Market Research & Valuation';
+
+    if (empty($email) || !is_email($email)) {
+        wp_safe_redirect(add_query_arg(['waitlist' => 'invalid'], wp_get_referer() ?: home_url('/')));
+        exit;
+    }
+
+    // Save lead
+    $post_id = wp_insert_post([
+        'post_type'   => 'fnx_lead',
+        'post_title'  => sprintf('Waitlist: %s (%s)', $email, $service),
+        'post_status' => 'publish',
+    ]);
+
+    if ($post_id && !is_wp_error($post_id)) {
+        update_post_meta($post_id, '_fnx_lead_email', $email);
+        update_post_meta($post_id, '_fnx_lead_type', 'Service Waitlist');
+        update_post_meta($post_id, '_fnx_lead_service', $service);
+        update_post_meta($post_id, '_fnx_lead_submitted_at', current_time('mysql'));
+    }
+
+    // Send Admin Notification
+    $admin_email = get_option('admin_email');
+    $subject = sprintf('[FoundNXT] New Waitlist Signup: %s', $service);
+    $body = "A new user joined the waitlist for {$service}!
+
+Email: {$email}
+Date: " . current_time('mysql');
+    @wp_mail($admin_email, $subject, $body);
+
+    wp_safe_redirect(add_query_arg(['waitlist' => 'success'], wp_get_referer() ?: home_url('/')) . '#waitlist');
+    exit;
+}
+add_action('admin_post_fnx_waitlist_submit', 'fnx_handle_waitlist_submission');
+add_action('admin_post_nopriv_fnx_waitlist_submit', 'fnx_handle_waitlist_submission');
