@@ -5383,19 +5383,183 @@ body:not(.dark-mode) .theme-icon--moon {
       gap: 4px;
     }
   }
+  /* ── SERVICES SHOWCASE FOOTER & ACTION BUTTONS ── */
   .service-showcase-footer {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 16px !important;
+    flex-wrap: wrap !important;
+    margin-top: auto !important;
+    padding-top: 24px !important;
+    border-top: 1px solid var(--border) !important;
   }
+
+  /* Primary Action Button: "Enquire About [Service] →" */
+  .service-action-btn,
+  .service-action-btn--primary {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    min-height: 48px !important;
+    padding: 12px 28px !important;
+    border-radius: var(--radius-full, 9999px) !important;
+    background: var(--serv-accent, var(--brand)) !important;
+    color: #ffffff !important;
+    font-size: 0.9375rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    border: 1.5px solid var(--serv-accent, var(--brand)) !important;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--serv-accent, var(--brand)) 30%, transparent) !important;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, filter 0.2s ease !important;
+    cursor: pointer;
+    white-space: nowrap;
+    box-sizing: border-box !important;
+  }
+  .service-action-btn:hover,
+  .service-action-btn--primary:hover {
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    filter: brightness(1.1) !important;
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--serv-accent, var(--brand)) 45%, transparent) !important;
+  }
+  .service-action-btn .btn-arrow,
+  .service-action-btn--primary .btn-arrow {
+    display: inline-block;
+    font-size: 1.15rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+  .service-action-btn:hover .btn-arrow,
+  .service-action-btn--primary:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Secondary Outline Button: "Book a Free Consultation" */
+  .service-action-btn-alt,
+  .service-action-btn--secondary {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    min-height: 48px !important;
+    padding: 12px 26px !important;
+    border-radius: var(--radius-full, 9999px) !important;
+    background: var(--surface) !important;
+    border: 1.5px solid var(--border) !important;
+    color: var(--text) !important;
+    font-size: 0.9375rem !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease, background 0.2s ease, color 0.2s ease !important;
+    cursor: pointer;
+    white-space: nowrap;
+    box-sizing: border-box !important;
+  }
+  .service-action-btn-alt:hover,
+  .service-action-btn--secondary:hover {
+    border-color: var(--serv-accent, var(--brand)) !important;
+    color: var(--serv-accent, var(--brand)) !important;
+    background: color-mix(in srgb, var(--serv-accent, var(--brand)) 10%, transparent) !important;
+    transform: translateY(-2px) !important;
+  }
+
+  @media (max-width: 640px) {
+    .service-showcase-footer {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 12px !important;
+    }
+    .service-action-btn,
+    .service-action-btn--primary,
+    .service-action-btn-alt,
+    .service-action-btn--secondary {
+      width: 100% !important;
+      justify-content: center !important;
+      text-align: center !important;
+      white-space: normal !important;
+    }
+  }
+
+  /* ── SERVICES HERO & BOTTOM CTA BUTTON GROUPS ── */
+  .services-hero-actions,
   .services-cta-button-group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin-top: 24px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    flex-wrap: wrap !important;
+    margin-top: 24px !important;
+  }
+  .services-hero-btn,
+  .services-cta-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    min-height: 48px !important;
+    padding: 12px 28px !important;
+    border-radius: var(--radius-full, 9999px) !important;
+    background: var(--grad-primary, var(--brand)) !important;
+    color: #ffffff !important;
+    font-size: 0.9375rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    border: 1.5px solid transparent !important;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--brand) 30%, transparent) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    box-sizing: border-box !important;
+  }
+  .services-hero-btn:hover,
+  .services-cta-btn:hover {
+    transform: translateY(-2px) !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--brand) 45%, transparent) !important;
+  }
+  .services-hero-btn-alt,
+  .services-cta-btn-alt {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 48px !important;
+    padding: 12px 26px !important;
+    border-radius: var(--radius-full, 9999px) !important;
+    background: var(--surface) !important;
+    border: 1.5px solid var(--border) !important;
+    color: var(--text) !important;
+    font-size: 0.9375rem !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease !important;
+    box-sizing: border-box !important;
+  }
+  .services-hero-btn-alt:hover,
+  .services-cta-btn-alt:hover {
+    border-color: var(--brand) !important;
+    color: var(--brand) !important;
+    background: color-mix(in srgb, var(--brand) 8%, transparent) !important;
+    transform: translateY(-2px) !important;
+  }
+  @media (max-width: 600px) {
+    .services-hero-actions,
+    .services-cta-button-group {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 12px !important;
+    }
+    .services-hero-btn,
+    .services-hero-btn-alt,
+    .services-cta-btn,
+    .services-cta-btn-alt {
+      width: 100% !important;
+      justify-content: center !important;
+      text-align: center !important;
+    }
   }

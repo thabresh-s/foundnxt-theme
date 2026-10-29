@@ -236,12 +236,12 @@ $services = [
 
             <!-- Footer Action Row -->
             <div class="service-showcase-footer">
-              <a href="<?php echo esc_url(add_query_arg('help', urlencode($s['help_val']), $contact_url)); ?>" class="btn-primary service-action-btn">
+              <a href="<?php echo esc_url(add_query_arg('help', urlencode($s['help_val']), $contact_url)); ?>" class="service-action-btn service-action-btn--primary">
                 <span><?php printf(__('Enquire About %s', 'foundnxt'), esc_html($s['title'])); ?></span>
-                <span class="btn-arrow">→</span>
+                <span class="btn-arrow" aria-hidden="true">→</span>
               </a>
-              <a href="<?php echo esc_url(add_query_arg('help', 'consultation', $contact_url)); ?>" class="btn-outline service-action-btn-alt">
-                <?php _e('Book a Free Consultation', 'foundnxt'); ?>
+              <a href="<?php echo esc_url(add_query_arg('help', 'consultation', $contact_url)); ?>" class="service-action-btn-alt service-action-btn--secondary">
+                <span><?php _e('Book a Free Consultation', 'foundnxt'); ?></span>
               </a>
             </div>
 
