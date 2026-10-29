@@ -5136,3 +5136,266 @@ body:not(.dark-mode) .theme-icon--moon {
     z-index: 2;
   }
 }
+
+
+  /* ── SERVICES SECTION ENHANCEMENTS (3-GRID, CHECKLIST, BEST-FOR & SHOWCASE) ── */
+  .service-card-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .service-card-checklist li {
+    font-size: 0.84rem;
+    color: var(--text);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.45;
+  }
+  .service-card-checklist li span {
+    color: var(--card-accent, var(--brand));
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Service Card Meta Box (Best For) on Homepage */
+  .service-card-meta-box {
+    margin-top: auto;
+    margin-bottom: 20px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--card-accent, var(--brand)) 7%, transparent);
+    border: 1px solid color-mix(in srgb, var(--card-accent, var(--brand)) 18%, transparent);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+  .service-card-meta-box .service-meta-label {
+    font-weight: 700;
+    color: var(--text);
+    margin-right: 4px;
+  }
+
+  /* Service Card Action Row */
+  .service-card-action-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .service-learn-more-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .service-learn-more-link:hover {
+    color: var(--text);
+  }
+
+  /* Homepage Scale Strip */
+  .services-scale-strip {
+    margin-top: 48px;
+    padding: clamp(28px, 4vw, 36px);
+    border-radius: var(--radius-lg);
+    background: var(--surface-elevated);
+    border: 1.5px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  .services-scale-strip-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .services-scale-heading {
+    font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .services-scale-sub {
+    font-size: 0.9375rem;
+    color: var(--muted);
+    margin: 0;
+  }
+  .services-scale-buttons {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* ── SERVICES PAGE DEDICATED SHOWCASE ── */
+  .services-showcase-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .service-showcase-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    background: var(--surface-elevated);
+    border: 1.5px solid var(--border);
+    padding: clamp(28px, 4vw, 44px);
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .service-showcase-card:hover {
+    border-color: color-mix(in srgb, var(--serv-accent, var(--brand)) 50%, var(--border));
+    box-shadow: var(--shadow-md);
+  }
+  .service-showcase-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .service-num-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 0.8125rem;
+    font-weight: 800;
+  }
+  .service-category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 4px 12px;
+    border-radius: 9999px;
+  }
+  .service-showcase-title {
+    font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .service-showcase-tagline {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.35;
+  }
+  .service-showcase-lead {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 800px;
+    margin-bottom: 28px;
+  }
+  .service-offerings-grid {
+    display: grid;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .service-offerings-grid--5col {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  .service-offerings-grid--4col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .service-offerings-grid--2col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 768px) {
+    .service-offerings-grid--4col,
+    .service-offerings-grid--2col,
+    .service-offerings-grid--5col {
+      grid-template-columns: 1fr;
+    }
+  }
+  .service-offering-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .service-offering-box:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--serv-accent, var(--brand)) 40%, var(--border));
+  }
+  .offering-icon-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .offering-icon {
+    font-size: 1.35rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .offering-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+  }
+  .offering-desc {
+    font-size: 0.8875rem;
+    color: var(--muted);
+    line-height: 1.55;
+    margin: 0;
+  }
+  .service-best-for-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--serv-accent, var(--brand)) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--serv-accent, var(--brand)) 22%, transparent);
+    border-left: 4px solid var(--serv-accent, var(--brand));
+    margin-bottom: 28px;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .service-best-for-bar .best-for-badge {
+    font-weight: 700;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+  .service-best-for-bar .best-for-text {
+    color: var(--text);
+  }
+  @media (max-width: 600px) {
+    .service-best-for-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+  }
+  .service-showcase-footer {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .services-cta-button-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }

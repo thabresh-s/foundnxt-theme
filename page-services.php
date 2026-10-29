@@ -21,106 +21,137 @@ $schema = [
   '@graph'   => [
     [
       '@type'       => 'Service',
-      'serviceType' => 'Consulting Services',
+      'serviceType' => 'Advisory & Growth Services',
       'provider'    => [
         '@type' => 'Organization',
         'name'  => 'FoundNXT',
         'url'   => $site_url,
       ],
       'areaServed'  => 'Global',
-      'description' => 'Hands-on consulting for founders and teams scaling with technology and AI: Tech & AI Strategy, and Business Consulting.',
+      'description' => 'Practical help to scale your company in the AI era, from technology to brand to operations: Tech & AI Strategy, Brand Promotion, and Business Consulting.',
       'url'         => $services_url,
+      'hasOfferCatalog' => [
+        '@type' => 'OfferCatalog',
+        'name'  => 'FoundNXT Services',
+        'itemListElement' => [
+          ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Tech & AI Strategy']],
+          ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Brand Promotion']],
+          ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Business Consulting']],
+        ],
+      ],
     ],
     [
       '@type'           => 'BreadcrumbList',
       'itemListElement' => [
-        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',     'item' => $site_url],
-        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Consulting Services', 'item' => $services_url],
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',        'item' => $site_url],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Our Services', 'item' => $services_url],
       ],
     ],
   ],
 ];
 echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES) . '</script>' . "\n";
 
-/* ── ACTIVE SERVICES (2 SPECIFIED) ── */
+/* ── 3 CORE SERVICES SPECIFICATION ── */
 $services = [
   [
-    'id'       => 'tech-ai-strategy',
-    'icon'     => '⚡',
-    'label'    => __('Tech & AI Strategy', 'foundnxt'),
-    'title'    => __('Tech & AI Strategy', 'foundnxt'),
-    'desc'     => __('Architecture reviews, enterprise AI workflow integration, and build vs. buy audits for scaling software infrastructure.', 'foundnxt'),
-    'tag'      => __('Tech & AI', 'foundnxt'),
-    'accent'   => '#7C3AED',
-    'help_val' => 'Tech & AI Strategy',
-    'perks'    => [
-      __('Architecture reviews', 'foundnxt'),
-      __('Enterprise AI workflow integration', 'foundnxt'),
-      __('Build vs. buy audits for scaling infrastructure', 'foundnxt'),
+    'id'        => 'tech-ai-strategy',
+    'num'       => '01',
+    'icon'      => '⚡',
+    'badge'     => __('Technology & AI', 'foundnxt'),
+    'title'     => __('Tech & AI Strategy', 'foundnxt'),
+    'tagline'   => __('Build smarter, spend less, move faster.', 'foundnxt'),
+    'lead'      => __('We help businesses adopt the right technology without the bloat. No hype, just tools and systems that fit your stage and budget.', 'foundnxt'),
+    'accent'    => '#7C3AED',
+    'accent_bg' => 'rgba(124, 58, 237, 0.08)',
+    'help_val'  => 'Tech & AI Strategy',
+    'offerings' => [
+      [
+        'title' => __('Open Source', 'foundnxt'),
+        'desc'  => __('Replace expensive licensed software with proven open-source alternatives. We help you choose, deploy, and maintain them, so you keep control of your stack and your data.', 'foundnxt'),
+        'icon'  => '🔓',
+      ],
+      [
+        'title' => __('Integration', 'foundnxt'),
+        'desc'  => __('Your tools should talk to each other. We connect your CRM, website, payments, communication, and internal systems into one smooth workflow, with no more copy-pasting between apps.', 'foundnxt'),
+        'icon'  => '🔄',
+      ],
+      [
+        'title' => __('AI Tools & Automation', 'foundnxt'),
+        'desc'  => __('From AI assistants to automated reporting, lead follow-ups, and content workflows, we identify where AI saves you the most time and put it to work.', 'foundnxt'),
+        'icon'  => '🤖',
+      ],
+      [
+        'title' => __('Cost-Efficient Solutions', 'foundnxt'),
+        'desc'  => __('We audit your current tech spend and find leaner options: right-sized tools, smarter vendors, and fewer subscriptions you don’t use.', 'foundnxt'),
+        'icon'  => '💰',
+      ],
+      [
+        'title' => __('Consulting', 'foundnxt'),
+        'desc'  => __('Not sure where to start? Work with us one-on-one to build a clear, practical technology and AI roadmap for your business.', 'foundnxt'),
+        'icon'  => '🧭',
+      ],
     ],
+    'best_for'  => __('startups, SMEs, and growing teams that want enterprise-level capability on a sensible budget.', 'foundnxt'),
   ],
   [
-    'id'       => 'business-consulting',
-    'icon'     => '📈',
-    'label'    => __('Business Consulting', 'foundnxt'),
-    'title'    => __('Business Consulting', 'foundnxt'),
-    'desc'     => __('One-to-one consulting for founders and leaders on scaling, operations, and growth decisions.', 'foundnxt'),
-    'tag'      => __('Operations & Scaling', 'foundnxt'),
-    'accent'   => '#FF5A2C',
-    'help_val' => 'Business Consulting',
-    'perks'    => [
-      __('One-to-one consulting for founders & leaders', 'foundnxt'),
-      __('Scaling & operational systems', 'foundnxt'),
-      __('Strategic growth & organizational decisions', 'foundnxt'),
+    'id'        => 'brand-promotion',
+    'num'       => '02',
+    'icon'      => '📣',
+    'badge'     => __('Audience & Growth', 'foundnxt'),
+    'title'     => __('Brand Promotion', 'foundnxt'),
+    'tagline'   => __('Get your story in front of the right audience.', 'foundnxt'),
+    'lead'      => __('FoundNXT reaches founders, operators, and business readers interested in markets, startups, and technology. We help you tap into that attention.', 'foundnxt'),
+    'accent'    => '#EC4899',
+    'accent_bg' => 'rgba(236, 72, 153, 0.08)',
+    'help_val'  => 'Brand Promotion',
+    'offerings' => [
+      [
+        'title' => __('Company Promotion Posts', 'foundnxt'),
+        'desc'  => __('Well-researched, professionally written features that tell your company’s story, covering your product, milestones, and vision, published to our audience.', 'foundnxt'),
+        'icon'  => '📰',
+      ],
+      [
+        'title' => __('Guest Posts', 'foundnxt'),
+        'desc'  => __('Share your expertise with our readers. We publish quality guest articles on business, tech, AI, and startups, which build your authority and earn you visibility and backlinks.', 'foundnxt'),
+        'icon'  => '✍️',
+      ],
+      [
+        'title' => __('Digital Marketing: Lead Generation', 'foundnxt'),
+        'desc'  => __('Targeted campaigns and funnels that bring in qualified prospects, not just clicks.', 'foundnxt'),
+        'icon'  => '🎯',
+      ],
+      [
+        'title' => __('Digital Marketing: Affiliate Marketing', 'foundnxt'),
+        'desc'  => __('Performance-based partnerships that grow your reach, where you pay for results.', 'foundnxt'),
+        'icon'  => '🤝',
+      ],
     ],
-  ],
-];
-
-/* ── DRAFT SERVICES (Preserved for future republishing) ── */
-$draft_services = [
-  [
-    'id'       => 'market-research',
-    'icon'     => '🔍',
-    'label'    => __('Market Research Request', 'foundnxt'),
-    'title'    => __('Custom Market Research & Industry Intelligence', 'foundnxt'),
-    'desc'     => __('In-depth market research, sector analysis, competitive benchmarking, and custom market opportunity sizing for founders and investment teams.', 'foundnxt'),
-    'tag'      => __('Market Research', 'foundnxt'),
-    'accent'   => '#FF5A2C',
-    'help_val' => 'Market Research Request',
-    'perks'    => ['Competitor Benchmarking', 'TAM / SAM Market Sizing', 'Custom Industry Reports'],
+    'best_for'  => __('startups, SaaS and tech companies, consultants, and brands looking for credible exposure and measurable growth.', 'foundnxt'),
   ],
   [
-    'id'       => 'valuation-guidance',
-    'icon'     => '📊',
-    'label'    => __('Valuation Guidance', 'foundnxt'),
-    'title'    => __('Defensible Startup Valuation & Financial Modeling', 'foundnxt'),
-    'desc'     => __('Independent financial modeling, cap table health checks, 409A advice, and pre-money valuation benchmarking before fundraising rounds.', 'foundnxt'),
-    'tag'      => __('Valuation & Finance', 'foundnxt'),
-    'accent'   => '#14B8A6',
-    'help_val' => 'Valuation Guidance',
-    'perks'    => ['DCF & Multiples Valuation', 'Cap Table Health Check', 'Investor Deck Prep'],
-  ],
-  [
-    'id'       => 'marketing-growth',
-    'icon'     => '🚀',
-    'label'    => __('Marketing & Growth Help', 'foundnxt'),
-    'title'    => __('0-to-1 Customer Acquisition & Technical SEO', 'foundnxt'),
-    'desc'     => __('Topical SEO cluster audits, product-led growth strategy, B2B cold outreach blueprints, and customer acquisition positioning.', 'foundnxt'),
-    'tag'      => __('Marketing & Growth', 'foundnxt'),
-    'accent'   => '#EC4899',
-    'help_val' => 'Marketing Help',
-    'perks'    => ['Topical SEO Audits', 'GTM Positioning', 'Customer Acquisition Playbooks'],
-  ],
-  [
-    'id'       => 'partnerships-sponsored',
-    'icon'     => '🤝',
-    'label'    => __('Partnerships & Sponsored Content', 'foundnxt'),
-    'title'    => __('Editorial Partnerships & Executive Reach', 'foundnxt'),
-    'desc'     => __('Connect with thousands of founders, venture investors, and technology leaders through dedicated newsletter sponsorships and editorial features.', 'foundnxt'),
-    'tag'      => __('Partnerships', 'foundnxt'),
-    'accent'   => '#F59E0B',
-    'help_val' => 'Partnerships',
-    'perks'    => ['Executive Audience Reach', 'Newsletter Sponsorships', 'Co-Branded Research'],
+    'id'        => 'business-consulting',
+    'num'       => '03',
+    'icon'      => '📈',
+    'badge'     => __('Operations & Scaling', 'foundnxt'),
+    'title'     => __('Business Consulting', 'foundnxt'),
+    'tagline'   => __('Run your business like a system, not a scramble.', 'foundnxt'),
+    'lead'      => __('Growth breaks messy operations. We help you build structure that scales.', 'foundnxt'),
+    'accent'    => '#14B8A6',
+    'accent_bg' => 'rgba(20, 184, 166, 0.08)',
+    'help_val'  => 'Business Consulting',
+    'offerings' => [
+      [
+        'title' => __('Operations Management & Automation', 'foundnxt'),
+        'desc'  => __('We review how work actually flows in your business, remove bottlenecks, and automate repetitive tasks, so your team spends time on high-value work.', 'foundnxt'),
+        'icon'  => '⚙️',
+      ],
+      [
+        'title' => __('SOPs (Standard Operating Procedures)', 'foundnxt'),
+        'desc'  => __('Clear, documented processes for every key function: onboarding, sales, support, delivery, and more. Your business runs consistently, new hires ramp up faster, and you stop being the single point of failure.', 'foundnxt'),
+        'icon'  => '📋',
+      ],
+    ],
+    'best_for'  => __('founders and teams who are growing fast and need processes that hold up.', 'foundnxt'),
   ],
 ];
 ?>
@@ -130,73 +161,96 @@ $draft_services = [
 
     <?php fnx_breadcrumbs(); ?>
 
-    <!-- HERO HEADER V2 -->
+    <!-- HERO HEADER -->
     <header class="services-hero-v2 text-center fnx-reveal">
       <div class="services-hero-card">
-        <span class="hp-sec-tag-pill hp-sec-tag-pill--indigo">⚡ <?php _e('Consulting & Strategy', 'foundnxt'); ?></span>
+        <span class="hp-sec-tag-pill hp-sec-tag-pill--indigo">⚡ <?php _e('Our Services', 'foundnxt'); ?></span>
         <h1 class="services-hero-title">
-          <?php _e('Consulting Services', 'foundnxt'); ?>
+          <?php _e('Practical Help to Scale Your Company', 'foundnxt'); ?>
         </h1>
         <p class="services-hero-lead">
-          <?php _e('Hands-on consulting for founders and teams scaling with technology and AI.', 'foundnxt'); ?>
+          <?php _e('Practical help to scale your company in the AI era, from technology to brand to operations.', 'foundnxt'); ?>
         </p>
 
         <!-- QUICK JUMP PILLS -->
         <div class="services-quick-pills">
           <?php foreach ($services as $s): ?>
             <a href="#<?php echo esc_attr($s['id']); ?>" class="services-quick-pill">
-              <span><?php echo esc_html($s['icon']); ?></span> <?php echo esc_html($s['label']); ?>
+              <span><?php echo esc_html($s['icon']); ?></span> <?php echo esc_html($s['title']); ?>
             </a>
           <?php endforeach; ?>
         </div>
 
         <div class="services-hero-actions">
           <a href="<?php echo $contact_url; ?>" class="btn-primary services-hero-btn">
-            <?php _e('Work With Us', 'foundnxt'); ?> →
+            <?php _e('Get in Touch', 'foundnxt'); ?> →
           </a>
-          <a href="#services-list" class="btn-outline services-hero-btn-alt">
-            <?php _e('Explore Services', 'foundnxt'); ?> ↓
+          <a href="<?php echo esc_url(add_query_arg('help', 'consultation', $contact_url)); ?>" class="btn-outline services-hero-btn-alt">
+            <?php _e('Book a Free Consultation', 'foundnxt'); ?>
           </a>
         </div>
       </div>
     </header>
 
-    <!-- SERVICES CARDS GRID V2 -->
-    <section class="hp-block services-grid-section" id="services-list" style="padding: 40px 0 60px;">
-      <div class="hp-services-grid-v2 hp-services-grid--2col">
+    <!-- DETAILED SERVICES SHOWCASE -->
+    <section class="hp-block services-showcase-section" id="services-list" style="padding: 40px 0 60px;">
+      <div class="services-showcase-stack">
         <?php foreach ($services as $s): ?>
-          <article class="hp-service-card-v2 fnx-reveal" id="<?php echo esc_attr($s['id']); ?>" style="--serv-accent: <?php echo esc_attr($s['accent']); ?>;">
-            <div class="service-card-header-v2">
-              <div class="service-icon-wrap-v2" style="color: <?php echo esc_attr($s['accent']); ?>; background: <?php echo esc_attr($s['accent']); ?>18; border: 1px solid <?php echo esc_attr($s['accent']); ?>30;">
-                <?php echo esc_html($s['icon']); ?>
+          <article class="service-showcase-card fnx-reveal" id="<?php echo esc_attr($s['id']); ?>" style="--serv-accent: <?php echo esc_attr($s['accent']); ?>;">
+            
+            <!-- Service Header -->
+            <div class="service-showcase-header">
+              <div class="service-showcase-meta">
+                <span class="service-num-badge" style="background: <?php echo esc_attr($s['accent_bg']); ?>; color: <?php echo esc_attr($s['accent']); ?>;">
+                  <?php echo esc_html($s['num']); ?>
+                </span>
+                <span class="service-category-pill" style="background: <?php echo esc_attr($s['accent_bg']); ?>; color: <?php echo esc_attr($s['accent']); ?>; border: 1px solid <?php echo esc_attr($s['accent']); ?>30;">
+                  <span><?php echo esc_html($s['icon']); ?></span> <?php echo esc_html($s['badge']); ?>
+                </span>
               </div>
-              <span class="hp-feat-chip-v2" style="background: <?php echo esc_attr($s['accent']); ?>15; color: <?php echo esc_attr($s['accent']); ?>; border: 1px solid <?php echo esc_attr($s['accent']); ?>30;">
-                <?php echo esc_html($s['tag']); ?>
-              </span>
+              <h2 class="service-showcase-title"><?php echo esc_html($s['title']); ?></h2>
+              <p class="service-showcase-tagline" style="color: <?php echo esc_attr($s['accent']); ?>;">
+                <?php echo esc_html($s['tagline']); ?>
+              </p>
+              <p class="service-showcase-lead"><?php echo esc_html($s['lead']); ?></p>
             </div>
 
-            <h3 class="service-card-h3"><?php echo esc_html($s['title']); ?></h3>
-            <p class="service-card-p"><?php echo esc_html($s['desc']); ?></p>
-
-            <ul class="service-perks-v2">
-              <?php foreach ($s['perks'] as $perk): ?>
-                <li><span class="service-check-icon" style="color: <?php echo esc_attr($s['accent']); ?>;">✓</span> <?php echo esc_html($perk); ?></li>
+            <!-- Sub-Offerings Grid -->
+            <div class="service-offerings-grid <?php echo count($s['offerings']) <= 2 ? 'service-offerings-grid--2col' : (count($s['offerings']) <= 4 ? 'service-offerings-grid--4col' : 'service-offerings-grid--5col'); ?>">
+              <?php foreach ($s['offerings'] as $offering): ?>
+                <div class="service-offering-box">
+                  <div class="offering-icon-title">
+                    <span class="offering-icon"><?php echo esc_html($offering['icon']); ?></span>
+                    <h3 class="offering-title"><?php echo esc_html($offering['title']); ?></h3>
+                  </div>
+                  <p class="offering-desc"><?php echo esc_html($offering['desc']); ?></p>
+                </div>
               <?php endforeach; ?>
-            </ul>
+            </div>
 
-            <div class="service-card-footer-v2">
-              <a href="<?php echo esc_url(add_query_arg('help', urlencode($s['help_val']), $contact_url)); ?>" class="btn-service-action-v2" style="--btn-color: <?php echo esc_attr($s['accent']); ?>;">
-                <span><?php _e('Enquire About This Service', 'foundnxt'); ?></span>
+            <!-- Best For Bar -->
+            <div class="service-best-for-bar">
+              <span class="best-for-badge">🎯 <?php _e('Best for:', 'foundnxt'); ?></span>
+              <span class="best-for-text"><?php echo esc_html($s['best_for']); ?></span>
+            </div>
+
+            <!-- Footer Action Row -->
+            <div class="service-showcase-footer">
+              <a href="<?php echo esc_url(add_query_arg('help', urlencode($s['help_val']), $contact_url)); ?>" class="btn-primary service-action-btn">
+                <span><?php printf(__('Enquire About %s', 'foundnxt'), esc_html($s['title'])); ?></span>
                 <span class="btn-arrow">→</span>
               </a>
+              <a href="<?php echo esc_url(add_query_arg('help', 'consultation', $contact_url)); ?>" class="btn-outline service-action-btn-alt">
+                <?php _e('Book a Free Consultation', 'foundnxt'); ?>
+              </a>
             </div>
+
           </article>
         <?php endforeach; ?>
       </div>
-      <p class="services-coming-soon"><?php _e('More services coming soon.', 'foundnxt'); ?></p>
     </section>
 
-    <!-- PROCESS SECTION V2 -->
+    <!-- PROCESS SECTION ("HOW WE WORK") -->
     <section class="hp-block hp-process-section" style="padding: 40px 0;">
       <div class="hp-sec-header text-center fnx-reveal">
         <span class="hp-sec-tag-pill hp-sec-tag-pill--violet">🤝 <?php _e('Our Engagement Model', 'foundnxt'); ?></span>
@@ -209,35 +263,40 @@ $draft_services = [
         <div class="hp-process-step fnx-reveal">
           <div class="step-num">01</div>
           <h4><?php _e('Discovery & Audit', 'foundnxt'); ?></h4>
-          <p><?php _e('We diagnose your operational metrics, market position, and tech stack constraints.', 'foundnxt'); ?></p>
+          <p><?php _e('We diagnose your tech stack, workflows, bottleneck areas, or audience reach goals.', 'foundnxt'); ?></p>
         </div>
         <div class="hp-process-step fnx-reveal">
           <div class="step-num">02</div>
-          <h4><?php _e('Data-Driven Strategy', 'foundnxt'); ?></h4>
-          <p><?php _e('We build a custom action plan with defensible benchmarks and clear ROI timelines.', 'foundnxt'); ?></p>
+          <h4><?php _e('Practical Roadmap', 'foundnxt'); ?></h4>
+          <p><?php _e('We build a clear, lean action plan with right-sized tools, documented SOPs, and clear milestones.', 'foundnxt'); ?></p>
         </div>
         <div class="hp-process-step fnx-reveal">
           <div class="step-num">03</div>
           <h4><?php _e('Sprint Execution', 'foundnxt'); ?></h4>
-          <p><?php _e('We execute in focused 4-to-8 week sprints with clear milestone deliverables.', 'foundnxt'); ?></p>
+          <p><?php _e('We deploy open-source tools, automate workflows, craft editorial features, or integrate systems.', 'foundnxt'); ?></p>
         </div>
         <div class="hp-process-step fnx-reveal">
           <div class="step-num">04</div>
           <h4><?php _e('Review & Scale', 'foundnxt'); ?></h4>
-          <p><?php _e('We hand over SOPs, financial models, and frameworks to keep your team scaling.', 'foundnxt'); ?></p>
+          <p><?php _e('We hand over complete documentation, SOPs, and monitoring so your team runs independently.', 'foundnxt'); ?></p>
         </div>
       </div>
     </section>
 
-    <!-- BOTTOM CTA BANNER V2 -->
+    <!-- READY TO SCALE? CTA SECTION -->
     <section class="hp-block" style="padding: 40px 0 40px;">
       <div class="services-cta-banner-v2 text-center fnx-reveal">
-        <span class="hp-sec-tag-pill hp-sec-tag-pill--indigo">💬 <?php _e('Executive Advisory', 'foundnxt'); ?></span>
-        <h2 class="services-cta-title"><?php _e('Ready to Work Together?', 'foundnxt'); ?></h2>
-        <p class="services-cta-lead"><?php _e('Tell us about your business goals or current bottlenecks — our team replies within 24–48 hours.', 'foundnxt'); ?></p>
-        <a href="<?php echo $contact_url; ?>" class="btn-primary services-cta-btn">
-          <?php _e('Get in Touch with Our Advisory Team', 'foundnxt'); ?> →
-        </a>
+        <span class="hp-sec-tag-pill hp-sec-tag-pill--indigo">⚡ <?php _e('Next Steps', 'foundnxt'); ?></span>
+        <h2 class="services-cta-title"><?php _e('Ready to Scale?', 'foundnxt'); ?></h2>
+        <p class="services-cta-lead"><?php _e('Tell us where you’re stuck, and we’ll show you how to move forward.', 'foundnxt'); ?></p>
+        <div class="services-cta-button-group">
+          <a href="<?php echo $contact_url; ?>" class="btn-primary services-cta-btn">
+            <?php _e('Get in Touch', 'foundnxt'); ?> →
+          </a>
+          <a href="<?php echo esc_url(add_query_arg('help', 'consultation', $contact_url)); ?>" class="btn-outline services-cta-btn-alt">
+            <?php _e('Book a Free Consultation', 'foundnxt'); ?>
+          </a>
+        </div>
       </div>
     </section>
 

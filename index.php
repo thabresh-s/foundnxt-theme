@@ -757,44 +757,137 @@
     </div>
   </section>
 
-  <!-- ── 4. SERVICES ("WORK WITH US" — 2 CONSULTING CARDS + DRAFT PRESERVATION) ── -->
+  <!-- ── 4. SERVICES ("WORK WITH US" — 3 CORE OFFERINGS) ── -->
   <section class="hp-services-section defer-render" id="services">
     <div class="container">
-      <div class="section-headline-row text-center" style="justify-content: center; text-align: center; margin-bottom: 36px;">
+      <div class="section-headline-row text-center" style="justify-content: center; text-align: center; margin-bottom: 40px;">
         <div>
-          <span class="section-tag"><?php _e('Consulting & Strategy', 'foundnxt'); ?></span>
+          <span class="section-tag"><?php _e('Our Services', 'foundnxt'); ?></span>
           <h2><?php _e('Work With', 'foundnxt'); ?> <span class="text-grad"><?php _e('Us', 'foundnxt'); ?></span></h2>
-          <p style="color: var(--muted); margin-top: 8px;"><?php _e('Hands-on consulting for founders and teams scaling with technology and AI.', 'foundnxt'); ?></p>
+          <p style="color: var(--muted); margin-top: 8px; font-size: 1.05rem; max-width: 680px; margin-inline: auto;">
+            <?php _e('Practical help to scale your company in the AI era, from technology to brand to operations.', 'foundnxt'); ?>
+          </p>
         </div>
       </div>
 
-      <div class="services-3-grid services-2-grid">
+      <div class="services-3-grid">
         <!-- Service Card 1: Tech & AI Strategy -->
-        <div class="service-grad-card" style="--card-accent: var(--brand);">
+        <div class="service-grad-card" style="--card-accent: #7C3AED;">
           <div class="service-card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           </div>
           <h3 class="service-card-title"><?php _e('Tech & AI Strategy', 'foundnxt'); ?></h3>
-          <p class="service-card-desc"><?php _e('Architecture reviews, enterprise AI workflow integration, and build vs. buy audits for scaling software infrastructure.', 'foundnxt'); ?></p>
-          <a href="<?php echo esc_url(add_query_arg('help', urlencode('Tech & AI Strategy'), home_url('/contact/'))); ?>" class="service-card-btn">
-            <?php _e('Enquire Now', 'foundnxt'); ?> →
-          </a>
+          <p class="service-card-tagline" style="font-weight: 600; color: #7C3AED; font-size: 0.875rem; margin-bottom: 8px;">
+            <?php _e('Build smarter, spend less, move faster.', 'foundnxt'); ?>
+          </p>
+          <p class="service-card-desc"><?php _e('We help businesses adopt the right technology without the bloat. No hype, just tools and systems that fit your stage and budget.', 'foundnxt'); ?></p>
+          
+          <ul class="service-card-checklist">
+            <li><span>✓</span> <?php _e('Open-source stack control & deployment', 'foundnxt'); ?></li>
+            <li><span>✓</span> <?php _e('Tool, CRM & payment workflow integrations', 'foundnxt'); ?></li>
+            <li><span>✓</span> <?php _e('Practical AI assistants & automation', 'foundnxt'); ?></li>
+            <li><span>✓</span> <?php _e('Tech spend & subscription cost audit', 'foundnxt'); ?></li>
+          </ul>
+
+          <div class="service-card-meta-box">
+            <span class="service-meta-label">🎯 <?php _e('Best for:', 'foundnxt'); ?></span>
+            <span><?php _e('Startups, SMEs & teams wanting enterprise power on a sensible budget.', 'foundnxt'); ?></span>
+          </div>
+
+          <div class="service-card-action-row">
+            <a href="<?php echo esc_url(add_query_arg('help', urlencode('Tech & AI Strategy'), home_url('/contact/'))); ?>" class="service-card-btn">
+              <?php _e('Enquire Now', 'foundnxt'); ?> →
+            </a>
+            <a href="<?php echo esc_url(home_url('/services/#tech-ai-strategy')); ?>" class="service-learn-more-link">
+              <?php _e('Details', 'foundnxt'); ?>
+            </a>
+          </div>
         </div>
 
-        <!-- Service Card 2: Business Consulting -->
-        <div class="service-grad-card" style="--card-accent: var(--accent);">
+        <!-- Service Card 2: Brand Promotion -->
+        <div class="service-grad-card" style="--card-accent: #EC4899;">
+          <div class="service-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+          </div>
+          <h3 class="service-card-title"><?php _e('Brand Promotion', 'foundnxt'); ?></h3>
+          <p class="service-card-tagline" style="font-weight: 600; color: #EC4899; font-size: 0.875rem; margin-bottom: 8px;">
+            <?php _e('Get your story in front of the right audience.', 'foundnxt'); ?>
+          </p>
+          <p class="service-card-desc"><?php _e('FoundNXT reaches founders, operators, and business readers interested in markets, startups, and tech. We help you tap into that attention.', 'foundnxt'); ?></p>
+          
+          <ul class="service-card-checklist">
+            <li><span>✓</span> <?php _e('Company promotion posts & founder features', 'foundnxt'); ?></li>
+            <li><span>✓</span> <?php _e('Authority guest articles & credible backlinks', 'foundnxt'); ?></li>
+            <li><span>✓</span> <?php _e('Targeted lead generation campaigns & funnels', 'foundnxt'); ?></li>
+            <li><span>✓</span> <?php _e('Performance-based affiliate marketing', 'foundnxt'); ?></li>
+          </ul>
+
+          <div class="service-card-meta-box">
+            <span class="service-meta-label">🎯 <?php _e('Best for:', 'foundnxt'); ?></span>
+            <span><?php _e('Startups, SaaS companies, consultants & brands wanting credible growth.', 'foundnxt'); ?></span>
+          </div>
+
+          <div class="service-card-action-row">
+            <a href="<?php echo esc_url(add_query_arg('help', urlencode('Brand Promotion'), home_url('/contact/'))); ?>" class="service-card-btn">
+              <?php _e('Enquire Now', 'foundnxt'); ?> →
+            </a>
+            <a href="<?php echo esc_url(home_url('/services/#brand-promotion')); ?>" class="service-learn-more-link">
+              <?php _e('Details', 'foundnxt'); ?>
+            </a>
+          </div>
+        </div>
+
+        <!-- Service Card 3: Business Consulting -->
+        <div class="service-grad-card" style="--card-accent: #14B8A6;">
           <div class="service-card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
           <h3 class="service-card-title"><?php _e('Business Consulting', 'foundnxt'); ?></h3>
-          <p class="service-card-desc"><?php _e('One-to-one consulting for founders and leaders on scaling, operations, and growth decisions.', 'foundnxt'); ?></p>
-          <a href="<?php echo esc_url(add_query_arg('help', urlencode('Business Consulting'), home_url('/contact/'))); ?>" class="service-card-btn">
-            <?php _e('Enquire Now', 'foundnxt'); ?> →
-          </a>
+          <p class="service-card-tagline" style="font-weight: 600; color: #14B8A6; font-size: 0.875rem; margin-bottom: 8px;">
+            <?php _e('Run your business like a system, not a scramble.', 'foundnxt'); ?>
+          </p>
+          <p class="service-card-desc"><?php _e('Growth breaks messy operations. We help you eliminate bottlenecks, automate manual tasks, and build structure that scales.', 'foundnxt'); ?></p>
+          
+          <ul class="service-card-checklist">
+            <li><span>✓</span> <?php _e('Operations management & bottleneck removal', 'foundnxt'); ?></li>
+            <li><span>✓</span> <?php _e('Automating repetitive tasks for team leverage', 'foundnxt'); ?></li>
+            <li><span>✓</span> <?php _e('Standard Operating Procedures (SOPs) documented', 'foundnxt'); ?></li>
+            <li><span>✓</span> <?php _e('Frictionless onboarding, sales & delivery systems', 'foundnxt'); ?></li>
+          </ul>
+
+          <div class="service-card-meta-box">
+            <span class="service-meta-label">🎯 <?php _e('Best for:', 'foundnxt'); ?></span>
+            <span><?php _e('Founders & teams who are growing fast and need processes that hold up.', 'foundnxt'); ?></span>
+          </div>
+
+          <div class="service-card-action-row">
+            <a href="<?php echo esc_url(add_query_arg('help', urlencode('Business Consulting'), home_url('/contact/'))); ?>" class="service-card-btn">
+              <?php _e('Enquire Now', 'foundnxt'); ?> →
+            </a>
+            <a href="<?php echo esc_url(home_url('/services/#business-consulting')); ?>" class="service-learn-more-link">
+              <?php _e('Details', 'foundnxt'); ?>
+            </a>
+          </div>
         </div>
       </div>
 
-      <p class="services-coming-soon"><?php _e('More services coming soon.', 'foundnxt'); ?></p>
+      <!-- Ready to Scale Banner / Strip -->
+      <div class="services-scale-strip">
+        <div class="services-scale-strip-inner">
+          <div class="services-scale-text">
+            <h3 class="services-scale-heading"><?php _e('Ready to Scale?', 'foundnxt'); ?></h3>
+            <p class="services-scale-sub"><?php _e('Tell us where you’re stuck, and we’ll show you how to move forward.', 'foundnxt'); ?></p>
+          </div>
+          <div class="services-scale-buttons">
+            <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary">
+              <?php _e('Get in Touch', 'foundnxt'); ?> →
+            </a>
+            <a href="<?php echo esc_url(add_query_arg('help', 'consultation', home_url('/contact/'))); ?>" class="hero-btn-secondary">
+              <?php _e('Book a Free Consultation', 'foundnxt'); ?>
+            </a>
+          </div>
+        </div>
+      </div>
 
       <!--
         DRAFT SERVICES — Preserved for future republishing:

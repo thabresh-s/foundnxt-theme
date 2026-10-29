@@ -25,7 +25,7 @@ $schema = [
       '@id'         => $contact_url . '#contactpage',
       'url'         => $contact_url,
       'name'        => 'Contact FoundNXT — Business & Consulting Enquiries',
-      'description' => 'Get in touch with the FoundNXT team for Tech & AI Strategy or Business Consulting.',
+      'description' => 'Get in touch with the FoundNXT team for Tech & AI Strategy, Brand Promotion, or Business Consulting.',
       'inLanguage'  => 'en',
       'isPartOf'    => ['@id' => $site_url . '#website'],
       'publisher'   => [
@@ -61,7 +61,7 @@ echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCA
             <?php _e('Get in Touch with', 'foundnxt'); ?> <span class="text-gradient"><?php _e('FoundNXT', 'foundnxt'); ?></span>
           </h1>
           <p class="hp-contact-v2-lead">
-            <?php _e('Hands-on consulting for founders and teams scaling with technology and AI. Fill out the form — our advisory team responds within 24–48 hours.', 'foundnxt'); ?>
+            <?php _e('Practical help to scale your company in the AI era, from technology to brand to operations. Fill out the form — our advisory team responds within 24–48 hours.', 'foundnxt'); ?>
           </p>
 
           <div class="hp-contact-v2-features">
@@ -144,7 +144,10 @@ echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCA
                 <label for="lead_help"><?php _e('What do you need help with?', 'foundnxt'); ?></label>
                 <select id="lead_help" name="lead_help">
                   <option value="Tech & AI Strategy" <?php selected($pre_help, 'Tech & AI Strategy'); ?>><?php _e('Tech & AI Strategy', 'foundnxt'); ?></option>
+                  <option value="Brand Promotion" <?php selected($pre_help, 'Brand Promotion'); ?>><?php _e('Brand Promotion', 'foundnxt'); ?></option>
                   <option value="Business Consulting" <?php selected($pre_help, 'Business Consulting'); ?>><?php _e('Business Consulting', 'foundnxt'); ?></option>
+                  <option value="Free Consultation" <?php selected(in_array($pre_help, ['consultation', 'Free Consultation', 'General Advisory'], true)); ?>><?php _e('Book a Free Consultation', 'foundnxt'); ?></option>
+                  <option value="General Enquiry" <?php selected($pre_help, 'General Enquiry'); ?>><?php _e('General Enquiry / Other', 'foundnxt'); ?></option>
                 </select>
               </div>
             </div>

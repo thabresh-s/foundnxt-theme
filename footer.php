@@ -102,7 +102,7 @@
               <?php wp_nav_menu(['theme_location' => 'footer-2', 'container' => false, 'items_wrap' => '%3$s', 'fallback_cb' => false]); ?>
               <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Articles & Guides', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/tools/')); ?>"><?php _e('Tools Stack', 'foundnxt'); ?></a></li>
-              <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Consulting Services', 'foundnxt'); ?></a></li>
+              <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Our Services', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About FoundNXT', 'foundnxt'); ?></a></li>
               <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact Us', 'foundnxt'); ?></a></li>
             </ul>
