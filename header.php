@@ -17,20 +17,14 @@
 <script>
   (function() {
     try {
-      localStorage.removeItem('fnx_theme');
-      var isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var saved = localStorage.getItem('fnx_theme');
+      var isDark = saved ? (saved === 'dark') : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
       var root = document.documentElement;
-      if (isDark) {
-        root.setAttribute('data-theme', 'dark');
-        root.classList.add('dark-mode');
-        root.classList.remove('light-mode');
-        root.style.colorScheme = 'dark';
-      } else {
-        root.setAttribute('data-theme', 'light');
-        root.classList.add('light-mode');
-        root.classList.remove('dark-mode');
-        root.style.colorScheme = 'light';
-      }
+      var theme = isDark ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      root.classList.toggle('dark-mode', isDark);
+      root.classList.toggle('light-mode', !isDark);
+      root.style.colorScheme = theme;
     } catch(e) {}
   })();
 </script>
@@ -210,6 +204,14 @@ if ($announcement_enabled && !$announcement_dismissed):
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
 
+      <!-- Theme Toggle (Dark / Light Mode) -->
+      <button type="button" class="action-btn theme-toggle-btn" id="theme-toggle"
+        aria-label="<?php esc_attr_e('Toggle dark/light mode', 'foundnxt'); ?>"
+        title="<?php esc_attr_e('Toggle dark/light mode', 'foundnxt'); ?>">
+        <svg class="theme-icon theme-icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="theme-icon theme-icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+
       <!-- Desktop Action CTA: "Work With Us" Button -->
       <a href="<?php echo esc_url(home_url('/services/')); ?>" class="btn-primary header-cta-btn"><?php _e('Work With Us', 'foundnxt'); ?> &rarr;</a>
 
@@ -289,10 +291,19 @@ if ($announcement_enabled && !$announcement_dismissed):
           </details>
         </li>
 
-        <li><a href="<?php echo esc_url(home_url('/tools/')); ?>" class="mobile-menu-link"><span><?php _e('Tools', 'foundnxt'); ?></span><span class="nav-badge-soon"><?php _e('Soon', 'foundnxt'); ?></span></a></li>
         <li><a href="<?php echo esc_url(home_url('/services/')); ?>" class="mobile-menu-link"><?php _e('Services', 'foundnxt'); ?></a></li>
         <li><a href="<?php echo esc_url(home_url('/about/')); ?>" class="mobile-menu-link"><?php _e('About', 'foundnxt'); ?></a></li>
       </ul>
+
+      <!-- Mobile Theme Toggle -->
+      <button type="button" class="mobile-theme-toggle" id="mobile-theme-toggle" aria-label="<?php esc_attr_e('Toggle dark/light mode', 'foundnxt'); ?>">
+        <span class="mobile-theme-icon-wrap" aria-hidden="true">
+          <svg class="theme-icon theme-icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="theme-icon theme-icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </span>
+        <span class="mobile-theme-label"><?php _e('Theme', 'foundnxt'); ?></span>
+        <span class="mobile-theme-state"></span>
+      </button>
     </div>
 
     <div class="mobile-nav-footer">

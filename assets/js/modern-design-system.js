@@ -172,32 +172,113 @@
     }, { passive: true });
   }
 
-  // ── 7. LIGHT / DARK SYSTEM THEME SYNC ──
+  // ── 7. LIGHT / DARK THEME TOGGLE & PERSISTENCE ──
   function initThemeToggle() {
-    try {
-      localStorage.removeItem('fnx_theme');
-    } catch (e) {}
-
+    const desktopToggle = document.getElementById('theme-toggle');
+    const mobileToggle = document.getElementById('mobile-theme-toggle');
     const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
-    function sync(isDark) {
-      const theme = isDark ? 'dark' : 'light';
+
+    function getCurrentTheme() {
+      try {
+        const stored = localStorage.getItem('fnx_theme');
+        if (stored === 'dark' || stored === 'light') return stored;
+      } catch (e) {}
+      return mediaDark.matches ? 'dark' : 'light';
+    }
+
+    function applyTheme(theme, save) {
+      const isDark = theme === 'dark';
       document.documentElement.setAttribute('data-theme', theme);
-      document.documentElement.classList.remove('light-mode', 'dark-mode');
-      document.documentElement.classList.add(isDark ? 'dark-mode' : 'light-mode');
+      document.documentElement.classList.toggle('dark-mode', isDark);
+      document.documentElement.classList.toggle('light-mode', !isDark);
       document.documentElement.style.colorScheme = theme;
+
       if (document.body) {
         document.body.setAttribute('data-theme', theme);
-        document.body.classList.remove('light-mode', 'dark-mode');
-        document.body.classList.add(isDark ? 'dark-mode' : 'light-mode');
+        document.body.classList.toggle('dark-mode', isDark);
+        document.body.classList.toggle('light-mode', !isDark);
+      }
+
+      const mobileState = document.querySelector('.mobile-theme-state');
+      if (mobileState) {
+        mobileState.textContent = isDark ? 'Dark' : 'Light';
+      }
+
+      if (desktopToggle) {
+        desktopToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        desktopToggle.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      }
+
+      if (save) {
+        try {
+          localStorage.setItem('fnx_theme', theme);
+        } catch (e) {}
       }
     }
 
-    sync(mediaDark.matches);
-    if (mediaDark.addEventListener) {
-      mediaDark.addEventListener('change', e => sync(e.matches));
-    } else if (mediaDark.addListener) {
-      mediaDark.addListener(e => sync(e.matches));
+    function toggleTheme() {
+      const current = getCurrentTheme();
+      const next = current === 'dark' ? 'light' : 'dark';
+      applyTheme(next, true);
     }
+
+    if (desktopToggle) {
+      desktopToggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        toggleTheme();
+      });
+    }
+
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        toggleTheme();
+      });
+    }
+
+    // Initialize state
+    applyTheme(getCurrentTheme(), false);
+
+    // Listen for OS theme changes if user has not explicitly set a preference
+    const handleMediaChange = (e) => {
+      try {
+        if (!localStorage.getItem('fnx_theme')) {
+          applyTheme(e.matches ? 'dark' : 'light', false);
+        }
+      } catch (err) {}
+    };
+
+    if (mediaDark.addEventListener) {
+      mediaDark.addEventListener('change', handleMediaChange);
+    } else if (mediaDark.addListener) {
+      mediaDark.addListener(handleMediaChange);
+    }
+  }
+
+  // ── 10. BACK TO TOP BUTTON ──
+  function initBackToTop() {
+    const btn = document.getElementById('fnx-back-to-top');
+    if (!btn) return;
+
+    let ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          if (window.scrollY > 400) {
+            btn.classList.add('is-visible');
+          } else {
+            btn.classList.remove('is-visible');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }
 
   // ── 8. MOBILE COLLAPSIBLE TOC POPULATION ──
@@ -319,6 +400,7 @@
     initThemeToggle();
     initMobileTOC();
     initMobileNav();
+    initBackToTop();
   }
 
   if (document.readyState === 'loading') {

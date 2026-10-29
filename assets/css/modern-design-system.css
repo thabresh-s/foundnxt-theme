@@ -4937,3 +4937,202 @@ body.dark-mode .start-here-card-desc {
 .hp-cat-card-footer {
   justify-content: flex-end !important;
 }
+
+
+/* ============================================================
+   UI/UX & RESPONSIVENESS ENHANCEMENTS (Modern Web Standards)
+   ============================================================ */
+
+/* ── 1. Interactive Theme Toggle (Desktop & Mobile) ── */
+.theme-toggle-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full, 9999px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--surface-elevated);
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
+
+.theme-toggle-btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+:root[data-theme="dark"] .theme-icon--moon,
+body.dark-mode .theme-icon--moon {
+  display: none !important;
+}
+
+:root[data-theme="dark"] .theme-icon--sun,
+body.dark-mode .theme-icon--sun {
+  display: block !important;
+  color: #fbbf24;
+}
+
+:root:not([data-theme="dark"]) .theme-icon--sun,
+body:not(.dark-mode) .theme-icon--sun {
+  display: none !important;
+}
+
+:root:not([data-theme="dark"]) .theme-icon--moon,
+body:not(.dark-mode) .theme-icon--moon {
+  display: block !important;
+  color: #64748b;
+}
+
+.mobile-theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md, 10px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.mobile-theme-toggle:hover {
+  background: var(--surface-elevated);
+  border-color: var(--brand);
+}
+
+.mobile-theme-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+}
+
+.mobile-theme-state {
+  margin-left: auto;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* ── 2. Back to Top Floating Button ── */
+.fnx-back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--surface-elevated);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-md, 0 4px 14px rgba(0,0,0,0.15));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 990;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s, border-color 0.2s;
+}
+
+.fnx-back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.fnx-back-to-top:hover {
+  background: var(--brand);
+  color: #ffffff;
+  border-color: var(--brand);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg, 0 8px 24px rgba(0,0,0,0.2));
+}
+
+@media (max-width: 600px) {
+  .fnx-back-to-top {
+    bottom: 18px;
+    right: 18px;
+    width: 42px;
+    height: 42px;
+  }
+}
+
+/* ── 3. Touch Targets & Minimum Action Height ── */
+.hp-spotlight-read-link,
+.playbook-meta-arrow,
+.hp-cat-card-read-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ── 4. Mobile Form Stacking for Tools Directory Waitlist ── */
+@media (max-width: 540px) {
+  .tools-waitlist-form {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .tools-waitlist-btn {
+    width: 100% !important;
+    min-height: 50px !important;
+    justify-content: center !important;
+  }
+}
+
+/* ── 5. Hero Action Buttons Mobile Stacking (<= 440px) ── */
+@media (max-width: 440px) {
+  .hero-sub-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 12px !important;
+  }
+  .hero-btn-primary,
+  .hero-btn-outlined {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+    min-height: 48px !important;
+  }
+}
+
+/* ── 6. Category Filter Rail Mobile Scroll Hint Fade ── */
+@media (max-width: 768px) {
+  .hp-articles-filter-wrap {
+    position: relative;
+  }
+  .hp-articles-filter-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 32px;
+    background: linear-gradient(to right, transparent, var(--bg));
+    pointer-events: none;
+    z-index: 2;
+  }
+}

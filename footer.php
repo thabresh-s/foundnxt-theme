@@ -25,7 +25,7 @@
             <?php wp_nonce_field('fnx_lead_nonce', 'fnx_lead_nonce_field'); ?>
             <input type="hidden" name="lead_type" value="Footer Newsletter Signup">
             <input type="hidden" name="target_sheet" value="newsletter">
-            <div class="newsletter-fw-fields" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <div class="newsletter-fw-fields" style="margin-bottom: 10px;">
               <input type="text" name="lead_name" placeholder="<?php esc_attr_e('Your full name…', 'foundnxt'); ?>" required>
               <input type="email" name="lead_email" placeholder="<?php esc_attr_e('Enter your work email…', 'foundnxt'); ?>" required>
             </div>
@@ -144,6 +144,11 @@
 
   </div><!-- /.container -->
 </footer>
+
+<!-- Back to Top Floating Button -->
+<button type="button" class="fnx-back-to-top" id="fnx-back-to-top" aria-label="<?php esc_attr_e('Back to top', 'foundnxt'); ?>" title="<?php esc_attr_e('Back to top', 'foundnxt'); ?>">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
 
 <?php wp_footer(); ?>
 </body>
