@@ -1561,7 +1561,7 @@
     background: linear-gradient(135deg, #0b1120 0%, #1e293b 100%);
   }
   .playbook-card-body {
-    padding: 24px 22px 20px;
+    padding: 18px 20px 18px;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -1577,7 +1577,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     line-height: 1;
     border: 1px solid currentColor;
     max-width: 100%;
@@ -1594,11 +1594,11 @@
     flex-shrink: 0;
   }
   .playbook-title {
-    font-size: 1.25rem;
-    line-height: 1.35;
+    font-size: clamp(1.03125rem, 1.15vw, 1.125rem);
+    line-height: 1.38;
     font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 0 0 10px 0;
+    letter-spacing: -0.015em;
+    margin: 0 0 8px 0;
   }
   .playbook-title a {
     color: var(--text, #0f172a);
@@ -1614,10 +1614,10 @@
     color: var(--brand, #f97316);
   }
   .playbook-excerpt {
-    font-size: 0.875rem;
+    font-size: 0.84rem;
     color: var(--muted, #64748b);
-    line-height: 1.6;
-    margin: 0 0 18px 0;
+    line-height: 1.5;
+    margin: 0 0 14px 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -1836,9 +1836,9 @@
       margin-bottom: 10px;
     }
     .playbook-title {
-      font-size: 1.125rem;
-      line-height: 1.35;
-      margin-bottom: 8px;
+      font-size: 1.03125rem;
+      line-height: 1.38;
+      margin-bottom: 6px;
     }
     .playbook-excerpt {
       font-size: 0.8125rem;
@@ -3987,7 +3987,7 @@ body[data-mode="dark"] .fnx-incontent-related {
    HOMEPAGE FEATURED ARTICLES SPOTLIGHT SECTION
    ============================================================ */
 .hp-spotlight-section {
-  padding-block: clamp(2.5rem, 5vw, 4.25rem);
+  padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   position: relative;
@@ -4017,8 +4017,8 @@ body[data-mode="dark"] .fnx-incontent-related {
 .hp-spotlight-grid--dual {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: clamp(1.5rem, 3vw, 2.25rem);
-  margin-top: 1.5rem;
+  gap: clamp(1.125rem, 2vw, 1.5rem);
+  margin-top: 1.25rem;
 }
 
 .hp-spotlight-card {
@@ -4026,9 +4026,9 @@ body[data-mode="dark"] .fnx-incontent-related {
   flex-direction: column;
   background: var(--surface-elevated);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg, 20px);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 30px -5px rgba(14, 18, 32, 0.05);
+  box-shadow: 0 8px 24px -4px rgba(14, 18, 32, 0.05);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.25s ease,
               border-color 0.25s ease;
@@ -4047,6 +4047,7 @@ body[data-mode="dark"] .fnx-incontent-related {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
+  max-height: 230px;
   background: #0E1220;
   overflow: hidden;
 }
@@ -4139,22 +4140,23 @@ body[data-mode="dark"] .fnx-incontent-related {
 
 .hp-spotlight-badge-floating {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 12px;
+  right: 12px;
   z-index: 2;
-  padding: 5px 12px;
+  padding: 4px 10px;
   border-radius: var(--radius-full, 9999px);
   color: #ffffff;
   font-family: var(--font-heading);
   font-size: 0.6875rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
 }
 
 .hp-spotlight-card-body {
-  padding: clamp(1.25rem, 2vw, 1.75rem);
+  padding: 18px 22px 18px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -4179,10 +4181,10 @@ body[data-mode="dark"] .fnx-incontent-related {
 
 .hp-spotlight-card-title {
   font-family: var(--font-heading);
-  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+  font-size: clamp(1.09375rem, 1.35vw, 1.25rem);
   font-weight: 700;
-  line-height: 1.35;
-  margin-bottom: 10px;
+  line-height: 1.34;
+  margin-bottom: 8px;
   color: var(--text);
 }
 
@@ -4200,9 +4202,9 @@ body[data-mode="dark"] .fnx-incontent-related {
 
 .hp-spotlight-card-excerpt {
   color: var(--muted);
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  margin-bottom: 20px;
+  font-size: 0.865rem;
+  line-height: 1.5;
+  margin-bottom: 14px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -4214,7 +4216,7 @@ body[data-mode="dark"] .fnx-incontent-related {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid var(--border-subtle, var(--border));
 }
 
@@ -4280,7 +4282,7 @@ body[data-mode="dark"] .fnx-incontent-related {
 }
 
 .hp-spotlight-single-body {
-  padding: clamp(1.75rem, 3.5vw, 2.75rem);
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -4288,18 +4290,18 @@ body[data-mode="dark"] .fnx-incontent-related {
 
 .hp-spotlight-single-title {
   font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 2.2vw, 2rem);
-  font-weight: 800;
-  line-height: 1.25;
-  margin-bottom: 14px;
+  font-size: clamp(1.25rem, 1.75vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 10px;
   color: var(--text);
 }
 
 .hp-spotlight-single-excerpt {
   color: var(--muted);
-  font-size: 1.0625rem;
-  line-height: 1.6;
-  margin-bottom: 24px;
+  font-size: 0.90625rem;
+  line-height: 1.55;
+  margin-bottom: 16px;
 }
 
 .hp-spotlight-single-footer {
