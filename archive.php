@@ -191,19 +191,18 @@ endif;
           <!-- Featured first post -->
           <article id="post-<?php the_ID(); ?>" <?php post_class('arc-featured'); ?> itemscope itemtype="https://schema.org/Article">
             <div class="arc-featured-inner">
-              <div class="arc-featured-meta">
+              <div class="arc-featured-cat-wrap">
                 <a href="<?php echo esc_url($fu); ?>" class="post-card-cat" itemprop="articleSection"><?php echo esc_html($fn); ?></a>
-                <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished" class="post-card-date"><?php echo get_the_date('M j, Y'); ?></time>
-                <span class="post-card-read"><?php echo esc_html(fnx_read_time()); ?></span>
               </div>
               <a href="<?php the_permalink(); ?>" class="arc-featured-title" itemprop="headline"><?php the_title(); ?></a>
+              <div class="arc-featured-meta">
+                <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished" class="post-card-date"><?php echo get_the_date('M j, Y'); ?></time>
+                <span class="post-card-dot">•</span>
+                <span class="post-card-read"><?php echo esc_html(fnx_read_time()); ?></span>
+              </div>
               <p class="arc-featured-excerpt" itemprop="description"><?php echo wp_trim_words(get_the_excerpt(), 28); ?></p>
               <div class="arc-featured-footer">
-                <div class="post-card-author">
-                  <?php echo get_avatar(get_the_author_meta('email'), 24, '', '', ['class' => 'avatar']); ?>
-                  <span itemprop="author"><?php the_author(); ?></span>
-                </div>
-                <a href="<?php the_permalink(); ?>" class="btn-primary arc-read-btn"><?php _e('Read Article →', 'foundnxt'); ?></a>
+                <a href="<?php the_permalink(); ?>" class="btn-primary arc-read-btn"><?php _e('Read More →', 'foundnxt'); ?></a>
               </div>
             </div>
             <?php if (has_post_thumbnail()): ?>

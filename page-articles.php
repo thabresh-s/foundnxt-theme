@@ -127,15 +127,14 @@ echo '<script type="application/ld+json">' . wp_json_encode($bc) . '</script>' .
               </div>
             </a>
             <div class="apv2-featured-body">
+              <a href="<?php the_permalink(); ?>" class="apv2-featured-title" itemprop="headline"><?php the_title(); ?></a>
               <div class="apv2-featured-meta">
                 <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo get_the_date('M j, Y'); ?></time>
                 <span class="apv2-meta-dot">·</span><span><?php echo esc_html(fnx_read_time()); ?></span>
               </div>
-              <a href="<?php the_permalink(); ?>" class="apv2-featured-title" itemprop="headline"><?php the_title(); ?></a>
               <p class="apv2-featured-excerpt" itemprop="description"><?php echo wp_trim_words(get_the_excerpt(), 30); ?></p>
               <div class="apv2-featured-footer">
-                <div class="apv2-author"><?php echo get_avatar(get_the_author_meta('email'), 32, '', '', ['class' => 'apv2-avatar']); ?><span itemprop="author"><?php the_author(); ?></span></div>
-                <a href="<?php the_permalink(); ?>" class="apv2-read-btn">Read Article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                <a href="<?php the_permalink(); ?>" class="apv2-read-btn"><?php _e('Read More', 'foundnxt'); ?> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
               </div>
             </div>
           </article>
@@ -154,15 +153,14 @@ echo '<script type="application/ld+json">' . wp_json_encode($bc) . '</script>' .
                 <a href="<?php echo esc_url($gu); ?>" class="apv2-card-cat-badge apv2-card-cat-badge--<?php echo $cat_color; ?>" itemprop="articleSection"><?php echo esc_html($gn); ?></a>
               </a>
               <div class="apv2-card-body">
+                <a href="<?php the_permalink(); ?>" class="apv2-card-title" itemprop="headline"><?php the_title(); ?></a>
                 <div class="apv2-card-meta">
                   <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo get_the_date('M j, Y'); ?></time>
                   <span class="apv2-meta-dot">·</span><span><?php echo esc_html(fnx_read_time()); ?></span>
                 </div>
-                <a href="<?php the_permalink(); ?>" class="apv2-card-title" itemprop="headline"><?php the_title(); ?></a>
                 <p class="apv2-card-excerpt" itemprop="description"><?php echo wp_trim_words(get_the_excerpt(), 16); ?></p>
                 <div class="apv2-card-footer">
-                  <div class="apv2-author apv2-author--sm"><?php echo get_avatar(get_the_author_meta('email'), 22, '', '', ['class' => 'apv2-avatar']); ?><span itemprop="author"><?php the_author(); ?></span></div>
-                  <span class="apv2-card-arrow">Read →</span>
+                  <span class="apv2-card-arrow"><?php _e('Read More →', 'foundnxt'); ?></span>
                 </div>
               </div>
             </article>

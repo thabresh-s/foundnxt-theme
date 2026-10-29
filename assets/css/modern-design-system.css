@@ -4884,3 +4884,56 @@ body.dark-mode .start-here-card-desc {
 :root[data-theme="dark"] .proof-quote-author {
   color: #9BA7BD;
 }
+
+/* Card Layout Modernization - Post Name, Date, Read More */
+.hp-spotlight-cat-tag {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.hp-spotlight-date-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+
+.hp-spotlight-date-meta .hp-spotlight-meta-date {
+  font-weight: 500;
+}
+
+.hp-spotlight-card-footer {
+  justify-content: flex-end !important;
+}
+
+.hp-spotlight-single-footer {
+  justify-content: flex-end !important;
+}
+
+.playbook-date-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+
+.hp-cat-card-date-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+
+.hp-cat-card-footer {
+  justify-content: flex-end !important;
+}

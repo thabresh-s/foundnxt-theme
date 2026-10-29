@@ -131,15 +131,11 @@
           </a>
 
           <div class="hp-spotlight-single-body">
-            <div class="hp-spotlight-meta-top">
+            <div class="hp-spotlight-cat-tag">
               <span class="playbook-badge" style="background: <?php echo esc_attr($color); ?>18; color: <?php echo esc_attr($color); ?>; border-color: <?php echo esc_attr($color); ?>40;">
                 <span class="playbook-badge-dot" style="background: <?php echo esc_attr($color); ?>;"></span>
                 <?php echo esc_html($cname); ?>
               </span>
-              <span class="hp-spotlight-meta-dot">•</span>
-              <span class="hp-spotlight-meta-item"><?php echo esc_html($read_t); ?></span>
-              <span class="hp-spotlight-meta-dot">•</span>
-              <span class="hp-spotlight-meta-item"><?php echo esc_html($date); ?></span>
             </div>
 
             <h3 class="hp-spotlight-single-title">
@@ -148,21 +144,19 @@
               </a>
             </h3>
 
+            <div class="hp-spotlight-date-meta">
+              <time class="hp-spotlight-meta-date" datetime="<?php echo esc_attr(get_the_date('c', $p->ID)); ?>"><?php echo esc_html($date); ?></time>
+              <span class="hp-spotlight-meta-dot">•</span>
+              <span class="hp-spotlight-meta-item"><?php echo esc_html($read_t); ?></span>
+            </div>
+
             <p class="hp-spotlight-single-excerpt">
               <?php echo esc_html(wp_trim_words(get_the_excerpt($p->ID), 36)); ?>
             </p>
 
             <div class="hp-spotlight-single-footer">
-              <div class="hp-spotlight-author-lockup">
-                <?php echo get_avatar(get_the_author_meta('email', $p->post_author), 38, '', '', ['class' => 'hp-spotlight-avatar', 'loading' => 'lazy']); ?>
-                <div class="hp-spotlight-author-info">
-                  <span class="hp-spotlight-author-name"><?php the_author_meta('display_name', $p->post_author); ?></span>
-                  <span class="hp-spotlight-author-title"><?php _e('Venture Research', 'foundnxt'); ?></span>
-                </div>
-              </div>
-
               <a href="<?php echo esc_url(get_permalink($p->ID)); ?>" class="hero-btn-primary hp-spotlight-btn">
-                <span><?php _e('Read Full Story', 'foundnxt'); ?></span> &rarr;
+                <span><?php _e('Read More', 'foundnxt'); ?></span> &rarr;
               </a>
             </div>
           </div>
@@ -214,15 +208,11 @@
               </a>
 
               <div class="hp-spotlight-card-body">
-                <div class="hp-spotlight-meta-top">
+                <div class="hp-spotlight-cat-tag">
                   <span class="playbook-badge" style="background: <?php echo esc_attr($color); ?>18; color: <?php echo esc_attr($color); ?>; border-color: <?php echo esc_attr($color); ?>40;">
                     <span class="playbook-badge-dot" style="background: <?php echo esc_attr($color); ?>;"></span>
                     <?php echo esc_html($cname); ?>
                   </span>
-                  <span class="hp-spotlight-meta-dot">•</span>
-                  <span class="hp-spotlight-meta-item"><?php echo esc_html($read_t); ?></span>
-                  <span class="hp-spotlight-meta-dot">•</span>
-                  <span class="hp-spotlight-meta-item"><?php echo esc_html($date); ?></span>
                 </div>
 
                 <h3 class="hp-spotlight-card-title">
@@ -231,18 +221,19 @@
                   </a>
                 </h3>
 
+                <div class="hp-spotlight-date-meta">
+                  <time class="hp-spotlight-meta-date" datetime="<?php echo esc_attr(get_the_date('c', $p->ID)); ?>"><?php echo esc_html($date); ?></time>
+                  <span class="hp-spotlight-meta-dot">•</span>
+                  <span class="hp-spotlight-meta-item"><?php echo esc_html($read_t); ?></span>
+                </div>
+
                 <p class="hp-spotlight-card-excerpt">
                   <?php echo esc_html(wp_trim_words(get_the_excerpt($p->ID), 24)); ?>
                 </p>
 
                 <div class="hp-spotlight-card-footer">
-                  <div class="hp-spotlight-author-lockup">
-                    <?php echo get_avatar(get_the_author_meta('email', $p->post_author), 30, '', '', ['class' => 'hp-spotlight-avatar', 'loading' => 'lazy']); ?>
-                    <span class="hp-spotlight-author-name"><?php the_author_meta('display_name', $p->post_author); ?></span>
-                  </div>
-
                   <a href="<?php echo esc_url(get_permalink($p->ID)); ?>" class="hp-spotlight-read-link">
-                    <span><?php _e('Read Article', 'foundnxt'); ?></span>
+                    <span><?php _e('Read More', 'foundnxt'); ?></span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                   </a>
                 </div>
@@ -387,20 +378,21 @@
                   </a>
                 </h3>
 
+                <div class="playbook-date-meta">
+                  <span><?php echo fnx_fmt_date($fp->post_date); ?></span>
+                  <span>•</span>
+                  <span><?php echo fnx_read_time($fp->ID); ?></span>
+                </div>
+
                 <p class="playbook-excerpt">
                   <?php echo esc_html(wp_trim_words(get_the_excerpt($fp->ID), 20)); ?>
                 </p>
 
                 <div class="playbook-meta">
-                  <div class="playbook-meta-info">
-                    <span><?php echo fnx_fmt_date($fp->post_date); ?></span>
-                    <span>•</span>
-                    <span><?php echo fnx_read_time($fp->ID); ?></span>
-                  </div>
-                  <span class="playbook-meta-arrow">
-                    <?php _e('Read', 'foundnxt'); ?>
+                  <a href="<?php echo esc_url(get_permalink($fp->ID)); ?>" class="playbook-meta-arrow">
+                    <?php _e('Read More', 'foundnxt'); ?>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </span>
+                  </a>
                 </div>
               </div>
             </article>
@@ -682,7 +674,6 @@
                   <span class="hp-cat-card-tag-dot" style="background: <?php echo esc_attr($t_color); ?>;"></span>
                   <?php echo esc_html($cp_badge); ?>
                 </span>
-                <span class="hp-cat-card-readtime"><?php echo esc_html($cp_read); ?></span>
               </div>
 
               <h3 class="hp-cat-card-title">
@@ -691,6 +682,12 @@
                 </a>
               </h3>
 
+              <div class="hp-cat-card-date-meta">
+                <span class="hp-cat-card-date"><?php echo esc_html($cp_date); ?></span>
+                <span class="hp-cat-card-meta-dot">•</span>
+                <span class="hp-cat-card-readtime"><?php echo esc_html($cp_read); ?></span>
+              </div>
+
               <?php if (!empty($cp_excerpt)): ?>
                 <p class="hp-cat-card-excerpt">
                   <?php echo esc_html($cp_excerpt); ?>
@@ -698,9 +695,8 @@
               <?php endif; ?>
 
               <div class="hp-cat-card-footer">
-                <span class="hp-cat-card-date"><?php echo esc_html($cp_date); ?></span>
                 <a href="<?php echo esc_url($cp_url); ?>" class="hp-cat-card-read-link" aria-label="<?php echo esc_attr(sprintf(__('Read article: %s', 'foundnxt'), $cp_title)); ?>">
-                  <span><?php _e('Read Story', 'foundnxt'); ?></span>
+                  <span><?php _e('Read More', 'foundnxt'); ?></span>
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
               </div>

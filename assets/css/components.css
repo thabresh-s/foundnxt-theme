@@ -13581,3 +13581,48 @@ textarea,
   }
 }
 
+
+
+/* Post Card Layout Update - No author on cards, Post title -> Date -> Read More */
+.post-card-cat-wrap {
+  margin-bottom: 4px;
+}
+
+.post-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--fnx-muted);
+  margin-top: 2px;
+  margin-bottom: 6px;
+}
+
+.post-card-dot {
+  opacity: 0.5;
+}
+
+.post-card-footer {
+  justify-content: flex-end !important;
+}
+
+.arc-featured-footer {
+  justify-content: flex-end !important;
+}
+
+.apv2-card-footer {
+  justify-content: flex-end !important;
+}
+
+.apv2-featured-footer {
+  justify-content: flex-end !important;
+}
+
+.apv2-card-arrow {
+  opacity: 0.9 !important;
+  transform: none !important;
+}
+
+.apv2-card:hover .apv2-card-arrow {
+  transform: translateX(3px) !important;
+}

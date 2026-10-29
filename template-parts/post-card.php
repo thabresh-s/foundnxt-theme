@@ -19,23 +19,23 @@ $accent     = $cat_colors[$color_idx];
   <div class="post-card-accent-strip"></div>
 
   <div class="post-card-body">
-    <div class="post-card-meta">
+    <div class="post-card-cat-wrap">
       <a href="<?php echo esc_url($cat_url); ?>" class="post-card-cat" itemprop="articleSection"><?php echo esc_html($cat_name); ?></a>
-      <time class="post-card-date" datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo get_the_date('M j, Y'); ?></time>
-      <span class="post-card-read"><?php echo esc_html($read_time); ?></span>
     </div>
 
     <a href="<?php the_permalink(); ?>" class="post-card-title" itemprop="headline"><?php the_title(); ?></a>
 
+    <div class="post-card-meta">
+      <time class="post-card-date" datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo get_the_date('M j, Y'); ?></time>
+      <span class="post-card-dot">•</span>
+      <span class="post-card-read"><?php echo esc_html($read_time); ?></span>
+    </div>
+
     <p class="post-card-excerpt" itemprop="description"><?php echo wp_trim_words(get_the_excerpt(), 16); ?></p>
 
     <div class="post-card-footer">
-      <div class="post-card-author">
-        <?php echo get_avatar(get_the_author_meta('email'), 20, '', '', ['class' => 'avatar']); ?>
-        <span itemprop="author"><?php the_author(); ?></span>
-      </div>
       <a href="<?php the_permalink(); ?>" class="post-card-cta" aria-label="Read <?php the_title_attribute(); ?>">
-        Read <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <?php _e('Read More', 'foundnxt'); ?> <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
   </div>
