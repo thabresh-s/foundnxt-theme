@@ -117,7 +117,7 @@ function fnx_render_incontent_related_box($post_id = null, $limit = 3) {
               <span class="fnx-incontent-related-sep" aria-hidden="true">•</span>
               <span class="fnx-incontent-related-time"><?php echo esc_html($read_time); ?></span>
             </div>
-            <h4 class="fnx-incontent-related-title"><?php echo esc_html($title); ?></h4>
+            <div class="fnx-incontent-related-title"><?php echo esc_html($title); ?></div>
           </div>
           <span class="fnx-incontent-related-arrow" aria-hidden="true">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
