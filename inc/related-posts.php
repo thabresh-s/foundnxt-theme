@@ -214,19 +214,20 @@ function fnx_inject_incontent_related_box($content) {
     }
 
     $num_meaningful = count($meaningful_indexes);
-    if ($num_meaningful >= 6) {
-        $target_meaningful_num = 3; // After 3rd body paragraph
-    } elseif ($num_meaningful >= 3) {
-        $target_meaningful_num = 2; // After 2nd body paragraph
-    } elseif ($num_meaningful >= 1) {
-        $target_meaningful_num = 1; // After 1st body paragraph
+    if ($num_meaningful >= 2) {
+        // Target between 50% and 70% of the article (centered around ~60%)
+        $target_meaningful_num = (int) round($num_meaningful * 0.60);
+        $min_pos = max(1, (int) floor($num_meaningful * 0.50));
+        $max_pos = max(1, (int) ceil($num_meaningful * 0.70));
+        $target_meaningful_num = max($min_pos, min($max_pos, $target_meaningful_num));
     } else {
         $target_meaningful_num = 1;
     }
 
+    $default_fallback_index = max(0, (int) round($total_parts * 0.60) - 1);
     $target_part_index = isset($meaningful_indexes[$target_meaningful_num - 1])
         ? $meaningful_indexes[$target_meaningful_num - 1]
-        : min(2, $total_parts - 1);
+        : min($default_fallback_index, $total_parts - 1);
 
     $output = '';
     foreach ($parts as $idx => $part) {
