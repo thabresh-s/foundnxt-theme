@@ -23,6 +23,9 @@ function fnx_setup() {
 
     // Custom SEO Title
     add_filter('pre_get_document_title', function($title) {
+        if (function_exists('fnx_has_active_seo_plugin') && fnx_has_active_seo_plugin()) {
+            return $title;
+        }
         if (is_front_page() || is_home()) {
             return 'FoundNXT | How to Scale Your Company in the AI Era';
         }
@@ -332,6 +335,24 @@ function fnx_customizer($wp_customize) {
         'panel'    => 'fnx_panel',
         'priority' => 10,
     ]);
+
+    // SEO & Meta Description Section
+    $wp_customize->add_section('fnx_seo_section', [
+        'title'    => __('🔍 SEO & Meta Description', 'foundnxt'),
+        'panel'    => 'fnx_panel',
+        'priority' => 15,
+    ]);
+    $wp_customize->add_setting('fnx_seo_description', [
+        'default'           => 'Actionable playbooks, tech insights, and scaling strategies for startup founders. Learn how to build faster, secure funding, and navigate your founder journey.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ]);
+    $wp_customize->add_control('fnx_seo_description', [
+        'label'       => __('Homepage Meta Description', 'foundnxt'),
+        'description' => __('Default meta description used on the homepage and as site fallback when no dedicated post/page description exists.', 'foundnxt'),
+        'section'     => 'fnx_seo_section',
+        'type'        => 'textarea',
+        'priority'    => 10,
+    ]);
     $wp_customize->add_setting('fnx_announcement_enabled', [
         'default'           => true,
         'sanitize_callback' => 'wp_validate_boolean',
@@ -535,73 +556,408 @@ function fnx_customizer_css() {
 add_action('wp_head', 'fnx_customizer_css');
 
 /* ============================================================
-   SEO & SCHEMA HELPERS
+   SEO & SOCIAL META ENGINE (COMPREHENSIVE & UNIFIED)
    ============================================================ */
-function fnx_schema_article() {
-    if (!is_single()) return;
 
-    $post      = get_post();
-    $image     = get_the_post_thumbnail_url(null, 'fnx-hero');
-    $cats      = get_the_category();
-    $cat_name  = $cats ? $cats[0]->name : 'Article';
+/**
+ * 1. Active SEO Plugin Detection
+ * Detects Yoast SEO, Rank Math, SEOPress, All in One SEO, The SEO Framework, Squirrly SEO, etc.
+ * When an SEO plugin is present, theme yields control to avoid duplicate meta tags.
+ */
+function fnx_has_active_seo_plugin() {
+    // Yoast SEO
+    if (defined('WPSEO_VERSION')) {
+        return true;
+    }
+    // Rank Math
+    if (defined('RANK_MATH_VERSION') || class_exists('RankMath')) {
+        return true;
+    }
+    // SEOPress / SiteSEO
+    if (defined('SEOPRESS_VERSION') || function_exists('seopress_init') || defined('SITESEO_VERSION')) {
+        return true;
+    }
+    // All in One SEO
+    if (defined('AIOSEO_VERSION') || class_exists('AIOSEO\Plugin\AIOSEO')) {
+        return true;
+    }
+    // The SEO Framework
+    if (defined('THE_SEO_FRAMEWORK_VERSION') || class_exists('The_SEO_Framework\Load')) {
+        return true;
+    }
+    // Squirrly SEO
+    if (defined('SQ_VERSION')) {
+        return true;
+    }
 
-    $schema = [
-        '@context'        => 'https://schema.org',
-        '@type'           => 'Article',
-        'headline'        => get_the_title(),
-        'description'     => get_the_excerpt(),
-        'datePublished'   => get_the_date('c'),
-        'dateModified'    => get_the_modified_date('c'),
-        'author'          => ['@type' => 'Person', 'name' => get_the_author()],
-        'publisher'       => [
-            '@type' => 'Organization',
-            'name'  => get_bloginfo('name'),
-            'logo'  => ['@type' => 'ImageObject', 'url' => esc_url(wp_get_attachment_image_url(get_theme_mod('custom_logo'), 'full'))],
-        ],
-        'articleSection'  => $cat_name,
-        'url'             => get_permalink(),
-    ];
-    if ($image) $schema['image'] = $image;
-
-    echo '<script type="application/ld+json">' . wp_json_encode($schema) . '</script>' . "\n";
+    return false;
 }
-add_action('wp_head', 'fnx_schema_article');
 
-// Open Graph
+/**
+ * 2. Dynamic, Page-Specific SEO Description Resolver
+ * Computes the exact, unique meta description for each post, page, category, archive,
+ * or homepage. NEVER outputs the generic site fallback ahead of a post's own content.
+ */
+function fnx_get_seo_description() {
+    // Homepage / Front Page
+    if (is_front_page()) {
+        return get_theme_mod(
+            'fnx_seo_description',
+            __('Actionable playbooks, tech insights, and scaling strategies for startup founders. Learn how to build faster, secure funding, and navigate your founder journey.', 'foundnxt')
+        );
+    }
+
+    // Blog Posts Index (if front page is static)
+    if (is_home()) {
+        $posts_page_id = get_option('page_for_posts');
+        if ($posts_page_id) {
+            $post = get_post($posts_page_id);
+            if (!empty($post->post_excerpt)) {
+                return wp_strip_all_tags($post->post_excerpt);
+            }
+        }
+        return get_theme_mod(
+            'fnx_seo_description',
+            __('Actionable playbooks, tech insights, and scaling strategies for startup founders. Learn how to build faster, secure funding, and navigate your founder journey.', 'foundnxt')
+        );
+    }
+
+    // Singular: Posts, Pages, Custom Post Types
+    if (is_singular()) {
+        $post_id = get_the_ID();
+        $post    = get_post($post_id);
+
+        if (!$post) {
+            return '';
+        }
+
+        // Priority 1: Dedicated Custom Post Meta
+        $custom_desc = get_post_meta($post_id, '_fnx_seo_description', true);
+        if (!$custom_desc) {
+            $custom_desc = get_post_meta($post_id, '_yoast_wpseo_metadesc', true);
+        }
+        if (!$custom_desc) {
+            $custom_desc = get_post_meta($post_id, 'rank_math_description', true);
+        }
+        if (!$custom_desc) {
+            $custom_desc = get_post_meta($post_id, '_seopress_titles_desc', true);
+        }
+        if (!empty($custom_desc)) {
+            return wp_strip_all_tags($custom_desc);
+        }
+
+        // Priority 2: Dedicated Excerpt
+        if (!empty($post->post_excerpt)) {
+            return wp_strip_all_tags($post->post_excerpt);
+        }
+
+        // Priority 3: Page-Specific Curated Copy for Standard Templates
+        if (is_page()) {
+            if (is_page_template('page-contact.php')) {
+                return __('Reach the FoundNXT team for story tips, guest posts, press releases, partnership enquiries, or general questions. Replies within 24–48 hours.', 'foundnxt');
+            }
+            if (is_page_template('page-about.php')) {
+                return __('FoundNXT is an independent business and technology publication helping founders and leaders understand markets, technology, and growth.', 'foundnxt');
+            }
+            if (is_page_template('page-articles.php')) {
+                return __('Practical articles, playbooks, and teardowns on business strategy, startups, valuation, technology, and markets for founders.', 'foundnxt');
+            }
+            if (is_page_template('page-services.php')) {
+                return __('Explore advisory, content, and growth services offered by FoundNXT for startup founders and scaling leaders.', 'foundnxt');
+            }
+            if (is_page_template('page-tools.php')) {
+                return __('Interactive founder calculators, startup valuation models, and SaaS benchmarking tools by FoundNXT.', 'foundnxt');
+            }
+            if (is_page_template('page-privacy-policy.php')) {
+                return __('Privacy Policy for FoundNXT. Learn how we collect, handle, and safeguard your personal information.', 'foundnxt');
+            }
+            if (is_page_template('page-disclaimer.php')) {
+                return __('Editorial standards, investment disclaimers, affiliate disclosures, and terms of service for FoundNXT.', 'foundnxt');
+            }
+            if (is_page_template('page-support.php')) {
+                return __('FoundNXT Support: Find help, answers to frequently asked questions, or contact our support team.', 'foundnxt');
+            }
+        }
+
+        // Priority 4: Smart Content Truncation on Word Boundary (155-160 chars)
+        $content = $post->post_content;
+        if (!empty($content)) {
+            $content = strip_shortcodes($content);
+            $content = wp_strip_all_tags($content);
+            $content = preg_replace('/\s+/', ' ', $content);
+            $content = trim($content);
+
+            if (!empty($content)) {
+                if (function_exists('mb_strlen') && mb_strlen($content, 'UTF-8') > 160) {
+                    $trimmed = mb_substr($content, 0, 155, 'UTF-8');
+                    $last_space = mb_strrpos($trimmed, ' ', 0, 'UTF-8');
+                    if ($last_space !== false && $last_space > 110) {
+                        $trimmed = mb_substr($trimmed, 0, $last_space, 'UTF-8');
+                    }
+                    return $trimmed . '...';
+                } elseif (strlen($content) > 160) {
+                    $trimmed = substr($content, 0, 155);
+                    $last_space = strrpos($trimmed, ' ');
+                    if ($last_space !== false && $last_space > 110) {
+                        $trimmed = substr($trimmed, 0, $last_space);
+                    }
+                    return $trimmed . '...';
+                }
+                return $content;
+            }
+        }
+
+        // Fallback: Post title
+        return sprintf(__('%s — Read the full playbook and analysis on FoundNXT.', 'foundnxt'), get_the_title($post_id));
+    }
+
+    // Category Archive
+    if (is_category()) {
+        $desc = category_description();
+        if (!empty($desc)) {
+            $desc = wp_strip_all_tags($desc);
+            $desc = preg_replace('/\s+/', ' ', trim($desc));
+            if (!empty($desc)) {
+                return $desc;
+            }
+        }
+        $cat_name = single_cat_title('', false);
+        return sprintf(__('Explore actionable %s frameworks, market teardowns, and growth playbooks for founders on FoundNXT.', 'foundnxt'), $cat_name);
+    }
+
+    // Tag Archive
+    if (is_tag()) {
+        $desc = tag_description();
+        if (!empty($desc)) {
+            $desc = wp_strip_all_tags($desc);
+            $desc = preg_replace('/\s+/', ' ', trim($desc));
+            if (!empty($desc)) {
+                return $desc;
+            }
+        }
+        $tag_name = single_tag_title('', false);
+        return sprintf(__('Articles, teardowns, and business playbooks tagged with #%s on FoundNXT.', 'foundnxt'), $tag_name);
+    }
+
+    // Author Archive
+    if (is_author()) {
+        $bio = get_the_author_meta('description');
+        if (!empty($bio)) {
+            $bio = wp_strip_all_tags($bio);
+            $bio = preg_replace('/\s+/', ' ', trim($bio));
+            if (!empty($bio)) {
+                return $bio;
+            }
+        }
+        $author_name = get_the_author_meta('display_name');
+        return sprintf(__('Read articles, tech insights, and scaling strategies by %s on FoundNXT.', 'foundnxt'), $author_name);
+    }
+
+    // Search Results
+    if (is_search()) {
+        return sprintf(__('Search results for "%s" — FoundNXT.', 'foundnxt'), esc_html(get_search_query()));
+    }
+
+    // Generic Archive
+    if (is_archive()) {
+        return sprintf(__('Archive — %s — FoundNXT.', 'foundnxt'), wp_strip_all_tags(get_the_archive_title()));
+    }
+
+    return '';
+}
+
+/**
+ * 3. Render Post & Page Meta Description in wp_head
+ * Outputs <meta name="description"> unless an active SEO plugin handles it.
+ */
+function fnx_render_seo_meta_tags() {
+    if (fnx_has_active_seo_plugin()) {
+        return;
+    }
+    if (is_404() || is_feed() || is_admin()) {
+        return;
+    }
+
+    $description = fnx_get_seo_description();
+    if (!empty($description)) {
+        echo '<meta name="description" content="' . esc_attr($description) . '">' . "\n";
+    }
+}
+add_action('wp_head', 'fnx_render_seo_meta_tags', 1);
+
+/**
+ * 4. Search-Engine Canonical URLs for Non-Singular Views
+ * Standardizes canonical tags on Category, Tag, Author, and Paginated archives.
+ */
+function fnx_canonical_url() {
+    if (fnx_has_active_seo_plugin()) {
+        return;
+    }
+    if (is_singular()) {
+        if (!has_action('wp_head', 'rel_canonical')) {
+            echo '<link rel="canonical" href="' . esc_url(get_permalink()) . '">' . "\n";
+        }
+        return;
+    }
+
+    $canonical = '';
+    if (is_front_page()) {
+        $canonical = home_url('/');
+    } elseif (is_home()) {
+        $canonical = get_permalink(get_option('page_for_posts'));
+    } elseif (is_category()) {
+        $canonical = get_category_link(get_queried_object_id());
+    } elseif (is_tag()) {
+        $canonical = get_tag_link(get_queried_object_id());
+    } elseif (is_tax()) {
+        $term = get_queried_object();
+        if ($term && !is_wp_error($term)) {
+            $canonical = get_term_link($term);
+        }
+    } elseif (is_author()) {
+        $canonical = get_author_posts_url(get_queried_object_id());
+    } elseif (is_post_type_archive()) {
+        $canonical = get_post_type_archive_link(get_post_type());
+    }
+
+    if ($canonical && !is_wp_error($canonical)) {
+        $paged = get_query_var('paged');
+        if ($paged > 1) {
+            $canonical = trailingslashit($canonical) . 'page/' . $paged . '/';
+        }
+        echo '<link rel="canonical" href="' . esc_url($canonical) . '">' . "\n";
+    }
+}
+add_action('wp_head', 'fnx_canonical_url', 2);
+
+/**
+ * 5. Open Graph & Twitter Cards Engine (Single-Source, No Duplicates)
+ */
 function fnx_open_graph() {
     if (is_feed() || is_admin()) return;
+    if (fnx_has_active_seo_plugin()) return;
 
-    $type  = is_single() ? 'article' : 'website';
+    $type = is_single() ? 'article' : 'website';
+    $desc = fnx_get_seo_description();
+
     if (is_front_page() || is_home()) {
-        $title = 'FoundNXT | How to Scale Your Company in the AI Era';
-        $desc  = 'How to Scale Your Company in the AI Era. Actionable frameworks, tech recommendations, and business strategies built for founders and leaders.';
+        $title = get_bloginfo('name') . ' — ' . (get_bloginfo('description') ?: 'How to Scale Your Company in the AI Era');
+        $url   = home_url('/');
+    } elseif (is_singular()) {
+        $title = get_the_title();
+        $url   = get_permalink();
+    } elseif (is_category()) {
+        $title = single_cat_title('', false) . ' — ' . get_bloginfo('name');
+        $url   = get_category_link(get_queried_object_id());
+    } elseif (is_tag()) {
+        $title = single_tag_title('', false) . ' — ' . get_bloginfo('name');
+        $url   = get_tag_link(get_queried_object_id());
+    } elseif (is_author()) {
+        $title = get_the_author_meta('display_name') . ' — ' . get_bloginfo('name');
+        $url   = get_author_posts_url(get_queried_object_id());
     } else {
-        $title = is_singular() ? get_the_title() : get_bloginfo('name');
-        $desc  = is_singular() ? get_the_excerpt() : get_bloginfo('description');
+        $title = wp_get_document_title();
+        $url   = home_url('/');
     }
-    $url   = is_singular() ? get_permalink() : home_url('/');
-    $image = is_singular() ? get_the_post_thumbnail_url(null, 'fnx-hero') : '';
+
+    $image = (is_singular() && has_post_thumbnail()) ? get_the_post_thumbnail_url(null, 'fnx-hero') : '';
     if (!$image) {
         $image = get_theme_file_uri('assets/images/brand/png/foundnxt-logo-dark-bg.png');
     }
     ?>
     <meta property="og:type"        content="<?= esc_attr($type) ?>">
     <meta property="og:title"       content="<?= esc_attr($title) ?>">
-    <meta property="og:description" content="<?= esc_attr(wp_strip_all_tags($desc)) ?>">
+    <meta property="og:description" content="<?= esc_attr($desc) ?>">
     <meta property="og:url"         content="<?= esc_url($url) ?>">
     <meta property="og:site_name"   content="<?= esc_attr(get_bloginfo('name')) ?>">
     <?php if ($image): ?>
     <meta property="og:image"       content="<?= esc_url($image) ?>">
     <?php endif; ?>
-    <meta name="twitter:card"       content="summary_large_image">
-    <meta name="twitter:title"      content="<?= esc_attr($title) ?>">
-    <meta name="twitter:description" content="<?= esc_attr(wp_strip_all_tags($desc)) ?>">
+    <?php if (is_single()): ?>
+    <meta property="article:published_time" content="<?= esc_attr(get_the_date('c')) ?>">
+    <meta property="article:modified_time"  content="<?= esc_attr(get_the_modified_date('c')) ?>">
+    <?php endif; ?>
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:site"        content="@foundnxt">
+    <meta name="twitter:title"       content="<?= esc_attr($title) ?>">
+    <meta name="twitter:description" content="<?= esc_attr($desc) ?>">
     <?php if ($image): ?>
-    <meta name="twitter:image"      content="<?= esc_url($image) ?>">
+    <meta name="twitter:image"       content="<?= esc_url($image) ?>">
     <?php endif; ?>
     <?php
 }
 add_action('wp_head', 'fnx_open_graph', 5);
+
+/**
+ * 6. Post & Page SEO Meta Box
+ * Allows authors to define custom SEO meta descriptions in post/page edit screen.
+ */
+function fnx_add_seo_metabox() {
+    $screens = ['post', 'page'];
+    foreach ($screens as $screen) {
+        add_meta_box(
+            'fnx_seo_metabox',
+            __('🔍 Search Engine Optimization (SEO Description)', 'foundnxt'),
+            'fnx_render_seo_metabox',
+            $screen,
+            'normal',
+            'high'
+        );
+    }
+}
+add_action('add_meta_boxes', 'fnx_add_seo_metabox');
+
+function fnx_render_seo_metabox($post) {
+    wp_nonce_field('fnx_seo_metabox_nonce_action', 'fnx_seo_metabox_nonce');
+    $val = get_post_meta($post->ID, '_fnx_seo_description', true);
+    ?>
+    <p>
+        <label for="fnx_seo_description_field" style="font-weight:600;display:block;margin-bottom:6px;">
+            <?php _e('Custom Meta Description:', 'foundnxt'); ?>
+        </label>
+        <textarea id="fnx_seo_description_field" name="fnx_seo_description" rows="3" style="width:100%;font-size:13px;line-height:1.5;" placeholder="<?php esc_attr_e('Enter 150-160 characters describing this post for search engines. Leave blank to auto-generate from excerpt/content.', 'foundnxt'); ?>" maxlength="300"><?php echo esc_textarea($val); ?></textarea>
+    </p>
+    <p class="description" style="font-size:12px;color:#64748b;margin-top:4px;">
+        <span id="fnx-char-counter">0</span> / 160 <?php _e('characters (optimal search snippet length is 150–160 chars).', 'foundnxt'); ?>
+    </p>
+    <script>
+    (function(){
+        var ta = document.getElementById('fnx_seo_description_field');
+        var cc = document.getElementById('fnx-char-counter');
+        if (!ta || !cc) return;
+        function updateCount() {
+            var len = ta.value.length;
+            cc.textContent = len;
+            cc.style.color = (len >= 140 && len <= 160) ? '#10b981' : (len > 160 ? '#ef4444' : '#64748b');
+        }
+        ta.addEventListener('input', updateCount);
+        updateCount();
+    })();
+    </script>
+    <?php
+}
+
+function fnx_save_seo_metabox($post_id) {
+    if (!isset($_POST['fnx_seo_metabox_nonce']) || !wp_verify_nonce($_POST['fnx_seo_metabox_nonce'], 'fnx_seo_metabox_nonce_action')) {
+        return;
+    }
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    if (isset($_POST['fnx_seo_description'])) {
+        $val = sanitize_textarea_field(wp_unslash($_POST['fnx_seo_description']));
+        if (!empty($val)) {
+            update_post_meta($post_id, '_fnx_seo_description', $val);
+        } else {
+            delete_post_meta($post_id, '_fnx_seo_description');
+        }
+    }
+}
+add_action('save_post', 'fnx_save_seo_metabox');
 
 /**
  * Modern Brand Favicons & Icons Hook
@@ -790,30 +1146,16 @@ if ( ! defined( 'FS_METHOD' ) ) {
 }
 
 /* ══════════════════════════════════════════════════
-   CONTACT PAGE — SEO meta (title + description)
-   Hooks into wp_head before OG tags fire.
+   CONTACT PAGE — Document Title Hook
 ══════════════════════════════════════════════════ */
 function fnx_contact_seo_head() {
     if ( ! is_page_template('page-contact.php') ) return;
-    // Override title via wp_title filter (Yoast/RankMath will take over if active)
+    if ( function_exists('fnx_has_active_seo_plugin') && fnx_has_active_seo_plugin() ) {
+        return;
+    }
     add_filter('pre_get_document_title', function() {
         return 'Contact FoundNXT — Get in Touch';
     });
-    // Meta description
-    echo '<meta name="description" content="'
-       . esc_attr('Reach the FoundNXT team for story tips, guest posts, press releases, partnership enquiries, or general questions. Replies within 24–48 hours.')
-       . '">' . "\n";
-    echo '<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">' . "\n";
-    // OG overrides
-    $url = esc_url(get_permalink());
-    echo '<meta property="og:type"        content="website">' . "\n";
-    echo '<meta property="og:title"       content="Contact FoundNXT — Get in Touch">' . "\n";
-    echo '<meta property="og:description" content="Get in touch for story tips, guest posts, press releases, partnerships, or feedback.">' . "\n";
-    echo '<meta property="og:url"         content="' . $url . '">' . "\n";
-    echo '<meta property="og:site_name"   content="' . esc_attr(get_bloginfo('name')) . '">' . "\n";
-    echo '<meta name="twitter:card"        content="summary">' . "\n";
-    echo '<meta name="twitter:title"       content="Contact FoundNXT — Get in Touch">' . "\n";
-    echo '<meta name="twitter:description" content="Reach out for story tips, guest posts, partnerships, or feedback. Replies within 24–48 hours.">' . "\n";
 }
 add_action('wp_head', 'fnx_contact_seo_head', 1);
 

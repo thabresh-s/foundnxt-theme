@@ -77,11 +77,7 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
 
       <!-- Article Content -->
       <!-- Article Content (Single Column 65-72ch) -->
-      <article class="post-content-wrap single-article-container" id="post-content" itemscope itemtype="https://schema.org/Article">
-        <meta itemprop="headline"       content="<?php echo esc_attr(get_the_title()); ?>">
-        <meta itemprop="datePublished"  content="<?php echo get_the_date('c'); ?>">
-        <meta itemprop="dateModified"   content="<?php echo get_the_modified_date('c'); ?>">
-        <meta itemprop="author"         content="<?php echo esc_attr(get_the_author()); ?>">
+      <article class="post-content-wrap single-article-container" id="post-content">
 
         <!-- Key Takeaway Callout -->
         <?php if ($takeaway): ?>

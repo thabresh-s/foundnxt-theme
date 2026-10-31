@@ -8,7 +8,7 @@
    just after get_header() so it sits early in <body>
    (Google accepts ld+json anywhere in the document).
 ══════════════════════════════════════════════════ */
-if ( is_category() ) :
+if ( is_category() && (!function_exists('fnx_has_active_seo_plugin') || !fnx_has_active_seo_plugin()) ) :
   $schema_cat   = get_queried_object();
   $schema_url   = get_category_link( $schema_cat->term_id );
   $schema_desc  = strip_tags( category_description() );

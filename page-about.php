@@ -38,7 +38,7 @@ $schema = [
         ],
     ],
 ];
-echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES) . '</script>' . "\n";
+if (!function_exists('fnx_has_active_seo_plugin') || !fnx_has_active_seo_plugin()) { echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES) . '</script>' . "\n"; }
 ?>
 
 <div class="fnx-archive-page fnx-about-page">

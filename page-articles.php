@@ -52,9 +52,9 @@ $cat_icons = [
 ];
 
 $schema = ['@context' => 'https://schema.org', '@type' => 'CollectionPage', 'name' => 'Articles — FoundNXT', 'description' => 'Practical articles on business strategy, startups, valuation, technology, and markets.', 'url' => esc_url(get_permalink()), 'publisher' => ['@type' => 'Organization', 'name' => get_bloginfo('name')]];
-echo '<script type="application/ld+json">' . wp_json_encode($schema) . '</script>' . "\n";
+if (!function_exists('fnx_has_active_seo_plugin') || !fnx_has_active_seo_plugin()) { echo '<script type="application/ld+json">' . wp_json_encode($schema) . '</script>' . "\n"; }
 $bc = ['@context' => 'https://schema.org', '@type' => 'BreadcrumbList', 'itemListElement' => [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'Articles', 'item' => get_permalink()]]];
-echo '<script type="application/ld+json">' . wp_json_encode($bc) . '</script>' . "\n";
+if (!function_exists('fnx_has_active_seo_plugin') || !fnx_has_active_seo_plugin()) { echo '<script type="application/ld+json">' . wp_json_encode($bc) . '</script>' . "\n"; }
 ?>
 
 <div class="fnx-articles-page apv2">

@@ -4,16 +4,6 @@
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<?php if (!has_action('wp_head', 'rel_canonical')): ?>
-<link rel="canonical" href="<?php echo esc_url(get_permalink()); ?>">
-<?php endif; ?>
-<meta name="description" content="<?php echo esc_attr(get_theme_mod('fnx_seo_description', __('Actionable playbooks, tech insights, and scaling strategies for startup founders. Learn how to build faster, secure funding, and navigate your founder journey.', 'foundnxt'))); ?>">
-<!-- FoundNXT Modern Favicons & App Icons -->
-<link rel="icon" type="image/svg+xml" href="<?php echo esc_url(get_theme_file_uri('assets/images/favicon.svg')); ?>">
-<link rel="icon" type="image/x-icon" href="<?php echo esc_url(get_theme_file_uri('assets/images/favicon.ico')); ?>" sizes="32x32">
-<link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url(get_theme_file_uri('assets/images/apple-touch-icon.png')); ?>">
-<link rel="manifest" href="<?php echo esc_url(get_theme_file_uri('assets/images/site.webmanifest')); ?>">
-<meta name="theme-color" content="#0E1220">
 <script>
   (function() {
     try {
@@ -28,31 +18,11 @@
     } catch(e) {}
   })();
 </script>
-<?php
-$fnx_og_title = is_single() ? get_the_title() : (get_bloginfo('name') . ' — ' . (get_bloginfo('description') ?: 'Where Founders Find What’s Next'));
-$fnx_og_desc  = is_single() ? wp_strip_all_tags(get_the_excerpt() ?: get_the_title()) : get_theme_mod('fnx_seo_description', 'Actionable frameworks, funding teardowns, valuation models, and AI scaling playbooks for Indian founders.');
-$fnx_og_url   = is_single() ? get_permalink() : home_url('/');
-$fnx_og_img   = (is_single() && has_post_thumbnail()) ? wp_get_attachment_image_url(get_post_thumbnail_id(), 'fnx-hero') : get_theme_file_uri('assets/images/logo.png');
-?>
-<meta property="og:title" content="<?php echo esc_attr($fnx_og_title); ?>">
-<meta property="og:description" content="<?php echo esc_attr($fnx_og_desc); ?>">
-<meta property="og:url" content="<?php echo esc_url($fnx_og_url); ?>">
-<meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')); ?>">
-<meta property="og:type" content="<?php echo is_single() ? 'article' : 'website'; ?>">
-<meta property="og:image" content="<?php echo esc_url($fnx_og_img); ?>">
-<?php if (is_single()): ?>
-<meta property="article:published_time" content="<?php echo get_the_date('c'); ?>">
-<meta property="article:modified_time" content="<?php echo get_the_modified_date('c'); ?>">
-<?php endif; ?>
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@foundnxt">
-<meta name="twitter:title" content="<?php echo esc_attr($fnx_og_title); ?>">
-<meta name="twitter:description" content="<?php echo esc_attr($fnx_og_desc); ?>">
-<meta name="twitter:image" content="<?php echo esc_url($fnx_og_img); ?>">
 <link rel="alternate" type="application/rss+xml" title="<?php echo esc_attr(get_bloginfo('name')); ?> RSS Feed" href="<?php echo esc_url(get_bloginfo('rss2_url')); ?>">
 
 <?php wp_head(); ?>
 
+<?php if (function_exists('fnx_has_active_seo_plugin') && !fnx_has_active_seo_plugin()): ?>
 <!-- Schema.org JSON-LD Structured Data -->
 <script type="application/ld+json">
 {
@@ -88,6 +58,7 @@ $fnx_og_img   = (is_single() && has_post_thumbnail()) ? wp_get_attachment_image_
       "@id": "<?php echo esc_url(get_permalink()); ?>#article",
       "isPartOf": { "@id": "<?php echo esc_url(home_url('/#website')); ?>" },
       "headline": "<?php echo esc_js(get_the_title()); ?>",
+      "description": "<?php echo esc_js(function_exists('fnx_get_seo_description') ? fnx_get_seo_description() : get_the_excerpt()); ?>",
       "datePublished": "<?php echo get_the_date('c'); ?>",
       "dateModified": "<?php echo get_the_modified_date('c'); ?>",
       "mainEntityOfPage": "<?php echo esc_url(get_permalink()); ?>",
@@ -96,21 +67,15 @@ $fnx_og_img   = (is_single() && has_post_thumbnail()) ? wp_get_attachment_image_
         "name": "<?php echo esc_js(get_the_author()); ?>"
       },
       "publisher": { "@id": "<?php echo esc_url(home_url('/#organization')); ?>" }
+      <?php if (has_post_thumbnail()): ?>
+      ,"image": "<?php echo esc_url(get_the_post_thumbnail_url(null, 'fnx-hero')); ?>"
+      <?php endif; ?>
     }
     <?php endif; ?>
   ]
 }
 </script>
-
-<!-- Prevent dark-mode flash: apply saved theme before first paint -->
-<script>
-(function(){
-  var s = localStorage.getItem('fnx_theme');
-  if (!s) { s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
-  document.documentElement.setAttribute('data-theme', s);
-  document.documentElement.classList.add(s === 'dark' ? 'dark-mode' : 'light-mode');
-})();
-</script>
+<?php endif; ?>
 </head>
 
 <body <?php body_class(); ?>>
