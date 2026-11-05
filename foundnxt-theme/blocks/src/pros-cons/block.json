@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/pros-cons",
+  "version": "2.0.0",
+  "title": "Pros & Cons Comparison",
+  "category": "foundnxt",
+  "description": "Side-by-side comparison matrix for trade-offs, advantages, and drawbacks.",
+  "keywords": [
+    "foundnxt",
+    "pros",
+    "cons",
+    "comparison",
+    "advantages",
+    "drawbacks"
+  ],
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "inserter": true
+  },
+  "attributes": {
+    "prosTitle": {
+      "type": "string",
+      "default": "Advantages / Pros"
+    },
+    "consTitle": {
+      "type": "string",
+      "default": "Drawbacks / Cons"
+    },
+    "prosItems": {
+      "type": ["array", "string"],
+      "default": ["First key advantage", "Strong unit economics", "Fast market adoption"]
+    },
+    "consItems": {
+      "type": ["array", "string"],
+      "default": ["Higher initial customer acquisition cost", "Requires dedicated implementation", "Competitive sector"]
+    }
+  },
+  "render": "file:./render.php"
+}

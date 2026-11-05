@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/timeline",
+  "version": "2.0.0",
+  "title": "Milestone Timeline",
+  "category": "foundnxt",
+  "description": "Vertical chronological timeline for funding rounds, historical milestones, and company phases.",
+  "keywords": [
+    "foundnxt",
+    "timeline",
+    "history",
+    "milestones",
+    "roadmap",
+    "events"
+  ],
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "inserter": true
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Milestone Timeline"
+    },
+    "items": {
+      "type": "array",
+      "default": [
+        { "year": "Phase 1", "title": "Product Validation & Early Pilots", "desc": "Secured 8 paid enterprise design partners and reached $25k monthly recurring revenue." },
+        { "year": "Phase 2", "title": "Seed Round & Talent Scaling", "desc": "Closed $2.5M seed financing led by Tier-1 venture funds to accelerate autonomous engineering." },
+        { "year": "Phase 3", "title": "Global Expansion & Multi-Region GTM", "desc": "Expanded into North America and EMEA with 120% net revenue retention." }
+      ]
+    }
+  },
+  "render": "file:./render.php"
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/cta-box",
+  "version": "2.0.0",
+  "title": "Editorial Newsletter & CTA Banner",
+  "category": "foundnxt",
+  "description": "High-converting inline banner for newsletter signups, advisory bookings, and report downloads.",
+  "keywords": [
+    "foundnxt",
+    "cta",
+    "newsletter",
+    "subscribe",
+    "lead",
+    "conversion"
+  ],
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "inserter": true
+  },
+  "attributes": {
+    "tag": {
+      "type": "string",
+      "default": "Executive Intelligence"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Get Actionable Startup & Valuation Insights"
+    },
+    "text": {
+      "type": "string",
+      "default": "Get the Weekly Founder Brief — our weekly breakdown on unit economics, pitch checklists, and market intelligence."
+    },
+    "btnText": {
+      "type": "string",
+      "default": "Subscribe Free →"
+    },
+    "btnUrl": {
+      "type": "string",
+      "default": "#newsletter"
+    }
+  },
+  "render": "file:./render.php"
+}

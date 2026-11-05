@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/checklist",
+  "version": "2.0.0",
+  "title": "Action Checklist",
+  "category": "foundnxt",
+  "description": "Tactical checklist for audits, due diligence, workflows, and founder roadmaps.",
+  "keywords": [
+    "foundnxt",
+    "checklist",
+    "tasks",
+    "todo",
+    "action",
+    "audit"
+  ],
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "inserter": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Action Checklist"
+    },
+    "items": {
+      "type": ["array", "string"],
+      "default": [
+        "Complete competitive landscape benchmarking matrix",
+        "Verify customer cohort retention and gross margin payback",
+        "Audit cap table and intellectual property assignment agreements",
+        "Finalize 12-month forward runway and hiring forecasts"
+      ]
+    }
+  },
+  "render": "file:./render.php"
+}

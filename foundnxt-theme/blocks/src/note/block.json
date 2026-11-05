@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/note",
+  "version": "2.0.0",
+  "title": "Callout Note",
+  "category": "foundnxt",
+  "description": "Notice box for tips, warnings, important alerts, and key information.",
+  "keywords": [
+    "foundnxt",
+    "note",
+    "callout",
+    "alert",
+    "warning",
+    "tip"
+  ],
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "inserter": true
+  },
+  "attributes": {
+    "type": {
+      "type": "string",
+      "default": "info"
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "content": {
+      "type": "string",
+      "default": "Add your note or callout text here."
+    }
+  },
+  "render": "file:./render.php"
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/pullquote",
+  "version": "2.0.0",
+  "title": "Editorial Pull Quote",
+  "category": "foundnxt",
+  "description": "Bold typographic pull quote with author citation and role.",
+  "keywords": [
+    "foundnxt",
+    "pullquote",
+    "quote",
+    "citation",
+    "interview"
+  ],
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "inserter": true
+  },
+  "attributes": {
+    "quote": {
+      "type": "string",
+      "default": "The companies that win this cycle aren’t building slightly faster workflows — they are re-architecting their entire cost and unit economics around autonomous execution."
+    },
+    "cite": {
+      "type": "string",
+      "default": "FoundNXT Research & Venture Intelligence"
+    },
+    "role": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./render.php"
+}

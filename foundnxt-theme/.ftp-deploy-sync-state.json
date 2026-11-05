@@ -1,0 +1,889 @@
+{
+    "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
+    "version": "1.0.0",
+    "generatedTime": 1793443499810,
+    "data": [
+        {
+            "type": "file",
+            "name": "404.php",
+            "size": 10896,
+            "hash": "847ac82df08f094b0856fce5e32315b3877e2f945384a89c61427c6144f151b8"
+        },
+        {
+            "type": "file",
+            "name": "INSTALL.md",
+            "size": 4280,
+            "hash": "4cfa384dd2c43095b0378622f2ba3ad8fbcd9ab0508af40c38138f1c56bf254f"
+        },
+        {
+            "type": "file",
+            "name": "archive.php",
+            "size": 10852,
+            "hash": "2e128c27f7d1c1526a6deb9f256d6779bd950820594f386b8b126bdc286deaf1"
+        },
+        {
+            "type": "folder",
+            "name": "assets"
+        },
+        {
+            "type": "folder",
+            "name": "blocks"
+        },
+        {
+            "type": "file",
+            "name": "comments.php",
+            "size": 3738,
+            "hash": "d6499800d6322c49878e667c7e83971d0c75aa8564bdea5ed714c80d075548eb"
+        },
+        {
+            "type": "file",
+            "name": "footer.php",
+            "size": 11045,
+            "hash": "f8ec4273ad17362291bc8fef4a990a17096ecde0929c8321c08867ad5ac52639"
+        },
+        {
+            "type": "file",
+            "name": "functions.php",
+            "size": 109674,
+            "hash": "6aa113ab30d090c391b775685dd94806e1f75a6c8ec60cf0c20f405b9c5f8412"
+        },
+        {
+            "type": "file",
+            "name": "header.php",
+            "size": 17413,
+            "hash": "1157d818b28086fea8d8ed8fa6c0448614b2e0f88229cfecfd660d1d3daa264e"
+        },
+        {
+            "type": "folder",
+            "name": "inc"
+        },
+        {
+            "type": "file",
+            "name": "index.php",
+            "size": 52397,
+            "hash": "cd430f2bfaf2273022b66af5f813684e8fc093beda446dbefaebb7343791600a"
+        },
+        {
+            "type": "file",
+            "name": "page-about.php",
+            "size": 6789,
+            "hash": "9b68e1757ef5e57fc177e06639f18a7f795a9093adb1f6c9a0c07189b6db6c44"
+        },
+        {
+            "type": "file",
+            "name": "page-articles.php",
+            "size": 18064,
+            "hash": "f0d852c1b0070ec9c4131af1a8c2ecdd7253c78740eb0bb33d5f26989c97e074"
+        },
+        {
+            "type": "file",
+            "name": "page-contact.php",
+            "size": 9220,
+            "hash": "3d5ab4c498b3c895c5d8aa5d4091a3090daeff6e69ca31c4bc97243d094d22fb"
+        },
+        {
+            "type": "file",
+            "name": "page-disclaimer.php",
+            "size": 5979,
+            "hash": "2ae662aa961845c5f91bd4894f6b8260fe98cbe091365d7d593b82684ad88136"
+        },
+        {
+            "type": "file",
+            "name": "page-full-width.php",
+            "size": 975,
+            "hash": "eb23ca202fb5674be0cece82a3f96b33e7ff081c70946e96645faaec380481d0"
+        },
+        {
+            "type": "file",
+            "name": "page-privacy-policy.php",
+            "size": 7101,
+            "hash": "db1f8114429abd6228e7d8a3c185871dfc78394c28bd851b75c05579e5fbc3c6"
+        },
+        {
+            "type": "file",
+            "name": "page-services.php",
+            "size": 15242,
+            "hash": "565f60163327399d9dce777068b941f6a89bd976f478f6c1dfaeb32efd78dbf1"
+        },
+        {
+            "type": "file",
+            "name": "page-support.php",
+            "size": 9628,
+            "hash": "05af97f2a865ff851ee5a7c5c05f553d500647b638b0c274354f8988fbd05bb6"
+        },
+        {
+            "type": "file",
+            "name": "page-tools.php",
+            "size": 16505,
+            "hash": "0685d2db14a522b96a79eb348331cee9cc8793dd082e802383e26c2174ceff59"
+        },
+        {
+            "type": "file",
+            "name": "page.php",
+            "size": 836,
+            "hash": "a90d2ddc0db3b1ee577d716a052bfe6ab62e6200bf7f7e209faa1e147763cebc"
+        },
+        {
+            "type": "file",
+            "name": "screenshot.png",
+            "size": 336524,
+            "hash": "2c07ceeff9a6fce3c39e27237b8a4abafac1c792fd0850222dcbeb32419e01c7"
+        },
+        {
+            "type": "file",
+            "name": "search.php",
+            "size": 10375,
+            "hash": "5e661e15aa4eac26dd853c9cf01ad77e80b27d147057c55d93082bb64d03b234"
+        },
+        {
+            "type": "file",
+            "name": "sidebar.php",
+            "size": 3212,
+            "hash": "5db0482435abe3f4043e55e847d156170c4426a4a50be44b8f849fa968e27ce0"
+        },
+        {
+            "type": "file",
+            "name": "single.php",
+            "size": 27906,
+            "hash": "7d2523a196aa1e50dae886f5a57a69826ea90b44a93c81a1f5c2b8c5278b036e"
+        },
+        {
+            "type": "file",
+            "name": "style.css",
+            "size": 37729,
+            "hash": "8342e1cb74f48b2e953c86e9fc705224d47b8a0cf829d27f5c0a9ddc27933db6"
+        },
+        {
+            "type": "folder",
+            "name": "template-parts"
+        },
+        {
+            "type": "folder",
+            "name": "assets/images"
+        },
+        {
+            "type": "folder",
+            "name": "assets/css"
+        },
+        {
+            "type": "folder",
+            "name": "assets/js"
+        },
+        {
+            "type": "file",
+            "name": "blocks/editor.js",
+            "size": 69837,
+            "hash": "2c5d8087048f3b707b5c6f65e42529e69d1c34fd10aa75ab277b4abdb374556f"
+        },
+        {
+            "type": "file",
+            "name": "blocks/frontend.css",
+            "size": 44668,
+            "hash": "3e7775caf288d53de8bca4ab597d3f5e2487caceece0f5e832946549e99ccb5d"
+        },
+        {
+            "type": "file",
+            "name": "blocks/patterns.php",
+            "size": 9209,
+            "hash": "f5e5bc73c7b16d7d3cd1411661fcf90c22cc61fdab233e92d595fe5e9e0feb8f"
+        },
+        {
+            "type": "file",
+            "name": "blocks/register.php",
+            "size": 1818,
+            "hash": "24faf62fd4797a5f875ca81c3726eb384493bf621a17044e291c0fbeaf4d2705"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src"
+        },
+        {
+            "type": "file",
+            "name": "inc/admin-crm.php",
+            "size": 78721,
+            "hash": "58d85645b98befa5a687045a81e8eb7ec53ff2b26d4f58b0af14eabb75ce3cfd"
+        },
+        {
+            "type": "file",
+            "name": "inc/featured-posts.php",
+            "size": 11229,
+            "hash": "da31a49d04a95574323e2c29388e8625553b4c964fb329d4f8f890917a55c0e5"
+        },
+        {
+            "type": "file",
+            "name": "inc/performance.php",
+            "size": 5734,
+            "hash": "fdfa12823a7ae11402e686de5a2b94d06662630241c8cc13113f26032c4e3025"
+        },
+        {
+            "type": "file",
+            "name": "inc/nav-walker.php",
+            "size": 2965,
+            "hash": "5ab929da283dba971cf2ebc387cf590f7ba74f38467d41f7ec84820b5ed36f0c"
+        },
+        {
+            "type": "file",
+            "name": "inc/related-posts.php",
+            "size": 9139,
+            "hash": "703b08f660648d65b846924143cb4b35d5076868bd19d7a51ec7d5deed23ef4b"
+        },
+        {
+            "type": "file",
+            "name": "inc/resend-service.php",
+            "size": 75982,
+            "hash": "76e8fc75dcd47986835e6737a250b66e2a6c25400b691646645619e14f53939d"
+        },
+        {
+            "type": "file",
+            "name": "template-parts/category-filter-bar.php",
+            "size": 1441,
+            "hash": "2b4236000d1966ecf588b0c399f52ae9946075d82f3ce85910117ebfac4c58d9"
+        },
+        {
+            "type": "file",
+            "name": "template-parts/category-filter.php",
+            "size": 837,
+            "hash": "14e0f9d41539706fb374ea86653a9049a7f285c7d6a2953db2571f1f1665c8d0"
+        },
+        {
+            "type": "file",
+            "name": "template-parts/no-posts.php",
+            "size": 973,
+            "hash": "32e942cab9f62e46809ebadf5d9e20b610f7f7c8f13729f360c515f12b2e0400"
+        },
+        {
+            "type": "file",
+            "name": "template-parts/post-card-hero.php",
+            "size": 2059,
+            "hash": "fd46ff0dea7a99df3b08443c2d40baa984fe2ee8102c4c1b99af45844446dd3f"
+        },
+        {
+            "type": "file",
+            "name": "template-parts/post-card.php",
+            "size": 1968,
+            "hash": "37bbe9b77cb8507aaa85a22009ecb32fa9d6748d20fedc7a82ca40c1e4e18492"
+        },
+        {
+            "type": "file",
+            "name": "template-parts/trending.php",
+            "size": 944,
+            "hash": "33c9fe68dd3e8d5b85ade14655172cb7ca45aa3a1b12c3f7b6e7a140d4f3f66e"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/apple-touch-icon.png",
+            "size": 9080,
+            "hash": "2b0d031755c2143c7197bf3d5997a75459cc6cd0a26a6035f26616a99be2d4c1"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/author-avatar.svg",
+            "size": 1250,
+            "hash": "5617b3d5005eb568e4911d6053d9efae31db569ea3f8666919d93dfae6bbd355"
+        },
+        {
+            "type": "folder",
+            "name": "assets/images/brand"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/favicon.ico",
+            "size": 2928,
+            "hash": "021381992e43be7dfeab28f9b5445c800c44cfd724b624c2b0cba3d34893acfe"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/favicon.svg",
+            "size": 305,
+            "hash": "f583fd27b0943343a77132a1b1b747f97df48bcb72f87bf5e576c11ca63bfa44"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/icon-16.png",
+            "size": 1428,
+            "hash": "18afcc5e620eb9a262a2d7dbf4e3cae4552d18fc55652654e3f789745cfeab3c"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/icon-180.png",
+            "size": 9080,
+            "hash": "2b0d031755c2143c7197bf3d5997a75459cc6cd0a26a6035f26616a99be2d4c1"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/icon-192.png",
+            "size": 9726,
+            "hash": "b471f0f05931641b39ce25c7f688c05c1e891e9ce191ca771416a4666e4f20e3"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/icon-32.png",
+            "size": 2273,
+            "hash": "e98cad2d7262a72ebcaf2aeb0e231f034fb4f7066b68d282c559e196f2e317d7"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/icon-48.png",
+            "size": 3164,
+            "hash": "d9df571f6c95f7314e58f6d467563f05b1a7fedbbdfd4f331f5eca391d827a5f"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/icon-512.png",
+            "size": 26537,
+            "hash": "768bedc293203db189cf24c6a48fa3e5a9d7f992dd575970faa9ca2b59268d3c"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/logo-dark.png",
+            "size": 62268,
+            "hash": "5702c6843ef4c7a2f66634c4f5487accb4cd96bc64806f8a74f946c100cbf382"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/logo-dark.svg",
+            "size": 3440,
+            "hash": "ddd1703ae618197f1af5b5749c0bd7c78157701f3b75c8edeecd2c9de70480a1"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/logo-light.png",
+            "size": 63380,
+            "hash": "b1b70555f5530edfbe9977a6a8e5aae25a786b8e363b90447c49796dbf0c31c9"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/logo-light.svg",
+            "size": 3440,
+            "hash": "dca36d1972e3af8a7f4f03e76d7ff2002bfb9438b634afe47e038fbec0672056"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/logo.png",
+            "size": 63380,
+            "hash": "b1b70555f5530edfbe9977a6a8e5aae25a786b8e363b90447c49796dbf0c31c9"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/logo.svg",
+            "size": 3440,
+            "hash": "dca36d1972e3af8a7f4f03e76d7ff2002bfb9438b634afe47e038fbec0672056"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/site.webmanifest",
+            "size": 443,
+            "hash": "4b2383a504a491802665a2abad20802d96135b84f9523e3716af867ccdc76f8a"
+        },
+        {
+            "type": "file",
+            "name": "assets/css/blocks.css",
+            "size": 9602,
+            "hash": "09d95a7990484d0f93e530b1fbc786e7254cd811904c3ac40e501fe0e46359b1"
+        },
+        {
+            "type": "file",
+            "name": "assets/css/components.css",
+            "size": 432998,
+            "hash": "e87baa597443f6330d16ea493f98b1a350c72b90121540fc2e9b93624657f764"
+        },
+        {
+            "type": "file",
+            "name": "assets/css/editor.css",
+            "size": 5541,
+            "hash": "d122b9fdb0291646ad9de4d59a4e8f6cff81c662a1943cc537ce00a9e0512c7a"
+        },
+        {
+            "type": "file",
+            "name": "assets/css/modern-design-system.css",
+            "size": 150349,
+            "hash": "62e4303b1fbd635c2b22ef3b537843f86b570a47b67ee1b0aba39cdd955b6e71"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/main.js",
+            "size": 32941,
+            "hash": "395323596345a5f6f98c55bb9bc7f25e05194d5d69e1ecedb69c141e2de91b5f"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/modern-design-system.js",
+            "size": 14252,
+            "hash": "2330fb31226e5b80b1c9c846a9ad7560206b7d5defe33aa83b22930a832d97dc"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/author-bio"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/big-number"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/checklist"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/comparison-table"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/cta-box"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/definition"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/feature-cards"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/faq"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/highlight"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/lead-paragraph"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/note"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/pros-cons"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/pullquote"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/related-reading"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/resource-card"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/risk-banner"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/section-header"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/stats"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/steps"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/takeaway"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/timeline"
+        },
+        {
+            "type": "folder",
+            "name": "blocks/src/verdict"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/README.txt",
+            "size": 387,
+            "hash": "6c2591d0554485bcbb66f08aeb90e8b8b9b94b30a5c5adb701211bff817a0474"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/favicon.ico",
+            "size": 2928,
+            "hash": "021381992e43be7dfeab28f9b5445c800c44cfd724b624c2b0cba3d34893acfe"
+        },
+        {
+            "type": "folder",
+            "name": "assets/images/brand/svg"
+        },
+        {
+            "type": "folder",
+            "name": "assets/images/brand/png"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/author-bio/block.json",
+            "size": 1011,
+            "hash": "073be01d37d12fb604c479b0034469f7543a02af109b73974b70e49a83d805e9"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/author-bio/render.php",
+            "size": 610,
+            "hash": "32e15de72c41b03fd91897e6e3decc133aa1b6dd85c90bfaa4ae0575d643bca4"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/big-number/block.json",
+            "size": 1137,
+            "hash": "be6fe1bd46f83d105be1d1ab72bdcdc8ade3843a037574e6655ecce3cc3ec5bb"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/big-number/render.php",
+            "size": 1250,
+            "hash": "8165823544f6a5710199d2c65094988d362a9d0b90b0543820bcc8fa9de23468"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/checklist/block.json",
+            "size": 975,
+            "hash": "e2a43874540dd7b6f8f314c4549311e30a8c263459189165107b74da94ba795f"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/checklist/render.php",
+            "size": 1640,
+            "hash": "9d55480e9b76abc7244c3d92d6514c875e82f4d489040c81022e507391d7512c"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/comparison-table/block.json",
+            "size": 2332,
+            "hash": "95cc03ae1be91004e979cf4408f00a3b6deca8fda89245206a14ae3258711030"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/comparison-table/render.php",
+            "size": 3577,
+            "hash": "f26799a05404c0341a09f3a6964727be769ec9b65ca09d2db6a789baa7a0f994"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/cta-box/block.json",
+            "size": 1118,
+            "hash": "72e22ca35c0909daec87d1af71b3e3a6483327c3cc84aa2bd3dda1bbf32266ed"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/cta-box/render.php",
+            "size": 1388,
+            "hash": "127f1806a59eb67cf64b44f0c0ea8cacdd9e56ff0446357d7821abd50277eabb"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/definition/block.json",
+            "size": 985,
+            "hash": "589e1aab44bd7d5bd2bdb7c8e98d86ae628e90ea9a72203a32486df788221538"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/definition/render.php",
+            "size": 791,
+            "hash": "9d66d510500af06404c54b6d744dcd97d31c0fcd587c3b459ba8d7975bc30d1f"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/feature-cards/block.json",
+            "size": 1538,
+            "hash": "0e5c48e8018318e2225a5d54644f186a8e199fc0aa762600799f32c2e2eab6c1"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/feature-cards/render.php",
+            "size": 1386,
+            "hash": "19343d67cd2426e531abdcc8bd77c944160dbb8c9e0b98d0143af7511bea9c34"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/faq/block.json",
+            "size": 1305,
+            "hash": "4b4449e392ed7f77491dd36697222c728357b3d6c300e12548bd9c5da07b94e6"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/faq/render.php",
+            "size": 2144,
+            "hash": "c7e446e3a47e98dfce2a9d7552c5def6299212024dce8e5946317924a5b23aa6"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/highlight/block.json",
+            "size": 715,
+            "hash": "be9615f8230635d767c4d4c3a99a61c74d7eb0407f8dfcca41e35eb2d64fc8e8"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/highlight/render.php",
+            "size": 175,
+            "hash": "4e2966522001f333c27fb9cf345e2e89939ccce600b4c50f5673b6631ab54685"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/lead-paragraph/block.json",
+            "size": 749,
+            "hash": "218cb657d227dc4426866642e300e397c54f8f57d5e16775fb99aec8dd750d74"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/lead-paragraph/render.php",
+            "size": 167,
+            "hash": "bd8ccdcbebb6a83670e8b1de3fb38efa1ffcbacb8784a8b5230e229fdc70b6a2"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/note/block.json",
+            "size": 756,
+            "hash": "eb5d9f01d9a6dc4b1062ef69f5f22cde382070928a961031cd88b5d820f241e1"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/note/render.php",
+            "size": 3056,
+            "hash": "dd823fbaa98291ae01aaab1f848c7cb15a64f63765622b6a65b815dae529229d"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/pros-cons/block.json",
+            "size": 1054,
+            "hash": "59527e0f7aef832cdbfdb87e5a138a3fa7fc624930e46af1655c9db760f3bca7"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/pros-cons/render.php",
+            "size": 2983,
+            "hash": "4cef00b5b6ac3fec6e36d257197e477d0f65b4694e6811745c8bda7a23d5b0ba"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/pullquote/block.json",
+            "size": 925,
+            "hash": "2615553a5f54229fe01b9703de3b4d591e52cf3eaab874119c95ab37688c4c84"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/pullquote/render.php",
+            "size": 1356,
+            "hash": "5305c71574c7f36800f61c410930686bcb10a81e4f79d037d0ad7985f4e0385d"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/related-reading/block.json",
+            "size": 1176,
+            "hash": "19ee739c4bdd2f09b3511e6ab08759114dd81bcfd26503f7084bb30245c8b19b"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/related-reading/render.php",
+            "size": 1973,
+            "hash": "e4d1329a7c76b3f42bb0c0a6490b8aff36c089e8ec1c355a13801a7696e3d921"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/resource-card/block.json",
+            "size": 1157,
+            "hash": "4aa53018c56b9326598c50a5af285133becc516da107b61b306acd9bd90f3964"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/resource-card/render.php",
+            "size": 1268,
+            "hash": "07627e7108cebaa98bf2f92563bf84539b3d4531242109d85c1978a712c6649d"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/risk-banner/block.json",
+            "size": 775,
+            "hash": "8a4391cbbcd2c2a6dc0bd5028c877cdc819d24610af3fb98f36887d359fedb4e"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/risk-banner/render.php",
+            "size": 329,
+            "hash": "af8c5b4d245d816ad680bee77d444c42d94bb173e107fc831127b1007ec16d4d"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/section-header/block.json",
+            "size": 875,
+            "hash": "e113d84e305ebfd09827ed42bcf03d7910c83ec536dc9c807b4079ac0ed2ff5f"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/section-header/render.php",
+            "size": 451,
+            "hash": "607918bd8d44ffdcec1cfcc5ce05df022bfe6c18eec20d5f3da157e373bf465e"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/stats/block.json",
+            "size": 1348,
+            "hash": "f2474a195e037d603908209cb9e3a29cc7986f0dd7e5c2d112994e74d6e2826e"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/stats/render.php",
+            "size": 2068,
+            "hash": "33813d9ad0359df34968a24056f04d1ed74b7930bcb367bfc48a439fed9648f1"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/steps/block.json",
+            "size": 1144,
+            "hash": "ff79bfc2cf72a764a0f6a0d86592ea5a015b4b31cd16e58e42368a768a7bc1c4"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/steps/render.php",
+            "size": 1587,
+            "hash": "279dca104f72e3dd1032eee5394e42b6c3bf6ead0f3ab58eeeeea0812948f33f"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/takeaway/block.json",
+            "size": 735,
+            "hash": "ff8203449691d963eaf70781df93b605d3298d97954bc933bb4128cc86d0cb17"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/takeaway/render.php",
+            "size": 1179,
+            "hash": "0a68f8241b63d25c7aa2fe39ddd9adc6372e55da6c308330f9ba0a995731f386"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/timeline/block.json",
+            "size": 1232,
+            "hash": "64a239f9409cf5d6fda99e0cd088f13251a65239424c4f262a9cb7b452c9d419"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/timeline/render.php",
+            "size": 1797,
+            "hash": "982809331f211435bf7af489ddfdfcdc26a1bbf82a6131d60aba95231f1c65e6"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/verdict/block.json",
+            "size": 1095,
+            "hash": "dfa06e8dff34a0dad1d409afe838344124682219de715a24b013a6423f07b757"
+        },
+        {
+            "type": "file",
+            "name": "blocks/src/verdict/render.php",
+            "size": 1555,
+            "hash": "cbab983966d048f756f66b828848f9cf3d76e0dd74a4b32e2cbd0d87453b03a8"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/svg/favicon.svg",
+            "size": 305,
+            "hash": "f583fd27b0943343a77132a1b1b747f97df48bcb72f87bf5e576c11ca63bfa44"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/svg/foundnxt-logo-dark-bg.svg",
+            "size": 3503,
+            "hash": "ed883ec00141f1d5c2565022dd501d9a69ab579f0e984796d3eec80a822f1447"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/svg/foundnxt-logo-dark.svg",
+            "size": 3440,
+            "hash": "ddd1703ae618197f1af5b5749c0bd7c78157701f3b75c8edeecd2c9de70480a1"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/svg/foundnxt-logo-light-bg.svg",
+            "size": 3503,
+            "hash": "78f4d30bfd9f3cc9e8c6b80aa084fe8b1501b34652d106983138e23ffe9d05dd"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/svg/foundnxt-logo-light.svg",
+            "size": 3440,
+            "hash": "dca36d1972e3af8a7f4f03e76d7ff2002bfb9438b634afe47e038fbec0672056"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/svg/icon-reversed-dark.svg",
+            "size": 305,
+            "hash": "2bd23033ddd9f91fb0cba7b9218a0b165f50370ce58d1ad92ecc0218a710316a"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/foundnxt-logo-dark-bg.png",
+            "size": 124913,
+            "hash": "425ac8f2c7d3e7aaac3cdc5c63b469852ebc6ff11a3186d8cb84b5eda6cee266"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/foundnxt-logo-dark.png",
+            "size": 62268,
+            "hash": "5702c6843ef4c7a2f66634c4f5487accb4cd96bc64806f8a74f946c100cbf382"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/foundnxt-logo-light-bg.png",
+            "size": 113612,
+            "hash": "5464a6a137d90859d6ab40000083f0ce7be2ed8b715e82ebcc3b3b6f97008674"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/foundnxt-logo-light.png",
+            "size": 63380,
+            "hash": "b1b70555f5530edfbe9977a6a8e5aae25a786b8e363b90447c49796dbf0c31c9"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/icon-16.png",
+            "size": 1428,
+            "hash": "18afcc5e620eb9a262a2d7dbf4e3cae4552d18fc55652654e3f789745cfeab3c"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/icon-180.png",
+            "size": 9080,
+            "hash": "2b0d031755c2143c7197bf3d5997a75459cc6cd0a26a6035f26616a99be2d4c1"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/icon-32.png",
+            "size": 2273,
+            "hash": "e98cad2d7262a72ebcaf2aeb0e231f034fb4f7066b68d282c559e196f2e317d7"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/icon-192.png",
+            "size": 9726,
+            "hash": "b471f0f05931641b39ce25c7f688c05c1e891e9ce191ca771416a4666e4f20e3"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/icon-48.png",
+            "size": 3164,
+            "hash": "d9df571f6c95f7314e58f6d467563f05b1a7fedbbdfd4f331f5eca391d827a5f"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/icon-512.png",
+            "size": 26537,
+            "hash": "768bedc293203db189cf24c6a48fa3e5a9d7f992dd575970faa9ca2b59268d3c"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/brand/png/icon-reversed-dark-512.png",
+            "size": 25394,
+            "hash": "8227e1f9f326935bb72317149eea7d37c7ea982b7ac61055f68c6700f41a9e3a"
+        }
+    ]
+}

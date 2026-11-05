@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/section-header",
+  "version": "1.0.0",
+  "title": "Section Header (Deprecated)",
+  "category": "foundnxt",
+  "description": "Legacy section header - use standard H2/H3 headings instead",
+  "keywords": [
+    "foundnxt",
+    "section-header"
+  ],
+  "supports": {
+    "inserter": false,
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Chapter 01"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Section Heading Goes Here"
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "A one-line description for this section."
+    }
+  },
+  "render": "file:./render.php"
+}

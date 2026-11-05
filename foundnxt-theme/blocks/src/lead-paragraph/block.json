@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "foundnxt/lead-paragraph",
+  "version": "1.0.0",
+  "title": "Lead Paragraph (Deprecated)",
+  "category": "foundnxt",
+  "description": "Legacy lead paragraph - use core paragraph with large typography instead",
+  "keywords": [
+    "foundnxt",
+    "lead-paragraph"
+  ],
+  "supports": {
+    "inserter": false,
+    "html": false,
+    "align": false,
+    "color": {
+      "background": false,
+      "text": false
+    },
+    "spacing": false,
+    "typography": false
+  },
+  "attributes": {
+    "content": {
+      "type": "string",
+      "default": "Start your article with a strong opening paragraph that draws readers in."
+    }
+  },
+  "render": "file:./render.php"
+}
