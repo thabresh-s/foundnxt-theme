@@ -1096,6 +1096,9 @@ require_once FNX_DIR . '/inc/resend-service.php';
 require_once FNX_DIR . '/inc/related-posts.php';
 require_once FNX_DIR . '/inc/featured-posts.php';
 require_once FNX_DIR . '/inc/performance.php';
+require_once FNX_DIR . '/inc/tools-directory.php';
+require_once FNX_DIR . '/inc/tools-directory-expansion.php';
+require_once FNX_DIR . '/inc/tools-category-pages.php';
 
 /* ============================================================
    PERFORMANCE

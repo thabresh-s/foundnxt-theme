@@ -21,4 +21,5 @@ error_log
 *.log
 .cache/
 tmp/
+.ftp-deploy-sync-state.json
 
