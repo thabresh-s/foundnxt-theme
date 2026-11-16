@@ -129,6 +129,19 @@ function fnx_customize_ads_register($wp_customize) {
         'priority'    => 16,
     ]);
 
+    // 5. ads.txt Content Manager
+    $wp_customize->add_setting('fnx_ads_txt_content', [
+        'default'           => "google.com, pub-9252123074089867, DIRECT, f08c47fec0942fa0",
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ]);
+    $wp_customize->add_control('fnx_ads_txt_content', [
+        'label'       => __('📄 ads.txt File Content', 'foundnxt'),
+        'description' => __('Authorized Digital Sellers entries for Google AdSense and ad networks. Served at https://foundnxt.com/ads.txt.', 'foundnxt'),
+        'section'     => 'fnx_adsense_section',
+        'type'        => 'textarea',
+        'priority'    => 18,
+    ]);
+
     // ── PLACEMENT: Header Leaderboard ──
     $wp_customize->add_setting('fnx_ad_header_enabled', [
         'default'           => false,
@@ -618,3 +631,59 @@ function fnx_save_ads_meta_box($post_id) {
     }
 }
 add_action('save_post', 'fnx_save_ads_meta_box');
+
+/**
+ * Dynamic /ads.txt endpoint handler
+ * Ensures https://foundnxt.com/ads.txt returns valid HTTP 200 text/plain
+ * even if the physical file is bypassed or missing.
+ */
+function fnx_serve_ads_txt() {
+    $uri = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+    if ($uri === '/ads.txt' || $uri === '/ads.txt/') {
+        status_header(200);
+        header('Content-Type: text/plain; charset=utf-8');
+        header('X-Content-Type-Options: nosniff');
+        header('Cache-Control: public, max-age=86400');
+
+        $pub_id = trim(get_theme_mod('fnx_ads_publisher_id', 'ca-pub-9252123074089867') ?: 'ca-pub-9252123074089867');
+        $clean_pub = preg_replace('/^ca-/', '', $pub_id);
+        $default_content = "google.com, {$clean_pub}, DIRECT, f08c47fec0942fa0";
+
+        $content = trim(get_theme_mod('fnx_ads_txt_content', $default_content) ?: $default_content);
+
+        // Ensure current publisher ID entry exists
+        if (strpos($content, $clean_pub) === false) {
+            $content = "google.com, {$clean_pub}, DIRECT, f08c47fec0942fa0\n" . $content;
+        }
+
+        echo "# FoundNXT - Google AdSense Authorized Digital Sellers\n";
+        echo "# https://foundnxt.com/ads.txt\n";
+        echo $content . "\n";
+        exit;
+    }
+}
+add_action('init', 'fnx_serve_ads_txt', 0);
+
+/**
+ * Auto-sync physical ads.txt file in WordPress root directory
+ */
+function fnx_sync_physical_ads_txt() {
+    $ads_txt_file = ABSPATH . 'ads.txt';
+    $pub_id = trim(get_theme_mod('fnx_ads_publisher_id', 'ca-pub-9252123074089867') ?: 'ca-pub-9252123074089867');
+    $clean_pub = preg_replace('/^ca-/', '', $pub_id);
+    $default_content = "google.com, {$clean_pub}, DIRECT, f08c47fec0942fa0";
+
+    $content = trim(get_theme_mod('fnx_ads_txt_content', $default_content) ?: $default_content);
+    if (strpos($content, $clean_pub) === false) {
+        $content = "google.com, {$clean_pub}, DIRECT, f08c47fec0942fa0\n" . $content;
+    }
+
+    $full_content = "# FoundNXT - Google AdSense Authorized Digital Sellers\n# https://foundnxt.com/ads.txt\n" . $content . "\n";
+
+    if (!file_exists($ads_txt_file) || file_get_contents($ads_txt_file) !== $full_content) {
+        @file_put_contents($ads_txt_file, $full_content);
+    }
+}
+add_action('customize_save_after', 'fnx_sync_physical_ads_txt');
+add_action('admin_init', 'fnx_sync_physical_ads_txt');
+
