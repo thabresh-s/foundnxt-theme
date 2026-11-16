@@ -4,6 +4,7 @@
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="google-adsense-account" content="<?php echo esc_attr(get_theme_mod('fnx_ads_publisher_id', 'ca-pub-9252123074089867') ?: 'ca-pub-9252123074089867'); ?>">
 <script>
   (function() {
     try {

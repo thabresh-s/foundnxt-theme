@@ -79,7 +79,7 @@ function fnx_customize_ads_register($wp_customize) {
 
     // 1. Publisher ID (ca-pub-XXXXXXXXXX)
     $wp_customize->add_setting('fnx_ads_publisher_id', [
-        'default'           => '',
+        'default'           => 'ca-pub-9252123074089867',
         'sanitize_callback' => 'sanitize_text_field',
     ]);
     $wp_customize->add_control('fnx_ads_publisher_id', [
@@ -372,7 +372,7 @@ function fnx_sanitize_ad_code($input) {
  * Inject Google AdSense Tag into <head>
  */
 function fnx_adsense_head_script() {
-    $pub_id = trim(get_theme_mod('fnx_ads_publisher_id', ''));
+    $pub_id = trim(get_theme_mod('fnx_ads_publisher_id', 'ca-pub-9252123074089867') ?: 'ca-pub-9252123074089867');
     if (empty($pub_id)) {
         return;
     }
