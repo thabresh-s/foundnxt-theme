@@ -381,10 +381,11 @@
       }
     });
 
-    // Close on navigation link click
-    const navLinks = mobileNav.querySelectorAll('.mobile-menu-link:not(.mobile-categories-summary), .mobile-sublink, .mobile-cta-btn');
+    // Close on navigation link click (destination links only, not accordion toggles)
+    const navLinks = mobileNav.querySelectorAll('.mobile-menu-link:not(.nav-parent-link):not(.mobile-categories-summary), .mobile-sublink, .mobile-cta-btn');
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
+        if (link.classList.contains('nav-parent-link') || link.parentElement?.classList.contains('menu-item-has-children')) return;
         closeNav();
       });
     });

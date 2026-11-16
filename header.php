@@ -131,33 +131,23 @@ if ($announcement_enabled && !$announcement_dismissed):
       </a>
     </div>
 
-    <!-- Column 2: Centered Links with Categories Dropdown (Articles, Categories ▾, Tools, Services, About) -->
+    <!-- Column 2: Centered Links / Navigation Menu -->
     <nav class="header-nav" id="primary-nav" role="navigation" aria-label="<?php esc_attr_e('Primary Navigation', 'foundnxt'); ?>">
-      <ul class="nav-menu">
-        <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Articles', 'foundnxt'); ?></a></li>
-        
-        <!-- Categories Dropdown (7 Unified Categories) -->
-        <li class="menu-item-has-children has-dropdown">
-          <button type="button" class="nav-parent-link nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">
-            <?php _e('Categories', 'foundnxt'); ?>
-            <svg class="nav-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <ul class="sub-menu" role="menu">
-            <?php foreach (fnx_get_primary_categories() as $pcat): ?>
-              <li role="none">
-                <a href="<?php echo esc_url($pcat['url']); ?>" role="menuitem">
-                  <span class="cat-menu-dot" style="background:<?php echo esc_attr($pcat['color']); ?>"></span>
-                  <span><?php echo esc_html($pcat['name']); ?></span>
-                </a>
-              </li>
-            <?php endforeach; ?>
-          </ul>
-        </li>
-
-
-        <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Services', 'foundnxt'); ?></a></li>
-        <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About', 'foundnxt'); ?></a></li>
-      </ul>
+      <?php
+      if (has_nav_menu('primary')) {
+          wp_nav_menu([
+              'theme_location' => 'primary',
+              'container'      => false,
+              'menu_class'     => 'nav-menu',
+              'menu_id'        => 'primary-menu',
+              'fallback_cb'    => 'fnx_primary_nav_fallback',
+              'walker'         => new FNX_Nav_Walker(),
+              'depth'          => 3,
+          ]);
+      } else {
+          fnx_primary_nav_fallback();
+      }
+      ?>
     </nav>
 
     <!-- Column 3: Actions (Search, "Work With Us" button, and Mobile Hamburger) -->
@@ -233,32 +223,31 @@ if ($announcement_enabled && !$announcement_dismissed):
         <span><?php _e('Search articles, playbooks, tools…', 'foundnxt'); ?></span>
       </button>
 
-      <ul class="mobile-menu-list">
-        <li><a href="<?php echo esc_url(home_url('/articles/')); ?>" class="mobile-menu-link"><?php _e('Articles', 'foundnxt'); ?></a></li>
-        
-        <!-- Categories Collapsible Accordion (7 Unified Categories) -->
-        <li class="mobile-menu-group">
-          <details class="mobile-categories-accordion" id="mobile-categories-accordion">
-            <summary class="mobile-menu-link mobile-categories-summary">
-              <span><?php _e('Categories', 'foundnxt'); ?></span>
-              <svg class="mobile-chevron" width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </summary>
-            <ul class="mobile-submenu-list">
-              <?php foreach (fnx_get_primary_categories() as $pcat): ?>
-                <li>
-                  <a href="<?php echo esc_url($pcat['url']); ?>" class="mobile-sublink">
-                    <span class="cat-menu-dot" style="background:<?php echo esc_attr($pcat['color']); ?>"></span>
-                    <span><?php echo esc_html($pcat['name']); ?></span>
-                  </a>
-                </li>
-              <?php endforeach; ?>
-            </ul>
-          </details>
-        </li>
-
-        <li><a href="<?php echo esc_url(home_url('/services/')); ?>" class="mobile-menu-link"><?php _e('Services', 'foundnxt'); ?></a></li>
-        <li><a href="<?php echo esc_url(home_url('/about/')); ?>" class="mobile-menu-link"><?php _e('About', 'foundnxt'); ?></a></li>
-      </ul>
+      <?php
+      if (has_nav_menu('mobile')) {
+          wp_nav_menu([
+              'theme_location' => 'mobile',
+              'container'      => false,
+              'menu_class'     => 'mobile-menu mobile-menu-list',
+              'menu_id'        => 'mobile-menu',
+              'fallback_cb'    => 'fnx_mobile_nav_fallback',
+              'walker'         => new FNX_Nav_Walker(),
+              'depth'          => 3,
+          ]);
+      } elseif (has_nav_menu('primary')) {
+          wp_nav_menu([
+              'theme_location' => 'primary',
+              'container'      => false,
+              'menu_class'     => 'mobile-menu mobile-menu-list',
+              'menu_id'        => 'mobile-menu',
+              'fallback_cb'    => 'fnx_mobile_nav_fallback',
+              'walker'         => new FNX_Nav_Walker(),
+              'depth'          => 3,
+          ]);
+      } else {
+          fnx_mobile_nav_fallback();
+      }
+      ?>
 
       <!-- Mobile Theme Toggle -->
       <button type="button" class="mobile-theme-toggle" id="mobile-theme-toggle" aria-label="<?php esc_attr_e('Toggle dark/light mode', 'foundnxt'); ?>">

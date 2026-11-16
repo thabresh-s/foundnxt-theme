@@ -88,23 +88,34 @@
           <?php if ($i === 1): ?>
             <h4 class="footer-col-title"><?php _e('Categories', 'foundnxt'); ?></h4>
             <ul class="footer-links">
-              <?php foreach (fnx_get_primary_categories() as $pcat): ?>
-                <li>
-                  <a href="<?php echo esc_url($pcat['url']); ?>">
-                    <?php echo esc_html($pcat['name']); ?>
-                  </a>
-                </li>
-              <?php endforeach; ?>
+              <?php
+              if (has_nav_menu('footer-1')) {
+                  wp_nav_menu(['theme_location' => 'footer-1', 'container' => false, 'items_wrap' => '%3$s', 'fallback_cb' => false]);
+              } elseif (function_exists('fnx_get_primary_categories')) {
+                  foreach (fnx_get_primary_categories() as $pcat): ?>
+                    <li>
+                      <a href="<?php echo esc_url($pcat['url']); ?>">
+                        <?php echo esc_html($pcat['name']); ?>
+                      </a>
+                    </li>
+                  <?php endforeach;
+              }
+              ?>
             </ul>
           <?php elseif ($i === 2): ?>
             <h4 class="footer-col-title"><?php _e('Navigation', 'foundnxt'); ?></h4>
             <ul class="footer-links">
-              <?php wp_nav_menu(['theme_location' => 'footer-2', 'container' => false, 'items_wrap' => '%3$s', 'fallback_cb' => false]); ?>
-              <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Articles & Guides', 'foundnxt'); ?></a></li>
-              <li><a href="<?php echo esc_url(home_url('/tools/')); ?>"><?php _e('Tools Stack', 'foundnxt'); ?></a></li>
-              <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Our Services', 'foundnxt'); ?></a></li>
-              <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About FoundNXT', 'foundnxt'); ?></a></li>
-              <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact Us', 'foundnxt'); ?></a></li>
+              <?php
+              if (has_nav_menu('footer-2')) {
+                  wp_nav_menu(['theme_location' => 'footer-2', 'container' => false, 'items_wrap' => '%3$s', 'fallback_cb' => false]);
+              } else {
+              ?>
+                <li><a href="<?php echo esc_url(home_url('/articles/')); ?>"><?php _e('Articles & Guides', 'foundnxt'); ?></a></li>
+                <li><a href="<?php echo esc_url(home_url('/tools/')); ?>"><?php _e('Tools Stack', 'foundnxt'); ?></a></li>
+                <li><a href="<?php echo esc_url(home_url('/services/')); ?>"><?php _e('Our Services', 'foundnxt'); ?></a></li>
+                <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php _e('About FoundNXT', 'foundnxt'); ?></a></li>
+                <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact Us', 'foundnxt'); ?></a></li>
+              <?php } ?>
             </ul>
           <?php else: ?>
             <?php
@@ -135,10 +146,16 @@
     <div class="footer-bottom">
       <p class="footer-copyright"><?php echo wp_kses_post(get_theme_mod('fnx_footer_copyright', '&copy; ' . date('Y') . ' &mdash; FoundNXT. All Rights Reserved.')); ?></p>
       <nav class="footer-bottom-nav" aria-label="<?php esc_attr_e('Footer', 'foundnxt'); ?>">
-        <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php _e('Privacy Policy', 'foundnxt'); ?></a>
-        <a href="<?php echo esc_url(home_url('/disclaimer/')); ?>"><?php _e('Disclaimer', 'foundnxt'); ?></a>
-        <a href="<?php echo esc_url(home_url('/support/')); ?>"><?php _e('Support', 'foundnxt'); ?></a>
-        <a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact', 'foundnxt'); ?></a>
+        <?php
+        if (has_nav_menu('footer-3')) {
+            wp_nav_menu(['theme_location' => 'footer-3', 'container' => false, 'items_wrap' => '%3$s', 'fallback_cb' => false]);
+        } else {
+        ?>
+          <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php _e('Privacy Policy', 'foundnxt'); ?></a>
+          <a href="<?php echo esc_url(home_url('/disclaimer/')); ?>"><?php _e('Disclaimer', 'foundnxt'); ?></a>
+          <a href="<?php echo esc_url(home_url('/support/')); ?>"><?php _e('Support', 'foundnxt'); ?></a>
+          <a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php _e('Contact', 'foundnxt'); ?></a>
+        <?php } ?>
       </nav>
     </div>
 
