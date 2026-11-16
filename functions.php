@@ -1099,6 +1099,7 @@ require_once FNX_DIR . '/inc/performance.php';
 require_once FNX_DIR . '/inc/tools-directory.php';
 require_once FNX_DIR . '/inc/tools-directory-expansion.php';
 require_once FNX_DIR . '/inc/tools-category-pages.php';
+require_once FNX_DIR . '/inc/ad-manager.php';
 
 /* ============================================================
    PERFORMANCE

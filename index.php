@@ -396,6 +396,14 @@
                 </div>
               </div>
             </article>
+            <?php
+            $hp_infeed_pos = function_exists('fnx_get_ad_infeed_position') ? fnx_get_ad_infeed_position() : 3;
+            if (($f_idx + 1) === $hp_infeed_pos && function_exists('fnx_has_ad') && fnx_has_ad('infeed')):
+            ?>
+              <div class="fnx-ad-infeed-card hp-infeed-ad">
+                <?php fnx_render_ad('infeed'); ?>
+              </div>
+            <?php endif; ?>
         <?php endforeach; endif; ?>
 
         <!-- Empty state when category has no matches -->
@@ -997,8 +1005,15 @@
         <h1 class="archive-title"><?php single_cat_title(); ?></h1>
       </div>
       <div class="posts-grid" id="posts-grid">
-        <?php while (have_posts()): the_post();
+        <?php
+        $idx_post_count = 0;
+        $idx_infeed_pos = function_exists('fnx_get_ad_infeed_position') ? fnx_get_ad_infeed_position() : 3;
+        while (have_posts()): the_post();
+          $idx_post_count++;
           get_template_part('template-parts/post-card');
+          if ($idx_post_count === $idx_infeed_pos && function_exists('fnx_has_ad') && fnx_has_ad('infeed')) {
+              fnx_render_ad('infeed', 'fnx-ad-infeed-card');
+          }
         endwhile; ?>
       </div>
     </div>

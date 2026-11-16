@@ -215,8 +215,15 @@ endif;
 
           <!-- Posts grid -->
           <div class="posts-grid arc-grid">
-            <?php while (have_posts()): the_post();
+            <?php
+            $arc_post_count = 0;
+            $arc_infeed_pos = function_exists('fnx_get_ad_infeed_position') ? fnx_get_ad_infeed_position() : 3;
+            while (have_posts()): the_post();
+              $arc_post_count++;
               get_template_part('template-parts/post-card');
+              if ($arc_post_count === $arc_infeed_pos && function_exists('fnx_has_ad') && fnx_has_ad('infeed')) {
+                  fnx_render_ad('infeed', 'arc-infeed-ad-card');
+              }
             endwhile; ?>
           </div>
 

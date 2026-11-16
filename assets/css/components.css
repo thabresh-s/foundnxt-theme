@@ -13639,3 +13639,228 @@ textarea,
 .apv2-card:hover .apv2-card-arrow {
   transform: translateX(3px) !important;
 }
+
+/* ============================================================
+   GOOGLE ADSENSE & MONETIZATION SYSTEM (HIGH-RPM LAYOUTS)
+   ============================================================ */
+
+.fnx-ad-wrap {
+  width: 100%;
+  margin: 28px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  clear: both;
+}
+
+.fnx-ad-inner {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.fnx-ad-disclaimer {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fnx-muted, #94a3b8);
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.fnx-ad-slot-box {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+}
+
+.fnx-ad-slot-box ins.adsbygoogle {
+  display: block;
+  margin: 0 auto;
+}
+
+/* ── Top Header Leaderboard Ad ── */
+.fnx-header-ad-outer {
+  width: 100%;
+  padding: 16px 0 12px;
+  background: transparent;
+  border-bottom: 1px solid var(--fnx-border, rgba(0, 0, 0, 0.06));
+  margin-bottom: 24px;
+}
+
+.fnx-header-ad-outer .fnx-ad-wrap {
+  margin: 0 auto;
+}
+
+.fnx-ad-header .fnx-ad-slot-box {
+  min-height: 90px;
+}
+
+/* ── In-Article Ad Units (Top & Mid) ── */
+.fnx-in-article-ad {
+  margin: 40px auto;
+  padding: 20px 16px;
+  border-radius: 14px;
+  background: var(--fnx-surface-2, rgba(0, 0, 0, 0.02));
+  border: 1px dashed var(--fnx-border, rgba(0, 0, 0, 0.08));
+  box-sizing: border-box;
+}
+
+.fnx-in-article-ad .fnx-ad-slot-box {
+  min-height: 250px;
+}
+
+body.dark-mode .fnx-in-article-ad,
+body[data-theme="dark"] .fnx-in-article-ad {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ── In-Article End Ad ── */
+.fnx-article-bottom-ad-wrap {
+  margin: 36px 0 24px;
+  width: 100%;
+}
+
+.fnx-ad-article-bottom .fnx-ad-slot-box {
+  min-height: 250px;
+}
+
+/* ── Sticky Sidebar Ad (300x250 or 300x600) ── */
+.fnx-sidebar-ad-card,
+.fnx-sidebar-ad-widget {
+  margin-top: 24px !important;
+  padding: 16px !important;
+  border-radius: 14px !important;
+  background: var(--fnx-card, #ffffff) !important;
+  border: 1px solid var(--fnx-border, #e2e8f0) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.fnx-ad-sidebar-sticky .fnx-ad-slot-box {
+  min-height: 250px;
+}
+
+/* ── In-Feed Grid Native Ad ── */
+.fnx-ad-infeed-card,
+.arc-infeed-ad-card {
+  grid-column: span 1;
+  border-radius: 16px;
+  border: 1px dashed var(--fnx-border, rgba(0, 0, 0, 0.12));
+  background: var(--fnx-surface, #f8fafc);
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 380px;
+  box-sizing: border-box;
+  margin: 0;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.fnx-ad-infeed-card:hover,
+.arc-infeed-ad-card:hover {
+  border-color: var(--fnx-primary, #FF5A2C);
+}
+
+.fnx-ad-infeed-card .fnx-ad-slot-box,
+.arc-infeed-ad-card .fnx-ad-slot-box {
+  min-height: 250px;
+  width: 100%;
+}
+
+body.dark-mode .fnx-ad-infeed-card,
+body.dark-mode .arc-infeed-ad-card,
+body[data-theme="dark"] .fnx-ad-infeed-card,
+body[data-theme="dark"] .arc-infeed-ad-card {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Footer Banner Ad ── */
+.fnx-footer-ad-outer {
+  width: 100%;
+  padding: 28px 0 16px;
+  background: transparent;
+  border-top: 1px solid var(--fnx-border, rgba(0, 0, 0, 0.06));
+}
+
+.fnx-ad-footer .fnx-ad-slot-box {
+  min-height: 90px;
+}
+
+/* ── Visual Ad Placeholder Box (Preview Mode) ── */
+.fnx-ad-placeholder {
+  width: 100%;
+  padding: 32px 18px;
+  background: rgba(255, 90, 44, 0.03);
+  border: 1px dashed rgba(255, 90, 44, 0.35);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.fnx-ad-ph-icon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.fnx-ad-ph-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--fnx-headings, #1e293b);
+  margin-bottom: 4px;
+}
+
+.fnx-ad-ph-sub {
+  font-size: 0.75rem;
+  color: var(--fnx-muted, #64748b);
+  max-width: 380px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+body.dark-mode .fnx-ad-placeholder,
+body[data-theme="dark"] .fnx-ad-placeholder {
+  background: rgba(255, 90, 44, 0.06);
+  border-color: rgba(255, 90, 44, 0.45);
+}
+
+body.dark-mode .fnx-ad-ph-title,
+body[data-theme="dark"] .fnx-ad-ph-title {
+  color: #f1f5f9;
+}
+
+@media (max-width: 768px) {
+  .fnx-header-ad-outer {
+    padding: 12px 0 8px;
+    margin-bottom: 16px;
+  }
+  .fnx-in-article-ad {
+    margin: 28px auto;
+    padding: 14px 10px;
+  }
+  .fnx-ad-infeed-card,
+  .arc-infeed-ad-card {
+    min-height: 300px;
+    padding: 16px 12px;
+  }
+}
+

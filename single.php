@@ -107,6 +107,13 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
           <?php the_content(); ?>
         </div>
 
+        <!-- In-Article Bottom Ad -->
+        <?php if (function_exists('fnx_has_ad') && fnx_has_ad('article_bottom')): ?>
+          <div class="fnx-article-bottom-ad-wrap">
+            <?php fnx_render_ad('article_bottom'); ?>
+          </div>
+        <?php endif; ?>
+
         <?php
         // Financial & Legal Editorial Disclaimer for finance/valuation/markets/funding articles
         $finance_cats = ['valuation-finance', 'markets-economy', 'startups-funding', 'ipo-markets'];
@@ -380,6 +387,13 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
           <!-- ── 6. REGISTERED SIDEBAR WIDGETS (from WP admin) ── -->
           <?php if (is_active_sidebar('fnx-article-sidebar')): ?>
             <?php dynamic_sidebar('fnx-article-sidebar'); ?>
+          <?php endif; ?>
+
+          <!-- ── 7. HIGH-RPM STICKY SIDEBAR AD (300x250 or 300x600) ── -->
+          <?php if (function_exists('fnx_has_ad') && fnx_has_ad('sidebar_sticky')): ?>
+            <div class="sidebar-card fnx-sidebar-ad-card">
+              <?php fnx_render_ad('sidebar_sticky'); ?>
+            </div>
           <?php endif; ?>
 
         </div><!-- /.sidebar-sticky -->

@@ -144,7 +144,10 @@ if (!function_exists('fnx_has_active_seo_plugin') || !fnx_has_active_seo_plugin(
           <div class="apv2-grid">
             <?php
             $cat_color_map = ['funding' => 'green', 'startups' => 'blue', 'business' => 'amber', 'valuation' => 'purple', 'technology' => 'cyan'];
+            $art_post_count = 0;
+            $art_infeed_pos = function_exists('fnx_get_ad_infeed_position') ? fnx_get_ad_infeed_position() : 3;
             while ($articles_query->have_posts()): $articles_query->the_post();
+            $art_post_count++;
             $gc = get_the_category(); $gn = $gc ? $gc[0]->name : 'Article'; $gu = $gc ? get_category_link($gc[0]->term_id) : '#';
             $cat_color = $gc ? ($cat_color_map[$gc[0]->slug] ?? 'green') : 'green'; ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class("apv2-card apv2-card--{$cat_color}"); ?> itemscope itemtype="https://schema.org/Article">
@@ -164,6 +167,11 @@ if (!function_exists('fnx_has_active_seo_plugin') || !fnx_has_active_seo_plugin(
                 </div>
               </div>
             </article>
+            <?php
+            if ($art_post_count === $art_infeed_pos && function_exists('fnx_has_ad') && fnx_has_ad('infeed')) {
+                fnx_render_ad('infeed', 'arc-infeed-ad-card');
+            }
+            ?>
             <?php endwhile; ?>
           </div>
 
@@ -273,6 +281,13 @@ if (!function_exists('fnx_has_active_seo_plugin') || !fnx_has_active_seo_plugin(
             <?php endif; ?>
           </div>
         </div>
+
+        <!-- Sticky Sidebar Ad Slot -->
+        <?php if (function_exists('fnx_has_ad') && fnx_has_ad('sidebar_sticky')): ?>
+          <div class="apv2-widget fnx-sidebar-ad-widget">
+            <?php fnx_render_ad('sidebar_sticky'); ?>
+          </div>
+        <?php endif; ?>
 
       </aside>
     </div>

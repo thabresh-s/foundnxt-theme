@@ -67,4 +67,15 @@
     </div>
   </div>
 
+  <!-- Sticky Sidebar Ad Slot -->
+  <?php if (function_exists('fnx_has_ad') && fnx_has_ad('sidebar_sticky')): ?>
+    <div class="widget fnx-sidebar-ad-widget">
+      <?php fnx_render_ad('sidebar_sticky'); ?>
+    </div>
+  <?php endif; ?>
+
+  <?php if (is_active_sidebar('fnx-sidebar')): ?>
+    <?php dynamic_sidebar('fnx-sidebar'); ?>
+  <?php endif; ?>
+
 </aside>

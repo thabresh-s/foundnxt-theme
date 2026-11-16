@@ -40,6 +40,17 @@
 <?php endif; ?>
 
 <!-- ══════════════════════════════════
+     ABOVE FOOTER BANNER AD
+══════════════════════════════════ -->
+<?php if (function_exists('fnx_has_ad') && fnx_has_ad('footer')): ?>
+<div class="fnx-footer-ad-outer">
+  <div class="container">
+    <?php fnx_render_ad('footer'); ?>
+  </div>
+</div>
+<?php endif; ?>
+
+<!-- ══════════════════════════════════
      MAIN FOOTER
 ══════════════════════════════════ -->
 <footer class="fnx-footer" role="contentinfo">

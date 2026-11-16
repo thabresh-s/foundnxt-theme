@@ -277,3 +277,11 @@ if ($announcement_enabled && !$announcement_dismissed):
 <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
 
 <main id="main-content" class="fnx-main" role="main" tabindex="-1">
+
+<?php if (function_exists('fnx_has_ad') && fnx_has_ad('header')): ?>
+  <div class="fnx-header-ad-outer">
+    <div class="container">
+      <?php fnx_render_ad('header'); ?>
+    </div>
+  </div>
+<?php endif; ?>
