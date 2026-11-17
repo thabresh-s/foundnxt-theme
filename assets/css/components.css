@@ -1433,17 +1433,71 @@ body.dark .phb-desc {
   margin: 2em 0;
 }
 
-/* ── IMAGES ── */
-.post-content img {
+/* ── IMAGES & HERO FIGURE (SEO & Core Web Vitals Zero-CLS) ── */
+.fnx-post-featured-figure {
+  margin: 0 0 32px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid var(--fnx-border, rgba(0,0,0,0.08));
+  box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+  background: var(--fnx-surface-elevated, #f8fafc);
+}
+.fnx-post-featured-figure .fnx-post-featured-img {
   width: 100%;
-  border-radius: var(--fnx-radius);
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1200 / 630;
+  transition: transform 0.3s ease;
+}
+.fnx-post-featured-caption {
+  font-size: 0.8125rem;
+  color: var(--fnx-muted, #64748b);
+  text-align: center;
+  padding: 10px 18px;
+  background: var(--fnx-surface-elevated, #f8fafc);
+  border-top: 1px solid var(--fnx-border, rgba(0,0,0,0.06));
+  font-style: italic;
+}
+
+body.dark-mode .fnx-post-featured-figure,
+body[data-theme="dark"] .fnx-post-featured-figure,
+body[data-mode="dark"] .fnx-post-featured-figure,
+body.dark .fnx-post-featured-figure {
+  background: var(--fnx-surface, #141A2D);
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+body.dark-mode .fnx-post-featured-caption,
+body[data-theme="dark"] .fnx-post-featured-caption,
+body[data-mode="dark"] .fnx-post-featured-caption,
+body.dark .fnx-post-featured-caption {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.06);
+  color: #94a3b8;
+}
+
+.post-content img,
+.entry-content img,
+.article-body-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--fnx-radius, 14px);
   margin: 1.6em 0;
   display: block;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
 }
-.post-content figure { margin: 1.6em 0; }
-.post-content figcaption {
-  font-size: 0.75rem;
-  color: var(--fnx-muted);
+.post-content figure,
+.entry-content figure,
+.article-body-content figure {
+  margin: 2em 0;
+}
+.post-content figcaption,
+.entry-content figcaption,
+.article-body-content figcaption {
+  font-size: 0.8125rem;
+  color: var(--fnx-muted, #64748b);
   text-align: center;
   margin-top: 8px;
   font-style: italic;
@@ -5800,17 +5854,71 @@ body.dark .phb-desc {
   margin: 2em 0;
 }
 
-/* ── IMAGES ── */
-.post-content img {
+/* ── IMAGES & HERO FIGURE (SEO & Core Web Vitals Zero-CLS) ── */
+.fnx-post-featured-figure {
+  margin: 0 0 32px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid var(--fnx-border, rgba(0,0,0,0.08));
+  box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+  background: var(--fnx-surface-elevated, #f8fafc);
+}
+.fnx-post-featured-figure .fnx-post-featured-img {
   width: 100%;
-  border-radius: var(--fnx-radius);
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1200 / 630;
+  transition: transform 0.3s ease;
+}
+.fnx-post-featured-caption {
+  font-size: 0.8125rem;
+  color: var(--fnx-muted, #64748b);
+  text-align: center;
+  padding: 10px 18px;
+  background: var(--fnx-surface-elevated, #f8fafc);
+  border-top: 1px solid var(--fnx-border, rgba(0,0,0,0.06));
+  font-style: italic;
+}
+
+body.dark-mode .fnx-post-featured-figure,
+body[data-theme="dark"] .fnx-post-featured-figure,
+body[data-mode="dark"] .fnx-post-featured-figure,
+body.dark .fnx-post-featured-figure {
+  background: var(--fnx-surface, #141A2D);
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+body.dark-mode .fnx-post-featured-caption,
+body[data-theme="dark"] .fnx-post-featured-caption,
+body[data-mode="dark"] .fnx-post-featured-caption,
+body.dark .fnx-post-featured-caption {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.06);
+  color: #94a3b8;
+}
+
+.post-content img,
+.entry-content img,
+.article-body-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--fnx-radius, 14px);
   margin: 1.6em 0;
   display: block;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
 }
-.post-content figure { margin: 1.6em 0; }
-.post-content figcaption {
-  font-size: 0.75rem;
-  color: var(--fnx-muted);
+.post-content figure,
+.entry-content figure,
+.article-body-content figure {
+  margin: 2em 0;
+}
+.post-content figcaption,
+.entry-content figcaption,
+.article-body-content figcaption {
+  font-size: 0.8125rem;
+  color: var(--fnx-muted, #64748b);
   text-align: center;
   margin-top: 8px;
   font-style: italic;

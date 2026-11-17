@@ -246,25 +246,48 @@ function fnx_read_time($post_id = null) {
 function fnx_breadcrumbs() {
     if (is_front_page()) return;
 
+    $pos = 1;
     echo '<nav class="fnx-breadcrumbs" aria-label="' . esc_attr__('Breadcrumb', 'foundnxt') . '">';
-    echo '<ol class="breadcrumb-list">';
-    echo '<li><a href="' . esc_url(home_url()) . '">' . __('Home', 'foundnxt') . '</a></li>';
+    echo '<ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">';
+    echo '<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+    echo '<a itemprop="item" href="' . esc_url(home_url('/')) . '"><span itemprop="name">' . __('Home', 'foundnxt') . '</span></a>';
+    echo '<meta itemprop="position" content="' . $pos++ . '" />';
+    echo '</li>';
 
     if (is_category()) {
-        echo '<li><span>' . single_cat_title('', false) . '</span></li>';
+        echo '<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+        echo '<span itemprop="name">' . single_cat_title('', false) . '</span>';
+        echo '<meta itemprop="position" content="' . $pos++ . '" />';
+        echo '</li>';
     } elseif (is_tag()) {
-        echo '<li><span>' . single_tag_title('', false) . '</span></li>';
+        echo '<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+        echo '<span itemprop="name">' . single_tag_title('', false) . '</span>';
+        echo '<meta itemprop="position" content="' . $pos++ . '" />';
+        echo '</li>';
     } elseif (is_single()) {
         $cats = get_the_category();
         if ($cats) {
-            echo '<li><a href="' . esc_url(get_category_link($cats[0]->term_id)) . '">' . esc_html($cats[0]->name) . '</a></li>';
+            echo '<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+            echo '<a itemprop="item" href="' . esc_url(get_category_link($cats[0]->term_id)) . '"><span itemprop="name">' . esc_html($cats[0]->name) . '</span></a>';
+            echo '<meta itemprop="position" content="' . $pos++ . '" />';
+            echo '</li>';
         }
-        echo '<li><span>' . get_the_title() . '</span></li>';
+        echo '<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+        echo '<span itemprop="name">' . get_the_title() . '</span>';
+        echo '<meta itemprop="position" content="' . $pos++ . '" />';
+        echo '</li>';
     } elseif (is_page()) {
         if (wp_get_post_parent_id(get_the_ID())) {
-            echo '<li><a href="' . esc_url(get_permalink(wp_get_post_parent_id(get_the_ID()))) . '">' . get_the_title(wp_get_post_parent_id(get_the_ID())) . '</a></li>';
+            $parent_id = wp_get_post_parent_id(get_the_ID());
+            echo '<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+            echo '<a itemprop="item" href="' . esc_url(get_permalink($parent_id)) . '"><span itemprop="name">' . get_the_title($parent_id) . '</span></a>';
+            echo '<meta itemprop="position" content="' . $pos++ . '" />';
+            echo '</li>';
         }
-        echo '<li><span>' . get_the_title() . '</span></li>';
+        echo '<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+        echo '<span itemprop="name">' . get_the_title() . '</span>';
+        echo '<meta itemprop="position" content="' . $pos++ . '" />';
+        echo '</li>';
     } elseif (is_search()) {
         echo '<li><span>' . sprintf(__('Search: "%s"', 'foundnxt'), get_search_query()) . '</span></li>';
     } elseif (is_archive()) {
@@ -273,6 +296,128 @@ function fnx_breadcrumbs() {
 
     echo '</ol></nav>';
 }
+
+/**
+ * Image SEO & Core Web Vitals:
+ * Injects missing dimensions (width/height), responsive srcset/sizes, and lazy loading
+ * across all in-content images to eliminate Cumulative Layout Shift (CLS) and maximize PageSpeed.
+ */
+function fnx_optimize_article_images_seo($content) {
+    if (!is_singular() || is_admin() || is_feed() || empty($content)) {
+        return $content;
+    }
+
+    if (!preg_match_all('/<img\s+[^>]*src=([\'"])(.*?)\1[^>]*>/i', $content, $matches, PREG_SET_ORDER)) {
+        return $content;
+    }
+
+    $idx = 0;
+    foreach ($matches as $match) {
+        $idx++;
+        $full_tag = $match[0];
+        $src      = $match[2];
+
+        $has_width  = (bool) preg_match('/\bwidth=[\'"][^\'"]*[\'"]/i', $full_tag);
+        $has_height = (bool) preg_match('/\bheight=[\'"][^\'"]*[\'"]/i', $full_tag);
+        $has_alt    = (bool) preg_match('/\balt=[\'"][^\'"]*[\'"]/i', $full_tag);
+        $has_lazy   = (bool) preg_match('/\bloading=[\'"][^\'"]*[\'"]/i', $full_tag);
+        $has_srcset = (bool) preg_match('/\bsrcset=[\'"][^\'"]*[\'"]/i', $full_tag);
+
+        $attachment_id = attachment_url_to_postid($src);
+        $width  = 0;
+        $height = 0;
+        $srcset = '';
+        $alt    = '';
+
+        if ($attachment_id) {
+            $meta = wp_get_attachment_metadata($attachment_id);
+            if (!empty($meta['width']) && !empty($meta['height'])) {
+                $width  = (int) $meta['width'];
+                $height = (int) $meta['height'];
+            }
+            if (!$has_srcset) {
+                $srcset = wp_get_attachment_image_srcset($attachment_id, 'full');
+            }
+            $alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
+        }
+
+        // Fallback file lookup if attachment not resolved
+        if ((!$has_width || !$has_height) && (!$width || !$height)) {
+            $upload_dir = wp_upload_dir();
+            if (strpos($src, $upload_dir['baseurl']) === 0) {
+                $rel_path = ltrim(substr($src, strlen($upload_dir['baseurl'])), '/');
+                $abs_path = $upload_dir['basedir'] . '/' . $rel_path;
+                if (file_exists($abs_path)) {
+                    $size = @getimagesize($abs_path);
+                    if ($size) {
+                        $width  = $size[0];
+                        $height = $size[1];
+                    }
+                }
+            }
+        }
+
+        $new_tag = $full_tag;
+
+        // 1. Inject width & height to prevent CLS
+        if (!$has_width && $width > 0) {
+            $new_tag = preg_replace('/<img\s+/i', '<img width="' . $width . '" ', $new_tag);
+        }
+        if (!$has_height && $height > 0) {
+            $new_tag = preg_replace('/<img\s+/i', '<img height="' . $height . '" ', $new_tag);
+        }
+
+        // 2. Inject responsive srcset and sizes
+        if (!$has_srcset && !empty($srcset)) {
+            $sizes_attr = '(max-width: 768px) 100vw, (max-width: 1200px) 850px, 1200px';
+            $new_tag = preg_replace('/<img\s+/i', '<img srcset="' . esc_attr($srcset) . '" sizes="' . esc_attr($sizes_attr) . '" ', $new_tag);
+        }
+
+        // 3. Alt text fallback
+        $fallback_alt = !empty($alt) ? $alt : get_the_title();
+        if (!$has_alt) {
+            $new_tag = preg_replace('/<img\s+/i', '<img alt="' . esc_attr($fallback_alt) . '" ', $new_tag);
+        } elseif (preg_match('/alt=([\'"])\s*\1/i', $full_tag)) {
+            $new_tag = preg_replace('/alt=([\'"])\s*\1/i', 'alt="' . esc_attr($fallback_alt) . '"', $new_tag);
+        }
+
+        // 4. Loading strategy: eager/fetchpriority on first image if no featured hero, lazy on rest
+        if (!$has_lazy) {
+            if ($idx === 1 && !has_post_thumbnail()) {
+                $new_tag = preg_replace('/<img\s+/i', '<img fetchpriority="high" decoding="async" ', $new_tag);
+            } else {
+                $new_tag = preg_replace('/<img\s+/i', '<img loading="lazy" decoding="async" ', $new_tag);
+            }
+        } elseif (strpos($new_tag, 'decoding=') === false) {
+            $new_tag = preg_replace('/<img\s+/i', '<img decoding="async" ', $new_tag);
+        }
+
+        if ($new_tag !== $full_tag) {
+            $content = str_replace($full_tag, $new_tag, $content);
+        }
+    }
+
+    return $content;
+}
+add_filter('the_content', 'fnx_optimize_article_images_seo', 20);
+
+/**
+ * Ensure all attachment images have alt text and async decoding
+ */
+function fnx_attachment_image_attributes($attr, $attachment) {
+    if (empty($attr['alt'])) {
+        $alt = get_post_meta($attachment->ID, '_wp_attachment_image_alt', true);
+        if ($alt) {
+            $attr['alt'] = $alt;
+        }
+    }
+    if (empty($attr['decoding'])) {
+        $attr['decoding'] = 'async';
+    }
+    return $attr;
+}
+add_filter('wp_get_attachment_image_attributes', 'fnx_attachment_image_attributes', 10, 2);
+
 
 /* ============================================================
    TABLE OF CONTENTS

@@ -90,6 +90,34 @@ $gradient  = get_post_meta(get_the_ID(), 'fnx_hero_gradient', true) ?: 'linear-g
         </div>
         <?php endif; ?>
 
+        <!-- Featured Hero Image (if not already inside post content) -->
+        <?php
+        $content_has_thumb = false;
+        if (has_post_thumbnail()) {
+            $thumb_url = wp_get_attachment_url(get_post_thumbnail_id());
+            $thumb_basename = basename($thumb_url);
+            $content_has_thumb = (strpos(get_the_content(), $thumb_basename) !== false);
+        }
+        if (has_post_thumbnail() && !$content_has_thumb):
+            $thumb_id  = get_post_thumbnail_id();
+            $alt_text  = get_post_meta($thumb_id, '_wp_attachment_image_alt', true) ?: get_the_title();
+            $caption   = wp_get_attachment_caption($thumb_id);
+        ?>
+        <figure class="fnx-post-featured-figure" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+          <?php echo get_the_post_thumbnail(get_the_ID(), 'full', [
+              'class'         => 'fnx-post-featured-img',
+              'alt'           => esc_attr($alt_text),
+              'fetchpriority' => 'high',
+              'loading'       => 'eager',
+              'decoding'      => 'async',
+              'itemprop'      => 'url',
+          ]); ?>
+          <?php if ($caption): ?>
+            <figcaption class="fnx-post-featured-caption" itemprop="caption"><?php echo esc_html($caption); ?></figcaption>
+          <?php endif; ?>
+        </figure>
+        <?php endif; ?>
+
         <!-- Mobile-first collapsible Table of Contents -->
         <details class="fnx-mobile-toc" id="fnx-mobile-toc">
           <summary class="fnx-mobile-toc-summary">
